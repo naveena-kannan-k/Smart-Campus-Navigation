@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navee AI Assistant</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/chatbot.css') }}">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+
+        <h1>🤖  AI Assistant</h1>
+
+        <p>Sarah Tucker College</p>
+
+    </div>
+
+    <div class="chat-body" id="chatBody">
+
+        <div class="bot">
+            👋 Hello! Welcome to Sarah Tucker College.
+            <br><br>
+            Ask me anything about the campus.
+        </div>
+
+    </div>
+
+    <div class="chat-input">
+
+        <input
+        type="text"
+        id="question"
+        placeholder="Ask your question...">
+
+        <button onclick="sendMessage()">Send</button>
+
+    </div>
+
+    <div class="back">
+        <a href="/dashboard">⬅ Back to Dashboard</a>
+    </div>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+    let question=document.getElementById("question").value;
+
+    if(question=="") return;
+
+    let chat=document.getElementById("chatBody");
+
+    chat.innerHTML +=
+    "<div class='user'>"+question+"</div>";
+
+    fetch("/chat_reply",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/x-www-form-urlencoded"
+        },
+
+        body:"question="+encodeURIComponent(question)
+
+    })
+
+    .then(response=>response.text())
+
+    .then(answer=>{
+
+        chat.innerHTML +=
+        "<div class='bot'>🤖 "+answer+"</div>";
+
+        chat.scrollTop=chat.scrollHeight;
+
+    });
+
+    document.getElementById("question").value="";
+}
+
+document.getElementById("question").addEventListener("keypress",function(e){
+
+    if(e.key==="Enter"){
+
+        e.preventDefault();
+
+        sendMessage();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo-section">
+
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}">
+
+        <div>
+
+            <h2>Sarah Tucker College</h2>
+
+            <p>Perumalpuram</p>
+            <p>Tirunelveli</p>
+
+        </div>
+
+    </div>
+
+    <div class="nav-right">
+
+        <div class="date-time">
+
+            <span id="date"></span>
+
+            <span id="time"></span>
+
+        </div>
+
+        <div class="weather-box">
+
+            <i class="fa-solid fa-cloud-sun"></i>
+
+            <span>31°C</span>
+
+        </div>
+
+        <a href="/login" class="logout-btn">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+        </a>
+
+    </div>
+
+</header>
+
+<!-- ================= MOTTO ================= -->
+
+<div class="motto">
+
+    <marquee>
+
+        🏆 So Run that ye may obtain the incorruptible crown 🏆
+
+    </marquee>
+
+</div>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <span class="badge">
+
+            Welcome 👋
+
+        </span>
+
+        <h1>
+
+            AI Driven Smart Campus Navigation System
+
+        </h1>
+
+        <p>
+
+            Welcome to Sarah Tucker College.
+
+            Easily search buildings, departments and important places inside the campus using our AI-powered navigation system.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#search" class="primary-btn">
+
+                Explore Campus
+
+            </a>
+
+            <a href="/chatbot" class="secondary-btn">
+
+                AI Assistant
+
+            </a>
+
+        </div>
+
+    </div>
+    <div class="hero-right">
+
+    <div class="ai-card">
+
+        <div class="ai-circle">
+
+            <div class="pulse pulse1"></div>
+            <div class="pulse pulse2"></div>
+
+            <div class="ai-logo">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+
+        </div>
+
+        <h2> AI ASSISTANT</h2>
+
+        <p class="ai-text">
+            Welcome to Sarah Tucker College Smart Campus.
+            Your intelligent assistant is ready to guide you anywhere inside the campus.
+        </p>
+
+        <div class="status">
+
+            <span class="dot"></span>
+
+            <span>AI Online</span>
+
+        </div>
+
+        <a href="/chatbot" class="start-ai">
+
+            <i class="fa-solid fa-comments"></i>
+
+            Start Conversation
+
+        </a>
+
+    </div>
+
+</div>
+    
+            
+
+            
+
+</section>
+<!-- ================= SEARCH ================= -->
+
+<section class="search-section" id="search">
+
+    <h2>Search Your Destination</h2>
+
+    <div class="search-box">
+
+        <input type="text"
+               id="searchInput"
+               placeholder="Enter Destination (Library, Office, Canteen...)">
+        
+        <!-- Voice Button -->
+        <button id="voiceBtn" class="voice-btn">
+            <i class="fa-solid fa-microphone"></i>
+        </button>
+
+        <!-- Search Button -->
+        <button onclick="searchPlace()">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Search
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ================= QUICK ACCESS ================= -->
+
+<section class="quick-access">
+
+    <h2>Quick Access</h2>
+
+    <div class="card-container">
+
+        <a href="/library" class="card">
+            <i class="fa-solid fa-book"></i>
+            <h3>Library</h3>
+        </a>
+
+        <a href="/office" class="card">
+            <i class="fa-solid fa-building"></i>
+            <h3>Office</h3>
+        </a>
+
+        <a href="/canteen" class="card">
+            <i class="fa-solid fa-utensils"></i>
+            <h3>Canteen</h3>
+        </a>
+
+        <a href="/auditorium" class="card">
+            <i class="fa-solid fa-school"></i>
+            <h3>Auditorium</h3>
+        </a>
+
+        <a href="/departments" class="card">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h3>Departments</h3>
+        </a>
+
+        <a href="/chatbot" class="card">
+            <i class="fa-solid fa-robot"></i>
+            <h3>AI Assistant</h3>
+        </a>
+
+        <a href="/emergency" class="card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h3>Emergency</h3>
+        </a>
+
+        <a href="/campus_map" class="card">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <h3>Campus Map</h3>
+        </a>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>© 2026 Sarah Tucker College</p>
+
+    <p>AI Driven Smart Campus Navigation System</p>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sarah Tucker College - Campus Map</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/campus_map.css') }}">
+
+</head>
+
+<body>
+
+<div class="map-header">
+
+    <div class="map-title">
+
+        <div class="map-icon">
+            🧭
+        </div>
+
+        <div>
+            <h1>Smart Campus Navigation</h1>
+
+            <p>
+                Sarah Tucker College • Interactive Campus Map
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+    <div class="search-area">
+
+        <input
+            type="text"
+            id="destinationInput"
+            placeholder="Search Library, Computer Science, Canteen..."
+        >
+
+        <button onclick="findDestination()">
+            🔍 Search
+        </button>
+
+    </div>
+    <div class="map-tools">
+
+    <button class="map-tool-btn" onclick="showMyLocation()">
+        📍 My Location
+    </button>
+
+    <button class="map-tool-btn" onclick="resetCampusView()">
+        🗺️ Full Campus
+    </button>
+
+</div>
+
+<div id="locationInfo" class="location-info">
+    <div class="info-title">📍 Campus Navigation</div>
+    <div class="info-text">
+        Search a building or select a location on the map.
+    </div>
+</div>
+
+<div id="campusMap"></div>
+
+
+    <div id="campusMap"></div>
+
+</div>
+<div id="mapLegend">
+
+    <div class="legend-title">
+        🗺️ Campus Locations
+    </div>
+
+    <div class="legend-item">
+        <span>🚪</span> Main Gate
+    </div>
+
+    <div class="legend-item">
+        <span>🏫</span> Academic Block
+    </div>
+
+    <div class="legend-item">
+        <span>📚</span> Library / Departments
+    </div>
+
+    <div class="legend-item">
+        <span>🍴</span> Canteen
+    </div>
+
+    <div class="legend-item">
+        <span>🏠</span> Hostel
+    </div>
+
+    <div class="legend-item">
+        <span>🅿️</span> Parking
+    </div>
+
+    <div class="legend-item">
+        <span>⛪</span> Chapel
+    </div>
+
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
+
+</body>
+
+</html>

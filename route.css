@@ -1,0 +1,117 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:url("../images/college_entrance.jpeg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+body::before{
+
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:-1;
+}
+
+.route-box{
+
+    width:700px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+
+    animation:slideUp 1s;
+}
+
+.route-box h1{
+
+    color:#800040;
+    margin-bottom:10px;
+}
+
+.route-box h2{
+
+    color:#666;
+    margin-bottom:30px;
+}
+
+.route{
+
+    background:#FDEEF4;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    text-align:left;
+}
+
+.route p{
+
+    font-size:20px;
+
+    margin:18px 0;
+
+    color:#333;
+}
+
+.back-btn{
+
+    display:inline-block;
+
+    margin-top:30px;
+
+    text-decoration:none;
+
+    background:#800040;
+
+    color:white;
+
+    padding:12px 30px;
+
+    border-radius:10px;
+
+    transition:.3s;
+}
+
+.back-btn:hover{
+
+    background:#A00050;
+
+    transform:scale(1.05);
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}

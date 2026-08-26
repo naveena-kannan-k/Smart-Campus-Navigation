@@ -1,0 +1,119 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:url("../images/library.jpeg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Dark Overlay */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    z-index:-1;
+}
+
+/* Main Card */
+.dashboard-box{
+
+    width:700px;
+    background:rgba(255,255,255,0.90);
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+
+    animation:slideUp 1s ease;
+}
+
+/* Heading */
+
+.dashboard-box h1{
+
+    color:#800040;
+
+    margin-bottom:10px;
+}
+
+.dashboard-box h2{
+
+    color:#444;
+
+    margin-bottom:25px;
+}
+
+/* Route */
+
+.dashboard-box p{
+
+    font-size:20px;
+
+    line-height:45px;
+
+    color:#333;
+}
+
+/* Back Button */
+
+.back-btn{
+
+    display:inline-block;
+
+    margin-top:30px;
+
+    padding:12px 30px;
+
+    background:#800040;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:10px;
+
+    transition:.3s;
+}
+
+.back-btn:hover{
+
+    background:#A00050;
+
+    transform:scale(1.05);
+}
+
+/* Animation */
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+
+}

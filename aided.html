@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aided Departments</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/aided.css') }}">
+
+</head>
+
+<body>
+
+<div class="department-container">
+
+    <h1>📘 Aided Departments</h1>
+    <div class="search-box">
+
+    <input type="text"
+           id="searchDepartment"
+           placeholder="🔍 Search Aided Department">
+
+    <button onclick="searchDepartment()">
+        Search
+    </button>
+
+    </div>
+
+    <p>Select Your Department</p>
+
+    <div class="department-grid">
+
+        <a href="/tamil">📖 Tamil</a>
+
+        <a href="/english">📚 English</a>
+
+        <a href="/history">🏛 History</a>
+
+        <a href="/economics">📈 Economics</a>
+
+        <a href="/commerce">💼 Commerce</a>
+
+        <a href="/mathematics">➕ Mathematics</a>
+
+        <a href="/physics">⚛ Physics</a>
+
+        <a href="/chemistry">🧪 Chemistry</a>
+
+        <a href="/zoology">🦋 Zoology</a>
+
+        <a href="/botony"> Botony</a>
+
+    </div>
+
+    <a href="/departments" class="back-btn">
+        ⬅ Back to Departments
+    </a>
+
+</div>
+<script>
+
+function searchDepartment(){
+
+    let dept = document.getElementById("searchDepartment")
+                .value
+                .toLowerCase()
+                .trim();
+
+    if(dept=="tamil"){
+        window.location.href="/tamil";
+    }
+
+    else if(dept=="english"){
+        window.location.href="/english";
+    }
+
+    else if(dept=="history"){
+        window.location.href="/history";
+    }
+
+    else if(dept=="economics"){
+        window.location.href="/economics";
+    }
+
+    else if(dept=="commerce"){
+        window.location.href="/commerce";
+    }
+
+    else if(dept=="mathematics"){
+        window.location.href="/mathematics";
+    }
+
+    else if(dept=="physics"){
+        window.location.href="/physics";
+    }
+
+    else if(dept=="chemistry"){
+        window.location.href="/chemistry";
+    }
+
+    else if(dept=="zoology"){
+        window.location.href="/zoology";
+    }
+    else if(dept=="botony"){
+        window.location.href="/botony";
+    }
+    else{
+
+        alert("Department Not Found!");
+
+    }
+
+}
+
+document.getElementById("searchDepartment")
+.addEventListener("keypress",function(event){
+
+    if(event.key==="Enter"){
+
+        searchDepartment();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

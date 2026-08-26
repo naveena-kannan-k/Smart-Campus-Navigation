@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="login-box">
+
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}" class="logo">
+
+        <h2>Sarah Tucker College</h2>
+        <h3>Tirunelveli</h3>
+
+        <h2>AI Driven Smart Campus Navigation</h2>
+
+        <form action="/check_login" method="POST">
+
+            <input type="text" name="username" placeholder="Enter Username" required>
+
+            <input type="password" name="password" placeholder="Enter Password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

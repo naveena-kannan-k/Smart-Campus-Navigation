@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Unaided Departments</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/unaided.css') }}">
+
+</head>
+
+<body>
+
+<div class="department-container">
+
+    <h1>💻 Unaided Departments</h1>
+    <div class="search-box">
+
+    <input type="text"
+           id="searchDepartment"
+           placeholder="🔍 Search Unaided Department">
+
+    <button onclick="searchDepartment()">
+        Search
+    </button>
+
+    </div>
+
+    <p>Select Your Department</p>
+
+    <div class="department-grid">
+
+        <a href="/computer_science">💻 Computer Science</a>
+
+
+        <a href="/english_unaided">📚 English</a>
+
+
+        <a href="/commerce_unaided">💼 Commerce</a>
+
+        <a href="/mathematics_unaided">➕ Mathematics</a>
+
+        <a href="/physics_unaided">⚛ Physics</a>
+
+
+        <a href="/food_science">🍎 Food Science</a>
+
+        <a href="/nano_science">🧬 Nano Science</a>
+
+        <a href="/computer_application">🖥 Computer Application</a>
+
+    </div>
+
+    <a href="/departments" class="back-btn">
+        ⬅ Back to Departments
+    </a>
+
+</div>
+<script>
+
+function searchDepartment(){
+
+    let dept = document.getElementById("searchDepartment")
+                .value
+                .toLowerCase()
+                .trim();
+
+    if(dept=="computer science"){
+        window.location.href="/computer_science";
+    }
+
+    else if(dept=="computer application"){
+        window.location.href="/computer_application";
+    }
+
+    else if(dept=="food science"){
+        window.location.href="/food_science";
+    }
+
+    else if(dept=="nano science"){
+        window.location.href="/nano_science";
+    }
+
+    else if(dept=="tamil"){
+        window.location.href="/tamil_unaided";
+    }
+
+    else if(dept=="english"){
+        window.location.href="/english_unaided";
+    }
+
+    else if(dept=="history"){
+        window.location.href="/history_unaided";
+    }
+
+    else if(dept=="commerce"){
+        window.location.href="/commerce_unaided";
+    }
+
+    else if(dept=="mathematics"){
+        window.location.href="/mathematics_unaided";
+    }
+
+    else if(dept=="physics"){
+        window.location.href="/physics_unaided";
+    }
+
+    else if(dept=="zoology"){
+        window.location.href="/zoology_unaided";
+    }
+
+    else{
+
+        alert("Department Not Found!");
+
+    }
+
+}
+
+document.getElementById("searchDepartment")
+.addEventListener("keypress",function(event){
+
+    if(event.key==="Enter"){
+        searchDepartment();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
