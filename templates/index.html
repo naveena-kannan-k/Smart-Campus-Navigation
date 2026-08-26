@@ -1,13 +1,15 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AI Driven Smart Campus Navigation</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -15,90 +17,61 @@
 
 <body>
 
-    <!-- Background Overlay -->
-    <div class="background-overlay"></div>
+    <div class="overlay"></div>
 
-    <!-- Main Home Card -->
-    <main class="home-card">
+    <div class="home-container">
 
-        <!-- College Logo -->
-        <div class="logo-wrapper">
-            <img src="{{ url_for('static', filename='images/logo.JPEG') }}"
-                 class="logo"
-                 alt="Sarah Tucker College Logo">
+        <div class="top-badge">
+            AI POWERED CAMPUS NAVIGATION
         </div>
 
-        <!-- College Name -->
-        <div class="college-name">
-            <span>Sarah Tucker College</span>
-            <small>Tirunelveli</small>
-        </div>
-
-        <!-- AI Badge -->
-        <div class="ai-badge">
-            <span class="pulse-dot"></span>
-            AI Powered Campus Navigation
-        </div>
-
-        <!-- Main Heading -->
         <h1>
-            AI Driven
-            <span>Smart Campus Navigation</span>
+            AI Driven Smart
+            <span>Campus Navigation</span>
         </h1>
 
-        <!-- Subtitle -->
-        <h2>
+        <p class="tagline">
             Navigate Your Campus With Artificial Intelligence
-        </h2>
-
-        <!-- Description -->
-        <p class="description">
-            Easily find classrooms, laboratories, library, canteen,
-            office, departments and other campus facilities
-            with smart AI-powered navigation.
         </p>
 
-        <!-- Features -->
-        <div class="features">
+        <p class="description">
+            Find classrooms, laboratories, library, canteen, office,
+            departments and other campus facilities quickly and easily
+            with our smart campus navigation system.
+        </p>
 
-            <div class="feature">
-                <div class="feature-icon">🗺️</div>
-                <span>Smart Navigation</span>
+        <div class="feature-row">
+
+            <div class="feature-card">
+                <div class="icon">🗺️</div>
+                <h3>Smart Navigation</h3>
+                <p>Find campus locations easily.</p>
             </div>
 
-            <div class="feature">
-                <div class="feature-icon">🤖</div>
-                <span>AI Assistant</span>
+            <div class="feature-card">
+                <div class="icon">🤖</div>
+                <h3>AI Assistant</h3>
+                <p>Ask questions and get directions.</p>
             </div>
 
-            <div class="feature">
-                <div class="feature-icon">🎓</div>
-                <span>Campus Information</span>
+            <div class="feature-card">
+                <div class="icon">🎓</div>
+                <h3>Campus Information</h3>
+                <p>Explore departments and facilities.</p>
             </div>
 
         </div>
 
-        <!-- Get Started Button -->
-        <a href="{{ url_for('login') }}" class="start-link">
-            <button class="start-btn">
-                <span>Get Started</span>
-                <span class="arrow">→</span>
-            </button>
+        <a href="{{ url_for('login') }}" class="get-started">
+            Get Started
+            <span>→</span>
         </a>
 
-        <!-- Bottom Text -->
-        <div class="bottom-text">
-            <span>2026</span>
-            <span class="dot">•</span>
-            <span>Smart Campus Project</span>
+        <div class="footer-text">
+            Sarah Tucker College · Tirunelveli · 2026
         </div>
 
-    </main>
-
-    <!-- Floating Decorations -->
-    <div class="floating-circle circle-one"></div>
-    <div class="floating-circle circle-two"></div>
-    <div class="floating-circle circle-three"></div>
+    </div>
 
 </body>
 </html>
