@@ -22,15 +22,27 @@
 
         <h2>AI Driven Smart Campus Navigation</h2>
 
-        <form action="/check_login" method="POST">
+        <form action="{{ url_for('check_login') }}" method="POST">
 
-            <input type="text" name="username" placeholder="Enter Username" required>
+    <input
+        type="text"
+        name="username"
+        placeholder="Enter Username"
+        autocomplete="username"
+        required
+    >
 
-            <input type="password" name="password" placeholder="Enter Password" required>
+    <input
+        type="password"
+        name="password"
+        placeholder="Enter Password"
+        autocomplete="current-password"
+        required
+    >
 
-            <button type="submit">Login</button>
+    <button type="submit">Login</button>
 
-        </form>
+</form>
 
     </div>
 
