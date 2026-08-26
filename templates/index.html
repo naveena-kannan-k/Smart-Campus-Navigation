@@ -1,23 +1,105 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AI Driven Smart Campus Navigation</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
-    </head>
-    <body>
-        <div class="container">
+    <title>AI Driven Smart Campus Navigation</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Main Home Card -->
+    <main class="home-card">
+
+        <!-- College Logo -->
+        <div class="logo-wrapper">
             <img src="{{ url_for('static', filename='images/logo.JPEG') }}"
-     class="logo">
-            <h1><b> AI Driven Smart Campus Navigation</b></h1>
-            <h2>Navigate Your Campus With Artificial Intelligence</h2>
-            <p>Easily Find Classrooms, Laboratories,Library,Canteen,Office And Other Facilities Using AI Powered Navigation</p>
-            <a href="/login">
-            <button class="start-btn">Get Started</button>
-            </a>
-        </div>    
-    </body>
-</html>    
+                 class="logo"
+                 alt="Sarah Tucker College Logo">
+        </div>
+
+        <!-- College Name -->
+        <div class="college-name">
+            <span>Sarah Tucker College</span>
+            <small>Tirunelveli</small>
+        </div>
+
+        <!-- AI Badge -->
+        <div class="ai-badge">
+            <span class="pulse-dot"></span>
+            AI Powered Campus Navigation
+        </div>
+
+        <!-- Main Heading -->
+        <h1>
+            AI Driven
+            <span>Smart Campus Navigation</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <h2>
+            Navigate Your Campus With Artificial Intelligence
+        </h2>
+
+        <!-- Description -->
+        <p class="description">
+            Easily find classrooms, laboratories, library, canteen,
+            office, departments and other campus facilities
+            with smart AI-powered navigation.
+        </p>
+
+        <!-- Features -->
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">🗺️</div>
+                <span>Smart Navigation</span>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <span>AI Assistant</span>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🎓</div>
+                <span>Campus Information</span>
+            </div>
+
+        </div>
+
+        <!-- Get Started Button -->
+        <a href="{{ url_for('login') }}" class="start-link">
+            <button class="start-btn">
+                <span>Get Started</span>
+                <span class="arrow">→</span>
+            </button>
+        </a>
+
+        <!-- Bottom Text -->
+        <div class="bottom-text">
+            <span>2026</span>
+            <span class="dot">•</span>
+            <span>Smart Campus Project</span>
+        </div>
+
+    </main>
+
+    <!-- Floating Decorations -->
+    <div class="floating-circle circle-one"></div>
+    <div class="floating-circle circle-two"></div>
+    <div class="floating-circle circle-three"></div>
+
+</body>
+</html>
+```
