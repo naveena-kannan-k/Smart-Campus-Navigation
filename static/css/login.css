@@ -1,105 +1,309 @@
-body{
-    font-family:'Poppins',sans-serif;
-    background-image:url("../images/college_entrance.jpeg");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: url("../images/college_entrance.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 20px;
+}
+
+
+/* Background overlay */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 35, 65, 0.68);
+
+    padding: 20px;
+}
+
+
+/* Login Box */
+
+.login-box {
+    width: 100%;
+    max-width: 370px;
+
+    padding: 28px 32px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-radius: 20px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.28);
+
+    animation: fadeIn 0.7s ease;
+}
+
+
 /* Logo */
 
-.logo{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    object-fit:cover;
-    display:block;
-    margin:0 auto 15px auto;
+.logo {
+    width: 78px;
+    height: 78px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    margin-bottom: 10px;
 }
 
-.login-box{
 
-    width:420px;
+/* College name */
 
-    background:rgba(255,255,255,.18);
+.login-box h2:first-of-type {
+    color: #073763;
 
-    backdrop-filter:blur(10px);
+    font-size: 19px;
 
-    padding:40px;
+    font-weight: 600;
 
-    border-radius:20px;
-
-    text-align:center;
-
-    color:white;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.4);
-
-    animation:slideUp 1.5s;
+    margin-bottom: 2px;
 }
 
-.login-box h2{
-    margin:5px 0;
-    color:white;
+
+/* Location */
+
+.login-box h3 {
+    color: #7a8a96;
+
+    font-size: 12px;
+
+    font-weight: 400;
+
+    margin-bottom: 15px;
 }
 
-.login-box h3{
-    margin:5px 0 20px;
-    color:#f5d6e6;
-    font-weight:400;
-}
-.login-box input{
 
-    width:100%;
+/* Project title */
 
-    padding:14px;
+.login-box h2:nth-of-type(2) {
+    color: #008fc4;
 
-    margin:10px 0;
+    font-size: 16px;
 
-    border:none;
+    line-height: 1.4;
 
-    border-radius:10px;
+    font-weight: 600;
+
+    margin-bottom: 22px;
 }
 
-.login-box button{
 
-    width:100%;
+/* Form */
 
-    padding:14px;
-
-    background:#800040;
-
-    color:white;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
+form {
+    width: 100%;
 }
 
-.login-box button:hover{
 
-    background:#a00050;
+/* Inputs */
+
+input {
+    width: 100%;
+
+    height: 44px;
+
+    padding: 0 14px;
+
+    margin-bottom: 13px;
+
+    border: 1px solid #d8e2e8;
+
+    border-radius: 9px;
+
+    background: #f8fafb;
+
+    color: #263f52;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition: 0.25s ease;
 }
 
-@keyframes slideUp{
 
-    from{
+input:focus {
+    border-color: #008fc4;
 
-        opacity:0;
+    background: white;
 
-        transform:translateY(50px);
+    box-shadow: 0 0 0 3px rgba(0, 143, 196, 0.10);
+}
+
+
+input::placeholder {
+    color: #9ba8b1;
+}
+
+
+/* Login button */
+
+button {
+    width: 100%;
+
+    height: 44px;
+
+    margin-top: 4px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #008fc4;
+
+    color: white;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+
+    box-shadow: 0 6px 15px rgba(0, 143, 196, 0.22);
+}
+
+
+button:hover {
+    background: #0075a3;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 9px 20px rgba(0, 143, 196, 0.30);
+}
+
+
+button:active {
+    transform: scale(0.98);
+}
+
+
+/* Animation */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
     }
 
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .overlay {
+        padding: 12px;
+    }
+
+    .login-box {
+        max-width: 330px;
+
+        padding: 24px 22px;
+
+        border-radius: 18px;
+    }
+
+    .logo {
+        width: 68px;
+        height: 68px;
+
+        margin-bottom: 8px;
+    }
+
+    .login-box h2:first-of-type {
+        font-size: 17px;
+    }
+
+    .login-box h3 {
+        font-size: 11px;
+
+        margin-bottom: 12px;
+    }
+
+    .login-box h2:nth-of-type(2) {
+        font-size: 14px;
+
+        margin-bottom: 18px;
+    }
+
+    input {
+        height: 42px;
+
+        font-size: 11px;
+
+        margin-bottom: 11px;
+    }
+
+    button {
+        height: 42px;
+
+        font-size: 12px;
+    }
+}
+
+
+/* Very small phones */
+
+@media (max-width: 360px) {
+
+    .login-box {
+        max-width: 300px;
+
+        padding: 20px 18px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .login-box h2:first-of-type {
+        font-size: 16px;
+    }
+
+    .login-box h2:nth-of-type(2) {
+        font-size: 13px;
+    }
+}
+```
