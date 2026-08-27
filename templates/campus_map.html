@@ -3,31 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Campus Digital Map</title>
+  <title>Campus Google Map View</title>
   
-  <!-- Leaflet Map CSS Library -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
-  <!-- Custom CSS File -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Google Map-Style Search Bar UI Header -->
-  <div class="map-header">
+  <div class="search-container">
     <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search Campus Buildings..." onkeyup="searchBuilding()" />
+      <span class="icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search building (e.g., Main Block)..." onkeyup="searchBuilding()">
     </div>
   </div>
 
-  <!-- Main Map Container -->
   <div id="map"></div>
 
-  <!-- Leaflet JS Library -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
-  <!-- Custom JS File -->
   <script src="script.js"></script>
 
 </body>
