@@ -1,150 +1,221 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
 
-    background:url("../images/college_entrance.jpeg");
-
-    background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
-
-    min-height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    background: linear-gradient(
+        135deg,
+        #fdf3f8,
+        #f5e6ef
+    );
 }
 
-body::before{
+/* Main Card */
 
-    content:"";
+.department-box {
+    width: 100%;
+    max-width: 850px;
 
-    position:fixed;
+    background: white;
 
-    inset:0;
+    padding: 55px 45px;
 
-    background:rgba(0,0,0,.45);
+    border-radius: 25px;
 
-    z-index:-1;
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(128, 0, 64, 0.15);
+
+    border: 1px solid rgba(128, 0, 64, 0.08);
 }
 
-.department-box{
+/* College Name */
 
-    width:650px;
-
-    background:white;
-
-    padding:45px;
-
-    border-radius:20px;
-
-    text-align:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.3);
-
-    animation:fadeUp 1s;
+.department-box h1 {
+    color: #800040;
+    font-size: 30px;
+    margin-bottom: 12px;
 }
 
-.department-box h1{
+/* Departments */
 
-    color:#800040;
-
-    margin-bottom:10px;
+.department-box h2 {
+    color: #333;
+    font-size: 38px;
+    margin-bottom: 10px;
 }
 
-.department-box h2{
+/* Description */
 
-    color:#444;
-
-    margin-bottom:15px;
+.department-box > p {
+    color: #777;
+    font-size: 17px;
+    margin-bottom: 35px;
 }
 
-.department-box p{
+/* Button Container */
 
-    color:#666;
+.button-group {
+    width: 100%;
 
-    margin-bottom:30px;
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 25px;
+
+    margin-bottom: 35px;
 }
 
-.button-group{
+/* Department Cards */
 
-    display:flex;
+.button-group .btn {
+    width: 100%;
+    min-height: 150px;
 
-    flex-direction:column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    gap:20px;
+    padding: 25px;
+
+    background: #800040;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 18px;
+
+    font-size: 20px;
+    font-weight: 600;
+
+    box-shadow: 0 10px 25px rgba(128, 0, 64, 0.18);
+
+    transition: all 0.3s ease;
 }
 
-.btn{
+/* Hover */
 
-    text-decoration:none;
+.button-group .btn:hover {
+    background: #a00050;
 
-    background:#800040;
+    transform: translateY(-7px);
 
-    color:white;
-
-    padding:18px;
-
-    border-radius:10px;
-
-    font-size:18px;
-
-    transition:.3s;
+    box-shadow: 0 15px 30px rgba(128, 0, 64, 0.25);
 }
 
-.btn:hover{
+/* Back Button */
 
-    background:#A00050;
+.back-btn {
+    display: inline-flex;
 
-    transform:scale(1.03);
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 28px;
+
+    background: #f3e3eb;
+
+    color: #800040;
+
+    text-decoration: none;
+
+    border-radius: 12px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
 }
 
-.back-btn{
-
-    display:inline-block;
-
-    margin-top:30px;
-
-    text-decoration:none;
-
-    color:white;
-
-    background:#444;
-
-    padding:12px 25px;
-
-    border-radius:8px;
-
-    transition:.3s;
+.back-btn:hover {
+    background: #800040;
+    color: white;
 }
 
-.back-btn:hover{
 
-    background:#222;
-}
+/* ==========================================
+   MOBILE
+========================================== */
 
-@keyframes fadeUp{
+@media (max-width: 600px) {
 
-    from{
-
-        opacity:0;
-
-        transform:translateY(40px);
+    body {
+        padding: 15px;
     }
 
-    to{
+    .department-box {
+        padding: 35px 20px;
 
-        opacity:1;
+        border-radius: 20px;
+    }
 
-        transform:translateY(0);
+    .department-box h1 {
+        font-size: 22px;
+    }
+
+    .department-box h2 {
+        font-size: 30px;
+    }
+
+    .department-box > p {
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+
+    /* One card per row on mobile */
+
+    .button-group {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .button-group .btn {
+        min-height: 110px;
+
+        padding: 20px;
+
+        font-size: 17px;
+    }
+
+    .back-btn {
+        width: 100%;
+
+        padding: 13px 15px;
+    }
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media (max-width: 380px) {
+
+    .department-box {
+        padding: 30px 15px;
+    }
+
+    .department-box h1 {
+        font-size: 20px;
+    }
+
+    .department-box h2 {
+        font-size: 27px;
+    }
+
+    .button-group .btn {
+        min-height: 100px;
+        font-size: 16px;
     }
 }
