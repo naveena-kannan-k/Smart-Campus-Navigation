@@ -1,14 +1,15 @@
-// ============================================================
+// ======================================================
+// SARAH TUCKER COLLEGE
 // SMART CAMPUS NAVIGATION
-// Working Campus Map + Search + Route + Directions
-// ============================================================
+// Professional Campus Map
+// ======================================================
 
-// -------------------------
-// MAP / IMAGE
-// -------------------------
+const IMAGE_WIDTH = 1583;
+const IMAGE_HEIGHT = 957;
 
-const imageWidth = 1583;
-const imageHeight = 957;
+// ======================================================
+// MAP
+// ======================================================
 
 const map = L.map("campusMap", {
     crs: L.CRS.Simple,
@@ -20,7 +21,7 @@ const map = L.map("campusMap", {
 
 const bounds = [
     [0, 0],
-    [imageHeight, imageWidth]
+    [IMAGE_HEIGHT, IMAGE_WIDTH]
 ];
 
 L.imageOverlay(
@@ -30,275 +31,215 @@ L.imageOverlay(
 
 map.fitBounds(bounds);
 
-
-// ============================================================
-// LOCATIONS
-// ============================================================
+// ======================================================
+// CAMPUS LOCATIONS
+// ======================================================
 
 const locations = {
 
     "Main Gate": {
         coords: [40, 845],
         icon: "🚪",
-        type: "Main Entrance",
-        aliases: ["gate", "main gate", "entrance"]
+        type: "Main Entrance"
     },
 
     "Canara Bank": {
         coords: [58, 160],
         icon: "🏦",
-        type: "Bank",
-        aliases: ["bank", "canara"]
+        type: "Bank"
     },
 
     "Parking Shed": {
         coords: [78, 1450],
         icon: "🅿️",
-        type: "Parking",
-        aliases: ["parking"]
+        type: "Parking"
     },
 
     "Garden": {
         coords: [360, 850],
         icon: "🌳",
-        type: "Central Garden",
-        aliases: ["garden"]
+        type: "Central Garden"
     },
 
     "Main Block": {
         coords: [625, 875],
         icon: "🏫",
-        type: "Academic Block",
-        aliases: ["main", "main block", "academic block"]
+        type: "Academic Block"
     },
 
     "Management Office": {
         coords: [565, 970],
         icon: "🏢",
-        type: "Management Office",
-        aliases: ["management", "office", "management office"]
+        type: "Management Office"
     },
 
     "Old Auditorium": {
         coords: [625, 1390],
         icon: "🏛️",
-        type: "Old Auditorium",
-        aliases: ["old auditorium", "old audi"]
+        type: "Old Auditorium"
     },
 
     "Economics": {
         coords: [405, 1400],
         icon: "📊",
-        type: "Economics Department",
-        aliases: ["economics", "economics department"]
+        type: "Economics Department"
     },
 
-    "Tamil & English": {
+    "Tamil Department": {
         coords: [455, 1490],
         icon: "📚",
-        type: "Tamil & English Department",
-        aliases: [
-            "tamil",
-            "english",
-            "tamil english",
-            "tamil and english"
-        ]
+        type: "Tamil Department"
+    },
+
+    "English Regular": {
+        coords: [455, 1490],
+        icon: "📚",
+        type: "English Regular Department"
+    },
+
+    "English Aided": {
+        coords: [455, 1490],
+        icon: "📚",
+        type: "English Aided Department"
     },
 
     "Library": {
         coords: [360, 1370],
         icon: "📚",
-        type: "Library",
-        aliases: ["library"]
+        type: "Library"
     },
 
     "Canteen": {
         coords: [812, 1240],
         icon: "🍴",
-        type: "Canteen",
-        aliases: ["canteen", "food", "canteen"]
+        type: "Canteen"
     },
 
-    "English S/F": {
+    "English Self": {
         coords: [885, 1360],
         icon: "📚",
-        type: "English Self Department",
-        aliases: [
-            "english sf",
-            "english self",
-            "english self department"
-        ]
+        type: "English Self Department"
     },
 
-    "B.Com S/F": {
+    "B.Com Self": {
         coords: [900, 1390],
         icon: "💼",
-        type: "B.Com Self Department",
-        aliases: [
-            "bcom sf",
-            "b.com sf",
-            "bcom self",
-            "b.com self"
-        ]
+        type: "B.Com Self Department"
     },
 
     "Computer Science": {
         coords: [915, 1420],
         icon: "💻",
-        type: "Computer Science Department",
-        aliases: [
-            "computer",
-            "computer science",
-            "computer science department",
-            "cse",
-            "cs"
-        ]
+        type: "Computer Science Department"
     },
 
     "Food Science": {
         coords: [930, 1390],
         icon: "🧪",
-        type: "Food Science Department",
-        aliases: [
-            "food",
-            "food science",
-            "food science department"
-        ]
+        type: "Food Science Department"
     },
 
-    "Physics": {
+    "Physics Regular": {
         coords: [690, 620],
         icon: "🔬",
-        type: "Physics Regular Department",
-        aliases: [
-            "physics",
-            "physics regular",
-            "physics department"
-        ]
+        type: "Physics Regular Department"
     },
 
     "Chemistry": {
         coords: [750, 620],
         icon: "🧪",
-        type: "Chemistry Department",
-        aliases: ["chemistry", "chemistry department"]
+        type: "Chemistry Department"
     },
 
-    "Physics S/F": {
+    "Physics Self": {
         coords: [720, 470],
         icon: "🔬",
-        type: "Physics Self Department",
-        aliases: [
-            "physics sf",
-            "physics self",
-            "physics self department"
-        ]
+        type: "Physics Self Department"
     },
 
-    "B.Com & Zoology": {
+    "B.Com Aided": {
         coords: [775, 850],
-        icon: "🏫",
-        type: "B.Com & Zoology Area",
-        aliases: [
-            "bcom",
-            "b.com",
-            "zoology",
-            "zoology aided",
-            "bcom zoology"
-        ]
+        icon: "💼",
+        type: "B.Com Aided Department"
+    },
+
+    "Zoology Aided": {
+        coords: [775, 850],
+        icon: "🧬",
+        type: "Zoology Aided Department"
     },
 
     "BCA": {
         coords: [735, 280],
         icon: "💻",
-        type: "Bachelor of Computer Applications",
-        aliases: [
-            "bca",
-            "bca department",
-            "bachelor of computer applications"
-        ]
+        type: "Bachelor of Computer Applications"
     },
 
     "MCA": {
         coords: [685, 275],
         icon: "💻",
-        type: "MCA Department",
-        aliases: ["mca", "mca department"]
+        type: "MCA Department"
     },
 
     "History": {
         coords: [645, 205],
         icon: "📖",
-        type: "History Department",
-        aliases: ["history", "history department"]
+        type: "History Department"
     },
 
-    "Maths": {
+    "Maths Regular": {
         coords: [610, 350],
         icon: "📐",
-        type: "Mathematics Department",
-        aliases: [
-            "maths",
-            "math",
-            "mathematics",
-            "maths department"
-        ]
+        type: "Mathematics Regular Department"
+    },
+
+    "Maths Self": {
+        coords: [610, 350],
+        icon: "📐",
+        type: "Mathematics Self Department"
     },
 
     "Nano Science": {
         coords: [515, 170],
         icon: "🧪",
-        type: "Nano Science Department",
-        aliases: [
-            "nano",
-            "nano science",
-            "nano science department"
-        ]
+        type: "Nano Science Department"
     },
 
     "New Auditorium": {
         coords: [575, 145],
         icon: "🏛️",
-        type: "New Auditorium",
-        aliases: [
-            "new auditorium",
-            "new audi"
-        ]
+        type: "New Auditorium"
     },
 
     "Chapel": {
         coords: [900, 520],
         icon: "⛪",
-        type: "Chapel",
-        aliases: ["chapel"]
+        type: "Chapel"
     },
 
     "Hostel": {
         coords: [900, 870],
         icon: "🏠",
-        type: "Hostel",
-        aliases: ["hostel"]
+        type: "Hostel"
     },
 
     "Playground": {
         coords: [845, 875],
         icon: "⚽",
-        type: "Playground",
-        aliases: ["playground", "ground"]
+        type: "Playground"
     }
 };
 
-
-// ============================================================
+// ======================================================
 // MARKERS
-// ============================================================
+// ======================================================
 
 const markers = {};
 
-function createCampusIcon(icon) {
+function createIcon(icon) {
 
     return L.divIcon({
-        className: "custom-campus-marker",
+        className: "campus-marker-wrapper",
 
         html: `
             <div class="campus-marker">
@@ -311,15 +252,14 @@ function createCampusIcon(icon) {
     });
 }
 
+for (const name in locations) {
 
-for (const place in locations) {
-
-    const data = locations[place];
+    const data = locations[name];
 
     const marker = L.marker(
         data.coords,
         {
-            icon: createCampusIcon(data.icon)
+            icon: createIcon(data.icon)
         }
     ).addTo(map);
 
@@ -331,7 +271,7 @@ for (const place in locations) {
             </div>
 
             <div class="popup-title">
-                ${place}
+                ${name}
             </div>
 
             <div class="popup-type">
@@ -340,7 +280,7 @@ for (const place in locations) {
 
             <button
                 class="navigate-btn"
-                onclick="selectDestination('${place}')"
+                onclick="navigateTo('${name}')"
             >
                 🧭 Navigate
             </button>
@@ -348,694 +288,24 @@ for (const place in locations) {
         </div>
     `);
 
-    marker.bindTooltip(place, {
-        direction: "top",
-        offset: [0, -22],
-        className: "campus-label",
-        sticky: true
-    });
-
-    markers[place] = marker;
-}
-
-
-// ============================================================
-// ROAD NETWORK
-// ============================================================
-
-const roads = {};
-
-function addNode(name) {
-
-    if (!roads[name]) {
-        roads[name] = [];
-    }
-}
-
-
-function mapDistance(a, b) {
-
-    const dy = a[0] - b[0];
-    const dx = a[1] - b[1];
-
-    return Math.sqrt(
-        (dx * dx) +
-        (dy * dy)
-    );
-}
-
-
-function addRoad(a, b) {
-
-    if (!locations[a] || !locations[b]) {
-        console.warn(
-            "Road skipped:",
-            a,
-            b
-        );
-        return;
-    }
-
-    addNode(a);
-    addNode(b);
-
-    const d = mapDistance(
-        locations[a].coords,
-        locations[b].coords
-    );
-
-    roads[a].push({
-        node: b,
-        weight: d
-    });
-
-    roads[b].push({
-        node: a,
-        weight: d
-    });
-}
-
-
-// ============================================================
-// CREATE ROAD NETWORK
-// ============================================================
-
-for (const name in locations) {
-    addNode(name);
-}
-
-
-// Main Gate routes
-addRoad("Main Gate", "Main Block");
-addRoad("Main Gate", "New Auditorium");
-addRoad("Main Gate", "Management Office");
-addRoad("Main Gate", "Canara Bank");
-addRoad("Main Gate", "Parking Shed");
-
-
-// Main Block area
-addRoad("Main Block", "Garden");
-addRoad("Main Block", "Management Office");
-addRoad("Main Block", "Physics");
-addRoad("Main Block", "Chemistry");
-addRoad("Main Block", "B.Com & Zoology");
-
-
-// Garden / south side
-addRoad("Garden", "Playground");
-addRoad("Playground", "Hostel");
-addRoad("Playground", "Chapel");
-
-
-// Management area
-addRoad("Management Office", "B.Com & Zoology");
-addRoad("Management Office", "Old Auditorium");
-
-
-// Old Auditorium area
-addRoad("Old Auditorium", "Library");
-addRoad("Old Auditorium", "Economics");
-addRoad("Old Auditorium", "Tamil & English");
-addRoad("Old Auditorium", "English S/F");
-addRoad("Old Auditorium", "B.Com S/F");
-
-
-// Canteen / John Tucker area
-addRoad("Canteen", "English S/F");
-addRoad("Canteen", "B.Com S/F");
-addRoad("Canteen", "Computer Science");
-addRoad("Canteen", "Food Science");
-
-
-// Computer Science area
-addRoad("Computer Science", "Food Science");
-addRoad("Computer Science", "Hostel");
-
-
-// New Auditorium area
-addRoad("New Auditorium", "Nano Science");
-addRoad("New Auditorium", "History");
-addRoad("New Auditorium", "Maths");
-addRoad("New Auditorium", "BCA");
-addRoad("New Auditorium", "MCA");
-addRoad("New Auditorium", "Physics S/F");
-
-
-// Physics SF area
-addRoad("Physics S/F", "BCA");
-addRoad("Physics S/F", "MCA");
-addRoad("Physics S/F", "History");
-addRoad("Physics S/F", "Maths");
-
-
-// ============================================================
-// DIJKSTRA
-// ============================================================
-
-function findShortestPath(start, destination) {
-
-    const distances = {};
-    const previous = {};
-    const remaining = new Set();
-
-    for (const node in roads) {
-
-        distances[node] = Infinity;
-        previous[node] = null;
-
-        remaining.add(node);
-    }
-
-    distances[start] = 0;
-
-
-    while (remaining.size > 0) {
-
-        let current = null;
-        let smallest = Infinity;
-
-        for (const node of remaining) {
-
-            if (distances[node] < smallest) {
-
-                smallest = distances[node];
-                current = node;
-            }
-        }
-
-        if (current === null) {
-            break;
-        }
-
-        remaining.delete(current);
-
-        if (current === destination) {
-            break;
-        }
-
-
-        for (const connection of roads[current]) {
-
-            const next = connection.node;
-
-            if (!remaining.has(next)) {
-                continue;
-            }
-
-            const newDistance =
-                distances[current] +
-                connection.weight;
-
-            if (
-                newDistance <
-                distances[next]
-            ) {
-
-                distances[next] =
-                    newDistance;
-
-                previous[next] =
-                    current;
-            }
-        }
-    }
-
-
-    if (
-        distances[destination] === Infinity
-    ) {
-
-        return null;
-    }
-
-
-    const path = [];
-
-    let current = destination;
-
-    while (current !== null) {
-
-        path.unshift(current);
-
-        current =
-            previous[current];
-    }
-
-
-    return {
-        path: path,
-        distance: distances[destination]
-    };
-}
-
-
-// ============================================================
-// ROUTE VARIABLES
-// ============================================================
-
-let routeLayer = null;
-let selectedDestination = null;
-
-
-// ============================================================
-// CLEAR ROUTE
-// ============================================================
-
-function clearRoute() {
-
-    if (routeLayer) {
-
-        map.removeLayer(routeLayer);
-
-        routeLayer = null;
-    }
-}
-
-
-// ============================================================
-// ROUTE DIRECTIONS
-// ============================================================
-
-function getDirectionText(previousPoint, currentPoint) {
-
-    const dy =
-        currentPoint[0] -
-        previousPoint[0];
-
-    const dx =
-        currentPoint[1] -
-        previousPoint[1];
-
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-
-        if (dx > 0) {
-            return "Move right";
-        }
-
-        return "Move left";
-    }
-
-
-    if (dy > 0) {
-        return "Move down";
-    }
-
-    return "Move up";
-}
-
-
-// ============================================================
-// DRAW ROUTE
-// ============================================================
-
-function drawRoute(
-    startName,
-    destinationName
-) {
-
-    clearRoute();
-
-
-    const result =
-        findShortestPath(
-            startName,
-            destinationName
-        );
-
-
-    if (!result) {
-
-        alert(
-            "No route found."
-        );
-
-        return;
-    }
-
-
-    const points =
-        result.path.map(
-            name => locations[name].coords
-        );
-
-
-    // ========================================================
-    // WHITE OUTLINE
-    // ========================================================
-
-    const routeOutline =
-        L.polyline(
-            points,
-            {
-                color: "#ffffff",
-                weight: 12,
-                opacity: 0.9,
-                lineCap: "round",
-                lineJoin: "round"
-            }
-        );
-
-
-    // ========================================================
-    // BLUE ROUTE
-    // ========================================================
-
-    const route =
-        L.polyline(
-            points,
-            {
-                color: "#4285F4",
-                weight: 7,
-                opacity: 1,
-                lineCap: "round",
-                lineJoin: "round"
-            }
-        );
-
-
-    // ========================================================
-    // START MARKER
-    // ========================================================
-
-    const startMarker =
-        L.circleMarker(
-            locations[startName].coords,
-            {
-                radius: 9,
-                color: "#ffffff",
-                weight: 4,
-                fillColor: "#4285F4",
-                fillOpacity: 1
-            }
-        );
-
-
-    startMarker.bindTooltip(
-        "Start: " + startName
-    );
-
-
-    // ========================================================
-    // DESTINATION MARKER
-    // ========================================================
-
-    const destinationMarker =
-        L.circleMarker(
-            locations[destinationName].coords,
-            {
-                radius: 10,
-                color: "#ffffff",
-                weight: 4,
-                fillColor: "#EA4335",
-                fillOpacity: 1
-            }
-        );
-
-
-    destinationMarker.bindTooltip(
-        "Destination: " +
-        destinationName
-    );
-
-
-    routeLayer =
-        L.layerGroup([
-            routeOutline,
-            route,
-            startMarker,
-            destinationMarker
-        ]).addTo(map);
-
-
-    // ========================================================
-    // DIRECTIONS
-    // ========================================================
-
-    let directionsHTML = "";
-
-    result.path.forEach(
-        (place, index) => {
-
-            if (index === 0) {
-
-                directionsHTML += `
-                    <div>
-                        🟢 Start at
-                        <strong>${place}</strong>
-                    </div>
-                `;
-
-                return;
-            }
-
-
-            const previousPlace =
-                result.path[index - 1];
-
-
-            const previousCoords =
-                locations[
-                    previousPlace
-                ].coords;
-
-
-            const currentCoords =
-                locations[
-                    place
-                ].coords;
-
-
-            const direction =
-                getDirectionText(
-                    previousCoords,
-                    currentCoords
-                );
-
-
-            directionsHTML += `
-                <div style="margin-top:6px;">
-                    ${index}. ${direction}
-                    → <strong>${place}</strong>
-                </div>
-            `;
-        }
-    );
-
-
-    // ========================================================
-    // INFORMATION BOX
-    // ========================================================
-
-    const info =
-        document.getElementById(
-            "locationInfo"
-        );
-
-
-    if (info) {
-
-        info.innerHTML = `
-
-            <div class="info-title">
-                🧭 Route Found
-            </div>
-
-            <div class="info-text">
-
-                <strong>From:</strong>
-                ${startName}
-
-                <br>
-
-                <strong>To:</strong>
-                ${destinationName}
-
-                <br><br>
-
-                <strong>📏 Distance:</strong>
-                ${Math.round(result.distance)}
-                map units
-
-                <br><br>
-
-                <strong>🛣️ Directions</strong>
-
-                <div style="margin-top:8px;">
-                    ${directionsHTML}
-                </div>
-
-            </div>
-        `;
-    }
-
-
-    // ========================================================
-    // SHOW WHOLE ROUTE
-    // ========================================================
-
-    map.fitBounds(
-        route.getBounds(),
+    marker.bindTooltip(
+        name,
         {
-            padding: [80, 80]
+            direction: "top",
+            offset: [0, -22],
+            className: "campus-label"
         }
     );
 
-
-    // ========================================================
-    // DESTINATION POPUP
-    // ========================================================
-
-    if (markers[destinationName]) {
-
-        markers[destinationName]
-            .openPopup();
-    }
+    markers[name] = marker;
 }
 
+// ======================================================
+// SEARCH ALIASES
+// ======================================================
 
-// ============================================================
-// SELECT DESTINATION
-// ============================================================
+const aliases = {
 
-function selectDestination(place) {
-
-    if (!locations[place]) {
-        return;
-    }
-
-
-    selectedDestination =
-        place;
-
-
-    // Remove old selection
-    for (const name in markers) {
-
-        const element =
-            markers[name].getElement();
-
-        if (element) {
-
-            element.classList.remove(
-                "selected-marker"
-            );
-        }
-    }
-
-
-    // Highlight destination
-    const selectedElement =
-        markers[place].getElement();
-
-    if (selectedElement) {
-
-        selectedElement.classList.add(
-            "selected-marker"
-        );
-    }
-
-
-    // Main Gate → Destination
-    drawRoute(
-        "Main Gate",
-        place
-    );
-
-
-    markers[place].openPopup();
-}
-
-
-// ============================================================
-// SEARCH
-// ============================================================
-
-function findDestination() {
-
-    const inputElement =
-        document.getElementById(
-            "destinationInput"
-        );
-
-
-    if (!inputElement) {
-        return;
-    }
-
-
-    const input =
-        inputElement
-            .value
-            .trim()
-            .toLowerCase();
-
-
-    if (!input) {
-
-        alert(
-            "Please enter a destination."
-        );
-
-        return;
-    }
-
-
-    let foundPlace = null;
-
-
-    // Exact name
-    for (const place in locations) {
-
-        if (
-            place.toLowerCase() ===
-            input
-        ) {
-
-            foundPlace = place;
-            break;
-        }
-    }
-
-
-    // Alias / partial search
-    if (!foundPlace) {
-
-        for (const place in locations) {
-
-            const aliases =
-                locations[place].aliases || [];
-
-
-            if (
-                place
-                    .toLowerCase()
-                    .includes(input)
-            ) {
-
-                foundPlace = place;
-                break;
-            }
-
-
-            for (
-                const alias
-                of aliases
-            ) {
-
-                if (
-                    alias
-                        .toLowerCase()
-                        .includes(input) ||
-                    input.includes(
-                        alias.toLowerCase()
-                    )
-                ) {
-
-                    foundPlace = place;
-                    break;
-                }
-            }
-
-
-            if (found
+    "cse": "Computer Science",
+    "cs": "Computer Science",
+    "computer": "Computer Science",
