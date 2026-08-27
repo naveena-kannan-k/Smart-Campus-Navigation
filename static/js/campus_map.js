@@ -369,6 +369,45 @@ for (const place in locations) {
 // ==========================================
 
 let selectedDestination = null;
+// ==========================================================
+// ROUTE LINE
+// ==========================================================
+
+let campusRoute = null;
+
+function drawCampusRoute(start, destination) {
+
+    // Remove previous route
+    if (campusRoute) {
+        map.removeLayer(campusRoute);
+    }
+
+    /*
+     * IMPORTANT:
+     * Existing location coordinates are NOT changed.
+     * This first version draws the route from the selected
+     * starting point to the selected destination.
+     */
+
+    campusRoute = L.polyline(
+        [start, destination],
+        {
+            color: "#e91e63",
+            weight: 6,
+            opacity: 0.9,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
+
+    // Zoom to route
+    map.fitBounds(
+        campusRoute.getBounds(),
+        {
+            padding: [60, 60]
+        }
+    );
+}
 
 
 function selectDestination(place) {
