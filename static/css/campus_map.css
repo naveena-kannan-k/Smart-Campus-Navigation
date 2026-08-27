@@ -1,579 +1,166 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins','Segoe UI',sans-serif;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    min-height:100vh;
-    background:#f5f3f6;
-    color:#333;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
 }
 
-
-/* ================================
-   MAIN CONTAINER
-================================ */
-
-.map-container{
-    width:94%;
-    max-width:1500px;
-    margin:25px auto;
+.map-header {
+    background: white;
+    padding: 18px 25px;
+    border-bottom: 1px solid #ddd;
 }
 
-
-.map-header{
-    background:linear-gradient(
-        135deg,
-        #800040,
-        #a00050
-    );
-
-    color:white;
-
-    padding:20px 25px;
-    border-radius:16px;
-
-    margin-bottom:15px;
-
-    box-shadow:0 8px 25px rgba(128,0,64,.20);
+.map-header h1 {
+    margin: 0;
+    font-size: 25px;
 }
 
-.map-title{
-    display:flex;
-    align-items:center;
-    gap:15px;
+.map-header p {
+    margin: 5px 0 0;
+    color: #666;
 }
 
-.map-icon{
-    width:52px;
-    height:52px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:rgba(255,255,255,.15);
-    border-radius:14px;
-
-    font-size:27px;
+.search-area {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: white;
 }
 
-.map-header h1{
-    color:white;
-    margin:0;
-    font-size:26px;
+.search-area input {
+    flex: 1;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
-.map-header p{
-    color:rgba(255,255,255,.85);
-    margin:3px 0 0;
-    font-size:13px;
+.search-area button,
+.map-tools button {
+    border: none;
+    background: #4285F4;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
 }
 
-/* ================================
-   SEARCH
-================================ */
-
-.search-area{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-bottom:12px;
+.map-tools {
+    display: flex;
+    gap: 10px;
+    padding: 0 15px 10px;
+    background: white;
 }
 
-.search-area input{
-    width:480px;
-    padding:14px 18px;
-    border:2px solid #e2d6de;
-    border-radius:12px;
-    outline:none;
-    background:white;
-    font-size:15px;
-    transition:.2s;
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
+.location-info {
+    position: absolute;
+    z-index: 1000;
+    top: 150px;
+    left: 20px;
+    width: 270px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
 }
 
-.search-area input:focus{
-    border-color:#800040;
-    box-shadow:0 0 0 4px rgba(128,0,64,.08);
+.info-title {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 8px;
 }
 
-.search-area button{
-    padding:14px 24px;
-    background:#800040;
-    color:white;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    font-size:15px;
-    font-weight:600;
-    box-shadow:0 5px 15px rgba(128,0,64,.22);
-    transition:.2s;
+.info-text {
+    color: #555;
+    line-height: 1.5;
 }
 
-.search-area button:hover{
-    background:#a00050;
-    transform:translateY(-1px);
+.directions {
+    margin-top: 10px;
 }
 
-
-/* ================================
-   MAP TOOLS
-================================ */
-
-.map-tools{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-bottom:12px;
+.direction-step {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
 }
 
-.map-tool-btn{
-    padding:10px 18px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    background:white;
-    color:#800040;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.2s;
-    box-shadow:0 3px 10px rgba(0,0,0,.06);
+/* VERY IMPORTANT */
+#campusMap {
+    width: 100%;
+    height: calc(100vh - 190px);
+    min-height: 550px;
+    background: #e9eef5;
 }
 
-.map-tool-btn:hover{
-    background:#800040;
-    color:white;
+/* Markers */
+
+.campus-marker {
+    width: 38px;
+    height: 38px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border: 3px solid #4285F4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
-
-/* ================================
-   INFORMATION PANEL
-================================ */
-
-.location-info{
-    width:100%;
-    max-width:650px;
-    margin:0 auto 14px;
-    padding:12px 18px;
-    background:white;
-    border-left:5px solid #800040;
-    border-radius:10px;
-    box-shadow:0 4px 15px rgba(0,0,0,.07);
-    text-align:left;
+.campus-label {
+    font-weight: bold;
+    background: white;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.info-title{
-    color:#800040;
-    font-weight:700;
-    font-size:15px;
-    margin-bottom:3px;
+.campus-popup {
+    text-align: center;
+    min-width: 170px;
 }
 
-.info-text{
-    color:#777;
-    font-size:13px;
+.popup-icon {
+    font-size: 30px;
 }
 
-
-/* ================================
-   CAMPUS MAP
-================================ */
-
-#campusMap{
-    width:100%;
-    height:700px;
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid #ddd;
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.16);
+.popup-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 5px;
 }
 
-
-/* ================================
-   CUSTOM MARKER
-================================ */
-
-.campus-marker{
-    width:38px;
-    height:38px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#800040;
-    color:white;
-
-    border:3px solid white;
-    border-radius:50%;
-
-    font-size:17px;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,.35);
-
-    transition:.2s;
+.popup-type {
+    color: #666;
+    margin-bottom: 10px;
 }
 
-.campus-marker:hover{
-    transform:scale(1.12);
+.navigate-btn {
+    border: none;
+    background: #4285F4;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
+@media (max-width: 600px) {
 
-/* ================================
-   LOCATION LABEL
-================================ */
-
-.campus-label{
-    background:white !important;
-    border:1px solid #800040 !important;
-    color:#800040 !important;
-
-    font-weight:600;
-    font-size:12px;
-
-    padding:4px 8px !important;
-    border-radius:6px !important;
-
-    box-shadow:
-        0 3px 10px rgba(0,0,0,.18);
-
-    white-space:nowrap;
-}
-
-.campus-label:before{
-    border-top-color:#800040 !important;
-}
-
-
-/* ================================
-   SELECTED MARKER
-================================ */
-
-.selected-marker .campus-marker{
-    background:#e00062 !important;
-
-    transform:scale(1.25);
-
-    box-shadow:
-        0 0 0 5px rgba(224,0,98,.20),
-        0 5px 18px rgba(0,0,0,.35);
-}
-
-
-/* ================================
-   POPUP
-================================ */
-
-.campus-popup{
-    text-align:center;
-    min-width:170px;
-    padding:4px;
-}
-
-.popup-icon{
-    font-size:28px;
-    margin-bottom:4px;
-}
-
-.popup-title{
-    color:#800040;
-    font-size:16px;
-    font-weight:700;
-}
-
-.popup-type{
-    color:#777;
-    font-size:12px;
-    margin-top:3px;
-}
-
-.navigate-btn{
-    margin-top:10px;
-    padding:8px 15px;
-
-    background:#800040;
-    color:white;
-
-    border:none;
-    border-radius:7px;
-
-    cursor:pointer;
-    font-weight:600;
-}
-
-.navigate-btn:hover{
-    background:#a00050;
-}
-
-
-/* ================================
-   LEAFLET CONTROLS
-================================ */
-
-.leaflet-control-zoom{
-    border:none !important;
-    box-shadow:0 4px 15px rgba(0,0,0,.18) !important;
-}
-
-.leaflet-control-zoom a{
-    color:#800040 !important;
-    font-weight:bold;
-}
-
-
-/* ================================
-   MOBILE
-================================ */
-
-@media(max-width:700px){
-
-    .map-container{
-        width:96%;
-        margin:15px auto;
+    .map-header h1 {
+        font-size: 20px;
     }
 
-    .map-container h1{
-        font-size:22px;
+    .location-info {
+        top: 170px;
+        left: 10px;
+        width: 230px;
     }
 
-    .search-area{
-        flex-direction:column;
+    #campusMap {
+        min-height: 500px;
     }
-
-    .search-area input{
-        width:100%;
-    }
-
-    .search-area button{
-        width:100%;
-    }
-
-    .map-tools{
-        flex-wrap:wrap;
-    }
-
-    .map-tool-btn{
-        flex:1;
-    }
-
-    #campusMap{
-        height:550px;
-        border-radius:14px;
-    }
-}
-#mapLegend{
-    position:absolute;
-    z-index:1000;
-    bottom:25px;
-    left:25px;
-    background:rgba(255,255,255,.95);
-    padding:15px 18px;
-    border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,.2);
-    text-align:left;
-    min-width:190px;
-}
-
-.legend-title{
-    color:#800040;
-    font-weight:700;
-    margin-bottom:8px;
-}
-
-.legend-item{
-    font-size:13px;
-    color:#555;
-    margin:5px 0;
-}
-
-.legend-item span{
-    display:inline-block;
-    width:25px;
-}
-/* ==========================================
-   PROFESSIONAL MAP FRAME
-========================================== */
-
-.map-container{
-    max-width:1500px;
-}
-
-#campusMap{
-    height:720px;
-    position:relative;
-
-    border:4px solid white;
-    border-radius:18px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.12),
-        0 2px 6px rgba(0,0,0,.08);
-
-    background:#eee;
-}
-
-
-/* ==========================================
-   MAP MARKER
-========================================== */
-
-.campus-marker{
-    width:42px;
-    height:42px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:linear-gradient(
-        145deg,
-        #9b0050,
-        #680035
-    );
-
-    border:3px solid #fff;
-    border-radius:50%;
-
-    font-size:18px;
-
-    box-shadow:
-        0 4px 12px rgba(0,0,0,.30);
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-}
-
-.campus-marker:hover{
-    transform:scale(1.15);
-    box-shadow:
-        0 6px 18px rgba(128,0,64,.40);
-}
-
-
-/* ==========================================
-   SELECTED LOCATION
-========================================== */
-
-.selected-marker .campus-marker{
-    background:#e91e63 !important;
-
-    transform:scale(1.3);
-
-    box-shadow:
-        0 0 0 6px rgba(233,30,99,.20),
-        0 6px 20px rgba(0,0,0,.35);
-}
-
-
-/* ==========================================
-   LABEL
-========================================== */
-
-.campus-label{
-    background:#800040 !important;
-    color:white !important;
-
-    border:none !important;
-
-    padding:5px 9px !important;
-
-    border-radius:7px !important;
-
-    font-size:12px !important;
-    font-weight:600 !important;
-
-    box-shadow:0 3px 10px rgba(0,0,0,.22);
-}
-
-.campus-label:before{
-    border-top-color:#800040 !important;
-}
-
-
-/* ==========================================
-   POPUP
-========================================== */
-
-.leaflet-popup-content-wrapper{
-    border-radius:14px;
-    box-shadow:0 8px 25px rgba(0,0,0,.18);
-}
-
-.leaflet-popup-tip{
-    box-shadow:none;
-}
-
-.popup-icon{
-    font-size:30px;
-    margin-bottom:5px;
-}
-
-.popup-title{
-    font-size:17px;
-    color:#800040;
-    font-weight:700;
-}
-
-.popup-type{
-    color:#777;
-    font-size:12px;
-    margin-top:3px;
-}
-
-.navigate-btn{
-    width:100%;
-    margin-top:12px;
-
-    padding:9px 14px;
-
-    border:none;
-    border-radius:8px;
-
-    background:#800040;
-    color:white;
-
-    font-weight:600;
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.navigate-btn:hover{
-    background:#a00050;
-}
-
-
-/* ==========================================
-   LEAFLET CONTROLS
-========================================== */
-
-.leaflet-control-zoom{
-    border:none !important;
-    border-radius:10px !important;
-    overflow:hidden;
-
-    box-shadow:0 4px 15px rgba(0,0,0,.18) !important;
-}
-
-.leaflet-control-zoom a{
-    width:38px !important;
-    height:38px !important;
-    line-height:38px !important;
-
-    color:#800040 !important;
-    background:white !important;
-
-    font-weight:bold;
-}
-
-.leaflet-control-zoom a:hover{
-    background:#800040 !important;
-    color:white !important;
 }
