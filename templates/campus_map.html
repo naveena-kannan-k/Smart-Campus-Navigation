@@ -1,81 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ta">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Smart Campus Navigation</title>
-
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/campus_map.css') }}"
-    >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Campus Interactive Map</title>
+  
+  <!-- Leaflet CSS for Google Map-like styling -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #map {
+      height: 100vh;
+      width: 100vw;
+    }
+    .custom-popup {
+      font-weight: bold;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
 
-    <header class="map-header">
-        <div>
-            <h1>🧭 Smart Campus Navigation</h1>
-            <p>Sarah Tucker College • Interactive Campus Map</p>
-        </div>
-    </header>
+  <div id="map"></div>
 
-    <section class="search-area">
+  <!-- Leaflet JavaScript Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-        <input
-            type="text"
-            id="destinationInput"
-            placeholder="Search Computer Science, Library, Canteen..."
-        >
+  <script>
+    // Initialize Map (Center of your college campus coordinates)
+    var map = L.map('map').setView([9.9252, 78.1198], 18);
 
-        <button onclick="findDestination()">
-            🔍 Search
-        </button>
+    // Google Maps Standard Tile Layer
+    var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(map);
 
-    </section>
+    // Add Markers based on your visual layout
+    var locations = [
+      { name: "Main Gate", coords: [9.9248, 78.1198] },
+      { name: "Main Block", coords: [9.9254, 78.1198] },
+      { name: "Botany Department", coords: [9.9256, 78.1202] },
+      { name: "Zoology & B.Com (Aided)", coords: [9.9258, 78.1198] },
+      { name: "Chemistry & Physics", coords: [9.9258, 78.1193] },
+      { name: "Physics S/F", coords: [9.9260, 78.1190] },
+      { name: "Maths (Aided & S/F)", coords: [9.9255, 78.1188] },
+      { name: "BCA & MCA", coords: [9.9258, 78.1184] },
+      { name: "New Auditorium", coords: [9.9253, 78.1184] },
+      { name: "Nano Sci & History", coords: [9.9251, 78.1182] },
+      { name: "Chapel & Hostel", coords: [9.9265, 78.1195] },
+      { name: "Old Auditorium", coords: [9.9255, 78.1206] },
+      { name: "Library", coords: [9.9248, 78.1205] },
+      { name: "Canara Bank", coords: [9.9245, 78.1180] },
+      { name: "Parking Shed", coords: [9.9244, 78.1206] }
+    ];
 
-    <div class="map-tools">
-
-        <button onclick="resetCampusView()">
-            🗺️ Full Campus
-        </button>
-
-        <button onclick="showMyLocation()">
-            📍 My Location
-        </button>
-
-    </div>
-
-    <div id="locationInfo" class="location-info">
-
-        <div class="info-title">
-            📍 Campus Navigation
-        </div>
-
-        <div class="info-text">
-            Search a building to start navigation.
-        </div>
-
-    </div>
-
-    <!-- MAP -->
-    <div id="campusMap"></div>
-
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-    </script>
-
-    <script
-        src="{{ url_for('static', filename='js/campus_map.js') }}">
-    </script>
+    // Loop through locations and place pins on map
+    locations.forEach(function(place) {
+      L.marker(place.coords)
+        .addTo(map)
+        .bindPopup('<div class="custom-popup">' + place.name + '</div>');
+    });
+  </script>
 
 </body>
-
 </html>
