@@ -1,24 +1,23 @@
-/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Arial, sans-serif;
   overflow: hidden;
 }
 
-/* Map Canvas Box */
 #map {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
 }
 
-/* Floating Google Maps-style Search Header */
-.map-header {
+/* Floating Google Maps-style Search Bar UI */
+.search-container {
   position: absolute;
   top: 15px;
   left: 15px;
@@ -30,14 +29,14 @@ body {
   display: flex;
   align-items: center;
   background: #ffffff;
-  padding: 10px 15px;
+  padding: 10px 16px;
   border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-.search-icon {
-  font-size: 16px;
+.search-box .icon {
   margin-right: 10px;
+  font-size: 14px;
 }
 
 .search-box input {
@@ -48,24 +47,31 @@ body {
   color: #333;
 }
 
-/* Custom Marker Popup Box Styling */
-.leaflet-popup-content-wrapper {
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+/* Info Window Card Styling */
+.info-card {
+  padding: 6px;
+  font-family: Arial, sans-serif;
 }
 
-.custom-popup {
-  padding: 5px;
-}
-
-.custom-popup h3 {
+.info-card h3 {
   margin: 0 0 4px 0;
-  font-size: 15px;
   color: #1a73e8;
+  font-size: 15px;
 }
 
-.custom-popup p {
-  margin: 0;
-  font-size: 12px;
+.info-card p {
+  margin: 0 0 8px 0;
   color: #5f6368;
+  font-size: 12px;
+}
+
+.info-card .btn-direct {
+  display: inline-block;
+  background: #1a73e8;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: bold;
 }
