@@ -1,59 +1,49 @@
-// 1. Map Initialization (Coordinate grid system based on visual image layout)
-var map = L.map('map', {
-  crs: L.CRS.Simple,
-  minZoom: -1,
-  maxZoom: 2
-});
+// Center Coordinates (Latitude, Longitude)
+var campusCenter = [9.9252, 78.1198];
 
-// Image size bounds (Width x Height ratio matching your original image layout)
-var bounds = [[0, 0], [1000, 1600]];
+// Map Initialization
+var map = L.map('map').setView(campusCenter, 18);
 
-// Your Campus Hand-drawn Image File (Must be in the same folder)
-var imageUrl = '1000102086.jpg'; 
+// Google Maps Satellite / Hybrid Imagery Tile Layer
+L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: '© Google Maps'
+}).addTo(map);
 
-L.imageOverlay(imageUrl, bounds).addTo(map);
-map.fitBounds(bounds);
-
-// 2. All Campus Location Points & Details from your layout image
-var campusLocations = [
-  { name: "📍 Main Gate", coords: [50, 800], desc: "Main Campus Entrance" },
-  { name: "🏫 Main Block", coords: [620, 900], desc: "Administrative Offices & Classrooms" },
-  { name: "🌿 Botany Department", coords: [650, 1150], desc: "Botany Department & Labs" },
-  { name: "💻 BCA & MCA Block", coords: [750, 300], desc: "Computer Applications Dept" },
-  { name: "📐 Maths (Aided & S/F)", coords: [600, 480], desc: "Mathematics Department" },
-  { name: "🧪 Physics & Chemistry", coords: [730, 600], desc: "Science Block & Labs" },
-  { name: "🔬 Zoology & B.COM", coords: [760, 920], desc: "Zoology Labs & B.Com Aided" },
-  { name: "📚 Library", coords: [300, 1380], desc: "Central Library & Reading Hall" },
-  { name: "🎭 New Auditorium", coords: [520, 240], desc: "Nano Sci & Cultural Events" },
-  { name: "🏛️ Old Auditorium", coords: [580, 1400], desc: "Seminars & Gatherings" },
-  { name: "🏠 Hostel", coords: [930, 900], desc: "Student Residential Hostel" },
-  { name: "⚽ Play Ground", coords: [900, 1150], desc: "Sports & Athletics Ground" },
-  { name: "🏦 Canara Bank", coords: [80, 120], desc: "Bank Branch & ATM" },
-  { name: "🅿️ Parking Shed", coords: [40, 1500], desc: "Student & Staff Parking" }
+// Campus Locations Data Array
+var locations = [
+  { name: "Main Gate (Entrance)", coords: [9.9248, 78.1198], desc: "Primary Campus Entry Gate" },
+  { name: "Main Block (Administration)", coords: [9.9254, 78.1198], desc: "Admin Offices & Arts Classes" },
+  { name: "Botany Department", coords: [9.9256, 78.1202], desc: "Botany Department & Labs" },
+  { name: "Maths Department", coords: [9.9255, 78.1188], desc: "Aided & Self-Finance Maths Block" },
+  { name: "BCA & MCA Block", coords: [9.9258, 78.1184], desc: "Computer Applications Block" },
+  { name: "Library Block", coords: [9.9248, 78.1205], desc: "Central Library & Reading Hall" },
+  { name: "New Auditorium", coords: [9.9253, 78.1184], desc: "Events & Cultural Auditorium" }
 ];
 
-// Array to hold marker objects for search function
-var markerList = [];
+var markers = [];
 
-// 3. Loop and render pins on map
-campusLocations.forEach(function(place) {
-  var marker = L.marker(place.coords).addTo(map)
+// Loop and add Google Maps style markers and popup info windows
+locations.forEach(function(loc) {
+  var marker = L.marker(loc.coords).addTo(map)
     .bindPopup(`
-      <div class="custom-popup">
-        <h3>${place.name}</h3>
-        <p>${place.desc}</p>
+      <div class="info-card">
+        <h3>${loc.name}</h3>
+        <p>${loc.desc}</p>
+        <a href="https://maps.google.com/?q=${loc.coords[0]},${loc.coords[1]}" target="_blank" class="btn-direct">Get Directions</a>
       </div>
     `);
-    
-  markerList.push({ name: place.name.toLowerCase(), marker: marker });
+  
+  markers.push({ name: loc.name.toLowerCase(), marker: marker });
 });
 
-// 4. Search Functionality
+// Search Filter Functionality
 function searchBuilding() {
-  var input = document.getElementById('searchInput').value.toLowerCase();
+  var query = document.getElementById('searchInput').value.toLowerCase();
   
-  markerList.forEach(function(item) {
-    if (input !== "" && item.name.includes(input)) {
+  markers.forEach(function(item) {
+    if (query !== "" && item.name.includes(query)) {
       item.marker.openPopup();
       map.panTo(item.marker.getLatLng());
     }
