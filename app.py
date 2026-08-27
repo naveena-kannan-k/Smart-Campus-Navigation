@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,redirect
+from flask import Flask, render_template,request,redirect,jsonify
 app=Flask(__name__)
 @app.route("/")
 def home():
@@ -320,4 +320,247 @@ def computer_application():
     return render_template("computer_application.html")
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# =====================================================
+# CAMPUS DATA
+# =====================================================
+
+campus_places = {
+
+    "main gate": {
+        "x": 730,
+        "y": 760,
+        "description":
+            "Main entrance of the campus."
+    },
+
+    "main block": {
+        "x": 750,
+        "y": 300,
+        "description":
+            "Main Block containing administration offices and major academic facilities."
+    },
+
+    "mca": {
+        "x": 235,
+        "y": 190,
+        "description":
+            "MCA department and computer-related academic facilities."
+    },
+
+    "mca block": {
+        "x": 1160,
+        "y": 270,
+        "description":
+            "MCA Block with classrooms and department facilities."
+    },
+
+    "library": {
+        "x": 1190,
+        "y": 500,
+        "description":
+            "Campus library containing books, reference materials and study facilities."
+    },
+
+    "hostel": {
+        "x": 700,
+        "y": 55,
+        "description":
+            "Student hostel area."
+    },
+
+    "canteen": {
+        "x": 1055,
+        "y": 115,
+        "description":
+            "Campus canteen serving food and refreshments."
+    },
+
+    "playground": {
+        "x": 750,
+        "y": 90,
+        "description":
+            "Campus playground and outdoor activity area."
+    },
+
+    "botany": {
+        "x": 960,
+        "y": 205,
+        "description":
+            "Botany department."
+    },
+
+    "economics": {
+        "x": 1230,
+        "y": 420,
+        "description":
+            "Economics department."
+    },
+
+    "tamil": {
+        "x": 1250,
+        "y": 410,
+        "description":
+            "Tamil department."
+    },
+
+    "english": {
+        "x": 1200,
+        "y": 80,
+        "description":
+            "English department."
+    },
+
+    "bcom": {
+        "x": 820,
+        "y": 155,
+        "description":
+            "B.Com academic facilities."
+    },
+
+    "zoology": {
+        "x": 700,
+        "y": 155,
+        "description":
+            "Zoology department."
+    },
+
+    "chemistry": {
+        "x": 500,
+        "y": 175,
+        "description":
+            "Chemistry and Physics laboratory area."
+    },
+
+    "physics": {
+        "x": 395,
+        "y": 195,
+        "description":
+            "Physics department and laboratory area."
+    },
+
+    "maths": {
+        "x": 350,
+        "y": 285,
+        "description":
+            "Mathematics department."
+    },
+
+    "new auditorium": {
+        "x": 145,
+        "y": 300,
+        "description":
+            "New Auditorium used for academic programmes and events."
+    },
+
+    "old auditorium": {
+        "x": 1160,
+        "y": 285,
+        "description":
+            "Old Auditorium used for college functions and programmes."
+    },
+
+    "chapel": {
+        "x": 410,
+        "y": 40,
+        "description":
+            "Campus chapel."
+    },
+
+    "nano science": {
+        "x": 120,
+        "y": 380,
+        "description":
+            "Nano Science academic facility."
+    },
+
+    "history": {
+        "x": 150,
+        "y": 250,
+        "description":
+            "History department."
+    },
+
+    "canara bank": {
+        "x": 120,
+        "y": 760,
+        "description":
+            "Canara Bank facility near the main gate."
+    },
+
+    "parking shed": {
+        "x": 1260,
+        "y": 710,
+        "description":
+            "Parking shed near the campus entrance."
+    },
+
+    "computer science": {
+        "x": 1170,
+        "y": 75,
+        "description":
+            "Computer Science academic facility."
+    }
+
+}
+
+
+# =====================================================
+# HOME PAGE
+# =====================================================
+
+@app.route("/")
+def index():
+
+    return render_template(
+        "index.html"
+    )
+
+
+# =====================================================
+# API - ALL PLACES
+# =====================================================
+
+@app.route("/api/places")
+def get_places():
+
+    return jsonify(campus_places)
+
+
+# =====================================================
+# API - SINGLE PLACE
+# =====================================================
+
+@app.route("/api/place/<place_name>")
+def get_place(place_name):
+
+    place_name = place_name.lower()
+
+    if place_name in campus_places:
+
+        return jsonify({
+            "success": True,
+            "name": place_name,
+            "data": campus_places[place_name]
+        })
+
+
+    return jsonify({
+        "success": False,
+        "message": "Place not found"
+    }), 404
+
+
+# =====================================================
+# RUN SERVER
+# =====================================================
+
+if __name__ == "__main__":
+
+    app.run(
+        debug=True,
+        host="0.0.0.0",
+        port=5000
+    )    
  
