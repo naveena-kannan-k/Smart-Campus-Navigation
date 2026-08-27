@@ -1,6 +1,7 @@
 // ==========================================
 // SMART CAMPUS NAVIGATION
-// CAMPUS MAP - CORRECTED LOCATION VERSION
+// CAMPUS MAP - PHASE 1
+// Corrected Image Coordinates
 // ==========================================
 
 
@@ -8,8 +9,8 @@
 // ORIGINAL IMAGE SIZE
 // ==========================================
 
-const imageWidth = 1583;
-const imageHeight = 957;
+const imageWidth = 1328;
+const imageHeight = 800;
 
 
 // ==========================================
@@ -52,12 +53,9 @@ map.fitBounds(bounds);
 
 
 // ==========================================
-// CORRECT CAMPUS LOCATIONS
-//
-// Coordinates are based on the positions
-// marked in your uploaded campus image.
-//
-// Leaflet format:
+// CAMPUS LOCATIONS
+// ==========================================
+// Format:
 // [Y, X]
 //
 // Y = vertical position
@@ -71,19 +69,19 @@ const locations = {
     // ======================================
 
     "Main Gate": {
-        coords: [40, 845],
+        coords: [755, 735],
         icon: "🚪",
         type: "Main Entrance"
     },
 
     "Canara Bank": {
-        coords: [58, 160],
+        coords: [770, 120],
         icon: "🏦",
         type: "Bank"
     },
 
     "Parking Shed": {
-        coords: [78, 1450],
+        coords: [735, 1235],
         icon: "🅿️",
         type: "Parking"
     },
@@ -94,19 +92,19 @@ const locations = {
     // ======================================
 
     "Garden": {
-        coords: [360, 850],
+        coords: [500, 670],
         icon: "🌳",
         type: "Central Garden"
     },
 
     "Main Block": {
-        coords: [625, 875],
+        coords: [320, 735],
         icon: "🏫",
         type: "Academic Block"
     },
 
     "Management Office": {
-        coords: [565, 970],
+        coords: [350, 590],
         icon: "🏢",
         type: "Administration"
     },
@@ -117,83 +115,84 @@ const locations = {
     // ======================================
 
     "Old Auditorium": {
-        coords: [625, 1390],
+        coords: [325, 1150],
         icon: "🏛️",
         type: "Old Auditorium"
     },
 
     "Economics": {
-        coords: [405, 1400],
+        coords: [430, 1225],
         icon: "📊",
         type: "Economics Department"
     },
 
     "Tamil & English": {
-        coords: [455, 1490],
+        coords: [395, 1240],
         icon: "📚",
         type: "Tamil & English Department"
     },
 
     "Library": {
-        coords: [360, 1370],
+        coords: [505, 1190],
         icon: "📚",
         type: "Library"
     },
 
     "Canteen": {
-        coords: [812, 1240],
+        coords: [120, 1050],
         icon: "🍴",
         type: "Canteen"
     },
 
     "English S/F": {
-    coords: [885, 1360],
-    icon: "📚",
-    type: "English S/F Department"
-},
+        coords: [70, 1190],
+        icon: "📚",
+        type: "English S/F Department"
+    },
 
-"B.Com S/F": {
-    coords: [900, 1390],
-    icon: "💼",
-    type: "B.Com S/F Department"
-},
+    "B.Com S/F": {
+        coords: [105, 1230],
+        icon: "💼",
+        type: "B.Com S/F Department"
+    },
 
-"Computer Science": {
-    coords: [915, 1420],
-    icon: "💻",
-    type: "Computer Science Department"
-},
+    "Computer Science": {
+        coords: [70, 1150],
+        icon: "💻",
+        type: "Computer Science Department"
+    },
 
-"Food Science": {
-    coords: [930, 1390],
-    icon: "🧪",
-    type: "Food Science Department"
-},
+    "Food Science": {
+        coords: [80, 1210],
+        icon: "🧪",
+        type: "Food Science Department"
+    },
+
 
     // ======================================
     // MAIN BLOCK / SCIENCE
     // ======================================
 
     "Physics": {
-        coords: [690, 620],
+        coords: [190, 475],
         icon: "🔬",
         type: "Physics Department"
     },
 
     "Chemistry": {
-        coords: [750, 620],
+        coords: [165, 515],
         icon: "🧪",
         type: "Chemistry Department"
     },
 
     "Physics S/F": {
-        coords: [720, 470],
+        coords: [195, 385],
         icon: "🔬",
         type: "Physics S/F"
     },
 
     "B.Com & Zoology": {
-        coords: [775, 850],
+        coords: [165, 735],
         icon: "🏫",
         type: "B.Com & Zoology"
     },
@@ -204,37 +203,37 @@ const locations = {
     // ======================================
 
     "BCA": {
-        coords: [735, 280],
+        coords: [150, 255],
         icon: "💻",
         type: "BCA Department"
     },
 
     "MCA": {
-        coords: [685, 275],
+        coords: [225, 220],
         icon: "💻",
         type: "MCA Department"
     },
 
     "History": {
-        coords: [645, 205],
+        coords: [270, 175],
         icon: "📖",
         type: "History Department"
     },
 
     "Maths": {
-        coords: [610, 350],
+        coords: [285, 350],
         icon: "📐",
         type: "Mathematics Department"
     },
 
     "Nano Science": {
-        coords: [515, 170],
+        coords: [365, 185],
         icon: "🧪",
         type: "Nano Science Department"
     },
 
     "New Auditorium": {
-        coords: [575, 145],
+        coords: [275, 125],
         icon: "🏛️",
         type: "New Auditorium"
     },
@@ -245,25 +244,24 @@ const locations = {
     // ======================================
 
     "Chapel": {
-        coords: [900, 520],
+        coords: [45, 425],
         icon: "⛪",
         type: "Chapel"
     },
 
     "Hostel": {
-        coords: [900, 870],
+        coords: [55, 720],
         icon: "🏠",
         type: "Hostel"
     },
 
     "Playground": {
-        coords: [845, 875],
+        coords: [110, 750],
         icon: "⚽",
         type: "Playground"
     }
 
 };
-
 
 
 // ==========================================
@@ -351,12 +349,16 @@ for (const place in locations) {
     // ======================================
 
     marker.bindTooltip(place, {
-    direction: "top",
-    offset: [0, -22],
-    className: "campus-label",
-    sticky: true
-});
 
+        direction: "top",
+
+        offset: [0, -22],
+
+        className: "campus-label",
+
+        sticky: true
+
+    });
 
 
     markers[place] = marker;
@@ -381,7 +383,9 @@ function selectDestination(place) {
     selectedDestination = place;
 
 
-    // Remove old selection
+    // ======================================
+    // REMOVE OLD SELECTION
+    // ======================================
 
     for (const name in markers) {
 
@@ -399,7 +403,9 @@ function selectDestination(place) {
     }
 
 
-    // Highlight selected marker
+    // ======================================
+    // HIGHLIGHT SELECTED MARKER
+    // ======================================
 
     const selectedElement =
         markers[place].getElement();
@@ -413,7 +419,9 @@ function selectDestination(place) {
     }
 
 
-    // Zoom
+    // ======================================
+    // ZOOM
+    // ======================================
 
     map.flyTo(
         locations[place].coords,
@@ -424,12 +432,16 @@ function selectDestination(place) {
     );
 
 
-    // Popup
+    // ======================================
+    // POPUP
+    // ======================================
 
     markers[place].openPopup();
 
 
-    // Information panel
+    // ======================================
+    // INFORMATION PANEL
+    // ======================================
 
     const info =
         document.getElementById(
@@ -446,9 +458,13 @@ function selectDestination(place) {
             </div>
 
             <div class="info-text">
+
                 ${locations[place].type}
+
                 <br>
+
                 Destination selected.
+
             </div>
 
         `;
@@ -566,6 +582,10 @@ function resetCampusView() {
     selectedDestination = null;
 
 
+    // ======================================
+    // REMOVE SELECTION
+    // ======================================
+
     for (const name in markers) {
 
         const element =
@@ -581,6 +601,10 @@ function resetCampusView() {
 
     }
 
+
+    // ======================================
+    // RESET INFO
+    // ======================================
 
     const info =
         document.getElementById(
@@ -715,5 +739,5 @@ L.control.zoom({
 // ==========================================
 
 console.log(
-    "✅ Corrected Smart Campus Map Loaded"
+    "✅ Smart Campus Map - Phase 1 Loaded"
 );
