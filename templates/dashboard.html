@@ -1,18 +1,21 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+
+    <title>AI Driven Smart Campus Navigation</title>
 
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/dashboard.css') }}">
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 
 <body>
@@ -23,15 +26,12 @@
 
     <div class="logo-section">
 
-        <img src="{{ url_for('static', filename='images/logo.jpeg') }}">
+        <img src="{{ url_for('static', filename='images/logo.jpeg') }}"
+             alt="Sarah Tucker College Logo">
 
-        <div>
-
+        <div class="college-info">
             <h2>Sarah Tucker College</h2>
-
-            <p>Perumalpuram</p>
-            <p>Tirunelveli</p>
-
+            <p>Perumalpuram, Tirunelveli</p>
         </div>
 
     </div>
@@ -39,164 +39,148 @@
     <div class="nav-right">
 
         <div class="date-time">
-
             <span id="date"></span>
-
             <span id="time"></span>
-
         </div>
 
         <div class="weather-box">
-
             <i class="fa-solid fa-cloud-sun"></i>
-
             <span>31°C</span>
-
         </div>
 
         <a href="/login" class="logout-btn">
-
             <i class="fa-solid fa-right-from-bracket"></i>
-
-            Logout
-
+            <span>Logout</span>
         </a>
 
     </div>
 
 </header>
 
+
 <!-- ================= MOTTO ================= -->
 
 <div class="motto">
-
-    <marquee>
-
-        🏆 So Run that ye may obtain the incorruptible crown 🏆
-
-    </marquee>
-
+    🏆 So Run that ye may obtain the incorruptible crown 🏆
 </div>
+
 
 <!-- ================= HERO ================= -->
 
 <section class="hero">
 
+    <!-- LEFT -->
+
     <div class="hero-left">
 
         <span class="badge">
-
             Welcome 👋
-
         </span>
 
         <h1>
-
-            AI Driven Smart Campus Navigation System
-
+            AI Driven Smart Campus Navigation
         </h1>
 
         <p>
-
             Welcome to Sarah Tucker College.
-
-            Easily search buildings, departments and important places inside the campus using our AI-powered navigation system.
-
+            Easily search buildings, departments and important
+            places inside the campus using our AI-powered
+            navigation system.
         </p>
 
         <div class="hero-buttons">
 
             <a href="#search" class="primary-btn">
-
+                <i class="fa-solid fa-compass"></i>
                 Explore Campus
-
             </a>
 
             <a href="/chatbot" class="secondary-btn">
-
+                <i class="fa-solid fa-robot"></i>
                 AI Assistant
-
             </a>
 
         </div>
 
     </div>
+
+
+    <!-- RIGHT -->
+
     <div class="hero-right">
 
-    <div class="ai-card">
+        <div class="ai-card">
 
-        <div class="ai-circle">
+            <div class="ai-circle">
 
-            <div class="pulse pulse1"></div>
-            <div class="pulse pulse2"></div>
+                <div class="pulse pulse1"></div>
+                <div class="pulse pulse2"></div>
 
-            <div class="ai-logo">
-                <i class="fa-solid fa-robot"></i>
+                <div class="ai-logo">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
             </div>
 
+            <h2>AI ASSISTANT</h2>
+
+            <p class="ai-text">
+                Your intelligent campus assistant is ready to
+                guide you to buildings, departments and
+                important places inside the campus.
+            </p>
+
+            <div class="status">
+
+                <span class="dot"></span>
+
+                <span>AI Online</span>
+
+            </div>
+
+            <a href="/chatbot" class="start-ai">
+                <i class="fa-solid fa-comments"></i>
+                Start Conversation
+            </a>
+
         </div>
-
-        <h2> AI ASSISTANT</h2>
-
-        <p class="ai-text">
-            Welcome to Sarah Tucker College Smart Campus.
-            Your intelligent assistant is ready to guide you anywhere inside the campus.
-        </p>
-
-        <div class="status">
-
-            <span class="dot"></span>
-
-            <span>AI Online</span>
-
-        </div>
-
-        <a href="/chatbot" class="start-ai">
-
-            <i class="fa-solid fa-comments"></i>
-
-            Start Conversation
-
-        </a>
 
     </div>
 
-</div>
-    
-            
-
-            
-
 </section>
+
+
 <!-- ================= SEARCH ================= -->
 
 <section class="search-section" id="search">
 
     <h2>Search Your Destination</h2>
 
+    <p class="search-subtitle">
+        Find a place quickly using text or voice
+    </p>
+
     <div class="search-box">
 
-        <input type="text"
-               id="searchInput"
-               placeholder="Enter Destination (Library, Office, Canteen...)">
-        
-        <!-- Voice Button -->
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Library, Office, Canteen..."
+        >
+
         <button id="voiceBtn" class="voice-btn">
             <i class="fa-solid fa-microphone"></i>
         </button>
 
-        <!-- Search Button -->
-        <button onclick="searchPlace()">
-
+        <button class="search-btn" onclick="searchPlace()">
             <i class="fa-solid fa-magnifying-glass"></i>
-
             Search
-
         </button>
 
     </div>
 
 </section>
+
 
 <!-- ================= QUICK ACCESS ================= -->
 
@@ -209,46 +193,57 @@
         <a href="/library" class="card">
             <i class="fa-solid fa-book"></i>
             <h3>Library</h3>
+            <p>Find the library</p>
         </a>
 
         <a href="/office" class="card">
             <i class="fa-solid fa-building"></i>
             <h3>Office</h3>
+            <p>Management office</p>
         </a>
 
         <a href="/canteen" class="card">
             <i class="fa-solid fa-utensils"></i>
             <h3>Canteen</h3>
+            <p>Food and refreshments</p>
         </a>
 
         <a href="/auditorium" class="card">
             <i class="fa-solid fa-school"></i>
             <h3>Auditorium</h3>
+            <p>Campus auditorium</p>
         </a>
 
         <a href="/departments" class="card">
             <i class="fa-solid fa-graduation-cap"></i>
             <h3>Departments</h3>
+            <p>Explore departments</p>
         </a>
 
         <a href="/chatbot" class="card">
             <i class="fa-solid fa-robot"></i>
             <h3>AI Assistant</h3>
+            <p>Ask your assistant</p>
         </a>
 
-        <a href="/emergency" class="card">
+        <a href="/emergency" class="card emergency-card">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <h3>Emergency</h3>
+            <p>Emergency assistance</p>
         </a>
 
         <a href="/campus_map" class="card">
             <i class="fa-solid fa-map-location-dot"></i>
             <h3>Campus Map</h3>
+            <p>View campus map</p>
         </a>
 
     </div>
 
 </section>
+
+
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
@@ -258,5 +253,11 @@
 
 </footer>
 
+
+<!-- ================= EXISTING JS ================= -->
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
 </body>
 </html>
+```
