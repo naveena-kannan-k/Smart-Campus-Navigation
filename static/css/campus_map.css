@@ -1,166 +1,71 @@
+/* Reset & Base Styles */
 * {
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  overflow: hidden;
 }
 
+/* Map Canvas Box */
+#map {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Floating Google Maps-style Search Header */
 .map-header {
-    background: white;
-    padding: 18px 25px;
-    border-bottom: 1px solid #ddd;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  width: 320px;
 }
 
-.map-header h1 {
-    margin: 0;
-    font-size: 25px;
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 10px 15px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.map-header p {
-    margin: 5px 0 0;
-    color: #666;
+.search-icon {
+  font-size: 16px;
+  margin-right: 10px;
 }
 
-.search-area {
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    background: white;
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
 }
 
-.search-area input {
-    flex: 1;
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
+/* Custom Marker Popup Box Styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-.search-area button,
-.map-tools button {
-    border: none;
-    background: #4285F4;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
+.custom-popup {
+  padding: 5px;
 }
 
-.map-tools {
-    display: flex;
-    gap: 10px;
-    padding: 0 15px 10px;
-    background: white;
+.custom-popup h3 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  color: #1a73e8;
 }
 
-.location-info {
-    position: absolute;
-    z-index: 1000;
-    top: 150px;
-    left: 20px;
-    width: 270px;
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 3px 15px rgba(0,0,0,0.2);
-}
-
-.info-title {
-    font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 8px;
-}
-
-.info-text {
-    color: #555;
-    line-height: 1.5;
-}
-
-.directions {
-    margin-top: 10px;
-}
-
-.direction-step {
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
-
-/* VERY IMPORTANT */
-#campusMap {
-    width: 100%;
-    height: calc(100vh - 190px);
-    min-height: 550px;
-    background: #e9eef5;
-}
-
-/* Markers */
-
-.campus-marker {
-    width: 38px;
-    height: 38px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    border: 3px solid #4285F4;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.campus-label {
-    font-weight: bold;
-    background: white;
-    border: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-.campus-popup {
-    text-align: center;
-    min-width: 170px;
-}
-
-.popup-icon {
-    font-size: 30px;
-}
-
-.popup-title {
-    font-size: 17px;
-    font-weight: bold;
-    margin: 5px;
-}
-
-.popup-type {
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.navigate-btn {
-    border: none;
-    background: #4285F4;
-    color: white;
-    padding: 9px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-@media (max-width: 600px) {
-
-    .map-header h1 {
-        font-size: 20px;
-    }
-
-    .location-info {
-        top: 170px;
-        left: 10px;
-        width: 230px;
-    }
-
-    #campusMap {
-        min-height: 500px;
-    }
+.custom-popup p {
+  margin: 0;
+  font-size: 12px;
+  color: #5f6368;
 }
