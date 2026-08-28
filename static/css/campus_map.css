@@ -1,887 +1,710 @@
-/* =====================================================
-   RESET
-===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Segoe UI",Arial,sans-serif;
+body {
+    overflow: hidden;
+    background: #dfead9;
 }
 
 
-body{
-    overflow:hidden;
-    background:#e8f0e5;
-}
-
-
-
-/* =====================================================
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
-.top-header{
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
 
-    position:fixed;
+    width: 100%;
+    height: 76px;
 
-    top:0;
-    left:0;
+    background: rgba(255,255,255,0.97);
 
-    width:100%;
-    height:76px;
+    z-index: 3000;
 
-    background:white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    z-index:2000;
+    padding: 10px 22px;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    padding:10px 24px;
-
-    box-shadow:
-        0 2px 12px rgba(0,0,0,.18);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
 }
 
 
-
-/* =====================================================
-   COLLEGE TITLE
-===================================================== */
-
-.college-title{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
+.college-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 
-.logo{
+.logo {
+    width: 48px;
+    height: 48px;
 
-    width:46px;
-    height:46px;
+    border-radius: 50%;
 
-    border-radius:50%;
+    background: #1a73e8;
+    color: white;
 
-    background:#1a73e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    color:white;
+    font-weight: 800;
+    font-size: 13px;
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:13px;
-
-    font-weight:800;
-
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 
-.college-title h2{
-
-    font-size:18px;
-
-    color:#202124;
-
+.college-title h2 {
+    font-size: 18px;
+    color: #202124;
 }
 
 
-.college-title p{
-
-    font-size:12px;
-
-    color:#6b7280;
-
-    margin-top:2px;
-
+.college-title p {
+    font-size: 12px;
+    color: #6b7280;
 }
 
 
-
-/* =====================================================
+/* =========================
    SEARCH
-===================================================== */
+========================= */
 
-.search-container{
-
-    width:470px;
-
-    position:relative;
+.search-container {
+    width: 430px;
+    position: relative;
 }
 
 
-.search-box{
+.search-box {
+    height: 46px;
 
-    height:46px;
+    background: white;
 
-    background:white;
+    border: 1px solid #dadce0;
 
-    border:1px solid #dadce0;
+    border-radius: 25px;
 
-    border-radius:25px;
+    display: flex;
+    align-items: center;
 
-    display:flex;
+    padding-left: 14px;
 
-    align-items:center;
-
-    padding-left:15px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.14);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.14);
 }
 
 
-.search-icon{
-
-    font-size:24px;
-
-    color:#5f6368;
+.search-icon {
+    font-size: 23px;
+    color: #5f6368;
 }
 
 
-.search-box input{
+.search-box input {
+    flex: 1;
 
-    flex:1;
+    height: 100%;
 
-    height:100%;
+    border: none;
+    outline: none;
 
-    border:none;
+    padding: 0 12px;
 
-    outline:none;
-
-    padding:0 12px;
-
-    font-size:14px;
+    font-size: 14px;
 }
 
 
-.search-box button{
+.search-box button {
+    border: none;
 
-    border:none;
+    background: #1a73e8;
+    color: white;
 
-    background:#1a73e8;
+    height: 36px;
 
-    color:white;
+    padding: 0 18px;
 
-    height:36px;
+    border-radius: 20px;
 
-    padding:0 18px;
+    margin-right: 5px;
 
-    border-radius:20px;
+    cursor: pointer;
 
-    margin-right:5px;
-
-    cursor:pointer;
-
-    font-weight:600;
+    font-weight: 600;
 }
 
 
-.search-box button:hover{
-
-    background:#1557b0;
+.search-box button:hover {
+    background: #1557b0;
 }
 
 
+/* =========================
+   SUGGESTIONS
+========================= */
 
-/* =====================================================
-   SEARCH SUGGESTIONS
-===================================================== */
+.suggestions {
+    display: none;
 
-.suggestions{
+    position: absolute;
 
-    display:none;
+    top: 52px;
+    left: 0;
 
-    position:absolute;
+    width: 100%;
 
-    top:52px;
+    background: white;
 
-    left:0;
+    border-radius: 12px;
 
-    width:100%;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.22);
 
-    background:white;
+    overflow: hidden;
 
-    border-radius:12px;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 5px 20px rgba(0,0,0,.2);
-
-    z-index:5000;
+    z-index: 4000;
 }
 
 
-.suggestion{
+.suggestion {
+    padding: 12px 16px;
 
-    padding:12px 16px;
+    border-bottom: 1px solid #eeeeee;
 
-    border-bottom:1px solid #eeeeee;
+    cursor: pointer;
 
-    cursor:pointer;
-
-    font-size:13px;
+    font-size: 14px;
 }
 
 
-.suggestion:hover{
-
-    background:#f1f5f9;
+.suggestion:hover {
+    background: #f1f5f9;
 }
 
 
-
-/* =====================================================
+/* =========================
    MAP
-===================================================== */
+========================= */
 
-#map{
+#map {
+    position: fixed;
 
-    position:fixed;
+    top: 76px;
+    left: 0;
 
-    top:76px;
+    width: 100%;
+    height: calc(100vh - 76px);
 
-    left:0;
-
-    width:100%;
-
-    height:calc(100vh - 76px);
-
-    background:#a8cb96;
-
-    z-index:1;
+    background: #dfead9;
 }
 
 
-/* Remove Leaflet attribution look slightly cleaner */
-
-.leaflet-control-attribution{
-
-    font-size:9px;
+.leaflet-container {
+    background: #dfead9;
 }
 
 
+/* =========================
+   BUILDINGS
+========================= */
 
-/* =====================================================
-   CUSTOM BUILDING
-===================================================== */
+.building {
+    min-width: 125px;
 
-.campus-building{
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #e8edf2
+    );
 
-    background:#eadbc3;
+    border: 2px solid #6b7280;
 
-    border:2px solid #776a59;
+    border-radius: 8px;
 
-    border-radius:8px;
+    padding: 9px 12px;
+
+    text-align: center;
+
+    color: #202124;
+
+    font-weight: 700;
+
+    font-size: 12px;
 
     box-shadow:
-        0 3px 8px rgba(0,0,0,.25);
+        0 4px 8px rgba(0,0,0,0.25);
 
-    color:#27231e;
+    position: relative;
 
-    text-align:center;
-
-    font-weight:800;
-
-    font-size:11px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    line-height:1.2;
-
-    padding:5px;
-
-    transition:.2s;
+    transform: translate(-50%, -50%);
 }
 
 
-.campus-building:hover{
+.building::before {
+    content: "";
 
-    transform:scale(1.05);
+    position: absolute;
 
-    background:#f4e8d4;
+    top: -9px;
+    left: 8px;
+    right: 8px;
 
-    z-index:1000;
+    height: 9px;
+
+    background: #9aa4af;
+
+    clip-path: polygon(
+        50% 0,
+        100% 100%,
+        0 100%
+    );
 }
 
 
-.building-main{
+.building small {
+    display: block;
 
-    background:#d9bd99;
+    margin-top: 4px;
 
-    border:3px solid #6b5a47;
+    color: #5f6368;
 
+    font-size: 9px;
+
+    font-weight: 500;
 }
 
 
-.building-auditorium{
+/* =========================
+   GARDEN
+========================= */
 
-    background:#e1c9a9;
+.central-garden {
+    width: 210px;
+    height: 150px;
 
-}
-
-
-.building-small{
-
-    background:#efe4d1;
-
-}
-
-
-
-/* =====================================================
-   BUILDING LABEL
-===================================================== */
-
-.building-label{
-
-    background:white;
-
-    border:1px solid #a9afb6;
-
-    border-radius:7px;
-
-    padding:5px 8px;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    color:#202124;
-
-    box-shadow:
-        0 2px 6px rgba(0,0,0,.18);
-
-    white-space:nowrap;
-}
-
-
-
-/* =====================================================
-   CENTRAL GARDEN
-===================================================== */
-
-.central-garden{
-
-    width:340px;
-
-    height:240px;
-
-    border-radius:50%;
+    border-radius: 50%;
 
     background:
-
         radial-gradient(
-            circle,
-            #9ed47d 0%,
-            #8fc76f 55%,
-            #72a85b 100%
+            circle at center,
+            #9bd18b 0 15%,
+            #72bd68 16% 55%,
+            #5ca957 56% 100%
         );
 
-    border:7px solid #6b9d58;
+    border: 7px solid #e9c46a;
 
     box-shadow:
-        inset 0 0 0 4px #b7dc9e,
-        0 4px 12px rgba(0,0,0,.18);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:#456a39;
-
-    font-size:13px;
-
-    font-weight:800;
-
-    letter-spacing:1px;
+        0 4px 12px rgba(0,0,0,0.2);
 }
 
 
-.garden-fountain{
+.fountain {
+    width: 42px;
+    height: 42px;
 
-    width:52px;
+    border-radius: 50%;
 
-    height:52px;
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0 18%,
+            #6ab7e8 20% 55%,
+            #3286bd 56% 100%
+        );
 
-    border-radius:50%;
-
-    background:#79bde1;
-
-    border:5px solid #d8eee2;
+    border: 3px solid white;
 
     box-shadow:
-        0 2px 5px rgba(0,0,0,.2);
+        0 2px 8px rgba(0,0,0,0.25);
 }
 
 
+.garden-label {
+    margin-top: 8px;
 
-/* =====================================================
-   ROAD
-===================================================== */
+    font-weight: 700;
 
-.campus-road{
+    font-size: 12px;
 
-    stroke:#9b9b96;
-
-    stroke-width:38;
-
-    stroke-linecap:round;
-
-    stroke-linejoin:round;
-
-    fill:none;
+    color: #24542a;
 }
 
 
-.campus-road-inner{
-
-    stroke:#d8d8d3;
-
-    stroke-width:25;
-
-    stroke-linecap:round;
-
-    stroke-linejoin:round;
-
-    fill:none;
-}
-
-
-
-/* =====================================================
-   ROUTE
-===================================================== */
-
-.route-line{
-
-    stroke:#1769e0;
-
-    stroke-width:9;
-
-    stroke-linecap:round;
-
-    stroke-linejoin:round;
-
-    fill:none;
-
-    filter:
-        drop-shadow(0 2px 2px rgba(0,0,0,.35));
-}
-
-
-.route-arrow{
-
-    fill:#1769e0;
-
-    stroke:white;
-
-    stroke-width:2;
-}
-
-
-
-/* =====================================================
-   DESTINATION PIN
-===================================================== */
-
-.destination-marker{
-
-    width:34px;
-
-    height:34px;
-
-    background:#e53935;
-
-    border-radius:50% 50% 50% 0;
-
-    transform:rotate(-45deg);
-
-    border:3px solid white;
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.35);
-}
-
-
-.destination-marker::after{
-
-    content:"";
-
-    width:10px;
-
-    height:10px;
-
-    background:white;
-
-    border-radius:50%;
-
-    position:absolute;
-
-    top:9px;
-
-    left:9px;
-}
-
-
-
-/* =====================================================
+/* =========================
    MAIN GATE
-===================================================== */
+========================= */
 
-.main-gate-marker{
+.main-gate {
+    background: #263238;
 
-    background:#176b3c;
+    color: white;
 
-    color:white;
+    padding: 9px 15px;
 
-    border:3px solid white;
+    border-radius: 20px;
 
-    border-radius:10px;
+    font-size: 12px;
 
-    padding:8px 12px;
+    font-weight: 700;
 
-    font-size:11px;
+    border: 3px solid white;
 
-    font-weight:800;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35);
 
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.3);
+    transform: translate(-50%, -50%);
 }
 
 
+/* =========================
+   ROUTE
+========================= */
 
-/* =====================================================
+.route-line {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.route-arrow {
+    color: #1769e0;
+
+    font-size: 20px;
+
+    font-weight: 900;
+
+    text-shadow:
+        0 1px 2px white;
+}
+
+
+/* =========================
    ROUTE PANEL
-===================================================== */
+========================= */
 
-.route-panel{
+.route-panel {
+    display: none;
 
-    display:none;
+    position: fixed;
 
-    position:fixed;
+    left: 20px;
+    bottom: 20px;
 
-    left:20px;
+    width: 355px;
 
-    bottom:20px;
+    max-height: 70vh;
 
-    width:360px;
+    overflow-y: auto;
 
-    max-height:70vh;
+    background: white;
 
-    overflow:auto;
+    border-radius: 16px;
 
-    background:white;
+    padding: 18px;
 
-    border-radius:17px;
-
-    padding:18px;
-
-    z-index:2500;
+    z-index: 3500;
 
     box-shadow:
-        0 5px 25px rgba(0,0,0,.27);
+        0 6px 25px rgba(0,0,0,0.25);
 }
 
 
-.close-route{
+.close-route {
+    position: absolute;
 
-    position:absolute;
+    right: 12px;
+    top: 10px;
 
-    right:12px;
+    width: 30px;
+    height: 30px;
 
-    top:10px;
+    border: none;
 
-    width:30px;
+    border-radius: 50%;
 
-    height:30px;
+    background: #f1f3f4;
 
-    border:none;
+    font-size: 20px;
 
-    border-radius:50%;
-
-    background:#f1f3f4;
-
-    font-size:20px;
-
-    cursor:pointer;
+    cursor: pointer;
 }
 
 
-.route-title{
+.route-title {
+    display: flex;
 
-    display:flex;
+    align-items: center;
 
-    align-items:center;
+    gap: 12px;
 
-    gap:12px;
-
-    padding-right:30px;
+    padding-right: 25px;
 }
 
 
-.destination-pin{
+.destination-pin {
+    width: 42px;
+    height: 42px;
 
-    width:42px;
+    background: #e8f0fe;
 
-    height:42px;
+    border-radius: 50%;
 
-    background:#e8f0fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius:50%;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:20px;
+    font-size: 20px;
 }
 
 
-.route-title h3{
-
-    font-size:17px;
-
-    color:#202124;
+.route-title h3 {
+    font-size: 17px;
 }
 
 
-.route-title p{
+.route-title p {
+    font-size: 12px;
 
-    font-size:12px;
+    color: #6b7280;
 
-    color:#6b7280;
-
-    margin-top:3px;
+    margin-top: 3px;
 }
 
 
-
-/* =====================================================
+/* =========================
    SUMMARY
-===================================================== */
+========================= */
 
-.route-summary{
+.route-summary {
+    display: flex;
 
-    display:flex;
+    gap: 10px;
 
-    gap:10px;
-
-    margin:17px 0;
+    margin: 17px 0;
 }
 
 
-.route-summary div{
+.route-summary div {
+    flex: 1;
 
-    flex:1;
+    background: #f6f8fa;
 
-    background:#f6f8fa;
+    border-radius: 10px;
 
-    border-radius:10px;
+    padding: 10px;
 
-    padding:10px;
-
-    text-align:center;
+    text-align: center;
 }
 
 
-.route-summary strong{
+.route-summary strong {
+    display: block;
 
-    display:block;
+    color: #1a73e8;
 
-    color:#1a73e8;
-
-    font-size:16px;
+    font-size: 16px;
 }
 
 
-.route-summary span{
+.route-summary span {
+    color: #6b7280;
 
-    color:#6b7280;
-
-    font-size:10px;
+    font-size: 10px;
 }
 
 
-
-/* =====================================================
+/* =========================
    DIRECTIONS
-===================================================== */
+========================= */
 
-.directions h4{
+.directions h4 {
+    font-size: 14px;
 
-    font-size:14px;
-
-    margin-bottom:8px;
+    margin-bottom: 8px;
 }
 
 
-.direction-item{
+.direction-item {
+    display: flex;
 
-    display:flex;
+    gap: 10px;
 
-    gap:10px;
+    padding: 8px 0;
 
-    padding:9px 0;
+    border-bottom: 1px solid #eeeeee;
 
-    border-bottom:1px solid #eeeeee;
+    font-size: 12px;
 
-    font-size:12px;
-
-    line-height:1.4;
+    line-height: 1.4;
 }
 
 
-.direction-number{
+.direction-number {
+    min-width: 24px;
+    height: 24px;
 
-    min-width:25px;
+    border-radius: 50%;
 
-    height:25px;
+    background: #e8f0fe;
 
-    border-radius:50%;
+    color: #1a73e8;
 
-    background:#e8f0fe;
+    display: flex;
 
-    color:#1a73e8;
+    align-items: center;
+    justify-content: center;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-weight:700;
+    font-weight: 700;
 }
 
 
+/* =========================
+   FLOATING BUTTON
+========================= */
 
-/* =====================================================
-   FLOATING MAIN GATE BUTTON
-===================================================== */
+.floating-button {
+    position: fixed;
 
-.floating-button{
+    right: 20px;
+    bottom: 20px;
 
-    position:fixed;
+    z-index: 3200;
 
-    right:20px;
+    border: none;
 
-    bottom:20px;
+    background: white;
 
-    z-index:2100;
+    padding: 12px 18px;
 
-    border:none;
-
-    background:white;
-
-    padding:12px 18px;
-
-    border-radius:25px;
+    border-radius: 25px;
 
     box-shadow:
-        0 3px 12px rgba(0,0,0,.22);
+        0 3px 12px rgba(0,0,0,0.22);
 
-    cursor:pointer;
+    cursor: pointer;
 
-    font-weight:600;
+    font-weight: 600;
 }
 
 
+/* =========================
+   DESTINATION MARKER
+========================= */
 
-/* =====================================================
-   SELECTED BUILDING
-===================================================== */
+.destination-marker {
+    width: 34px;
+    height: 34px;
 
-.selected-building{
+    border-radius: 50% 50% 50% 0;
 
-    border-color:#1769e0 !important;
+    background: #e53935;
 
-    border-width:4px !important;
+    border: 3px solid white;
+
+    transform: rotate(-45deg);
 
     box-shadow:
-        0 0 0 5px rgba(26,115,232,.20),
-        0 5px 15px rgba(0,0,0,.3);
-
+        0 3px 8px rgba(0,0,0,0.35);
 }
 
 
+.destination-marker::after {
+    content: "";
 
-/* =====================================================
+    width: 10px;
+    height: 10px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    top: 9px;
+    left: 9px;
+}
+
+
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
-@media(max-width:700px){
+@media(max-width: 700px) {
 
-    .top-header{
+    .top-header {
+        height: 120px;
 
-        height:125px;
+        flex-direction: column;
 
-        flex-direction:column;
+        justify-content: center;
 
-        justify-content:center;
+        gap: 7px;
 
-        gap:7px;
-
-        padding:6px 10px;
+        padding: 6px 10px;
     }
 
 
-    .college-title h2{
-
-        font-size:15px;
+    .college-title h2 {
+        font-size: 15px;
     }
 
 
-    .search-container{
-
-        width:100%;
+    .college-title p {
+        font-size: 10px;
     }
 
 
-    #map{
-
-        top:125px;
-
-        height:calc(100vh - 125px);
+    .logo {
+        width: 38px;
+        height: 38px;
     }
 
 
-    .route-panel{
-
-        left:10px;
-
-        right:10px;
-
-        bottom:10px;
-
-        width:auto;
-
-        max-height:55vh;
+    .search-container {
+        width: 100%;
     }
 
 
-    .floating-button{
+    #map {
+        top: 120px;
 
-        right:10px;
-
-        bottom:170px;
+        height: calc(100vh - 120px);
     }
 
+
+    .route-panel {
+        left: 10px;
+        right: 10px;
+
+        bottom: 10px;
+
+        width: auto;
+
+        max-height: 55vh;
+    }
+
+
+    .floating-button {
+        right: 10px;
+
+        bottom: 10px;
+    }
+
+
+    .building {
+        min-width: 100px;
+
+        font-size: 10px;
+
+        padding: 7px;
+    }
 }
