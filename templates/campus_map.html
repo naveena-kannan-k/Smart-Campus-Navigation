@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -7,16 +8,15 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Sarah Tucker College - Campus Navigation</title>
+    <title>Sarah Tucker College - Smart Campus Navigation</title>
 
-    <!-- Leaflet CSS
-         இது உன் computer-ல இருக்க வேண்டிய file இல்லை.
-         Internet மூலம் automatically load ஆகும். -->
+    <!-- Leaflet -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
 
+    <!-- Our CSS -->
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/campus_map.css') }}"
@@ -24,10 +24,12 @@
 
 </head>
 
+
 <body>
 
+
 <!-- =====================================================
-     TOP HEADER
+     HEADER
 ===================================================== -->
 
 <header class="top-header">
@@ -55,7 +57,7 @@
             <input
                 id="searchInput"
                 type="text"
-                placeholder="Search campus..."
+                placeholder="Search campus, building or department..."
                 autocomplete="off"
             >
 
@@ -66,8 +68,9 @@
         </div>
 
 
-        <div id="searchSuggestions"
-             class="suggestions">
+        <div
+            id="searchSuggestions"
+            class="suggestions">
         </div>
 
     </div>
@@ -75,35 +78,43 @@
 </header>
 
 
+
 <!-- =====================================================
-     MAP
+     CAMPUS MAP
 ===================================================== -->
 
 <main id="map"></main>
 
 
+
 <!-- =====================================================
-     CURRENT LOCATION BUTTON
+     MAIN GATE BUTTON
 ===================================================== -->
 
-<button id="mainGateButton"
-        class="floating-button">
+<button
+    id="mainGateButton"
+    class="floating-button">
 
     📍 Main Gate
 
 </button>
 
 
+
 <!-- =====================================================
      ROUTE PANEL
 ===================================================== -->
 
-<section id="routePanel"
-         class="route-panel">
+<section
+    id="routePanel"
+    class="route-panel">
 
-    <button id="closeRoute"
-            class="close-route">
+    <button
+        id="closeRoute"
+        class="close-route">
+
         ×
+
     </button>
 
 
@@ -112,6 +123,7 @@
         <div class="destination-pin">
             📍
         </div>
+
 
         <div>
 
@@ -128,29 +140,44 @@
     </div>
 
 
+
     <div class="route-summary">
 
         <div>
+
             <strong id="routeDistance">
                 --
             </strong>
-            <span>Distance</span>
+
+            <span>
+                Distance
+            </span>
+
         </div>
 
 
         <div>
+
             <strong id="routeTime">
                 --
             </strong>
-            <span>Walking</span>
+
+            <span>
+                Walking
+            </span>
+
         </div>
 
     </div>
 
 
+
     <div class="directions">
 
-        <h4>Walking directions</h4>
+        <h4>
+            Walking directions
+        </h4>
+
 
         <div id="directionList">
         </div>
@@ -158,6 +185,7 @@
     </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -169,9 +197,13 @@
 </script>
 
 
+<!-- Our JS -->
+
 <script
     src="{{ url_for('static', filename='js/campus_map.js') }}">
 </script>
 
+
 </body>
+
 </html>
