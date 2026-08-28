@@ -1,586 +1,887 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
 }
 
 
-body {
-    overflow: hidden;
-    background: #e8f0e5;
+body{
+    overflow:hidden;
+    background:#e8f0e5;
 }
+
 
 
 /* =====================================================
    HEADER
 ===================================================== */
 
-.top-header {
+.top-header{
 
-    position: fixed;
+    position:fixed;
 
-    top: 0;
-    left: 0;
+    top:0;
+    left:0;
 
-    width: 100%;
-    height: 76px;
+    width:100%;
+    height:76px;
 
-    background: white;
+    background:white;
 
-    z-index: 2000;
+    z-index:2000;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    justify-content: space-between;
+    justify-content:space-between;
 
-    padding: 10px 24px;
+    padding:10px 24px;
 
     box-shadow:
-        0 2px 10px rgba(0,0,0,0.18);
+        0 2px 12px rgba(0,0,0,.18);
 }
+
 
 
 /* =====================================================
    COLLEGE TITLE
 ===================================================== */
 
-.college-title {
+.college-title{
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 12px;
+    gap:12px;
 }
 
 
-.logo {
+.logo{
 
-    width: 46px;
-    height: 46px;
+    width:46px;
+    height:46px;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: #1a73e8;
+    background:#1a73e8;
 
-    color: white;
+    color:white;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:center;
+    justify-content:center;
 
-    font-size: 13px;
+    font-size:13px;
 
-    font-weight: 700;
+    font-weight:800;
+
 }
 
 
-.college-title h2 {
+.college-title h2{
 
-    font-size: 18px;
+    font-size:18px;
 
-    color: #202124;
+    color:#202124;
+
 }
 
 
-.college-title p {
+.college-title p{
 
-    font-size: 12px;
+    font-size:12px;
 
-    color: #6b7280;
+    color:#6b7280;
 
-    margin-top: 2px;
+    margin-top:2px;
+
 }
+
 
 
 /* =====================================================
    SEARCH
 ===================================================== */
 
-.search-container {
+.search-container{
 
-    width: 430px;
+    width:470px;
 
-    position: relative;
+    position:relative;
 }
 
 
-.search-box {
+.search-box{
 
-    height: 46px;
+    height:46px;
 
-    background: white;
+    background:white;
 
-    border: 1px solid #dadce0;
+    border:1px solid #dadce0;
 
-    border-radius: 24px;
+    border-radius:25px;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    padding-left: 14px;
+    padding-left:15px;
 
     box-shadow:
-        0 2px 8px rgba(0,0,0,0.14);
+        0 2px 8px rgba(0,0,0,.14);
 }
 
 
-.search-icon {
+.search-icon{
 
-    font-size: 23px;
+    font-size:24px;
 
-    color: #5f6368;
+    color:#5f6368;
 }
 
 
-.search-box input {
+.search-box input{
 
-    flex: 1;
+    flex:1;
 
-    height: 100%;
+    height:100%;
 
-    border: none;
+    border:none;
 
-    outline: none;
+    outline:none;
 
-    padding: 0 12px;
+    padding:0 12px;
 
-    font-size: 14px;
+    font-size:14px;
 }
 
 
-.search-box button {
+.search-box button{
 
-    border: none;
+    border:none;
 
-    background: #1a73e8;
+    background:#1a73e8;
 
-    color: white;
+    color:white;
 
-    height: 36px;
+    height:36px;
 
-    padding: 0 18px;
+    padding:0 18px;
 
-    border-radius: 20px;
+    border-radius:20px;
 
-    margin-right: 5px;
+    margin-right:5px;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    font-weight: 600;
+    font-weight:600;
 }
 
 
-.search-box button:hover {
+.search-box button:hover{
 
-    background: #1557b0;
+    background:#1557b0;
 }
+
 
 
 /* =====================================================
-   SUGGESTIONS
+   SEARCH SUGGESTIONS
 ===================================================== */
 
-.suggestions {
+.suggestions{
 
-    display: none;
+    display:none;
 
-    position: absolute;
+    position:absolute;
 
-    top: 51px;
+    top:52px;
 
-    left: 0;
+    left:0;
 
-    width: 100%;
+    width:100%;
 
-    background: white;
+    background:white;
 
-    border-radius: 10px;
+    border-radius:12px;
+
+    overflow:hidden;
 
     box-shadow:
-        0 4px 15px rgba(0,0,0,0.2);
+        0 5px 20px rgba(0,0,0,.2);
 
-    overflow: hidden;
-
-    z-index: 3000;
+    z-index:5000;
 }
 
 
-.suggestion {
+.suggestion{
 
-    padding: 12px 16px;
+    padding:12px 16px;
 
-    border-bottom: 1px solid #eeeeee;
+    border-bottom:1px solid #eeeeee;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    font-size: 14px;
+    font-size:13px;
 }
 
 
-.suggestion:hover {
+.suggestion:hover{
 
-    background: #f1f5f9;
+    background:#f1f5f9;
 }
+
 
 
 /* =====================================================
    MAP
 ===================================================== */
 
-#map {
+#map{
 
-    position: fixed;
+    position:fixed;
 
-    top: 76px;
+    top:76px;
 
-    left: 0;
+    left:0;
 
-    width: 100%;
+    width:100%;
 
-    height: calc(100vh - 76px);
+    height:calc(100vh - 76px);
 
-    background:
-        #e6f0e2;
+    background:#a8cb96;
+
+    z-index:1;
 }
+
+
+/* Remove Leaflet attribution look slightly cleaner */
+
+.leaflet-control-attribution{
+
+    font-size:9px;
+}
+
+
+
+/* =====================================================
+   CUSTOM BUILDING
+===================================================== */
+
+.campus-building{
+
+    background:#eadbc3;
+
+    border:2px solid #776a59;
+
+    border-radius:8px;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.25);
+
+    color:#27231e;
+
+    text-align:center;
+
+    font-weight:800;
+
+    font-size:11px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    line-height:1.2;
+
+    padding:5px;
+
+    transition:.2s;
+}
+
+
+.campus-building:hover{
+
+    transform:scale(1.05);
+
+    background:#f4e8d4;
+
+    z-index:1000;
+}
+
+
+.building-main{
+
+    background:#d9bd99;
+
+    border:3px solid #6b5a47;
+
+}
+
+
+.building-auditorium{
+
+    background:#e1c9a9;
+
+}
+
+
+.building-small{
+
+    background:#efe4d1;
+
+}
+
 
 
 /* =====================================================
    BUILDING LABEL
 ===================================================== */
 
-.building-label {
+.building-label{
 
-    background: white;
+    background:white;
 
-    border: 1px solid #b7bec8;
+    border:1px solid #a9afb6;
 
-    border-radius: 8px;
+    border-radius:7px;
 
-    padding: 6px 9px;
+    padding:5px 8px;
 
-    min-width: 105px;
+    font-size:10px;
 
-    text-align: center;
+    font-weight:700;
 
-    font-size: 11px;
-
-    font-weight: 700;
-
-    color: #202124;
+    color:#202124;
 
     box-shadow:
-        0 2px 6px rgba(0,0,0,0.20);
+        0 2px 6px rgba(0,0,0,.18);
 
-    white-space: nowrap;
+    white-space:nowrap;
 }
 
 
-.building-label span {
 
-    display: block;
+/* =====================================================
+   CENTRAL GARDEN
+===================================================== */
 
-    font-size: 9px;
+.central-garden{
 
-    color: #6b7280;
+    width:340px;
 
-    margin-top: 2px;
+    height:240px;
 
-    font-weight: 500;
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            #9ed47d 0%,
+            #8fc76f 55%,
+            #72a85b 100%
+        );
+
+    border:7px solid #6b9d58;
+
+    box-shadow:
+        inset 0 0 0 4px #b7dc9e,
+        0 4px 12px rgba(0,0,0,.18);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#456a39;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
 }
+
+
+.garden-fountain{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:#79bde1;
+
+    border:5px solid #d8eee2;
+
+    box-shadow:
+        0 2px 5px rgba(0,0,0,.2);
+}
+
+
+
+/* =====================================================
+   ROAD
+===================================================== */
+
+.campus-road{
+
+    stroke:#9b9b96;
+
+    stroke-width:38;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+    fill:none;
+}
+
+
+.campus-road-inner{
+
+    stroke:#d8d8d3;
+
+    stroke-width:25;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+    fill:none;
+}
+
+
+
+/* =====================================================
+   ROUTE
+===================================================== */
+
+.route-line{
+
+    stroke:#1769e0;
+
+    stroke-width:9;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+    fill:none;
+
+    filter:
+        drop-shadow(0 2px 2px rgba(0,0,0,.35));
+}
+
+
+.route-arrow{
+
+    fill:#1769e0;
+
+    stroke:white;
+
+    stroke-width:2;
+}
+
+
+
+/* =====================================================
+   DESTINATION PIN
+===================================================== */
+
+.destination-marker{
+
+    width:34px;
+
+    height:34px;
+
+    background:#e53935;
+
+    border-radius:50% 50% 50% 0;
+
+    transform:rotate(-45deg);
+
+    border:3px solid white;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.35);
+}
+
+
+.destination-marker::after{
+
+    content:"";
+
+    width:10px;
+
+    height:10px;
+
+    background:white;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:9px;
+
+    left:9px;
+}
+
+
+
+/* =====================================================
+   MAIN GATE
+===================================================== */
+
+.main-gate-marker{
+
+    background:#176b3c;
+
+    color:white;
+
+    border:3px solid white;
+
+    border-radius:10px;
+
+    padding:8px 12px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.3);
+}
+
 
 
 /* =====================================================
    ROUTE PANEL
 ===================================================== */
 
-.route-panel {
+.route-panel{
 
-    display: none;
+    display:none;
 
-    position: fixed;
+    position:fixed;
 
-    left: 20px;
+    left:20px;
 
-    bottom: 20px;
+    bottom:20px;
 
-    width: 355px;
+    width:360px;
 
-    background: white;
+    max-height:70vh;
 
-    border-radius: 16px;
+    overflow:auto;
 
-    padding: 18px;
+    background:white;
 
-    z-index: 2500;
+    border-radius:17px;
+
+    padding:18px;
+
+    z-index:2500;
 
     box-shadow:
-        0 5px 25px rgba(0,0,0,0.25);
+        0 5px 25px rgba(0,0,0,.27);
 }
 
 
-.close-route {
+.close-route{
 
-    position: absolute;
+    position:absolute;
 
-    right: 12px;
+    right:12px;
 
-    top: 10px;
+    top:10px;
 
-    width: 30px;
+    width:30px;
 
-    height: 30px;
+    height:30px;
 
-    border: none;
+    border:none;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: #f1f3f4;
+    background:#f1f3f4;
 
-    font-size: 20px;
+    font-size:20px;
 
-    cursor: pointer;
+    cursor:pointer;
 }
 
 
-.route-title {
+.route-title{
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 12px;
+    gap:12px;
 
-    padding-right: 25px;
+    padding-right:30px;
 }
 
 
-.destination-pin {
+.destination-pin{
 
-    width: 42px;
+    width:42px;
 
-    height: 42px;
+    height:42px;
 
-    background: #e8f0fe;
+    background:#e8f0fe;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    justify-content: center;
+    justify-content:center;
 
-    font-size: 20px;
+    font-size:20px;
 }
 
 
-.route-title h3 {
+.route-title h3{
 
-    font-size: 17px;
+    font-size:17px;
 
-    color: #202124;
+    color:#202124;
 }
 
 
-.route-title p {
+.route-title p{
 
-    font-size: 12px;
+    font-size:12px;
 
-    color: #6b7280;
+    color:#6b7280;
 
-    margin-top: 3px;
+    margin-top:3px;
 }
+
 
 
 /* =====================================================
-   ROUTE SUMMARY
+   SUMMARY
 ===================================================== */
 
-.route-summary {
+.route-summary{
 
-    display: flex;
+    display:flex;
 
-    gap: 10px;
+    gap:10px;
 
-    margin: 17px 0;
+    margin:17px 0;
 }
 
 
-.route-summary div {
+.route-summary div{
 
-    flex: 1;
+    flex:1;
 
-    background: #f6f8fa;
+    background:#f6f8fa;
 
-    border-radius: 10px;
+    border-radius:10px;
 
-    padding: 10px;
+    padding:10px;
 
-    text-align: center;
+    text-align:center;
 }
 
 
-.route-summary strong {
+.route-summary strong{
 
-    display: block;
+    display:block;
 
-    color: #1a73e8;
+    color:#1a73e8;
 
-    font-size: 16px;
+    font-size:16px;
 }
 
 
-.route-summary span {
+.route-summary span{
 
-    color: #6b7280;
+    color:#6b7280;
 
-    font-size: 10px;
+    font-size:10px;
 }
+
 
 
 /* =====================================================
    DIRECTIONS
 ===================================================== */
 
-.directions h4 {
+.directions h4{
 
-    font-size: 14px;
+    font-size:14px;
 
-    margin-bottom: 8px;
+    margin-bottom:8px;
 }
 
 
-.direction-item {
+.direction-item{
 
-    display: flex;
+    display:flex;
 
-    gap: 10px;
+    gap:10px;
 
-    padding: 8px 0;
+    padding:9px 0;
 
-    border-bottom: 1px solid #eeeeee;
+    border-bottom:1px solid #eeeeee;
 
-    font-size: 12px;
+    font-size:12px;
 
-    line-height: 1.4;
+    line-height:1.4;
 }
 
 
-.direction-number {
+.direction-number{
 
-    min-width: 24px;
+    min-width:25px;
 
-    height: 24px;
+    height:25px;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: #e8f0fe;
+    background:#e8f0fe;
 
-    color: #1a73e8;
+    color:#1a73e8;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    justify-content: center;
+    justify-content:center;
 
-    font-weight: 700;
+    font-weight:700;
 }
+
 
 
 /* =====================================================
-   MAIN GATE BUTTON
+   FLOATING MAIN GATE BUTTON
 ===================================================== */
 
-.floating-button {
+.floating-button{
 
-    position: fixed;
+    position:fixed;
 
-    right: 20px;
+    right:20px;
 
-    bottom: 20px;
+    bottom:20px;
 
-    z-index: 2100;
+    z-index:2100;
 
-    border: none;
+    border:none;
 
-    background: white;
+    background:white;
 
-    padding: 12px 18px;
+    padding:12px 18px;
 
-    border-radius: 25px;
+    border-radius:25px;
 
     box-shadow:
-        0 3px 12px rgba(0,0,0,0.22);
+        0 3px 12px rgba(0,0,0,.22);
 
-    cursor: pointer;
+    cursor:pointer;
 
-    font-weight: 600;
+    font-weight:600;
 }
+
+
+
+/* =====================================================
+   SELECTED BUILDING
+===================================================== */
+
+.selected-building{
+
+    border-color:#1769e0 !important;
+
+    border-width:4px !important;
+
+    box-shadow:
+        0 0 0 5px rgba(26,115,232,.20),
+        0 5px 15px rgba(0,0,0,.3);
+
+}
+
 
 
 /* =====================================================
    MOBILE
 ===================================================== */
 
-@media(max-width: 700px) {
+@media(max-width:700px){
 
-    .top-header {
+    .top-header{
 
-        height: 125px;
+        height:125px;
 
-        flex-direction: column;
+        flex-direction:column;
 
-        justify-content: center;
+        justify-content:center;
 
-        gap: 7px;
+        gap:7px;
 
-        padding: 6px 10px;
+        padding:6px 10px;
     }
 
 
-    .college-title h2 {
+    .college-title h2{
 
-        font-size: 15px;
+        font-size:15px;
     }
 
 
-    .search-container {
+    .search-container{
 
-        width: 100%;
+        width:100%;
     }
 
 
-    #map {
+    #map{
 
-        top: 125px;
+        top:125px;
 
-        height: calc(100vh - 125px);
+        height:calc(100vh - 125px);
     }
 
 
-    .route-panel {
+    .route-panel{
 
-        left: 10px;
+        left:10px;
 
-        right: 10px;
+        right:10px;
 
-        bottom: 10px;
+        bottom:10px;
 
-        width: auto;
+        width:auto;
+
+        max-height:55vh;
     }
 
 
-    .floating-button {
+    .floating-button{
 
-        right: 10px;
+        right:10px;
 
-        bottom: 190px;
+        bottom:170px;
     }
+
 }
