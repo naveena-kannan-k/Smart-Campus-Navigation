@@ -1,126 +1,1267 @@
 /* =====================================================
-   3D CAMPUS BUILDINGS
+   RESET
 ===================================================== */
 
-.custom-building {
-    background: transparent;
-    border: none;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.building-card {
-    width: 150px;
-    min-height: 65px;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f6f8;
+    color: #202124;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.top-header {
+
+    height: 76px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #e2e5e8;
+
     position: relative;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.25));
+
+    z-index: 2000;
+
 }
 
-.building-roof {
-    width: 125px;
-    height: 22px;
-    margin: auto;
 
-    background: #8b6f52;
+/* BRAND */
 
-    transform:
-        perspective(80px)
-        rotateX(18deg);
+.brand {
 
-    border-radius: 5px 5px 0 0;
+    display: flex;
 
-    border: 2px solid #70563d;
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 290px;
 }
 
-.building-body {
-    width: 130px;
-    min-height: 42px;
+.brand-logo {
 
-    margin: -2px auto 0;
+    width: 45px;
+    height: 45px;
 
-    background: #f4eee3;
+    border-radius: 50%;
 
-    border: 2px solid #8f806e;
+    display: flex;
 
-    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
 
-    padding: 6px;
+    background: #1a73e8;
 
-    text-align: center;
+    color: white;
 
-    box-shadow:
-        inset 0 -8px 0 rgba(0,0,0,0.05);
-}
-
-.building-title {
-    font-size: 11px;
     font-weight: 800;
-    color: #202124;
-    line-height: 1.2;
+
+    font-size: 14px;
+
 }
 
-.building-subtitle {
-    margin-top: 3px;
-    font-size: 8px;
-    color: #555;
-    line-height: 1.2;
+.brand h1 {
+
+    font-size: 17px;
+
+    line-height: 20px;
+
+}
+
+.brand p {
+
+    color: #70757a;
+
+    font-size: 12px;
+
+    margin-top: 2px;
+
 }
 
 
 /* =====================================================
-   BUILDING TOOLTIP
+   SEARCH
 ===================================================== */
 
-.building-tooltip {
-    background: white;
-    color: #202124;
+.search-wrapper {
 
-    border: 1px solid #aaa;
+    position: relative;
 
-    border-radius: 7px;
+    width: min(520px, 45vw);
 
-    font-weight: 700;
+    height: 48px;
+
+}
+
+.search-wrapper input {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: 1px solid #dadce0;
+
+    border-radius: 25px;
+
+    outline: none;
+
+    padding:
+        0 92px
+        0 45px;
+
+    font-size: 15px;
+
+    background: #fff;
 
     box-shadow:
-        0 3px 10px rgba(0,0,0,0.2);
+        0 2px 7px rgba(0,0,0,.10);
+
 }
 
+.search-wrapper input:focus {
 
-/* =====================================================
-   MAIN GATE
-===================================================== */
+    border-color: #1a73e8;
 
-.main-gate-icon {
-    background: transparent;
+    box-shadow:
+        0 2px 9px rgba(26,115,232,.18);
+
+}
+
+.search-icon {
+
+    position: absolute;
+
+    left: 17px;
+
+    top: 9px;
+
+    font-size: 25px;
+
+    color: #5f6368;
+
+    z-index: 2;
+
+}
+
+#searchButton {
+
+    position: absolute;
+
+    right: 5px;
+
+    top: 5px;
+
+    height: 38px;
+
     border: none;
-}
-
-.gate-marker {
-    background: white;
-
-    padding: 7px 12px;
 
     border-radius: 20px;
 
-    font-weight: 800;
+    padding: 0 18px;
 
-    box-shadow:
-        0 3px 10px rgba(0,0,0,0.25);
+    background: #1a73e8;
 
-    text-align: center;
+    color: white;
 
-    white-space: nowrap;
+    font-weight: 600;
+
+    cursor: pointer;
+
 }
 
-.gate-marker span {
-    margin-left: 4px;
+#searchButton:hover {
+
+    background: #1557b0;
+
+}
+
+
+/* SEARCH RESULTS */
+
+.search-results {
+
+    position: absolute;
+
+    top: 53px;
+
+    left: 0;
+
+    width: 100%;
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.20);
+
+    overflow: hidden;
+
+    display: none;
+
+    z-index: 3000;
+
+}
+
+.search-result {
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    cursor: pointer;
+
+}
+
+.search-result:hover {
+
+    background: #f5f7fa;
+
+}
+
+.search-result strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+.search-result span {
+
+    display: block;
+
+    color: #70757a;
+
     font-size: 12px;
+
+    margin-top: 3px;
+
 }
 
 
 /* =====================================================
-   ROUTE ARROW
+   HEADER BUTTONS
 ===================================================== */
 
-.route-arrow {
-    background: transparent;
+.header-actions {
+
+    min-width: 290px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+}
+
+.header-btn {
+
+    height: 42px;
+
+    padding: 0 17px;
+
+    border: 1px solid #dadce0;
+
+    border-radius: 22px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+}
+
+.header-btn:hover {
+
+    background: #f1f3f4;
+
+}
+
+.menu-btn {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    border: 1px solid #dadce0;
+
+    background: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app-container {
+
+    width: 100%;
+
+    height: calc(100vh - 76px);
+
+    position: relative;
+
+}
+
+
+/* =====================================================
+   DIRECTIONS PANEL
+===================================================== */
+
+.directions-panel {
+
+    position: absolute;
+
+    left: 15px;
+
+    top: 15px;
+
+    bottom: 15px;
+
+    width: 325px;
+
+    background: white;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.20);
+
+    z-index: 1500;
+
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* PANEL TITLE */
+
+.panel-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 18px;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+.panel-title h2 {
+
+    font-size: 18px;
+
+}
+
+.panel-title p {
+
+    color: #70757a;
+
+    font-size: 12px;
+
+    margin-top: 3px;
+
+}
+
+#clearRouteBtn {
+
     border: none;
+
+    background: transparent;
+
+    font-size: 25px;
+
+    color: #777;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.route-input {
+
+    padding: 17px 18px 10px;
+
+}
+
+.input-row {
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.input-row input {
+
+    width: 100%;
+
+    height: 38px;
+
+    border: 1px solid #dadce0;
+
+    border-radius: 6px;
+
+    padding: 0 11px;
+
+    outline: none;
+
+    font-size: 14px;
+
+}
+
+.input-row input:focus {
+
+    border-color: #1a73e8;
+
+}
+
+.green-pin {
+
+    color: #1e8e3e;
+
+    font-size: 17px;
+
+}
+
+.red-pin {
+
+    color: #d93025;
+
+    font-size: 17px;
+
+}
+
+.route-line {
+
+    height: 12px;
+
+    width: 2px;
+
+    background: #c6c6c6;
+
+    margin-left: 7px;
+
+}
+
+
+/* =====================================================
+   DIRECTION BUTTON
+===================================================== */
+
+.direction-main-btn {
+
+    margin: 5px 18px 15px;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #1a73e8;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+.direction-main-btn:hover {
+
+    background: #1557b0;
+
+}
+
+
+/* =====================================================
+   ROUTE SUMMARY
+===================================================== */
+
+.route-summary {
+
+    margin: 0 18px 12px;
+
+    padding: 14px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #e4e8ed;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+.summary-item {
+
+    flex: 1;
+
+    text-align: center;
+
+}
+
+.summary-item strong {
+
+    display: block;
+
+    font-size: 18px;
+
+    color: #1a73e8;
+
+}
+
+.summary-item span {
+
+    color: #70757a;
+
+    font-size: 11px;
+
+}
+
+.summary-divider {
+
+    height: 30px;
+
+    width: 1px;
+
+    background: #d7dce1;
+
+}
+
+
+/* =====================================================
+   STEPS
+===================================================== */
+
+.direction-steps {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 5px 18px;
+
+}
+
+.direction-step {
+
+    display: flex;
+
+    gap: 12px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+.step-number {
+
+    min-width: 27px;
+
+    height: 27px;
+
+    border-radius: 50%;
+
+    background: #1a73e8;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: bold;
+
+    font-size: 12px;
+
+}
+
+.step-text {
+
+    font-size: 13px;
+
+    line-height: 19px;
+
+}
+
+.empty-direction {
+
+    text-align: center;
+
+    padding: 40px 25px;
+
+    color: #777;
+
+}
+
+.empty-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 12px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.panel-footer {
+
+    padding: 13px 18px;
+
+    border-top: 1px solid #eeeeee;
+
+    font-size: 11px;
+
+    color: #777;
+
+    background: #fafafa;
+
+}
+
+
+/* =====================================================
+   MAP
+===================================================== */
+
+.map-section {
+
+    width: 100%;
+
+    height: 100%;
+
+    position: relative;
+
+}
+
+#map {
+
+    width: 100%;
+
+    height: 100%;
+
+    background:
+        #e9efd9;
+
+}
+
+
+/* =====================================================
+   LEAFLET CUSTOMIZATION
+===================================================== */
+
+.leaflet-container {
+
+    font-family: Arial, sans-serif;
+
+}
+
+.leaflet-control-zoom {
+
+    display: none;
+
+}
+
+.leaflet-popup-content-wrapper {
+
+    border-radius: 12px;
+
+}
+
+.leaflet-popup-content {
+
+    margin: 14px;
+
+}
+
+.popup-title {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+}
+
+.popup-type {
+
+    font-size: 12px;
+
+    color: #777;
+
+}
+
+
+/* =====================================================
+   MAP CONTROLS
+===================================================== */
+
+.map-controls {
+
+    position: absolute;
+
+    right: 20px;
+
+    bottom: 28px;
+
+    z-index: 1200;
+
+    background: white;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.25);
+
+    overflow: hidden;
+
+}
+
+.map-controls button {
+
+    display: block;
+
+    width: 43px;
+
+    height: 43px;
+
+    border: none;
+
+    background: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+}
+
+.map-controls button:hover {
+
+    background: #f1f3f4;
+
+}
+
+.map-controls button + button {
+
+    border-top: 1px solid #ddd;
+
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.map-legend {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 25px;
+
+    z-index: 1200;
+
+    background: rgba(255,255,255,.96);
+
+    padding: 13px;
+
+    width: 150px;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 2px 9px rgba(0,0,0,.20);
+
+}
+
+.legend-title {
+
+    font-weight: 700;
+
+    margin-bottom: 9px;
+
+    font-size: 13px;
+
+}
+
+.legend-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 11px;
+
+    margin-top: 7px;
+
+}
+
+.legend-dot {
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+}
+
+.legend-dot.entrance {
+    background: #1a73e8;
+}
+
+.legend-dot.academic {
+    background: #7b61ff;
+}
+
+.legend-dot.facility {
+    background: #f9ab00;
+}
+
+.legend-dot.sports {
+    background: #34a853;
+}
+
+
+/* =====================================================
+   NORTH
+===================================================== */
+
+.north-control {
+
+    position: absolute;
+
+    right: 184px;
+
+    bottom: 28px;
+
+    width: 47px;
+
+    height: 52px;
+
+    background: white;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.20);
+
+    z-index: 1200;
+
+    text-align: center;
+
+    padding-top: 4px;
+
+}
+
+.north-arrow {
+
+    color: #d93025;
+
+    font-size: 21px;
+
+    line-height: 20px;
+
+}
+
+.north-control span {
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   CURRENT LOCATION
+===================================================== */
+
+.current-location {
+
+    position: absolute;
+
+    left: 360px;
+
+    bottom: 25px;
+
+    z-index: 1200;
+
+    background: white;
+
+    border-radius: 9px;
+
+    padding: 10px 14px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.20);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+.current-location small {
+
+    display: block;
+
+    color: #777;
+
+    font-size: 10px;
+
+    margin-top: 2px;
+
+}
+
+.current-dot {
+
+    width: 13px;
+
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #1a73e8;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 0 0 2px #1a73e8;
+
+}
+
+
+/* =====================================================
+   LOCATION MODAL
+===================================================== */
+
+.location-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.35);
+
+    z-index: 5000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.location-card {
+
+    width: 360px;
+
+    max-width: 90vw;
+
+    background: white;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    position: relative;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.30);
+
+}
+
+.modal-close {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 12px;
+
+    border: none;
+
+    background: none;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    color: #666;
+
+}
+
+.location-card-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: #e8f0fe;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+
+    margin-bottom: 12px;
+
+}
+
+.location-card h2 {
+
+    font-size: 21px;
+
+    margin-bottom: 6px;
+
+}
+
+.modal-type {
+
+    color: #1a73e8;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+.modal-description {
+
+    color: #555;
+
+    line-height: 21px;
+
+    margin-top: 10px;
+
+    font-size: 14px;
+
+}
+
+.modal-direction-btn {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    height: 43px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #1a73e8;
+
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden {
+
+    display: none !important;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 850px) {
+
+    .brand {
+
+        min-width: auto;
+
+    }
+
+    .brand h1,
+    .brand p {
+
+        display: none;
+
+    }
+
+    .header-actions {
+
+        min-width: auto;
+
+    }
+
+    .header-btn {
+
+        display: none;
+
+    }
+
+    .search-wrapper {
+
+        width: 48vw;
+
+    }
+
+    .directions-panel {
+
+        width: 290px;
+
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .top-header {
+
+        height: 65px;
+
+        padding: 0 10px;
+
+    }
+
+    .app-container {
+
+        height: calc(100vh - 65px);
+
+    }
+
+    .search-wrapper {
+
+        width: 48vw;
+
+    }
+
+    .search-wrapper input {
+
+        padding-left: 35px;
+
+        padding-right: 10px;
+
+    }
+
+    #searchButton {
+
+        display: none;
+
+    }
+
+    .directions-panel {
+
+        width: calc(100% - 20px);
+
+        left: 10px;
+
+        top: auto;
+
+        bottom: 10px;
+
+        height: 260px;
+
+    }
+
+    .map-legend {
+
+        display: none;
+
+    }
+
+    .north-control {
+
+        display: none;
+
+    }
+
 }
