@@ -318,8 +318,6 @@ def nano_science():
 @app.route("/computer_application")
 def computer_application():
     return render_template("computer_application.html")
-if __name__ == "__main__":
-    app.run(debug=True)
 
 
 # =====================================================
@@ -506,16 +504,6 @@ campus_places = {
 }
 
 
-# =====================================================
-# HOME PAGE
-# =====================================================
-
-@app.route("/")
-def index():
-
-    return render_template(
-        "index.html"
-    )
 
 
 # =====================================================
