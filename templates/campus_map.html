@@ -1,141 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Campus Navigation Map</title>
 
-    <meta charset="UTF-8">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+body {
+    font-family: Arial, sans-serif;
+    background: #eef1f4;
+    overflow: hidden;
+}
 
-    <title>Sarah Tucker College - Smart Campus Navigation</title>
+/* HEADER */
+.header {
+    height: 70px;
+    background: #17324d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+}
 
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+.header h1 {
+    font-size: 23px;
+}
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/campus_map.css') }}">
+.header span {
+    font-size: 14px;
+    opacity: .8;
+}
 
+/* MAP AREA */
+.map-container {
+    height: calc(100vh - 70px);
+    overflow: auto;
+    padding: 25px;
+}
+
+.map {
+    position: relative;
+    min-width: 1200px;
+    min-height: 850px;
+    background: #f8f7ed;
+    border: 3px solid #263238;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* COMMON BUILDING */
+.building {
+    position: absolute;
+    background: #ffffff;
+    border: 3px solid #263238;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 5;
+    transition: .2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+}
+
+.building:hover {
+    transform: scale(1.04);
+    background: #e3f2fd;
+}
+
+/* ROADS */
+.road {
+    position: absolute;
+    background: #b8b8b8;
+    border: 2px solid #777;
+    z-index: 1;
+}
+
+.main-road {
+    width: 75px;
+    height: 730px;
+    left: 555px;
+    top: 70px;
+}
+
+.top-road {
+    width: 1000px;
+    height: 65px;
+    left: 100px;
+    top: 70px;
+}
+
+/* ROAD LABELS */
+.road-label {
+    position: absolute;
+    z-index: 3;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* MAIN GATE */
+.main-gate {
+    position: absolute;
+    bottom: 15px;
+    left: 500px;
+    width: 185px;
+    height: 55px;
+    border: 4px solid #17324d;
+    background: #d9e8f5;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 8;
+}
+
+/* PARKING */
+.parking {
+    position: absolute;
+    bottom: 15px;
+    right: 70px;
+    width: 260px;
+    height: 95px;
+    border: 3px dashed #555;
+    background: repeating-linear-gradient(
+        45deg,
+        #eeeeee,
+        #eeeeee 12px,
+        #dddddd 12px,
+        #dddddd 24px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 8px;
+    z-index: 3;
+}
+
+/* LEFT SIDE BUILDINGS */
+
+.canna {
+    left: 70px;
+    bottom: 55px;
+    width: 170px;
+    height: 65px;
+}
+
+.pal {
+    left: 150px;
+    top: 260px;
+    width: 180px;
+    height: 65px;
+}
+
+.new-aud {
+    left: 150px;
+    top: 145px;
+    width: 180px;
+    height: 75px;
+}
+
+.maths {
+    left: 345px;
+    top: 145px;
+    width: 160px;
+    height: 75px;
+}
+
+.history {
+    left: 350px;
+    top: 75px;
+    width: 150px;
+    height: 55px;
+}
+
+.hostel-left {
+    left: 105px;
+    top: 75px;
+    width: 170px;
+    height: 55px;
+}
+
+/* RIGHT SIDE */
+
+.playground {
+    right: 65px;
+    top: 85px;
+    width: 250px;
+    height: 100px;
+    border: 3px dashed #357a38;
+    background: #dff0d8;
+}
+
+.sports {
+    right: 350px;
+    top: 85px;
+    width: 130px;
+    height: 55px;
+}
+
+.canteen {
+    right: 70px;
+    top: 220px;
+    width: 190px;
+    height: 70px;
+}
+
+.zoology {
+    right: 300px;
+    top: 230px;
+    width: 210px;
+    height: 70px;
+}
+
+/* CENTRAL BLOCKS */
+
+.principal {
+    left: 440px;
+    top: 330px;
+    width: 160px;
+    height: 75px;
+}
+
+.management {
+    left: 610px;
+    top: 330px;
+    width: 180px;
+    height: 75px;
+}
+
+.main-block {
+    left: 440px;
+    top: 420px;
+    width: 350px;
+    height: 95px;
+}
+
+.chemistry {
+    left: 440px;
+    top: 535px;
+    width: 165px;
+    height: 70px;
+}
+
+.physics {
+    left: 625px;
+    top: 535px;
+    width: 165px;
+    height: 70px;
+}
+
+.botany {
+    left: 440px;
+    top: 620px;
+    width: 165px;
+    height: 70px;
+}
+
+.garden {
+    left: 625px;
+    top: 620px;
+    width: 165px;
+    height: 70px;
+    background: #e2f2dc;
+    border-color: #4d7c46;
+}
+
+/* RIGHT BOTTOM */
+
+.old-aud {
+    right: 70px;
+    top: 380px;
+    width: 190px;
+    height: 80px;
+}
+
+.tamil {
+    right: 70px;
+    top: 490px;
+    width: 190px;
+    height: 80px;
+}
+
+.food {
+    right: 70px;
+    top: 600px;
+    width: 190px;
+    height: 80px;
+}
+
+.english {
+    right: 290px;
+    top: 600px;
+    width: 160px;
+    height: 80px;
+}
+
+/* COMPASS */
+.compass {
+    position: absolute;
+    left: 25px;
+    bottom: 160px;
+    width: 80px;
+    height: 80px;
+    border: 3px solid #333;
+    border-radius: 50%;
+    background: white;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.compass::before {
+    content: "N";
+    position: absolute;
+    top: 4px;
+}
+
+.compass::after {
+    content: "S";
+    position: absolute;
+    bottom: 4px;
+}
+
+/* ARROWS */
+.arrow {
+    position: absolute;
+    z-index: 4;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.arrow-up {
+    left: 575px;
+    top: 285px;
+}
+
+.arrow-down {
+    left: 575px;
+    bottom: 120px;
+}
+
+.arrow-left {
+    left: 350px;
+    top: 370px;
+}
+
+.arrow-right {
+    right: 350px;
+    top: 370px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-box {
+    width: 350px;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+}
+
+.modal-box h2 {
+    margin-bottom: 15px;
+    color: #17324d;
+}
+
+.close-btn {
+    margin-top: 20px;
+    padding: 9px 25px;
+    border: none;
+    border-radius: 6px;
+    background: #17324d;
+    color: white;
+    cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-<header class="top-header">
-
-    <div class="college-title">
-
-        <div class="logo">
-            STC
-        </div>
-
-        <div>
-            <h2>Sarah Tucker College</h2>
-            <p>Smart Campus Navigation</p>
-        </div>
-
-    </div>
-
-
-    <div class="search-container">
-
-        <div class="search-box">
-
-            <span class="search-icon">⌕</span>
-
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="Search campus building..."
-                autocomplete="off"
-            >
-
-            <button id="searchButton">
-                Search
-            </button>
-
-        </div>
-
-        <div id="searchSuggestions"
-             class="suggestions">
-        </div>
-
-    </div>
-
+<header class="header">
+    <h1>Smart Campus Navigation System</h1>
+    <span>Campus Map</span>
 </header>
 
+<div class="map-container">
 
-<main id="map"></main>
+<div class="map">
 
+    <!-- ROADS -->
+    <div class="road main-road"></div>
+    <div class="road top-road"></div>
 
-<button id="mainGateButton"
-        class="floating-button">
-
-    📍 Main Gate
-
-</button>
-
-
-<section id="routePanel"
-         class="route-panel">
-
-    <button id="closeRoute"
-            class="close-route">
-        ×
-    </button>
-
-    <div class="route-title">
-
-        <div class="destination-pin">
-            📍
-        </div>
-
-        <div>
-            <h3 id="destinationName">
-                Destination
-            </h3>
-
-            <p id="destinationDescription">
-                Walking route from Main Gate
-            </p>
-        </div>
-
+    <div class="road-label" style="left:565px; top:160px;">
+        MAIN ROAD
     </div>
 
-
-    <div class="route-summary">
-
-        <div>
-            <strong id="routeDistance">
-                --
-            </strong>
-
-            <span>Distance</span>
-        </div>
-
-        <div>
-            <strong id="routeTime">
-                --
-            </strong>
-
-            <span>Walking</span>
-        </div>
-
+    <!-- LEFT LOCATIONS -->
+    <div class="building canna" onclick="showPlace('Canna Road')">
+        Canna Road
     </div>
 
-
-    <div class="directions">
-
-        <h4>Walking directions</h4>
-
-        <div id="directionList"></div>
-
+    <div class="building pal" onclick="showPlace('Palpision Hall')">
+        Palpision Hall
     </div>
 
-</section>
+    <div class="building new-aud" onclick="showPlace('New Auditorium')">
+        New Auditorium
+    </div>
 
+    <div class="building maths" onclick="showPlace('Maths')">
+        Maths
+    </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <div class="building history" onclick="showPlace('History')">
+        History
+    </div>
 
-<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
+    <div class="building hostel-left" onclick="showPlace('Hostel')">
+        Hostel
+    </div>
+
+    <!-- RIGHT / TOP -->
+    <div class="building playground" onclick="showPlace('Play Ground')">
+        PLAY GROUND
+    </div>
+
+    <div class="building sports" onclick="showPlace('Sports')">
+        Sports
+    </div>
+
+    <div class="building canteen" onclick="showPlace('Canteen')">
+        Canteen
+    </div>
+
+    <div class="building zoology" onclick="showPlace('Zoology')">
+        Zoology
+    </div>
+
+    <!-- CENTRAL -->
+    <div class="building principal" onclick="showPlace('Principal Office')">
+        Principal<br>Office
+    </div>
+
+    <div class="building management" onclick="showPlace('Management Office')">
+        Management<br>Office
+    </div>
+
+    <div class="building main-block" onclick="showPlace('Main Block')">
+        MAIN BLOCK
+    </div>
+
+    <div class="building chemistry" onclick="showPlace('Chemistry')">
+        Chemistry
+    </div>
+
+    <div class="building physics" onclick="showPlace('Physics')">
+        Physics
+    </div>
+
+    <div class="building botany" onclick="showPlace('Botany')">
+        Botany
+    </div>
+
+    <div class="building garden" onclick="showPlace('Garden')">
+        Garden
+    </div>
+
+    <!-- RIGHT BOTTOM -->
+    <div class="building old-aud" onclick="showPlace('Old Auditorium')">
+        Old Auditorium
+    </div>
+
+    <div class="building tamil" onclick="showPlace('Tamil')">
+        Tamil
+    </div>
+
+    <div class="building food" onclick="showPlace('Food Science')">
+        Food Science
+    </div>
+
+    <div class="building english" onclick="showPlace('English / Economics')">
+        English<br>
+        Economics
+    </div>
+
+    <!-- PARKING -->
+    <div class="parking">
+        PARKING AREA
+    </div>
+
+    <!-- MAIN GATE -->
+    <div class="main-gate" onclick="showPlace('Main Gate')">
+        MAIN GATE
+    </div>
+
+    <!-- COMPASS -->
+    <div class="compass">
+        +
+    </div>
+
+    <!-- DIRECTION ARROWS -->
+    <div class="arrow arrow-up">↑</div>
+    <div class="arrow arrow-down">↓</div>
+    <div class="arrow arrow-left">←</div>
+    <div class="arrow arrow-right">→</div>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="placeModal">
+    <div class="modal-box">
+        <h2 id="placeName"></h2>
+        <p id="placeInfo">
+            Campus location selected.
+        </p>
+
+        <button class="close-btn" onclick="closeModal()">
+            Close
+        </button>
+    </div>
+</div>
+
+<script>
+
+function showPlace(place) {
+
+    document.getElementById("placeName").innerText = place;
+
+    document.getElementById("placeInfo").innerText =
+        "You selected " + place + ".";
+
+    document.getElementById("placeModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("placeModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+
+    const modal = document.getElementById("placeModal");
+
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
+</script>
 
 </body>
 </html>
