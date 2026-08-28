@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Sarah Tucker College - Campus Navigation</title>
 
-    <!-- Leaflet CSS - separate file download தேவையில்லை -->
+    <!-- Leaflet CSS
+         இது உன் computer-ல இருக்க வேண்டிய file இல்லை.
+         Internet மூலம் automatically load ஆகும். -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -16,95 +21,153 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/campus_map.css') }}"
     >
+
 </head>
 
 <body>
 
-<!-- TOP SEARCH BAR -->
-<div class="top-bar">
+<!-- =====================================================
+     TOP HEADER
+===================================================== -->
 
-    <div class="brand">
-        <div class="college-logo">STC</div>
+<header class="top-header">
+
+    <div class="college-title">
+
+        <div class="logo">
+            STC
+        </div>
 
         <div>
             <h2>Sarah Tucker College</h2>
-            <span>Smart Campus Navigation</span>
+            <p>Smart Campus Navigation</p>
         </div>
+
     </div>
 
-    <div class="search-area">
+
+    <div class="search-container">
 
         <div class="search-box">
-            <span>🔍</span>
+
+            <span class="search-icon">⌕</span>
 
             <input
+                id="searchInput"
                 type="text"
-                id="destinationSearch"
-                placeholder="Search campus destination..."
+                placeholder="Search campus..."
                 autocomplete="off"
             >
 
-            <button id="searchBtn">Search</button>
+            <button id="searchButton">
+                Search
+            </button>
+
         </div>
 
-        <div id="suggestions" class="suggestions"></div>
+
+        <div id="searchSuggestions"
+             class="suggestions">
+        </div>
 
     </div>
 
-</div>
+</header>
 
 
-<!-- MAP -->
-<div id="map"></div>
+<!-- =====================================================
+     MAP
+===================================================== -->
+
+<main id="map"></main>
 
 
-<!-- ROUTE INFORMATION -->
-<div id="routePanel" class="route-panel">
+<!-- =====================================================
+     CURRENT LOCATION BUTTON
+===================================================== -->
 
-    <button id="closeRoute" class="close-btn">×</button>
+<button id="mainGateButton"
+        class="floating-button">
 
-    <div class="route-header">
-        <div class="destination-icon">📍</div>
+    📍 Main Gate
+
+</button>
+
+
+<!-- =====================================================
+     ROUTE PANEL
+===================================================== -->
+
+<section id="routePanel"
+         class="route-panel">
+
+    <button id="closeRoute"
+            class="close-route">
+        ×
+    </button>
+
+
+    <div class="route-title">
+
+        <div class="destination-pin">
+            📍
+        </div>
 
         <div>
-            <h3 id="routeTitle">Select a destination</h3>
-            <p id="routeSubtitle">
-                Search for a building to start navigation
+
+            <h3 id="destinationName">
+                Destination
+            </h3>
+
+            <p id="destinationDescription">
+                Walking route
             </p>
+
         </div>
+
     </div>
 
-    <div class="route-info">
+
+    <div class="route-summary">
 
         <div>
-            <strong id="distance">--</strong>
+            <strong id="routeDistance">
+                --
+            </strong>
             <span>Distance</span>
         </div>
 
+
         <div>
-            <strong id="walkingTime">--</strong>
+            <strong id="routeTime">
+                --
+            </strong>
             <span>Walking</span>
         </div>
 
     </div>
 
-    <div class="route-path">
-        <h4>Walking Directions</h4>
-        <ol id="directionsList"></ol>
+
+    <div class="directions">
+
+        <h4>Walking directions</h4>
+
+        <div id="directionList">
+        </div>
+
     </div>
 
-</div>
+</section>
 
 
-<!-- CURRENT LOCATION -->
-<button id="resetBtn" class="map-button">
-    📍 Main Gate
-</button>
-
+<!-- =====================================================
+     LEAFLET JS
+===================================================== -->
 
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
+
 
 <script
     src="{{ url_for('static', filename='js/campus_map.js') }}">
