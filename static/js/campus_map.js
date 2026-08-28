@@ -4,1398 +4,1369 @@
 // CUSTOM CAMPUS MAP
 // ============================================================
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    // ========================================================
-    // MAP SETUP
-    // ========================================================
+// ============================================================
+// MAP SETUP
+// ============================================================
 
-    const map = L.map("map", {
-        crs: L.CRS.Simple,
-        minZoom: -2,
-        maxZoom: 3,
-        zoomControl: true,
-        attributionControl: false
-    });
-
-    const mapWidth = 1600;
-    const mapHeight = 1000;
-
-    const bounds = [
-        [0, 0],
-        [mapHeight, mapWidth]
-    ];
-
-    map.fitBounds(bounds);
+const map = L.map("map", {
+    crs: L.CRS.Simple,
+    minZoom: -2,
+    maxZoom: 3,
+    zoomControl: true,
+    attributionControl: false
+});
 
 
-    // ========================================================
-    // HELPER
-    // ========================================================
+// Campus coordinate area
+const bounds = [[0, 0], [1000, 1600]];
 
-    function point(x, y) {
-        return [y, x];
+map.fitBounds(bounds);
+
+
+// ============================================================
+// CAMPUS BACKGROUND
+// ============================================================
+
+const campusBackground = L.rectangle(
+    [[0, 0], [1000, 1600]],
+    {
+        fillColor: "#dfeeda",
+        fillOpacity: 1,
+        stroke: false,
+        interactive: false
     }
+).addTo(map);
 
 
-    // ========================================================
-    // CAMPUS BACKGROUND
-    // ========================================================
+// ============================================================
+// GREEN AREAS / TREES
+// ============================================================
 
-    const campusBackground = L.rectangle(
-        bounds,
+function greenArea(x1, y1, x2, y2) {
+
+    L.rectangle(
+        [[x1, y1], [x2, y2]],
         {
-            color: "#b7d69b",
-            weight: 0,
-            fillColor: "#dcebcf",
-            fillOpacity: 1
+            fillColor: "#c9dfbd",
+            fillOpacity: 0.55,
+            color: "#b0cba4",
+            weight: 1
         }
     ).addTo(map);
+}
 
 
-    // ========================================================
-    // GARDEN
-    // ========================================================
+// Campus green zones
 
-    const garden = L.circle(
-        point(800, 560),
-        {
-            radius: 180,
-            color: "#76a85b",
-            weight: 4,
-            fillColor: "#a9d18e",
-            fillOpacity: 0.95
-        }
-    ).addTo(map);
-
-    garden.bindTooltip(
-        "Central Garden",
-        {
-            permanent: true,
-            direction: "center",
-            className: "garden-label"
-        }
-    );
+greenArea(50, 80, 260, 450);
+greenArea(700, 80, 950, 450);
+greenArea(50, 1050, 300, 1500);
+greenArea(700, 1050, 950, 1500);
 
 
-    // ========================================================
-    // CENTRAL ROUND FOUNTAIN
-    // ========================================================
+// ============================================================
+// ROADS
+// ============================================================
 
-    L.circle(
-        point(800, 560),
-        {
-            radius: 38,
-            color: "#6d8f65",
-            weight: 4,
-            fillColor: "#b8e0e8",
-            fillOpacity: 1
-        }
-    ).addTo(map);
+const roadStyle = {
+    color: "#707070",
+    weight: 28,
+    opacity: 1,
+    lineCap: "round",
+    lineJoin: "round"
+};
 
-    L.circle(
-        point(800, 560),
-        {
-            radius: 14,
-            color: "#4b91aa",
-            fillColor: "#d9f3f7",
-            fillOpacity: 1
-        }
-    ).addTo(map);
+const roadBorder = {
+    color: "#ffffff",
+    weight: 34,
+    opacity: 0.9,
+    lineCap: "round",
+    lineJoin: "round"
+};
 
 
-    // ========================================================
-    // ROADS
-    // IMPORTANT:
-    // NO STRAIGHT ROAD THROUGH CENTRAL GARDEN
-    // ========================================================
+function createRoad(points) {
 
-    const roadStyle = {
-        color: "#ffffff",
-        weight: 34,
-        opacity: 1,
-        lineCap: "round",
-        lineJoin: "round"
-    };
+    // white road border
+    L.polyline(points, roadBorder).addTo(map);
 
-    const roadInnerStyle = {
-        color: "#777777",
-        weight: 24,
-        opacity: 1,
-        lineCap: "round",
-        lineJoin: "round"
-    };
+    // actual road
+    L.polyline(points, roadStyle).addTo(map);
+}
 
 
-    // Main entrance road
-    const mainRoad = [
-        point(800, 980),
-        point(800, 900),
-        point(800, 820),
-        point(800, 720)
-    ];
-
-    L.polyline(mainRoad, roadStyle).addTo(map);
-    L.polyline(mainRoad, roadInnerStyle).addTo(map);
+// ============================================================
+// MAIN CAMPUS ROAD
+// IMPORTANT:
+// NO STRAIGHT ROAD THROUGH CENTRAL GARDEN
+// ============================================================
 
 
-    // LEFT SIDE ROAD around garden
-    const leftRoad = [
-        point(800, 720),
-        point(650, 720),
-        point(570, 650),
-        point(570, 560),
-        point(600, 470),
-        point(650, 390)
-    ];
+// Main Gate → left side → around garden → upper-left
 
-    L.polyline(leftRoad, roadStyle).addTo(map);
-    L.polyline(leftRoad, roadInnerStyle).addTo(map);
+createRoad([
+    [90, 800],
+    [170, 800],
+    [270, 720],
+    [390, 680],
+    [500, 690]
+]);
 
 
-    // RIGHT SIDE ROAD around garden
-    const rightRoad = [
-        point(800, 720),
-        point(950, 720),
-        point(1040, 650),
-        point(1040, 560),
-        point(1000, 470),
-        point(950, 390)
-    ];
+// Main Gate → right side → around garden → upper-right
 
-    L.polyline(rightRoad, roadStyle).addTo(map);
-    L.polyline(rightRoad, roadInnerStyle).addTo(map);
-
-
-    // TOP ROAD
-    const topRoad = [
-        point(650, 390),
-        point(800, 360),
-        point(950, 390)
-    ];
-
-    L.polyline(topRoad, roadStyle).addTo(map);
-    L.polyline(topRoad, roadInnerStyle).addTo(map);
+createRoad([
+    [90, 800],
+    [170, 800],
+    [260, 900],
+    [390, 970],
+    [520, 1010],
+    [650, 1070],
+    [760, 1160],
+    [850, 1240]
+]);
 
 
-    // LEFT UPPER ROAD
-    const leftUpperRoad = [
-        point(570, 560),
-        point(450, 500),
-        point(380, 420),
-        point(300, 350)
-    ];
+// Right upper road to John Tucker
 
-    L.polyline(leftUpperRoad, roadStyle).addTo(map);
-    L.polyline(leftUpperRoad, roadInnerStyle).addTo(map);
-
-
-    // RIGHT UPPER ROAD
-    const rightUpperRoad = [
-        point(1040, 560),
-        point(1150, 500),
-        point(1220, 420),
-        point(1320, 350)
-    ];
-
-    L.polyline(rightUpperRoad, roadStyle).addTo(map);
-    L.polyline(rightUpperRoad, roadInnerStyle).addTo(map);
+createRoad([
+    [520, 1010],
+    [650, 1080],
+    [760, 1180],
+    [840, 1270],
+    [900, 1380]
+]);
 
 
-    // ========================================================
-    // BUILDING FUNCTION
-    // ========================================================
+// Old Auditorium road
 
-    function createBuilding(
-        name,
-        subtitle,
-        x,
-        y,
-        width,
-        height,
-        extraClass = ""
-    ) {
+createRoad([
+    [700, 1070],
+    [780, 1160],
+    [820, 1280],
+    [850, 1400]
+]);
 
-        const html = `
-            <div class="campus-building ${extraClass}">
+
+// Left upper road
+
+createRoad([
+    [390, 680],
+    [360, 570],
+    [350, 450],
+    [330, 300]
+]);
+
+
+// Right side road
+
+createRoad([
+    [650, 1070],
+    [680, 900],
+    [700, 750],
+    [730, 560],
+    [750, 400]
+]);
+
+
+// ============================================================
+// CENTRAL GARDEN
+// ============================================================
+
+const gardenCenter = [510, 800];
+
+
+// Outer garden
+
+L.circle(gardenCenter, {
+    radius: 230,
+    color: "#6b9b55",
+    weight: 5,
+    fillColor: "#9fc987",
+    fillOpacity: 0.95
+}).addTo(map);
+
+
+// Inner garden
+
+L.circle(gardenCenter, {
+    radius: 155,
+    color: "#7ca864",
+    weight: 3,
+    fillColor: "#b8d89f",
+    fillOpacity: 1
+}).addTo(map);
+
+
+// Fountain
+
+L.circle(gardenCenter, {
+    radius: 45,
+    color: "#6d8e9e",
+    weight: 4,
+    fillColor: "#8bc4d9",
+    fillOpacity: 1
+}).addTo(map);
+
+
+// Fountain center
+
+L.circle(gardenCenter, {
+    radius: 16,
+    color: "#ffffff",
+    weight: 3,
+    fillColor: "#4ca3c7",
+    fillOpacity: 1
+}).addTo(map);
+
+
+// ============================================================
+// BUILDING ICON
+// ============================================================
+
+function buildingIcon(title, subtitle = "") {
+
+    return L.divIcon({
+
+        className: "custom-building",
+
+        html: `
+            <div class="building-card">
+
                 <div class="building-roof"></div>
+
                 <div class="building-body">
-                    <div class="building-name">${name}</div>
+
+                    <div class="building-title">
+                        ${title}
+                    </div>
+
                     ${
                         subtitle
                         ? `<div class="building-subtitle">${subtitle}</div>`
                         : ""
                     }
-                    <div class="building-windows">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+
                 </div>
+
             </div>
-        `;
+        `,
 
-        const icon = L.divIcon({
-            className: "building-marker",
-            html: html,
-            iconSize: [width, height],
-            iconAnchor: [width / 2, height / 2]
-        });
+        iconSize: [150, 80],
 
-        return L.marker(
-            point(x, y),
-            {
-                icon: icon,
-                interactive: true
-            }
-        ).addTo(map);
-    }
+        iconAnchor: [75, 40]
+    });
+}
 
 
-    // ========================================================
-    // BUILDINGS
-    // ========================================================
+// ============================================================
+// BUILDING FUNCTION
+// ============================================================
 
-    const buildings = {};
-
-
-    // --------------------------------------------------------
-    // MAIN BLOCK
-    // --------------------------------------------------------
-
-    buildings["Main Block"] = createBuilding(
-        "Main Block",
-        "Management / Principal Office",
-        800,
-        430,
-        270,
-        125,
-        "main-block"
-    );
+const locations = {};
 
 
-    // --------------------------------------------------------
-    // LEFT OF MAIN BLOCK
-    // --------------------------------------------------------
+function addBuilding(
+    id,
+    title,
+    x,
+    y,
+    subtitle = "",
+    extraClass = ""
+) {
 
-    buildings["Chemistry & Physics"] = createBuilding(
-        "Chemistry & Physics",
-        "First Floor",
-        600,
-        430,
-        170,
-        95
-    );
-
-
-    // --------------------------------------------------------
-    // RIGHT OF MAIN BLOCK
-    // --------------------------------------------------------
-
-    buildings["Botany"] = createBuilding(
-        "Botany",
-        "Department",
-        1000,
-        430,
-        160,
-        90
-    );
-
-
-    // --------------------------------------------------------
-    // BEHIND MAIN BLOCK
-    // --------------------------------------------------------
-
-    buildings["Zoology & B.Com (Aided)"] = createBuilding(
-        "Zoology & B.Com",
-        "Aided",
-        800,
-        280,
-        280,
-        85
-    );
-
-
-    // ========================================================
-    // NEW AUDITORIUM AREA - LEFT
-    // ========================================================
-
-    buildings["New Auditorium"] = createBuilding(
-        "New Auditorium",
-        "First Floor",
-        360,
-        300,
-        220,
-        115,
-        "auditorium"
-    );
-
-
-    buildings["Nano Science"] = createBuilding(
-        "Nano Science",
-        "Ground Floor",
-        250,
-        350,
-        150,
-        75
-    );
-
-
-    buildings["History"] = createBuilding(
-        "History",
-        "Department",
-        480,
-        300,
-        130,
-        70
-    );
-
-
-    // ========================================================
-    // PARTITION HALL
-    // ========================================================
-
-    buildings["Partition Hall"] = createBuilding(
-        "Partition Hall",
-        "Maths • Earth Science • S/F",
-        500,
-        470,
-        190,
-        80
-    );
-
-
-    // ========================================================
-    // CHAPEL
-    // ========================================================
-
-    buildings["Chapel"] = createBuilding(
-        "Chapel",
-        "",
-        300,
-        150,
-        120,
-        70
-    );
-
-
-    // ========================================================
-    // HOSTEL
-    // ========================================================
-
-    buildings["Hostel"] = createBuilding(
-        "Hostel",
-        "",
-        800,
-        120,
-        230,
-        90
-    );
-
-
-    // ========================================================
-    // PLAYGROUND
-    // ========================================================
-
-    const playground = L.rectangle(
-        [
-            point(590, 220),
-            point(1010, 360)
-        ],
+    const marker = L.marker(
+        [x, y],
         {
-            color: "#739b55",
-            weight: 4,
-            fillColor: "#b6d990",
-            fillOpacity: 1
+            icon: buildingIcon(title, subtitle),
+            title: title
         }
     ).addTo(map);
 
-    playground.bindTooltip(
-        "Play Ground",
+    marker.bindTooltip(title, {
+        direction: "top",
+        offset: [0, -25],
+        className: "building-tooltip"
+    });
+
+    marker.on("click", function () {
+
+        setDestination(id);
+
+    });
+
+    locations[id] = {
+        marker: marker,
+        name: title,
+        point: [x, y]
+    };
+
+    return marker;
+}
+
+
+// ============================================================
+// BUILDINGS
+// ============================================================
+
+
+// -----------------------------
+// TOP AREA
+// -----------------------------
+
+addBuilding(
+    "chapel",
+    "CHAPEL",
+    875,
+    250
+);
+
+
+addBuilding(
+    "hostel",
+    "HOSTEL",
+    900,
+    800
+);
+
+
+addBuilding(
+    "playground",
+    "PLAY GROUND",
+    735,
+    800
+);
+
+
+addBuilding(
+    "canteen",
+    "CANTEEN",
+    820,
+    1210
+);
+
+
+// -----------------------------
+// JOHN TUCKER BLOCK
+// -----------------------------
+
+addBuilding(
+    "computer_science",
+    "JOHN TUCKER BLOCK",
+    860,
+    1410,
+    "Computer Science • Food Science • B.Com S/F • English S/F"
+);
+
+
+// -----------------------------
+// ZOOLOGY
+// -----------------------------
+
+addBuilding(
+    "zoology",
+    "ZOOLOGY & B.COM",
+    720,
+    800,
+    "Aided"
+);
+
+
+// -----------------------------
+// MAIN BLOCK
+// -----------------------------
+
+addBuilding(
+    "main_block",
+    "MAIN BLOCK",
+    550,
+    800
+);
+
+
+// -----------------------------
+// LEFT OF MAIN BLOCK
+// -----------------------------
+
+addBuilding(
+    "chemistry_physics",
+    "CHEMISTRY & PHYSICS",
+    570,
+    560
+);
+
+
+// -----------------------------
+// RIGHT OF MAIN BLOCK
+// -----------------------------
+
+addBuilding(
+    "botany",
+    "BOTANY",
+    570,
+    1010
+);
+
+
+// -----------------------------
+// PARTITION HALL
+// -----------------------------
+
+addBuilding(
+    "partition_hall",
+    "PARTITION HALL",
+    400,
+    520,
+    "Maths • Earth Science • S/F"
+);
+
+
+// -----------------------------
+// NEW AUDITORIUM
+// -----------------------------
+
+addBuilding(
+    "new_auditorium",
+    "NEW AUDITORIUM",
+    560,
+    260
+);
+
+
+// -----------------------------
+// NANO SCIENCE
+// -----------------------------
+
+addBuilding(
+    "nano_science",
+    "NANO SCIENCE",
+    600,
+    130
+);
+
+
+// -----------------------------
+// HISTORY
+// -----------------------------
+
+addBuilding(
+    "history",
+    "HISTORY",
+    570,
+    380
+);
+
+
+// -----------------------------
+// BCA / MCA
+// -----------------------------
+
+addBuilding(
+    "bca_mca",
+    "BCA / MCA",
+    760,
+    300
+);
+
+
+// -----------------------------
+// OLD AUDITORIUM
+// -----------------------------
+
+addBuilding(
+    "old_auditorium",
+    "OLD AUDITORIUM",
+    690,
+    1290
+);
+
+
+// -----------------------------
+// TAMIL / ENGLISH / ECONOMICS
+// -----------------------------
+
+addBuilding(
+    "arts_block",
+    "TAMIL • ENGLISH • ECONOMICS",
+    690,
+    1480,
+    "Regular"
+);
+
+
+// -----------------------------
+// LIBRARY
+// -----------------------------
+
+addBuilding(
+    "library",
+    "LIBRARY",
+    420,
+    1180
+);
+
+
+// -----------------------------
+// CANARA BANK
+// -----------------------------
+
+addBuilding(
+    "canara_bank",
+    "CANARA BANK",
+    100,
+    520
+);
+
+
+// -----------------------------
+// PARKING SHED
+// -----------------------------
+
+addBuilding(
+    "parking",
+    "PARKING AREA / SHED",
+    100,
+    1160
+);
+
+
+// ============================================================
+// MAIN GATE
+// ============================================================
+
+const mainGateIcon = L.divIcon({
+
+    className: "main-gate-icon",
+
+    html: `
+        <div class="gate-marker">
+            📍
+            <span>Main Gate</span>
+        </div>
+    `,
+
+    iconSize: [100, 60],
+
+    iconAnchor: [50, 30]
+});
+
+
+const mainGate = L.marker(
+    [90, 800],
+    {
+        icon: mainGateIcon,
+        title: "Main Gate"
+    }
+).addTo(map);
+
+
+// ============================================================
+// ROUTE NETWORK
+// ============================================================
+
+
+// Main Gate → central garden left side → upper road
+
+const routes = {
+
+    computer_science: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [260, 900],
+
+        [390, 970],
+
+        [520, 1010],
+
+        [650, 1080],
+
+        [760, 1180],
+
+        [840, 1270],
+
+        [900, 1380],
+
+        [860, 1410]
+    ],
+
+
+    library: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [260, 900],
+
+        [390, 970],
+
+        [520, 1010],
+
+        [620, 1080],
+
+        [420, 1180]
+    ],
+
+
+    main_block: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [260, 720],
+
+        [390, 680],
+
+        [500, 690],
+
+        [550, 800]
+    ],
+
+
+    partition_hall: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [270, 720],
+
+        [390, 680],
+
+        [400, 520]
+    ],
+
+
+    new_auditorium: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [270, 720],
+
+        [390, 680],
+
+        [360, 570],
+
+        [560, 260]
+    ],
+
+
+    old_auditorium: [
+
+        [90, 800],
+
+        [170, 800],
+
+        [260, 900],
+
+        [390, 970],
+
+        [520, 1010],
+
+        [650, 1080],
+
+        [780, 1160],
+
+        [820, 1280],
+
+        [690, 1290]
+    ]
+
+};
+
+
+// ============================================================
+// ROUTE DISPLAY
+// ============================================================
+
+let currentRoute = null;
+let arrowMarkers = [];
+
+
+function clearRoute() {
+
+    if (currentRoute) {
+
+        map.removeLayer(currentRoute);
+
+        currentRoute = null;
+    }
+
+
+    arrowMarkers.forEach(marker => {
+
+        map.removeLayer(marker);
+
+    });
+
+    arrowMarkers = [];
+}
+
+
+// ============================================================
+// CREATE ARROWS ON ROUTE
+// ============================================================
+
+function createArrow(point, angle) {
+
+    const arrowIcon = L.divIcon({
+
+        className: "route-arrow",
+
+        html: `
+            <div style="
+                transform: rotate(${angle}deg);
+                font-size:22px;
+                font-weight:bold;
+                color:#1a73e8;
+                text-shadow:0 1px 3px white;
+            ">
+                ➜
+            </div>
+        `,
+
+        iconSize: [25, 25],
+
+        iconAnchor: [12, 12]
+    });
+
+
+    const marker = L.marker(
+        point,
         {
-            permanent: true,
-            direction: "center",
-            className: "playground-label"
-        }
-    );
-
-
-    // ========================================================
-    // CANTEEN
-    // ========================================================
-
-    buildings["Canteen"] = createBuilding(
-        "Canteen",
-        "",
-        1160,
-        270,
-        150,
-        75
-    );
-
-
-    // ========================================================
-    // JOHN TUCKER BLOCK
-    // ========================================================
-
-    buildings["Computer Science"] = createBuilding(
-        "John Tucker Block",
-        "Computer Science • Food Science • B.Com S/F • English S/F",
-        1340,
-        330,
-        250,
-        120,
-        "john-tucker"
-    );
-
-
-    // ========================================================
-    // OLD AUDITORIUM
-    // ========================================================
-
-    buildings["Old Auditorium"] = createBuilding(
-        "Old Auditorium",
-        "",
-        1230,
-        510,
-        210,
-        100,
-        "auditorium"
-    );
-
-
-    // ========================================================
-    // TAMIL / ENGLISH / ECONOMICS
-    // ========================================================
-
-    buildings["Tamil & English"] = createBuilding(
-        "Tamil & English",
-        "Regular",
-        1400,
-        570,
-        170,
-        90
-    );
-
-
-    buildings["Economics"] = createBuilding(
-        "Economics",
-        "",
-        1400,
-        680,
-        150,
-        75
-    );
-
-
-    // ========================================================
-    // LIBRARY
-    // ========================================================
-
-    buildings["Library"] = createBuilding(
-        "Library",
-        "",
-        1210,
-        690,
-        160,
-        90
-    );
-
-
-    // ========================================================
-    // PARKING
-    // ONE PARKING AREA ONLY
-    // ========================================================
-
-    const parking = L.rectangle(
-        [
-            point(980, 820),
-            point(1220, 940)
-        ],
-        {
-            color: "#777777",
-            weight: 4,
-            fillColor: "#a7a7a7",
-            fillOpacity: 0.85
+            icon: arrowIcon,
+            interactive: false
         }
     ).addTo(map);
 
-    parking.bindTooltip(
-        "Parking Area / Parking Shed",
+
+    arrowMarkers.push(marker);
+}
+
+
+// ============================================================
+// DRAW ROUTE
+// ============================================================
+
+function showRoute(destinationId) {
+
+    clearRoute();
+
+
+    const points = routes[destinationId];
+
+    if (!points) return;
+
+
+    currentRoute = L.polyline(
+        points,
         {
-            permanent: true,
-            direction: "center",
-            className: "parking-label"
+            color: "#ffffff",
+            weight: 12,
+            opacity: 0.9,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
+
+
+    const blueRoute = L.polyline(
+        points,
+        {
+            color: "#1a73e8",
+            weight: 7,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
+
+
+    currentRoute = L.layerGroup([
+        currentRoute,
+        blueRoute
+    ]).addTo(map);
+
+
+    // arrows
+
+    for (let i = 0; i < points.length - 1; i++) {
+
+        const a = points[i];
+
+        const b = points[i + 1];
+
+        const x = (a[0] + b[0]) / 2;
+
+        const y = (a[1] + b[1]) / 2;
+
+
+        const angle =
+            Math.atan2(
+                b[1] - a[1],
+                b[0] - a[0]
+            ) * 180 / Math.PI;
+
+
+        createArrow(
+            [x, y],
+            angle
+        );
+    }
+}
+
+
+// ============================================================
+// ROUTE PANEL
+// ============================================================
+
+const routePanel =
+    document.getElementById("routePanel");
+
+const destinationName =
+    document.getElementById("destinationName");
+
+const destinationDescription =
+    document.getElementById("destinationDescription");
+
+const routeDistance =
+    document.getElementById("routeDistance");
+
+const routeTime =
+    document.getElementById("routeTime");
+
+const directionList =
+    document.getElementById("directionList");
+
+
+// ============================================================
+// DIRECTIONS
+// ============================================================
+
+const directionData = {
+
+    computer_science: [
+
+        "Start from Main Gate",
+
+        "Follow the road around the central garden",
+
+        "Continue on the right-side campus road",
+
+        "Pass the Library and Old Auditorium side",
+
+        "Continue towards Canteen",
+
+        "Take the road towards John Tucker Block",
+
+        "You have reached Computer Science"
+    ],
+
+
+    library: [
+
+        "Start from Main Gate",
+
+        "Follow the road around the central garden",
+
+        "Continue towards the right side",
+
+        "Library is near the Old Auditorium side",
+
+        "You have reached Library"
+    ],
+
+
+    main_block: [
+
+        "Start from Main Gate",
+
+        "Follow the road around the central garden",
+
+        "Keep left around the garden",
+
+        "Continue towards Main Block",
+
+        "You have reached Main Block"
+    ],
+
+
+    partition_hall: [
+
+        "Start from Main Gate",
+
+        "Take the left-side road",
+
+        "Continue towards Partition Hall",
+
+        "You have reached Partition Hall"
+    ],
+
+
+    new_auditorium: [
+
+        "Start from Main Gate",
+
+        "Take the left-side road",
+
+        "Continue towards Partition Hall",
+
+        "Continue towards New Auditorium",
+
+        "You have reached New Auditorium"
+    ],
+
+
+    old_auditorium: [
+
+        "Start from Main Gate",
+
+        "Follow the road around the central garden",
+
+        "Continue towards the right side",
+
+        "Continue towards Old Auditorium",
+
+        "You have reached Old Auditorium"
+    ]
+
+};
+
+
+// ============================================================
+// SET DESTINATION
+// ============================================================
+
+function setDestination(id) {
+
+    const location = locations[id];
+
+    if (!location) return;
+
+
+    const name = location.name;
+
+
+    destinationName.textContent = name;
+
+
+    destinationDescription.textContent =
+        "Walking route from Main Gate";
+
+
+    // Approximate campus walking values
+    const distanceMap = {
+
+        computer_science: "620 m",
+
+        library: "430 m",
+
+        main_block: "280 m",
+
+        partition_hall: "350 m",
+
+        new_auditorium: "470 m",
+
+        old_auditorium: "560 m"
+    };
+
+
+    const timeMap = {
+
+        computer_science: "9 min",
+
+        library: "6 min",
+
+        main_block: "4 min",
+
+        partition_hall: "5 min",
+
+        new_auditorium: "7 min",
+
+        old_auditorium: "8 min"
+    };
+
+
+    routeDistance.textContent =
+        distanceMap[id] || "--";
+
+
+    routeTime.textContent =
+        timeMap[id] || "--";
+
+
+    directionList.innerHTML = "";
+
+
+    const directions =
+        directionData[id] || [
+            "Start from Main Gate",
+            "Follow the campus road",
+            `You have reached ${name}`
+        ];
+
+
+    directions.forEach(
+        (text, index) => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "direction-item";
+
+
+            item.innerHTML = `
+
+                <div class="direction-number">
+                    ${index + 1}
+                </div>
+
+                <div>
+                    ${text}
+                </div>
+
+            `;
+
+
+            directionList.appendChild(item);
+
         }
     );
 
 
-    // ========================================================
-    // CANARA BANK
-    // ========================================================
+    routePanel.style.display = "block";
 
-    buildings["Canara Bank"] = createBuilding(
-        "Canara Bank",
-        "",
-        550,
-        850,
-        160,
-        80
-    );
 
+    showRoute(id);
 
-    // ========================================================
-    // MAP DESTINATIONS
-    // ========================================================
 
-    const destinations = {
+    // Zoom to route
 
-        "main gate": {
-            name: "Main Gate",
-            x: 800,
-            y: 960
-        },
+    const routePoints =
+        routes[id];
 
-        "main block": {
-            name: "Main Block",
-            x: 800,
-            y: 430
-        },
 
-        "chemistry": {
-            name: "Chemistry & Physics",
-            x: 600,
-            y: 430
-        },
+    if (routePoints) {
 
-        "physics": {
-            name: "Chemistry & Physics",
-            x: 600,
-            y: 430
-        },
-
-        "botany": {
-            name: "Botany",
-            x: 1000,
-            y: 430
-        },
-
-        "zoology": {
-            name: "Zoology & B.Com (Aided)",
-            x: 800,
-            y: 280
-        },
-
-        "new auditorium": {
-            name: "New Auditorium",
-            x: 360,
-            y: 300
-        },
-
-        "nano science": {
-            name: "Nano Science",
-            x: 250,
-            y: 350
-        },
-
-        "history": {
-            name: "History",
-            x: 480,
-            y: 300
-        },
-
-        "partition hall": {
-            name: "Partition Hall",
-            x: 500,
-            y: 470
-        },
-
-        "chapel": {
-            name: "Chapel",
-            x: 300,
-            y: 150
-        },
-
-        "hostel": {
-            name: "Hostel",
-            x: 800,
-            y: 120
-        },
-
-        "playground": {
-            name: "Play Ground",
-            x: 800,
-            y: 285
-        },
-
-        "canteen": {
-            name: "Canteen",
-            x: 1160,
-            y: 270
-        },
-
-        "computer science": {
-            name: "Computer Science",
-            x: 1340,
-            y: 330
-        },
-
-        "food science": {
-            name: "Food Science",
-            x: 1340,
-            y: 330
-        },
-
-        "b.com sf": {
-            name: "B.Com S/F",
-            x: 1340,
-            y: 330
-        },
-
-        "english sf": {
-            name: "English S/F",
-            x: 1340,
-            y: 330
-        },
-
-        "john tucker block": {
-            name: "John Tucker Block",
-            x: 1340,
-            y: 330
-        },
-
-        "old auditorium": {
-            name: "Old Auditorium",
-            x: 1230,
-            y: 510
-        },
-
-        "tamil": {
-            name: "Tamil & English",
-            x: 1400,
-            y: 570
-        },
-
-        "english": {
-            name: "Tamil & English",
-            x: 1400,
-            y: 570
-        },
-
-        "economics": {
-            name: "Economics",
-            x: 1400,
-            y: 680
-        },
-
-        "library": {
-            name: "Library",
-            x: 1210,
-            y: 690
-        },
-
-        "parking": {
-            name: "Parking Area / Parking Shed",
-            x: 1100,
-            y: 880
-        },
-
-        "canara bank": {
-            name: "Canara Bank",
-            x: 550,
-            y: 850
-        }
-    };
-
-
-    // ========================================================
-    // ROUTES
-    // ========================================================
-
-    const routes = {
-
-        "main block": [
-            point(800, 960),
-            point(800, 880),
-            point(900, 780),
-            point(970, 680),
-            point(970, 570),
-            point(900, 480),
-            point(800, 430)
-        ],
-
-        "computer science": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1080, 580),
-            point(1100, 480),
-            point(1180, 400),
-            point(1270, 350),
-            point(1340, 330)
-        ],
-
-        "food science": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1080, 580),
-            point(1100, 480),
-            point(1180, 400),
-            point(1270, 350),
-            point(1340, 330)
-        ],
-
-        "john tucker block": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1080, 580),
-            point(1100, 480),
-            point(1180, 400),
-            point(1270, 350),
-            point(1340, 330)
-        ],
-
-        "canteen": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1080, 580),
-            point(1100, 480),
-            point(1150, 380),
-            point(1160, 270)
-        ],
-
-        "library": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1150, 620),
-            point(1210, 690)
-        ],
-
-        "old auditorium": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1080, 580),
-            point(1160, 520),
-            point(1230, 510)
-        ],
-
-        "botany": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1100, 650),
-            point(1050, 530),
-            point(1000, 430)
-        ],
-
-        "chemistry": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(570, 560),
-            point(600, 430)
-        ],
-
-        "physics": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(570, 560),
-            point(600, 430)
-        ],
-
-        "partition hall": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(500, 600),
-            point(500, 470)
-        ],
-
-        "new auditorium": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(500, 600),
-            point(450, 500),
-            point(360, 300)
-        ],
-
-        "nano science": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(500, 600),
-            point(400, 450),
-            point(250, 350)
-        ],
-
-        "history": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(500, 600),
-            point(450, 500),
-            point(480, 300)
-        ],
-
-        "zoology": [
-            point(800, 960),
-            point(800, 850),
-            point(800, 700),
-            point(800, 570),
-            point(800, 430),
-            point(800, 280)
-        ],
-
-        "hostel": [
-            point(800, 960),
-            point(800, 850),
-            point(800, 700),
-            point(800, 600),
-            point(700, 500),
-            point(700, 360),
-            point(800, 120)
-        ],
-
-        "chapel": [
-            point(800, 960),
-            point(700, 900),
-            point(620, 800),
-            point(570, 700),
-            point(500, 600),
-            point(400, 450),
-            point(300, 150)
-        ],
-
-        "canara bank": [
-            point(800, 960),
-            point(700, 930),
-            point(600, 900),
-            point(550, 850)
-        ],
-
-        "parking": [
-            point(800, 960),
-            point(900, 940),
-            point(1000, 900),
-            point(1100, 880)
-        ],
-
-        "playground": [
-            point(800, 960),
-            point(800, 850),
-            point(800, 700),
-            point(800, 570),
-            point(800, 400),
-            point(800, 285)
-        ],
-
-        "tamil": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1250, 620),
-            point(1400, 570)
-        ],
-
-        "economics": [
-            point(800, 960),
-            point(900, 900),
-            point(1020, 850),
-            point(1100, 780),
-            point(1120, 680),
-            point(1250, 650),
-            point(1400, 680)
-        ]
-    };
-
-
-    // ========================================================
-    // ROUTE DRAWING
-    // ========================================================
-
-    let currentRoute = null;
-    let currentMarkers = [];
-
-
-    function clearRoute() {
-
-        if (currentRoute) {
-            map.removeLayer(currentRoute);
-            currentRoute = null;
-        }
-
-        currentMarkers.forEach(marker => {
-            map.removeLayer(marker);
-        });
-
-        currentMarkers = [];
-    }
-
-
-    function drawArrows(routePoints) {
-
-        for (let i = 0; i < routePoints.length - 1; i++) {
-
-            const p1 = routePoints[i];
-            const p2 = routePoints[i + 1];
-
-            const middle = [
-                (p1[0] + p2[0]) / 2,
-                (p1[1] + p2[1]) / 2
-            ];
-
-            const dx = p2[1] - p1[1];
-            const dy = p2[0] - p1[0];
-
-            let angle = Math.atan2(dy, dx) * 180 / Math.PI;
-
-            const arrow = L.marker(
-                middle,
-                {
-                    icon: L.divIcon({
-                        className: "route-arrow",
-                        html: `
-                            <div style="
-                                transform: rotate(${angle}deg);
-                            ">
-                                ➜
-                            </div>
-                        `,
-                        iconSize: [25, 25],
-                        iconAnchor: [12, 12]
-                    }),
-                    interactive: false
-                }
-            ).addTo(map);
-
-            currentMarkers.push(arrow);
-        }
-    }
-
-
-    // ========================================================
-    // SHOW ROUTE
-    // ========================================================
-
-    function showRoute(key) {
-
-        clearRoute();
-
-        if (!routes[key]) {
-            return;
-        }
-
-        const routePoints = routes[key];
-
-        currentRoute = L.polyline(
-            routePoints,
-            {
-                color: "#1769e0",
-                weight: 9,
-                opacity: 0.95,
-                lineCap: "round",
-                lineJoin: "round"
-            }
-        ).addTo(map);
-
-        drawArrows(routePoints);
-
-
-        // Destination marker
-        const destination = destinations[key];
-
-        if (destination) {
-
-            const marker = L.marker(
-                point(destination.x, destination.y),
-                {
-                    icon: L.divIcon({
-                        className: "destination-marker",
-                        html: `
-                            <div class="destination-pin">
-                                📍
-                            </div>
-                        `,
-                        iconSize: [45, 45],
-                        iconAnchor: [22, 42]
-                    })
-                }
-            ).addTo(map);
-
-            currentMarkers.push(marker);
-        }
-
-
-        // Fit route
         map.fitBounds(
-            currentRoute.getBounds(),
+            routePoints,
             {
                 padding: [80, 80]
             }
         );
 
+    }
+}
 
-        updateRoutePanel(key);
+
+// ============================================================
+// SEARCH
+// ============================================================
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const searchButton =
+    document.getElementById("searchButton");
+
+const suggestions =
+    document.getElementById("searchSuggestions");
+
+
+const searchPlaces = [
+
+    {
+        id: "computer_science",
+        name: "Computer Science"
+    },
+
+    {
+        id: "library",
+        name: "Library"
+    },
+
+    {
+        id: "main_block",
+        name: "Main Block"
+    },
+
+    {
+        id: "partition_hall",
+        name: "Partition Hall"
+    },
+
+    {
+        id: "new_auditorium",
+        name: "New Auditorium"
+    },
+
+    {
+        id: "old_auditorium",
+        name: "Old Auditorium"
+    },
+
+    {
+        id: "chemistry_physics",
+        name: "Chemistry & Physics"
+    },
+
+    {
+        id: "botany",
+        name: "Botany"
+    },
+
+    {
+        id: "zoology",
+        name: "Zoology & B.Com"
+    },
+
+    {
+        id: "nano_science",
+        name: "Nano Science"
+    },
+
+    {
+        id: "history",
+        name: "History"
+    },
+
+    {
+        id: "canteen",
+        name: "Canteen"
+    },
+
+    {
+        id: "hostel",
+        name: "Hostel"
+    },
+
+    {
+        id: "chapel",
+        name: "Chapel"
+    },
+
+    {
+        id: "playground",
+        name: "Play Ground"
+    },
+
+    {
+        id: "bca_mca",
+        name: "BCA / MCA"
+    },
+
+    {
+        id: "old_auditorium",
+        name: "Old Auditorium"
     }
 
-
-    // ========================================================
-    // ROUTE PANEL
-    // ========================================================
-
-    function updateRoutePanel(key) {
-
-        const destination = destinations[key];
-
-        if (!destination) return;
-
-        const routePanel = document.getElementById("routePanel");
-
-        document.getElementById("destinationName").textContent =
-            destination.name;
-
-        document.getElementById("destinationDescription").textContent =
-            "Walking route from Main Gate";
-
-        const distance =
-            Math.round(
-                routes[key].length * 55
-            );
-
-        const time =
-            Math.max(
-                1,
-                Math.round(distance / 70)
-            );
-
-        document.getElementById("routeDistance").textContent =
-            distance + " m";
-
-        document.getElementById("routeTime").textContent =
-            time + " min";
+];
 
 
-        const directionList =
-            document.getElementById("directionList");
+// ============================================================
+// SHOW SEARCH SUGGESTIONS
+// ============================================================
 
-        directionList.innerHTML = "";
+searchInput.addEventListener(
+    "input",
+    function () {
 
-
-        const directionTexts = [
-            "Start from Main Gate",
-            "Follow the campus road",
-            "Keep around the Central Garden",
-            "Continue towards " + destination.name,
-            "Follow the marked blue route",
-            "You have reached " + destination.name
-        ];
+        const value =
+            searchInput.value
+                .toLowerCase()
+                .trim();
 
 
-        directionTexts.forEach(
-            function (text, index) {
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "direction-item";
-
-                item.innerHTML = `
-                    <div class="direction-number">
-                        ${index + 1}
-                    </div>
-
-                    <div>
-                        ${text}
-                    </div>
-                `;
-
-                directionList.appendChild(item);
-            }
-        );
+        suggestions.innerHTML = "";
 
 
-        routePanel.style.display = "block";
-    }
+        if (!value) {
 
-
-    // ========================================================
-    // SEARCH
-    // ========================================================
-
-    const searchInput =
-        document.getElementById("searchInput");
-
-    const searchButton =
-        document.getElementById("searchButton");
-
-    const suggestionsBox =
-        document.getElementById("searchSuggestions");
-
-
-    function normalize(text) {
-
-        return text
-            .toLowerCase()
-            .trim();
-    }
-
-
-    function findDestination(text) {
-
-        const value = normalize(text);
-
-        const keys = Object.keys(destinations);
-
-        // Exact match
-        if (destinations[value]) {
-            return value;
-        }
-
-        // Partial match
-        for (const key of keys) {
-
-            if (
-                key.includes(value) ||
-                value.includes(key)
-            ) {
-                return key;
-            }
-        }
-
-        return null;
-    }
-
-
-    function searchPlace() {
-
-        const text =
-            normalize(searchInput.value);
-
-        if (!text) return;
-
-        const key =
-            findDestination(text);
-
-        if (!key) {
-
-            alert(
-                "Location not found. Try Computer Science, Library, Main Block, Canteen, etc."
-            );
+            suggestions.style.display =
+                "none";
 
             return;
         }
 
-        searchInput.value =
-            destinations[key].name;
 
-        suggestionsBox.style.display =
+        const results =
+            searchPlaces.filter(
+                place =>
+                    place.name
+                        .toLowerCase()
+                        .includes(value)
+            );
+
+
+        if (results.length === 0) {
+
+            suggestions.style.display =
+                "none";
+
+            return;
+        }
+
+
+        results.forEach(place => {
+
+            const div =
+                document.createElement("div");
+
+
+            div.className =
+                "suggestion";
+
+
+            div.textContent =
+                "📍 " + place.name;
+
+
+            div.onclick = function () {
+
+                searchInput.value =
+                    place.name;
+
+                suggestions.style.display =
+                    "none";
+
+                setDestination(
+                    place.id
+                );
+            };
+
+
+            suggestions.appendChild(div);
+
+        });
+
+
+        suggestions.style.display =
+            "block";
+    }
+);
+
+
+// ============================================================
+// SEARCH BUTTON
+// ============================================================
+
+function performSearch() {
+
+    const value =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+
+    if (!value) return;
+
+
+    const result =
+        searchPlaces.find(
+            place =>
+                place.name
+                    .toLowerCase()
+                    .includes(value)
+        );
+
+
+    if (result) {
+
+        suggestions.style.display =
             "none";
 
-        showRoute(key);
+        setDestination(
+            result.id
+        );
+
+    } else {
+
+        alert(
+            "Location not found in campus map."
+        );
     }
+}
 
 
-    searchButton.addEventListener(
-        "click",
-        searchPlace
-    );
+searchButton.addEventListener(
+    "click",
+    performSearch
+);
 
 
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
+searchInput.addEventListener(
+    "keydown",
+    function (event) {
 
-            if (event.key === "Enter") {
-                searchPlace();
-            }
+        if (event.key === "Enter") {
+
+            performSearch();
+
         }
-    );
+    }
+);
 
 
-    // ========================================================
-    // SEARCH SUGGESTIONS
-    // ========================================================
+// ============================================================
+// CLOSE ROUTE
+// ============================================================
 
-    searchInput.addEventListener(
-        "input",
+document
+    .getElementById("closeRoute")
+    .addEventListener(
+        "click",
         function () {
 
-            const value =
-                normalize(searchInput.value);
+            routePanel.style.display =
+                "none";
 
-            suggestionsBox.innerHTML = "";
+            clearRoute();
 
-            if (!value) {
-
-                suggestionsBox.style.display =
-                    "none";
-
-                return;
-            }
-
-
-            const matches =
-                Object.keys(destinations)
-                    .filter(
-                        key =>
-                            key.includes(value)
-                    );
-
-
-            if (matches.length === 0) {
-
-                suggestionsBox.style.display =
-                    "none";
-
-                return;
-            }
-
-
-            matches.slice(0, 7).forEach(
-                function (key) {
-
-                    const div =
-                        document.createElement("div");
-
-                    div.className =
-                        "suggestion";
-
-                    div.textContent =
-                        destinations[key].name;
-
-                    div.addEventListener(
-                        "click",
-                        function () {
-
-                            searchInput.value =
-                                destinations[key].name;
-
-                            suggestionsBox.style.display =
-                                "none";
-
-                            showRoute(key);
-                        }
-                    );
-
-                    suggestionsBox.appendChild(div);
-                }
-            );
-
-
-            suggestionsBox.style.display =
-                "block";
-        }
-    );
-
-
-    // ========================================================
-    // CLOSE ROUTE
-    // ========================================================
-
-    document
-        .getElementById("closeRoute")
-        .addEventListener(
-            "click",
-            function () {
-
-                clearRoute();
-
-                document.getElementById(
-                    "routePanel"
-                ).style.display = "none";
-            }
-        );
-
-
-    // ========================================================
-    // MAIN GATE BUTTON
-    // ========================================================
-
-    document
-        .getElementById("mainGateButton")
-        .addEventListener(
-            "click",
-            function () {
-
-                clearRoute();
-
-                document.getElementById(
-                    "routePanel"
-                ).style.display = "none";
-
-                map.setView(
-                    point(800, 960),
-                    1
-                );
-            }
-        );
-
-
-    // ========================================================
-    // BUILDING CLICK
-    // ========================================================
-
-    Object.keys(buildings).forEach(
-        function (key) {
-
-            const building =
-                buildings[key];
-
-            building.on(
-                "click",
-                function () {
-
-                    const searchKey =
-                        findDestination(
-                            key
-                        );
-
-                    if (searchKey) {
-                        showRoute(searchKey);
-                    }
-                }
+            map.fitBounds(
+                bounds
             );
         }
     );
 
 
-    // ========================================================
-    // INITIAL VIEW
-    // ========================================================
+// ============================================================
+// MAIN GATE BUTTON
+// ============================================================
 
-    map.setView(
-        point(800, 650),
-        0
+document
+    .getElementById("mainGateButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            map.setView(
+                [90, 800],
+                0
+            );
+
+            clearRoute();
+
+            routePanel.style.display =
+                "none";
+        }
     );
 
-});
+
+// ============================================================
+// INITIAL VIEW
+// ============================================================
+
+map.fitBounds(
+    bounds,
+    {
+        padding: [20, 20]
+    }
+);
