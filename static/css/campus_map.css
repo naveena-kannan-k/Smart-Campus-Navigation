@@ -5,136 +5,195 @@
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
+
 body {
-    background: #eef1f5;
     overflow: hidden;
+    background: #e8f0e5;
 }
 
-/* =========================
-   TOP BAR
-========================= */
 
-.top-bar {
+/* =====================================================
+   HEADER
+===================================================== */
+
+.top-header {
+
     position: fixed;
+
     top: 0;
     left: 0;
+
     width: 100%;
-    height: 78px;
+    height: 76px;
 
     background: white;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 10px 25px;
-
     z-index: 2000;
 
-    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 10px 24px;
+
+    box-shadow:
+        0 2px 10px rgba(0,0,0,0.18);
 }
 
-.brand {
+
+/* =====================================================
+   COLLEGE TITLE
+===================================================== */
+
+.college-title {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
-.college-logo {
-    width: 48px;
-    height: 48px;
+
+.logo {
+
+    width: 46px;
+    height: 46px;
 
     border-radius: 50%;
 
     background: #1a73e8;
+
     color: white;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
+
+    font-weight: 700;
 }
 
-.brand h2 {
+
+.college-title h2 {
+
     font-size: 18px;
+
     color: #202124;
 }
 
-.brand span {
+
+.college-title p {
+
     font-size: 12px;
+
     color: #6b7280;
+
+    margin-top: 2px;
 }
 
-/* =========================
+
+/* =====================================================
    SEARCH
-========================= */
+===================================================== */
 
-.search-area {
-    position: relative;
+.search-container {
+
     width: 430px;
+
+    position: relative;
 }
+
 
 .search-box {
-    height: 48px;
 
-    display: flex;
-    align-items: center;
+    height: 46px;
 
     background: white;
 
-    border-radius: 25px;
+    border: 1px solid #dadce0;
 
-    padding: 0 8px 0 15px;
+    border-radius: 24px;
 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    display: flex;
 
-    border: 1px solid #ddd;
+    align-items: center;
+
+    padding-left: 14px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.14);
 }
 
-.search-box span {
-    font-size: 18px;
+
+.search-icon {
+
+    font-size: 23px;
+
+    color: #5f6368;
 }
+
 
 .search-box input {
+
     flex: 1;
 
+    height: 100%;
+
     border: none;
+
     outline: none;
 
     padding: 0 12px;
 
-    font-size: 15px;
+    font-size: 14px;
 }
 
+
 .search-box button {
+
     border: none;
 
     background: #1a73e8;
+
     color: white;
 
-    padding: 10px 18px;
+    height: 36px;
+
+    padding: 0 18px;
 
     border-radius: 20px;
+
+    margin-right: 5px;
 
     cursor: pointer;
 
     font-weight: 600;
 }
 
+
 .search-box button:hover {
+
     background: #1557b0;
 }
 
-/* =========================
+
+/* =====================================================
    SUGGESTIONS
-========================= */
+===================================================== */
 
 .suggestions {
+
+    display: none;
+
     position: absolute;
 
-    top: 52px;
+    top: 51px;
+
     left: 0;
 
     width: 100%;
@@ -143,154 +202,194 @@ body {
 
     border-radius: 10px;
 
-    box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.2);
 
     overflow: hidden;
-
-    display: none;
 
     z-index: 3000;
 }
 
+
 .suggestion {
-    padding: 13px 18px;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #eeeeee;
 
     cursor: pointer;
 
-    border-bottom: 1px solid #eee;
+    font-size: 14px;
 }
 
+
 .suggestion:hover {
+
     background: #f1f5f9;
 }
 
-/* =========================
+
+/* =====================================================
    MAP
-========================= */
+===================================================== */
 
 #map {
+
     position: fixed;
 
-    top: 78px;
+    top: 76px;
+
     left: 0;
 
     width: 100%;
-    height: calc(100vh - 78px);
 
-    background: #e8f0e8;
+    height: calc(100vh - 76px);
+
+    background:
+        #e6f0e2;
 }
 
-/* =========================
-   BUILDINGS
-========================= */
+
+/* =====================================================
+   BUILDING LABEL
+===================================================== */
 
 .building-label {
+
     background: white;
 
-    border: 1px solid #b8c0cc;
+    border: 1px solid #b7bec8;
 
     border-radius: 8px;
 
-    padding: 7px 10px;
+    padding: 6px 9px;
 
     min-width: 105px;
 
     text-align: center;
 
-    font-size: 12px;
+    font-size: 11px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     color: #202124;
 
-    box-shadow: 0 2px 7px rgba(0,0,0,0.2);
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.20);
+
+    white-space: nowrap;
 }
 
-.building-label small {
+
+.building-label span {
+
     display: block;
 
-    margin-top: 2px;
+    font-size: 9px;
 
     color: #6b7280;
 
-    font-size: 10px;
+    margin-top: 2px;
+
+    font-weight: 500;
 }
 
-/* =========================
+
+/* =====================================================
    ROUTE PANEL
-========================= */
+===================================================== */
 
 .route-panel {
+
+    display: none;
+
     position: fixed;
 
     left: 20px;
+
     bottom: 20px;
 
-    width: 350px;
+    width: 355px;
 
     background: white;
 
     border-radius: 16px;
 
-    padding: 20px;
+    padding: 18px;
 
     z-index: 2500;
 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-
-    display: none;
+    box-shadow:
+        0 5px 25px rgba(0,0,0,0.25);
 }
 
-.close-btn {
+
+.close-route {
+
     position: absolute;
 
     right: 12px;
+
     top: 10px;
+
+    width: 30px;
+
+    height: 30px;
 
     border: none;
 
-    background: #f1f3f4;
-
-    width: 30px;
-    height: 30px;
-
     border-radius: 50%;
+
+    background: #f1f3f4;
 
     font-size: 20px;
 
     cursor: pointer;
 }
 
-.route-header {
+
+.route-title {
+
     display: flex;
 
     align-items: center;
 
     gap: 12px;
 
-    padding-right: 30px;
+    padding-right: 25px;
 }
 
-.destination-icon {
-    width: 42px;
-    height: 42px;
 
-    border-radius: 50%;
+.destination-pin {
+
+    width: 42px;
+
+    height: 42px;
 
     background: #e8f0fe;
 
+    border-radius: 50%;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    font-size: 21px;
+    font-size: 20px;
 }
 
-.route-header h3 {
+
+.route-title h3 {
+
     font-size: 17px;
+
+    color: #202124;
 }
 
-.route-header p {
+
+.route-title p {
+
     font-size: 12px;
 
     color: #6b7280;
@@ -298,31 +397,37 @@ body {
     margin-top: 3px;
 }
 
-/* =========================
-   ROUTE INFO
-========================= */
 
-.route-info {
+/* =====================================================
+   ROUTE SUMMARY
+===================================================== */
+
+.route-summary {
+
     display: flex;
 
     gap: 10px;
 
-    margin: 18px 0;
+    margin: 17px 0;
 }
 
-.route-info div {
+
+.route-summary div {
+
     flex: 1;
 
-    background: #f7f8fa;
-
-    padding: 10px;
+    background: #f6f8fa;
 
     border-radius: 10px;
+
+    padding: 10px;
 
     text-align: center;
 }
 
-.route-info strong {
+
+.route-summary strong {
+
     display: block;
 
     color: #1a73e8;
@@ -330,95 +435,140 @@ body {
     font-size: 16px;
 }
 
-.route-info span {
-    font-size: 11px;
 
-    color: #777;
+.route-summary span {
+
+    color: #6b7280;
+
+    font-size: 10px;
 }
 
-/* =========================
-   DIRECTIONS
-========================= */
 
-.route-path h4 {
+/* =====================================================
+   DIRECTIONS
+===================================================== */
+
+.directions h4 {
+
+    font-size: 14px;
+
     margin-bottom: 8px;
 }
 
-.route-path ol {
-    padding-left: 20px;
 
-    max-height: 180px;
+.direction-item {
 
-    overflow-y: auto;
+    display: flex;
+
+    gap: 10px;
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid #eeeeee;
+
+    font-size: 12px;
+
+    line-height: 1.4;
 }
 
-.route-path li {
-    padding: 6px 0;
 
-    font-size: 13px;
+.direction-number {
 
-    color: #333;
+    min-width: 24px;
+
+    height: 24px;
+
+    border-radius: 50%;
+
+    background: #e8f0fe;
+
+    color: #1a73e8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 700;
 }
 
-/* =========================
+
+/* =====================================================
    MAIN GATE BUTTON
-========================= */
+===================================================== */
 
-.map-button {
+.floating-button {
+
     position: fixed;
 
     right: 20px;
+
     bottom: 20px;
 
-    z-index: 2000;
-
-    background: white;
+    z-index: 2100;
 
     border: none;
+
+    background: white;
 
     padding: 12px 18px;
 
     border-radius: 25px;
 
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.22);
 
     cursor: pointer;
 
     font-weight: 600;
 }
 
-/* =========================
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
-@media (max-width: 700px) {
+@media(max-width: 700px) {
 
-    .top-bar {
-        height: 130px;
+    .top-header {
+
+        height: 125px;
 
         flex-direction: column;
 
-        align-items: stretch;
-
-        padding: 8px 12px;
-    }
-
-    .brand {
         justify-content: center;
+
+        gap: 7px;
+
+        padding: 6px 10px;
     }
 
-    .search-area {
+
+    .college-title h2 {
+
+        font-size: 15px;
+    }
+
+
+    .search-container {
+
         width: 100%;
     }
 
-    #map {
-        top: 130px;
 
-        height: calc(100vh - 130px);
+    #map {
+
+        top: 125px;
+
+        height: calc(100vh - 125px);
     }
 
+
     .route-panel {
+
         left: 10px;
+
         right: 10px;
 
         bottom: 10px;
@@ -426,8 +576,11 @@ body {
         width: auto;
     }
 
-    .map-button {
+
+    .floating-button {
+
         right: 10px;
-        bottom: 210px;
+
+        bottom: 190px;
     }
 }
