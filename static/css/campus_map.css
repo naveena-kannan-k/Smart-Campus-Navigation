@@ -708,3 +708,188 @@ body {
         padding: 7px;
     }
 }
+/* =========================================================
+   CUSTOM CAMPUS BUILDINGS
+========================================================= */
+
+.building-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+.campus-building {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.25));
+}
+
+.building-roof {
+    position: absolute;
+    top: 0;
+    left: 8%;
+    width: 84%;
+    height: 22%;
+    background: #8b6f5a;
+    border-radius: 6px 6px 2px 2px;
+    transform: skewX(-10deg);
+}
+
+.building-body {
+    position: absolute;
+    top: 18%;
+    left: 5%;
+    width: 90%;
+    height: 76%;
+    background: linear-gradient(
+        180deg,
+        #f7eee2,
+        #d8c5ad
+    );
+    border: 2px solid #806c59;
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+}
+
+.building-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #202124;
+    line-height: 1.15;
+    text-shadow: 0 1px white;
+}
+
+.building-subtitle {
+    margin-top: 4px;
+    font-size: 8px;
+    font-weight: 600;
+    color: #555;
+    line-height: 1.2;
+}
+
+.building-windows {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 9px;
+}
+
+.building-windows span {
+    width: 11px;
+    height: 14px;
+    background: #8fc5d9;
+    border: 1px solid #607d8b;
+    border-radius: 2px;
+}
+
+.main-block .building-body {
+    background: linear-gradient(
+        180deg,
+        #f8eee2,
+        #d6c0a8
+    );
+}
+
+.john-tucker .building-body {
+    background: linear-gradient(
+        180deg,
+        #f5eadc,
+        #cfb89e
+    );
+}
+
+.auditorium .building-body {
+    background: linear-gradient(
+        180deg,
+        #f1e2ce,
+        #cbb294
+    );
+}
+
+
+/* =========================================================
+   GARDEN LABEL
+========================================================= */
+
+.garden-label {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #6d9b57;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-weight: 700;
+    color: #315b2b;
+}
+
+
+/* =========================================================
+   PLAYGROUND
+========================================================= */
+
+.playground-label {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #72985b;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-weight: 700;
+    color: #315b2b;
+}
+
+
+/* =========================================================
+   PARKING
+========================================================= */
+
+.parking-label {
+    background: white;
+    border: 1px solid #777;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-weight: 700;
+    color: #333;
+}
+
+
+/* =========================================================
+   ROUTE ARROWS
+========================================================= */
+
+.route-arrow {
+    background: transparent !important;
+    border: none !important;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow:
+        0 1px 2px #1769e0,
+        0 -1px 2px #1769e0,
+        1px 0 2px #1769e0,
+        -1px 0 2px #1769e0;
+}
+
+
+/* =========================================================
+   DESTINATION PIN
+========================================================= */
+
+.destination-marker {
+    background: transparent !important;
+    border: none !important;
+}
+
+.destination-pin {
+    width: 42px;
+    height: 42px;
+    background: #d93025;
+    border: 3px solid white;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.destination-pin::first-letter {
+    transform: rotate(45deg);
+}
