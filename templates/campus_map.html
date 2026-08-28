@@ -4,117 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Campus Navigation System</title>
+    <title>Sarah Tucker College - Campus Navigation</title>
 
+    <!-- Leaflet CSS - separate file download தேவையில்லை -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
+    >
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/campus_map.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/campus_map.css') }}"
+    >
 </head>
 
 <body>
 
-<header class="top-header">
-    <div>
-        <h1>Campus Navigation</h1>
-        <p>Find any place inside the campus</p>
+<!-- TOP SEARCH BAR -->
+<div class="top-bar">
+
+    <div class="brand">
+        <div class="college-logo">STC</div>
+
+        <div>
+            <h2>Sarah Tucker College</h2>
+            <span>Smart Campus Navigation</span>
+        </div>
     </div>
-</header>
 
+    <div class="search-area">
 
-<section class="search-section">
-
-    <div class="search-box">
-
-        <label for="placeInput">
-            Enter the place
-        </label>
-
-        <div class="search-row">
+        <div class="search-box">
+            <span>🔍</span>
 
             <input
                 type="text"
-                id="placeInput"
-                placeholder="Example: MCA, Library, Hostel..."
+                id="destinationSearch"
+                placeholder="Search campus destination..."
                 autocomplete="off"
             >
 
-            <button onclick="findPlace()">
-                Find Location
-            </button>
-
+            <button id="searchBtn">Search</button>
         </div>
 
         <div id="suggestions" class="suggestions"></div>
 
     </div>
 
-</section>
+</div>
 
 
 <!-- MAP -->
-
-<section class="map-section">
-
-    <div id="map"></div>
-
-</section>
+<div id="map"></div>
 
 
-<!-- RESULT -->
+<!-- ROUTE INFORMATION -->
+<div id="routePanel" class="route-panel">
 
-<section class="result-container">
+    <button id="closeRoute" class="close-btn">×</button>
 
-    <div id="result" class="result-card">
+    <div class="route-header">
+        <div class="destination-icon">📍</div>
 
-        <h2>Campus Navigation</h2>
-
-        <p>
-            Enter a campus location above and click
-            <b>Find Location</b>.
-        </p>
-
+        <div>
+            <h3 id="routeTitle">Select a destination</h3>
+            <p id="routeSubtitle">
+                Search for a building to start navigation
+            </p>
+        </div>
     </div>
 
+    <div class="route-info">
 
-    <div class="routes">
-
-        <div class="route-card left-route">
-
-            <h3>← Nearby Left Route</h3>
-
-            <div id="leftPlaces">
-                <p>Select a destination to see nearby places.</p>
-            </div>
-
+        <div>
+            <strong id="distance">--</strong>
+            <span>Distance</span>
         </div>
 
-
-        <div class="route-card right-route">
-
-            <h3>Nearby Right Route →</h3>
-
-            <div id="rightPlaces">
-                <p>Select a destination to see nearby places.</p>
-            </div>
-
+        <div>
+            <strong id="walkingTime">--</strong>
+            <span>Walking</span>
         </div>
 
     </div>
 
-</section>
+    <div class="route-path">
+        <h4>Walking Directions</h4>
+        <ol id="directionsList"></ol>
+    </div>
+
+</div>
 
 
-<footer>
-    Campus Navigation System
-</footer>
+<!-- CURRENT LOCATION -->
+<button id="resetBtn" class="map-button">
+    📍 Main Gate
+</button>
 
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
-<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
+<script
+    src="{{ url_for('static', filename='js/campus_map.js') }}">
+</script>
 
 </body>
 </html>
