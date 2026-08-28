@@ -1,1010 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smart Campus Navigation</title>
+    <title>Smart Campus Navigation</title>
 
-<link
- rel="stylesheet"
- href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial, sans-serif;
-    background:#f5f5f5;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    height:70px;
-    background:white;
-    display:flex;
-    align-items:center;
-    padding:0 25px;
-    box-shadow:0 2px 8px rgba(0,0,0,.18);
-    position:relative;
-    z-index:1000;
-}
-
-.logo{
-    font-size:22px;
-    font-weight:bold;
-    color:#1a73e8;
-}
-
-.subtitle{
-    margin-left:15px;
-    color:#666;
-    font-size:14px;
-}
-
-/* ================= SEARCH ================= */
-
-.search-box{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    width:420px;
-}
-
-.search-box input{
-    width:100%;
-    height:46px;
-    border:none;
-    border-radius:24px;
-    padding:0 50px 0 20px;
-    font-size:15px;
-    outline:none;
-    box-shadow:0 2px 10px rgba(0,0,0,.20);
-}
-
-.search-icon{
-    position:absolute;
-    right:18px;
-    top:12px;
-    font-size:20px;
-}
-
-/* ================= MAP ================= */
-
-#map{
-    height:calc(100vh - 70px);
-    width:100%;
-}
-
-/* ================= SEARCH RESULTS ================= */
-
-.search-results{
-    position:absolute;
-    top:58px;
-    left:0;
-    width:100%;
-    background:white;
-    border-radius:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,.2);
-    display:none;
-    overflow:hidden;
-    z-index:2000;
-}
-
-.result{
-    padding:12px 18px;
-    cursor:pointer;
-    border-bottom:1px solid #eee;
-}
-
-.result:hover{
-    background:#f1f3f4;
-}
-
-.result-title{
-    font-weight:bold;
-}
-
-.result-type{
-    font-size:12px;
-    color:#777;
-}
-
-/* ================= INFO PANEL ================= */
-
-.info-panel{
-    position:absolute;
-    right:20px;
-    top:90px;
-    width:310px;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 3px 15px rgba(0,0,0,.25);
-    z-index:1000;
-    display:none;
-    overflow:hidden;
-}
-
-.info-header{
-    background:#1a73e8;
-    color:white;
-    padding:18px;
-}
-
-.info-header h2{
-    font-size:20px;
-}
-
-.info-content{
-    padding:18px;
-}
-
-.info-content p{
-    margin:8px 0;
-    color:#555;
-}
-
-.direction-btn{
-    width:100%;
-    margin-top:15px;
-    padding:12px;
-    border:none;
-    border-radius:7px;
-    background:#1a73e8;
-    color:white;
-    font-size:15px;
-    cursor:pointer;
-}
-
-.direction-btn:hover{
-    background:#1557b0;
-}
-
-.close-btn{
-    float:right;
-    border:none;
-    background:none;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
-}
-
-/* ================= LOCATION BUTTON ================= */
-
-.location-btn{
-    position:absolute;
-    right:20px;
-    bottom:90px;
-    width:45px;
-    height:45px;
-    background:white;
-    border:none;
-    border-radius:50%;
-    box-shadow:0 2px 8px rgba(0,0,0,.3);
-    z-index:1000;
-    cursor:pointer;
-    font-size:20px;
-}
-
-/* ================= ROUTE INFO ================= */
-
-.route-info{
-    position:absolute;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    background:white;
-    padding:12px 20px;
-    border-radius:25px;
-    box-shadow:0 2px 10px rgba(0,0,0,.25);
-    z-index:1000;
-    display:none;
-}
-
-/* ================= CUSTOM LABEL ================= */
-
-.map-label{
-    background:white;
-    border:1px solid #777;
-    border-radius:4px;
-    padding:3px 6px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-/* ================= BUILDING STYLE ================= */
-
-.building-shape{
-    fill:#ffffff;
-    stroke:#333;
-    stroke-width:2;
-}
-
-.road-line{
-    stroke:#777;
-    stroke-width:10;
-    fill:none;
-    stroke-linecap:round;
-}
-
-.walk-line{
-    stroke:#aaa;
-    stroke-width:3;
-    fill:none;
-    stroke-dasharray:8 6;
-}
-
-</style>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/campus_map.css') }}"
+    >
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- =====================================================
+     TOP HEADER
+===================================================== -->
 
-<div class="header">
+<header class="top-header">
 
-    <div class="logo">
-        Smart Campus
-    </div>
+    <div class="brand">
 
-    <div class="subtitle">
-        Campus Navigation System
-    </div>
+        <div class="brand-logo">
+            STC
+        </div>
 
-    <div class="search-box">
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search campus location..."
-            autocomplete="off"
-        >
-
-        <span class="search-icon">🔍</span>
-
-        <div
-            class="search-results"
-            id="searchResults">
+        <div>
+            <h1>Sarah Tucker College</h1>
+            <p>Smart Campus Navigation</p>
         </div>
 
     </div>
 
-</div>
 
+    <div class="search-wrapper">
 
-<!-- ================= MAP ================= -->
+        <span class="search-icon">⌕</span>
 
-<div id="map"></div>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search campus..."
+            autocomplete="off"
+        >
 
-
-<!-- ================= INFO PANEL ================= -->
-
-<div class="info-panel" id="infoPanel">
-
-    <div class="info-header">
-
-        <button
-            class="close-btn"
-            onclick="closeInfo()">
-            ×
+        <button id="searchButton">
+            Search
         </button>
 
-        <h2 id="placeTitle">
-            Location
-        </h2>
+        <div
+            id="searchResults"
+            class="search-results">
+        </div>
 
     </div>
 
-    <div class="info-content">
 
-        <p id="placeType">
-            Campus Location
-        </p>
-
-        <p id="placeDescription">
-            Campus building.
-        </p>
+    <div class="header-actions">
 
         <button
-            class="direction-btn"
-            onclick="getDirection()">
+            id="myLocationBtn"
+            class="header-btn">
+            📍 My Location
+        </button>
+
+        <button
+            id="menuBtn"
+            class="menu-btn">
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+===================================================== -->
+
+<main class="app-container">
+
+
+    <!-- =================================================
+         DIRECTIONS PANEL
+    ================================================= -->
+
+    <aside class="directions-panel">
+
+        <div class="panel-title">
+
+            <div>
+                <h2>Directions</h2>
+                <p>Campus route planner</p>
+            </div>
+
+            <button id="clearRouteBtn">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="route-input">
+
+            <div class="input-row">
+
+                <span class="green-pin">●</span>
+
+                <input
+                    id="fromInput"
+                    type="text"
+                    value="Main Gate"
+                    placeholder="From"
+                >
+
+            </div>
+
+
+            <div class="route-line"></div>
+
+
+            <div class="input-row">
+
+                <span class="red-pin">●</span>
+
+                <input
+                    id="toInput"
+                    type="text"
+                    placeholder="Choose destination"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="directionBtn"
+            class="direction-main-btn">
 
             🚶 Get Directions
 
         </button>
 
+
+        <!-- Route summary -->
+
+        <div
+            id="routeSummary"
+            class="route-summary hidden">
+
+            <div class="summary-item">
+
+                <strong id="distanceValue">
+                    —
+                </strong>
+
+                <span>
+                    Distance
+                </span>
+
+            </div>
+
+
+            <div class="summary-divider"></div>
+
+
+            <div class="summary-item">
+
+                <strong id="timeValue">
+                    —
+                </strong>
+
+                <span>
+                    Walking
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Turn by turn -->
+
+        <div
+            id="directionSteps"
+            class="direction-steps">
+
+            <div class="empty-direction">
+
+                <div class="empty-icon">
+                    🧭
+                </div>
+
+                <p>
+                    Select a destination to see
+                    walking directions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel-footer">
+
+            Click any building on the map
+            to select it as destination.
+
+        </div>
+
+    </aside>
+
+
+    <!-- =================================================
+         MAP
+    ================================================= -->
+
+    <section class="map-section">
+
+        <div id="map"></div>
+
+
+        <!-- Map controls -->
+
+        <div class="map-controls">
+
+            <button id="zoomInBtn">
+                +
+            </button>
+
+            <button id="zoomOutBtn">
+                −
+            </button>
+
+        </div>
+
+
+        <!-- Map legend -->
+
+        <div class="map-legend">
+
+            <div class="legend-title">
+                Campus Map
+            </div>
+
+            <div class="legend-row">
+                <span class="legend-dot entrance"></span>
+                Entrance
+            </div>
+
+            <div class="legend-row">
+                <span class="legend-dot academic"></span>
+                Academic
+            </div>
+
+            <div class="legend-row">
+                <span class="legend-dot facility"></span>
+                Facility
+            </div>
+
+            <div class="legend-row">
+                <span class="legend-dot sports"></span>
+                Sports
+            </div>
+
+        </div>
+
+
+        <!-- North indicator -->
+
+        <div class="north-control">
+
+            <div class="north-arrow">
+                ▲
+            </div>
+
+            <span>N</span>
+
+        </div>
+
+
+        <!-- Current location -->
+
+        <div
+            id="currentLocation"
+            class="current-location hidden">
+
+            <span class="current-dot"></span>
+
+            <div>
+                <strong>Your location</strong>
+                <small>Campus</small>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     LOCATION INFORMATION MODAL
+===================================================== -->
+
+<div
+    id="locationModal"
+    class="location-modal hidden">
+
+    <div class="location-card">
+
+        <button
+            id="closeModal"
+            class="modal-close">
+            ×
+        </button>
+
+
+        <div class="location-card-icon">
+            📍
+        </div>
+
+
+        <h2 id="modalTitle">
+            Location
+        </h2>
+
+
+        <p
+            id="modalType"
+            class="modal-type">
+        </p>
+
+
+        <p
+            id="modalDescription"
+            class="modal-description">
+        </p>
+
+
+        <button
+            id="modalDirectionBtn"
+            class="modal-direction-btn">
+
+            🚶 Directions to here
+
+        </button>
+
     </div>
 
 </div>
 
 
-<!-- ================= LOCATION BUTTON ================= -->
+<!-- =====================================================
+     LEAFLET
+===================================================== -->
 
-<button
-    class="location-btn"
-    onclick="goToMainGate()">
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
-    📍
 
-</button>
+<!-- =====================================================
+     CAMPUS JS
+===================================================== -->
 
-
-<!-- ================= ROUTE INFO ================= -->
-
-<div
-    class="route-info"
-    id="routeInfo">
-
-    🚶 Route calculated
-
-</div>
-
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script>
-
-/* =====================================================
-   CAMPUS MAP
-===================================================== */
-
-/*
-   This is a custom campus coordinate system.
-   It is NOT real latitude/longitude.
-
-   The locations are arranged according to
-   the uploaded hand-drawn campus layout.
-*/
-
-const map = L.map("map", {
-
-    crs: L.CRS.Simple,
-
-    minZoom: -2,
-    maxZoom: 2,
-
-    zoomControl: true
-
-});
-
-
-/* Campus size */
-
-const campusBounds = [
-    [0,0],
-    [1000,1400]
-];
-
-map.fitBounds(campusBounds);
-
-
-/* =====================================================
-   BACKGROUND
-===================================================== */
-
-L.rectangle(
-    campusBounds,
-    {
-        color:"#777",
-        weight:2,
-        fillColor:"#f4f1df",
-        fillOpacity:1
-    }
-).addTo(map);
-
-
-/* =====================================================
-   ROADS
-===================================================== */
-
-/* MAIN ROAD */
-
-L.polyline(
-    [
-        [60,700],
-        [180,700],
-        [350,700],
-        [520,700],
-        [720,700],
-        [930,700]
-    ],
-    {
-        color:"#777",
-        weight:45
-    }
-).addTo(map);
-
-
-/* Main vertical road */
-
-L.polyline(
-    [
-        [60,700],
-        [250,700],
-        [450,700],
-        [650,700],
-        [850,700],
-        [930,700]
-    ],
-    {
-        color:"#777",
-        weight:45
-    }
-).addTo(map);
-
-
-/* LEFT ROAD */
-
-L.polyline(
-    [
-        [450,700],
-        [450,470],
-        [550,300],
-        [720,250]
-    ],
-    {
-        color:"#777",
-        weight:25
-    }
-).addTo(map);
-
-
-/* RIGHT ROAD */
-
-L.polyline(
-    [
-        [450,700],
-        [450,930],
-        [550,1080],
-        [720,1150]
-    ],
-    {
-        color:"#777",
-        weight:25
-    }
-).addTo(map);
-
-
-/* TOP ROAD */
-
-L.polyline(
-    [
-        [850,180],
-        [850,400],
-        [850,700],
-        [850,1000],
-        [850,1250]
-    ],
-    {
-        color:"#777",
-        weight:25
-    }
-).addTo(map);
-
-
-/* =====================================================
-   CAMPUS LOCATIONS
-===================================================== */
-
-const locations = [
-
-    {
-        name:"Main Gate",
-        type:"Entrance",
-        description:"Main entrance of the campus.",
-        lat:60,
-        lng:700
-    },
-
-    {
-        name:"Canara Bank",
-        type:"Bank",
-        description:"Canara Bank campus location.",
-        lat:110,
-        lng:470
-    },
-
-    {
-        name:"Parking Area",
-        type:"Parking",
-        description:"Main campus parking area.",
-        lat:100,
-        lng:950
-    },
-
-    {
-        name:"Principal Office",
-        type:"Administration",
-        description:"Principal Office.",
-        lat:330,
-        lng:650
-    },
-
-    {
-        name:"Management Office",
-        type:"Administration",
-        description:"Management Office.",
-        lat:330,
-        lng:800
-    },
-
-    {
-        name:"Main Block",
-        type:"Academic Block",
-        description:"Main academic block.",
-        lat:470,
-        lng:700
-    },
-
-    {
-        name:"Chemistry",
-        type:"Department",
-        description:"Chemistry Department.",
-        lat:570,
-        lng:630
-    },
-
-    {
-        name:"Physics",
-        type:"Department",
-        description:"Physics Department.",
-        lat:570,
-        lng:780
-    },
-
-    {
-        name:"Botany",
-        type:"Department",
-        description:"Botany Department.",
-        lat:650,
-        lng:630
-    },
-
-    {
-        name:"Garden",
-        type:"Open Area",
-        description:"Campus garden.",
-        lat:650,
-        lng:790
-    },
-
-    {
-        name:"Zoology",
-        type:"Department",
-        description:"Zoology Department.",
-        lat:750,
-        lng:790
-    },
-
-    {
-        name:"Palpision Hall",
-        type:"Hall",
-        description:"Palpision Hall.",
-        lat:500,
-        lng:450
-    },
-
-    {
-        name:"New Auditorium",
-        type:"Auditorium",
-        description:"New Auditorium.",
-        lat:690,
-        lng:330
-    },
-
-    {
-        name:"History",
-        type:"Department",
-        description:"History Department.",
-        lat:800,
-        lng:330
-    },
-
-    {
-        name:"Maths",
-        type:"Department",
-        description:"Mathematics Department.",
-        lat:700,
-        lng:470
-    },
-
-    {
-        name:"Hostel",
-        type:"Hostel",
-        description:"Campus hostel.",
-        lat:870,
-        lng:300
-    },
-
-    {
-        name:"Chapel",
-        type:"Religious Building",
-        description:"Campus chapel.",
-        lat:910,
-        lng:500
-    },
-
-    {
-        name:"Play Ground",
-        type:"Sports",
-        description:"Campus playground.",
-        lat:880,
-        lng:1060
-    },
-
-    {
-        name:"Sports",
-        type:"Sports",
-        description:"Sports area.",
-        lat:800,
-        lng:1020
-    },
-
-    {
-        name:"Canteen",
-        type:"Food",
-        description:"Campus canteen.",
-        lat:720,
-        lng:1050
-    },
-
-    {
-        name:"Old Auditorium",
-        type:"Auditorium",
-        description:"Old Auditorium.",
-        lat:500,
-        lng:1080
-    },
-
-    {
-        name:"Tamil",
-        type:"Department",
-        description:"Tamil Department.",
-        lat:380,
-        lng:1080
-    },
-
-    {
-        name:"English",
-        type:"Department",
-        description:"English Department.",
-        lat:280,
-        lng:1080
-    },
-
-    {
-        name:"Economics",
-        type:"Department",
-        description:"Economics Department.",
-        lat:200,
-        lng:1080
-    },
-
-    {
-        name:"Food Science",
-        type:"Department",
-        description:"Food Science Department.",
-        lat:650,
-        lng:1230
-    },
-
-    {
-        name:"Computer Science",
-        type:"Department",
-        description:"Computer Science Department.",
-        lat:560,
-        lng:1230
-    }
-
-];
-
-
-/* =====================================================
-   MARKERS
-===================================================== */
-
-let markers = [];
-
-locations.forEach((place,index)=>{
-
-    const marker =
-        L.marker(
-            [place.lat,place.lng]
-        ).addTo(map);
-
-    marker.bindTooltip(
-        place.name,
-        {
-            direction:"top",
-            offset:[0,-10]
-        }
-    );
-
-    marker.on(
-        "click",
-        function(){
-
-            openPlace(place);
-
-        }
-    );
-
-    markers.push(marker);
-
-});
-
-
-/* =====================================================
-   OPEN LOCATION
-===================================================== */
-
-let selectedPlace = null;
-
-function openPlace(place){
-
-    selectedPlace = place;
-
-    document.getElementById(
-        "placeTitle"
-    ).innerText = place.name;
-
-    document.getElementById(
-        "placeType"
-    ).innerText = "Type: " + place.type;
-
-    document.getElementById(
-        "placeDescription"
-    ).innerText = place.description;
-
-    document.getElementById(
-        "infoPanel"
-    ).style.display = "block";
-
-    map.setView(
-        [place.lat,place.lng],
-        1
-    );
-
-}
-
-
-/* =====================================================
-   CLOSE
-===================================================== */
-
-function closeInfo(){
-
-    document.getElementById(
-        "infoPanel"
-    ).style.display = "none";
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-const searchInput =
-    document.getElementById("searchInput");
-
-const searchResults =
-    document.getElementById("searchResults");
-
-
-searchInput.addEventListener(
-    "input",
-    function(){
-
-        const value =
-            searchInput.value
-            .toLowerCase()
-            .trim();
-
-        searchResults.innerHTML = "";
-
-        if(value === ""){
-
-            searchResults.style.display =
-                "none";
-
-            return;
-        }
-
-
-        const matches =
-            locations.filter(
-                place =>
-                place.name
-                .toLowerCase()
-                .includes(value)
-            );
-
-
-        if(matches.length === 0){
-
-            searchResults.innerHTML =
-                `<div class="result">
-                    No location found
-                 </div>`;
-
-            searchResults.style.display =
-                "block";
-
-            return;
-        }
-
-
-        matches.forEach(place=>{
-
-            const item =
-                document.createElement("div");
-
-            item.className = "result";
-
-            item.innerHTML = `
-                <div class="result-title">
-                    📍 ${place.name}
-                </div>
-
-                <div class="result-type">
-                    ${place.type}
-                </div>
-            `;
-
-
-            item.onclick = function(){
-
-                openPlace(place);
-
-                searchInput.value =
-                    place.name;
-
-                searchResults.style.display =
-                    "none";
-
-            };
-
-
-            searchResults.appendChild(item);
-
-        });
-
-
-        searchResults.style.display =
-            "block";
-
-    }
-);
-
-
-/* =====================================================
-   GET DIRECTIONS
-===================================================== */
-
-function getDirection(){
-
-    if(!selectedPlace)
-        return;
-
-
-    const mainGate =
-        locations.find(
-            p => p.name === "Main Gate"
-        );
-
-
-    /* Route line */
-
-    L.polyline(
-        [
-            [mainGate.lat,mainGate.lng],
-            [450,700],
-            [selectedPlace.lat,selectedPlace.lng]
-        ],
-        {
-            color:"#1a73e8",
-            weight:7,
-            opacity:.9
-        }
-    ).addTo(map);
-
-
-    /* Distance */
-
-    const dx =
-        selectedPlace.lat -
-        mainGate.lat;
-
-    const dy =
-        selectedPlace.lng -
-        mainGate.lng;
-
-    const distance =
-        Math.sqrt(
-            dx*dx + dy*dy
-        ) / 10;
-
-
-    document.getElementById(
-        "routeInfo"
-    ).innerText =
-        "🚶 Main Gate → " +
-        selectedPlace.name +
-        "  |  Approx. " +
-        distance.toFixed(0) +
-        " m";
-
-
-    document.getElementById(
-        "routeInfo"
-    ).style.display =
-        "block";
-
-
-    map.fitBounds(
-        [
-            [mainGate.lat,mainGate.lng],
-            [selectedPlace.lat,selectedPlace.lng]
-        ],
-        {
-            padding:[80,80]
-        }
-    );
-
-}
-
-
-/* =====================================================
-   MAIN GATE
-===================================================== */
-
-function goToMainGate(){
-
-    const gate =
-        locations.find(
-            p => p.name === "Main Gate"
-        );
-
-    map.setView(
-        [gate.lat,gate.lng],
-        1
-    );
-
-    openPlace(gate);
-
-}
-
-
-/* =====================================================
-   CLICK OUTSIDE SEARCH
-===================================================== */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        if(
-            !event.target.closest(
-                ".search-box"
-            )
-        ){
-
-            searchResults.style.display =
-                "none";
-
-        }
-
-    }
-);
-
+<script
+    src="{{ url_for('static', filename='js/campus_map.js') }}">
 </script>
 
 </body>
