@@ -9,373 +9,141 @@
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    >
+    />
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/campus_map.css') }}"
-    >
+    <link rel="stylesheet" href="campus_map.css">
 </head>
 
 <body>
 
-<!-- =====================================================
-     TOP HEADER
-===================================================== -->
+    <!-- TOP HEADER -->
+    <header class="top-header">
 
-<header class="top-header">
+        <div class="logo-area">
+            <div class="logo">SC</div>
 
-    <div class="brand">
-
-        <div class="brand-logo">
-            STC
+            <div>
+                <h1>Smart Campus</h1>
+                <p>Campus Navigation System</p>
+            </div>
         </div>
 
-        <div>
-            <h1>Sarah Tucker College</h1>
-            <p>Smart Campus Navigation</p>
-        </div>
-
-    </div>
-
-
-    <div class="search-wrapper">
-
-        <span class="search-icon">⌕</span>
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search campus..."
-            autocomplete="off"
-        >
-
-        <button id="searchButton">
-            Search
-        </button>
-
-        <div
-            id="searchResults"
-            class="search-results">
-        </div>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <button
-            id="myLocationBtn"
-            class="header-btn">
+        <button id="locationBtn" class="location-btn">
             📍 My Location
         </button>
 
-        <button
-            id="menuBtn"
-            class="menu-btn">
-            ☰
+    </header>
+
+
+    <!-- SEARCH / NAVIGATION PANEL -->
+    <section class="control-panel">
+
+        <div class="search-box">
+
+            <label>From</label>
+
+            <select id="fromLocation">
+                <option value="current">My Current Location</option>
+                <option value="main-gate">Main Gate</option>
+                <option value="main-block">Main Block</option>
+                <option value="library">Library</option>
+                <option value="partition-hall">Partition Hall</option>
+                <option value="zoology">Zoology</option>
+                <option value="canteen">Canteen</option>
+                <option value="john-innes">John Innes Block</option>
+                <option value="old-auditorium">Old Auditorium</option>
+                <option value="parking">Parking Area</option>
+                <option value="canara-bank">Canara Bank</option>
+                <option value="tamil">Tamil</option>
+                <option value="english">English</option>
+                <option value="economics">Economics</option>
+                <option value="history">History</option>
+                <option value="maths">Maths</option>
+                <option value="botany">Botany</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="physics">Physics</option>
+            </select>
+
+        </div>
+
+
+        <div class="arrow">→</div>
+
+
+        <div class="search-box">
+
+            <label>To</label>
+
+            <select id="toLocation">
+
+                <option value="">Select Destination</option>
+
+                <option value="main-gate">Main Gate</option>
+                <option value="main-block">Main Block</option>
+                <option value="library">Library</option>
+                <option value="partition-hall">Partition Hall</option>
+                <option value="zoology">Zoology</option>
+                <option value="canteen">Canteen</option>
+                <option value="john-innes">John Innes Block</option>
+                <option value="old-auditorium">Old Auditorium</option>
+                <option value="parking">Parking Area</option>
+                <option value="canara-bank">Canara Bank</option>
+                <option value="tamil">Tamil</option>
+                <option value="english">English</option>
+                <option value="economics">Economics</option>
+                <option value="history">History</option>
+                <option value="maths">Maths</option>
+                <option value="botany">Botany</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="physics">Physics</option>
+
+            </select>
+
+        </div>
+
+
+        <button id="routeBtn" class="route-btn">
+            🚶 Find Route
         </button>
-
-    </div>
-
-</header>
-
-
-<!-- =====================================================
-     MAIN APPLICATION
-===================================================== -->
-
-<main class="app-container">
-
-
-    <!-- =================================================
-         DIRECTIONS PANEL
-    ================================================= -->
-
-    <aside class="directions-panel">
-
-        <div class="panel-title">
-
-            <div>
-                <h2>Directions</h2>
-                <p>Campus route planner</p>
-            </div>
-
-            <button id="clearRouteBtn">
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="route-input">
-
-            <div class="input-row">
-
-                <span class="green-pin">●</span>
-
-                <input
-                    id="fromInput"
-                    type="text"
-                    value="Main Gate"
-                    placeholder="From"
-                >
-
-            </div>
-
-
-            <div class="route-line"></div>
-
-
-            <div class="input-row">
-
-                <span class="red-pin">●</span>
-
-                <input
-                    id="toInput"
-                    type="text"
-                    placeholder="Choose destination"
-                >
-
-            </div>
-
-        </div>
-
-
-        <button
-            id="directionBtn"
-            class="direction-main-btn">
-
-            🚶 Get Directions
-
-        </button>
-
-
-        <!-- Route summary -->
-
-        <div
-            id="routeSummary"
-            class="route-summary hidden">
-
-            <div class="summary-item">
-
-                <strong id="distanceValue">
-                    —
-                </strong>
-
-                <span>
-                    Distance
-                </span>
-
-            </div>
-
-
-            <div class="summary-divider"></div>
-
-
-            <div class="summary-item">
-
-                <strong id="timeValue">
-                    —
-                </strong>
-
-                <span>
-                    Walking
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Turn by turn -->
-
-        <div
-            id="directionSteps"
-            class="direction-steps">
-
-            <div class="empty-direction">
-
-                <div class="empty-icon">
-                    🧭
-                </div>
-
-                <p>
-                    Select a destination to see
-                    walking directions.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-footer">
-
-            Click any building on the map
-            to select it as destination.
-
-        </div>
-
-    </aside>
-
-
-    <!-- =================================================
-         MAP
-    ================================================= -->
-
-    <section class="map-section">
-
-        <div id="map"></div>
-
-
-        <!-- Map controls -->
-
-        <div class="map-controls">
-
-            <button id="zoomInBtn">
-                +
-            </button>
-
-            <button id="zoomOutBtn">
-                −
-            </button>
-
-        </div>
-
-
-        <!-- Map legend -->
-
-        <div class="map-legend">
-
-            <div class="legend-title">
-                Campus Map
-            </div>
-
-            <div class="legend-row">
-                <span class="legend-dot entrance"></span>
-                Entrance
-            </div>
-
-            <div class="legend-row">
-                <span class="legend-dot academic"></span>
-                Academic
-            </div>
-
-            <div class="legend-row">
-                <span class="legend-dot facility"></span>
-                Facility
-            </div>
-
-            <div class="legend-row">
-                <span class="legend-dot sports"></span>
-                Sports
-            </div>
-
-        </div>
-
-
-        <!-- North indicator -->
-
-        <div class="north-control">
-
-            <div class="north-arrow">
-                ▲
-            </div>
-
-            <span>N</span>
-
-        </div>
-
-
-        <!-- Current location -->
-
-        <div
-            id="currentLocation"
-            class="current-location hidden">
-
-            <span class="current-dot"></span>
-
-            <div>
-                <strong>Your location</strong>
-                <small>Campus</small>
-            </div>
-
-        </div>
 
     </section>
 
-</main>
+
+    <!-- MAP -->
+    <main id="map"></main>
 
 
-<!-- =====================================================
-     LOCATION INFORMATION MODAL
-===================================================== -->
+    <!-- INFORMATION CARD -->
+    <div id="infoCard" class="info-card">
 
-<div
-    id="locationModal"
-    class="location-modal hidden">
+        <button id="closeInfo">×</button>
 
-    <div class="location-card">
+        <h2 id="infoTitle">Campus Location</h2>
 
-        <button
-            id="closeModal"
-            class="modal-close">
-            ×
-        </button>
-
-
-        <div class="location-card-icon">
-            📍
-        </div>
-
-
-        <h2 id="modalTitle">
-            Location
-        </h2>
-
-
-        <p
-            id="modalType"
-            class="modal-type">
+        <p id="infoDescription">
+            Select a building on the map.
         </p>
-
-
-        <p
-            id="modalDescription"
-            class="modal-description">
-        </p>
-
-
-        <button
-            id="modalDirectionBtn"
-            class="modal-direction-btn">
-
-            🚶 Directions to here
-
-        </button>
 
     </div>
 
-</div>
+
+    <!-- ROUTE INFORMATION -->
+    <div id="routeInfo" class="route-info">
+
+        <strong>Route</strong>
+
+        <p id="routeText">
+            Select a destination to start navigation.
+        </p>
+
+    </div>
 
 
-<!-- =====================================================
-     LEAFLET
-===================================================== -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
 
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
-
-
-<!-- =====================================================
-     CAMPUS JS
-===================================================== -->
-
-<script
-    src="{{ url_for('static', filename='js/campus_map.js') }}">
-</script>
+    <script src="campus_map.js"></script>
 
 </body>
 </html>
