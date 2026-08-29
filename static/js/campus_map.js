@@ -1,74 +1,60 @@
 // ============================================================
 // SMART CAMPUS NAVIGATION
-// VECTOR CAMPUS MAP
-// NO IMAGE
+// CORRECTED CAMPUS POSITION VERSION
 //
-// Layout based on the campus arrangement supplied by user.
+// NO CAMPUS IMAGE
+// NO STRAIGHT-LINE NAVIGATION
 //
-// Main Gate        = bottom center
-// Canara Bank      = bottom left
-// Parking Shed     = bottom right
-// Garden           = center
-// Main Block       = center/top
-// Left departments = left side
-// Right departments= right side
+// Main Gate
+//   LEFT  -> Canara Bank
+//   RIGHT -> Parking Shed
+//
+// Main Gate -> Roundabout -> Main Block
+//
+// Garden is NOT a walking path.
+// Walking routes use roads around the garden.
+//
+// Current Location -> Campus Road -> Destination
 // ============================================================
 
 
 // ============================================================
-// 1. MAP
+// 1. REAL CAMPUS CENTER
+// ============================================================
+
+const CAMPUS_CENTER = [
+    8.6987,
+    77.7407
+];
+
+
+// ============================================================
+// 2. CREATE MAP
 // ============================================================
 
 const map = L.map("campusMap", {
 
-    crs: L.CRS.Simple,
+    zoomControl: false,
 
-    minZoom: -1,
-
-    maxZoom: 3,
-
-    zoomSnap: 0.25,
-
-    zoomControl: false
+    preferCanvas: true
 
 });
 
 
 // ============================================================
-// 2. CAMPUS SIZE
+// 3. OPEN STREET MAP
 // ============================================================
 
-const CAMPUS_WIDTH = 1400;
+L.tileLayer(
 
-const CAMPUS_HEIGHT = 900;
-
-
-const campusBounds = [
-
-    [0, 0],
-
-    [CAMPUS_HEIGHT, CAMPUS_WIDTH]
-
-];
-
-
-// ============================================================
-// 3. BACKGROUND
-// ============================================================
-
-L.rectangle(
-
-    campusBounds,
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 
     {
 
-        stroke: false,
+        maxZoom: 20,
 
-        fill: true,
-
-        fillColor: "#edf2e9",
-
-        fillOpacity: 1
+        attribution:
+            "&copy; OpenStreetMap contributors"
 
     }
 
@@ -76,23 +62,70 @@ L.rectangle(
 
 
 // ============================================================
-// 4. CAMPUS LOCATIONS
+// 4. LOCAL CAMPUS COORDINATE SYSTEM
 //
-// [Y, X]
+// x = East / West
+// y = North / South
 //
-// This is LOCAL CAMPUS COORDINATE SYSTEM.
-// NOT latitude / longitude.
+// This allows us to position campus buildings
+// according to the campus layout.
+// ============================================================
+
+function campusPoint(x, y) {
+
+    const latitude =
+        CAMPUS_CENTER[0] +
+        (y / 111320);
+
+
+    const longitude =
+        CAMPUS_CENTER[1] +
+        (
+            x /
+            (
+                111320 *
+                Math.cos(
+                    CAMPUS_CENTER[0] *
+                    Math.PI /
+                    180
+                )
+            )
+        );
+
+
+    return [
+        latitude,
+        longitude
+    ];
+
+}
+
+
+// ============================================================
+// 5. CAMPUS LOCATIONS
+//
+// POSITIONING IS BASED ON THE CAMPUS LAYOUT
+// PROVIDED BY YOU.
+//
+// Main Gate = bottom center
+// Bank = left of gate
+// Parking = right of gate
+// Main Block = center
+// Library = right
+// Canteen + CS = upper-right
+// Left departments = left side
 // ============================================================
 
 const locations = {
 
+
     // --------------------------------------------------------
-    // BOTTOM / ENTRANCE
+    // ENTRANCE
     // --------------------------------------------------------
 
     "Main Gate": {
 
-        coords: [820, 700],
+        xy: [0, -110],
 
         icon: "🚪",
 
@@ -103,33 +136,33 @@ const locations = {
 
     "Canara Bank": {
 
-        coords: [790, 150],
+        xy: [-55, -105],
 
         icon: "🏦",
 
-        type: "Bank"
+        type: "Bank - Left Side of Main Gate"
 
     },
 
 
     "Parking Shed": {
 
-        coords: [790, 1240],
+        xy: [65, -105],
 
         icon: "🅿️",
 
-        type: "Parking Shed"
+        type: "Parking - Right Side of Main Gate"
 
     },
 
 
     // --------------------------------------------------------
-    // CENTRAL GARDEN
+    // CENTER
     // --------------------------------------------------------
 
     "Garden": {
 
-        coords: [555, 700],
+        xy: [0, -35],
 
         icon: "🌳",
 
@@ -138,46 +171,20 @@ const locations = {
     },
 
 
-    "Fountain": {
-
-        coords: [555, 700],
-
-        icon: "⛲",
-
-        type: "Central Fountain"
-
-    },
-
-
-    // --------------------------------------------------------
-    // CENTRAL BUILDINGS
-    // --------------------------------------------------------
-
     "Main Block": {
 
-        coords: [390, 690],
+        xy: [0, 10],
 
         icon: "🏫",
 
-        type: "Main Block"
-
-    },
-
-
-    "Principal Office": {
-
-        coords: [455, 575],
-
-        icon: "🏢",
-
-        type: "Principal Office"
+        type: "Main Academic Block"
 
     },
 
 
     "Management Office": {
 
-        coords: [455, 815],
+        xy: [20, 10],
 
         icon: "🏢",
 
@@ -186,50 +193,24 @@ const locations = {
     },
 
 
-    // --------------------------------------------------------
-    // TOP CENTER
-    // --------------------------------------------------------
+    "Principal Office": {
 
-    "B.Com & Zoology": {
+        xy: [20, -5],
 
-        coords: [245, 700],
+        icon: "👩‍💼",
 
-        icon: "🏫",
-
-        type: "Zoology & B.Com (Aided)"
+        type: "Principal Office"
 
     },
 
 
-    "Playground": {
+    "Partition Hall": {
 
-        coords: [105, 700],
+        xy: [-40, -25],
 
-        icon: "⚽",
+        icon: "🏛️",
 
-        type: "Play Ground"
-
-    },
-
-
-    "Hostel": {
-
-        coords: [70, 810],
-
-        icon: "🏠",
-
-        type: "Hostel"
-
-    },
-
-
-    "Chapel": {
-
-        coords: [75, 520],
-
-        icon: "⛪",
-
-        type: "Chapel"
+        type: "Partition Hall"
 
     },
 
@@ -238,86 +219,9 @@ const locations = {
     // LEFT SIDE
     // --------------------------------------------------------
 
-    "BCA": {
-
-        coords: [230, 180],
-
-        icon: "💻",
-
-        type: "BCA Department"
-
-    },
-
-
-    "MCA": {
-
-        coords: [305, 215],
-
-        icon: "💻",
-
-        type: "MCA Department"
-
-    },
-
-
-    "History": {
-
-        coords: [385, 205],
-
-        icon: "📖",
-
-        type: "History Department"
-
-    },
-
-
-    "Maths": {
-
-        coords: [420, 330],
-
-        icon: "📐",
-
-        type: "Mathematics Department"
-
-    },
-
-
-    "Physics S/F": {
-
-        coords: [330, 390],
-
-        icon: "🔬",
-
-        type: "Physics S/F"
-
-    },
-
-
-    "Physics": {
-
-        coords: [455, 390],
-
-        icon: "🔬",
-
-        type: "Physics Department"
-
-    },
-
-
-    "Chemistry": {
-
-        coords: [290, 470],
-
-        icon: "🧪",
-
-        type: "Chemistry Department"
-
-    },
-
-
     "New Auditorium": {
 
-        coords: [440, 115],
+        xy: [-100, 15],
 
         icon: "🏛️",
 
@@ -328,11 +232,136 @@ const locations = {
 
     "Nano Science": {
 
-        coords: [510, 150],
+        xy: [-100, -5],
 
         icon: "🧪",
 
-        type: "Nano Science Department"
+        type: "Nano Science"
+
+    },
+
+
+    "Maths": {
+
+        xy: [-65, 25],
+
+        icon: "📐",
+
+        type: "Mathematics Department"
+
+    },
+
+
+    "History": {
+
+        xy: [-95, 30],
+
+        icon: "📖",
+
+        type: "History Department"
+
+    },
+
+
+    "MCA": {
+
+        xy: [-90, 55],
+
+        icon: "💻",
+
+        type: "MCA Department"
+
+    },
+
+
+    "BCA": {
+
+        xy: [-90, 70],
+
+        icon: "💻",
+
+        type: "BCA Department"
+
+    },
+
+
+    "Physics S/F": {
+
+        xy: [-55, 70],
+
+        icon: "🔬",
+
+        type: "Physics S/F"
+
+    },
+
+
+    "Physics": {
+
+        xy: [-35, 70],
+
+        icon: "🔬",
+
+        type: "Physics Department"
+
+    },
+
+
+    "Chemistry": {
+
+        xy: [-35, 60],
+
+        icon: "🧪",
+
+        type: "Chemistry Department"
+
+    },
+
+
+    // --------------------------------------------------------
+    // TOP
+    // --------------------------------------------------------
+
+    "Zoology & B.Com": {
+
+        xy: [0, 70],
+
+        icon: "🏫",
+
+        type: "Zoology & B.Com (Aided)"
+
+    },
+
+
+    "Chapel": {
+
+        xy: [-75, 100],
+
+        icon: "⛪",
+
+        type: "Chapel"
+
+    },
+
+
+    "Hostel": {
+
+        xy: [0, 105],
+
+        icon: "🏠",
+
+        type: "Hostel"
+
+    },
+
+
+    "Playground": {
+
+        xy: [20, 90],
+
+        icon: "⚽",
+
+        type: "Playground"
 
     },
 
@@ -343,7 +372,7 @@ const locations = {
 
     "Botany": {
 
-        coords: [355, 1060],
+        xy: [85, 65],
 
         icon: "🌿",
 
@@ -352,57 +381,9 @@ const locations = {
     },
 
 
-    "Old Auditorium": {
-
-        coords: [365, 1180],
-
-        icon: "🏛️",
-
-        type: "Old Auditorium"
-
-    },
-
-
-    "Library": {
-
-        coords: [500, 1100],
-
-        icon: "📚",
-
-        type: "Library"
-
-    },
-
-
-    "Tamil & English": {
-
-        coords: [590, 1190],
-
-        icon: "📚",
-
-        type: "Tamil & English Department"
-
-    },
-
-
-    "Economics": {
-
-        coords: [650, 1180],
-
-        icon: "📊",
-
-        type: "Economics Department"
-
-    },
-
-
-    // --------------------------------------------------------
-    // TOP RIGHT
-    // --------------------------------------------------------
-
     "Canteen": {
 
-        coords: [170, 1120],
+        xy: [65, 55],
 
         icon: "🍴",
 
@@ -413,7 +394,7 @@ const locations = {
 
     "Computer Science": {
 
-        coords: [90, 1050],
+        xy: [85, 55],
 
         icon: "💻",
 
@@ -422,20 +403,9 @@ const locations = {
     },
 
 
-    "Food Science": {
-
-        coords: [135, 1050],
-
-        icon: "🧪",
-
-        type: "Food Science Department"
-
-    },
-
-
     "English S/F": {
 
-        coords: [80, 1220],
+        xy: [90, 80],
 
         icon: "📚",
 
@@ -446,11 +416,55 @@ const locations = {
 
     "B.Com S/F": {
 
-        coords: [130, 1220],
+        xy: [75, 78],
 
         icon: "💼",
 
         type: "B.Com S/F Department"
+
+    },
+
+
+    "Old Auditorium": {
+
+        xy: [105, 55],
+
+        icon: "🏛️",
+
+        type: "Old Auditorium"
+
+    },
+
+
+    "Tamil & English": {
+
+        xy: [95, 20],
+
+        icon: "📚",
+
+        type: "Tamil & English Department"
+
+    },
+
+
+    "Economics": {
+
+        xy: [92, 25],
+
+        icon: "📊",
+
+        type: "Economics Department"
+
+    },
+
+
+    "Library": {
+
+        xy: [75, 5],
+
+        icon: "📚",
+
+        type: "Library"
 
     }
 
@@ -458,623 +472,408 @@ const locations = {
 
 
 // ============================================================
-// 5. BUILDINGS
-//
-// Vector rectangles.
-// NO IMAGE.
+// 6. CONVERT LOCATION XY TO LAT/LNG
 // ============================================================
 
-function addBuilding(
+for (const place in locations) {
 
-    name,
-    center,
-    width,
-    height
+    locations[place].coords =
+        campusPoint(
+            locations[place].xy[0],
+            locations[place].xy[1]
+        );
 
-) {
-
-    const y = center[0];
-
-    const x = center[1];
-
-    const bounds = [
-
-        [
-            y - height / 2,
-            x - width / 2
-        ],
-
-        [
-            y + height / 2,
-            x + width / 2
-        ]
-
-    ];
+}
 
 
-    L.rectangle(
+// ============================================================
+// 7. CAMPUS ROAD NETWORK
+//
+// IMPORTANT:
+//
+// Roads are NOT passing through the garden.
+//
+// Main Gate
+//     |
+// Roundabout
+//   /     \
+// Bank    Parking
+//     |
+// Main Road
+//     |
+// Main Block
+//   /     \
+// Left    Right
+//
+// ============================================================
 
-        bounds,
+const roadNodes = {
 
-        {
+    "gate": [0, -110],
 
-            color: "#94a3b8",
+    "bank": [-55, -105],
 
-            weight: 2,
+    "parking": [65, -105],
 
-            fillColor: "#ffffff",
+    "roundabout": [0, -70],
 
-            fillOpacity: 0.92
+    "roundaboutLeft": [-55, -70],
 
-        }
+    "roundaboutRight": [55, -70],
 
-    )
+    "mainRoad": [0, -10],
 
-    .addTo(map)
+    "mainBlock": [0, 10],
 
-    .bindTooltip(
+    "mainLeft": [-35, 5],
 
-        name,
+    "mainRight": [35, 5],
 
-        {
 
-            permanent: false,
+    // LEFT ROAD
 
-            direction: "center"
+    "leftRoad1": [-60, 25],
 
-        }
+    "leftRoad2": [-85, 45],
 
+    "leftRoad3": [-65, 65],
+
+    "leftRoad4": [-90, 75],
+
+
+    // SCIENCE
+
+    "science": [-35, 60],
+
+    "physicsRoad": [-35, 70],
+
+    "physicsSF": [-55, 70],
+
+
+    // TOP
+
+    "zoology": [0, 70],
+
+    "topRoad": [0, 80],
+
+    "chapelRoad": [-75, 95],
+
+    "hostelRoad": [0, 105],
+
+    "playgroundRoad": [20, 90],
+
+
+    // RIGHT
+
+    "rightRoad1": [45, 25],
+
+    "libraryRoad": [75, 5],
+
+    "rightRoad2": [65, 45],
+
+    "rightRoad3": [85, 55],
+
+    "rightRoad4": [95, 20],
+
+    "rightRoad5": [105, 55]
+
+};
+
+
+// ============================================================
+// 8. ROAD CONNECTIONS
+// ============================================================
+
+const roadConnections = [
+
+    // ENTRANCE
+
+    ["gate", "roundabout"],
+
+    ["gate", "bank"],
+
+    ["gate", "parking"],
+
+
+    // ROUNDABOUT
+
+    ["bank", "roundaboutLeft"],
+
+    ["parking", "roundaboutRight"],
+
+    ["roundaboutLeft", "roundabout"],
+
+    ["roundabout", "roundaboutRight"],
+
+
+    // MAIN ROAD
+
+    ["roundabout", "mainRoad"],
+
+    ["mainRoad", "mainBlock"],
+
+
+    // MAIN BLOCK
+
+    ["mainBlock", "mainLeft"],
+
+    ["mainBlock", "mainRight"],
+
+
+    // LEFT SIDE
+
+    ["mainLeft", "leftRoad1"],
+
+    ["leftRoad1", "leftRoad2"],
+
+    ["leftRoad2", "leftRoad3"],
+
+    ["leftRoad3", "leftRoad4"],
+
+
+    // SCIENCE
+
+    ["leftRoad3", "science"],
+
+    ["science", "physicsRoad"],
+
+    ["physicsRoad", "physicsSF"],
+
+
+    // TOP
+
+    ["science", "zoology"],
+
+    ["zoology", "topRoad"],
+
+    ["topRoad", "chapelRoad"],
+
+    ["topRoad", "hostelRoad"],
+
+    ["topRoad", "playgroundRoad"],
+
+
+    // RIGHT
+
+    ["mainRight", "libraryRoad"],
+
+    ["mainRight", "rightRoad1"],
+
+    ["rightRoad1", "rightRoad2"],
+
+    ["libraryRoad", "rightRoad2"],
+
+    ["rightRoad2", "rightRoad3"],
+
+    ["rightRoad3", "rightRoad5"],
+
+    ["rightRoad1", "rightRoad4"],
+
+    ["rightRoad4", "rightRoad5"],
+
+    ["rightRoad3", "playgroundRoad"]
+
+];
+
+
+// ============================================================
+// 9. DRAW CAMPUS ROADS
+// ============================================================
+
+const roadLayers = [];
+
+for (const connection of roadConnections) {
+
+    const a =
+        campusPoint(
+            roadNodes[connection[0]][0],
+            roadNodes[connection[0]][1]
+        );
+
+    const b =
+        campusPoint(
+            roadNodes[connection[1]][0],
+            roadNodes[connection[1]][1]
+        );
+
+
+    const road =
+        L.polyline(
+            [a, b],
+            {
+
+                color: "#ffffff",
+
+                weight: 10,
+
+                opacity: 0.95,
+
+                lineCap: "round",
+
+                lineJoin: "round"
+
+            }
+        ).addTo(map);
+
+
+    const roadEdge =
+        L.polyline(
+            [a, b],
+            {
+
+                color: "#c8cdd5",
+
+                weight: 2,
+
+                opacity: 0.9,
+
+                lineCap: "round",
+
+                lineJoin: "round"
+
+            }
+        ).addTo(map);
+
+
+    roadLayers.push(
+        road,
+        roadEdge
     );
 
 }
 
 
 // ============================================================
-// BUILDINGS
+// 10. DRAW GARDEN
+//
+// Garden is an area, not a walking road.
 // ============================================================
 
-addBuilding(
-    "Main Block",
-    locations["Main Block"].coords,
-    260,
-    100
-);
+const gardenCenter =
+    campusPoint(0, -35);
 
-
-addBuilding(
-    "B.Com & Zoology",
-    locations["B.Com & Zoology"].coords,
-    230,
-    70
-);
-
-
-addBuilding(
-    "BCA",
-    locations["BCA"].coords,
-    120,
-    75
-);
-
-
-addBuilding(
-    "History",
-    locations["History"].coords,
-    115,
-    55
-);
-
-
-addBuilding(
-    "Maths",
-    locations["Maths"].coords,
-    130,
-    55
-);
-
-
-addBuilding(
-    "Physics",
-    locations["Physics"].coords,
-    120,
-    65
-);
-
-
-addBuilding(
-    "Chemistry",
-    locations["Chemistry"].coords,
-    130,
-    65
-);
-
-
-addBuilding(
-    "New Auditorium",
-    locations["New Auditorium"].coords,
-    190,
-    100
-);
-
-
-addBuilding(
-    "Nano Science",
-    locations["Nano Science"].coords,
-    120,
-    60
-);
-
-
-addBuilding(
-    "Botany",
-    locations["Botany"].coords,
-    150,
-    150
-);
-
-
-addBuilding(
-    "Old Auditorium",
-    locations["Old Auditorium"].coords,
-    130,
-    110
-);
-
-
-addBuilding(
-    "Library",
-    locations["Library"].coords,
-    140,
-    105
-);
-
-
-addBuilding(
-    "Tamil & English",
-    locations["Tamil & English"].coords,
-    125,
-    90
-);
-
-
-addBuilding(
-    "Economics",
-    locations["Economics"].coords,
-    120,
-    65
-);
-
-
-addBuilding(
-    "Computer Science",
-    locations["Computer Science"].coords,
-    170,
-    55
-);
-
-
-addBuilding(
-    "Food Science",
-    locations["Food Science"].coords,
-    170,
-    55
-);
-
-
-addBuilding(
-    "English S/F",
-    locations["English S/F"].coords,
-    120,
-    55
-);
-
-
-addBuilding(
-    "B.Com S/F",
-    locations["B.Com S/F"].coords,
-    120,
-    55
-);
-
-
-addBuilding(
-    "Canteen",
-    locations["Canteen"].coords,
-    110,
-    70
-);
-
-
-addBuilding(
-    "Hostel",
-    locations["Hostel"].coords,
-    130,
-    65
-);
-
-
-addBuilding(
-    "Chapel",
-    locations["Chapel"].coords,
-    120,
-    65
-);
-
-
-addBuilding(
-    "Parking Shed",
-    locations["Parking Shed"].coords,
-    150,
-    75
-);
-
-
-addBuilding(
-    "Canara Bank",
-    locations["Canara Bank"].coords,
-    125,
-    65
-);
-
-
-// ============================================================
-// 6. CENTRAL ROUND GARDEN
-// ============================================================
 
 L.circle(
-
-    locations["Garden"].coords,
-
+    gardenCenter,
     {
 
-        radius: 170,
+        radius: 34,
 
-        color: "#65a30d",
+        color: "#73a65b",
 
-        weight: 5,
+        weight: 2,
 
-        fillColor: "#d9f99d",
+        fillColor: "#b9d99d",
 
-        fillOpacity: 0.65
+        fillOpacity: 0.30
 
     }
-
 ).addTo(map);
 
 
 // ============================================================
-// 7. INNER GARDEN
+// 11. DRAW GARDEN WALKWAY
 // ============================================================
 
-L.circle(
+const gardenWalk = [];
 
-    locations["Fountain"].coords,
 
-    {
-
-        radius: 25,
-
-        color: "#2563eb",
-
-        weight: 4,
-
-        fillColor: "#bfdbfe",
-
-        fillOpacity: 1
-
-    }
-
-).addTo(map);
-
-
-// ============================================================
-// 8. PARTITION WALL
-// ============================================================
-
-const partitionWall = [
-
-    [405, 475],
-
-    [405, 925]
-
-];
-
-
-L.polyline(
-
-    partitionWall,
-
-    {
-
-        color: "#475569",
-
-        weight: 6,
-
-        opacity: 0.85,
-
-        dashArray: "10 8"
-
-    }
-
-)
-
-.addTo(map)
-
-.bindTooltip(
-
-    "Partition Wall",
-
-    {
-
-        sticky: true
-
-    }
-
-);
-
-
-// ============================================================
-// 9. CAMPUS INTERNAL ROADS
-// ============================================================
-
-const roadStyle = {
-
-    color: "#ffffff",
-
-    weight: 24,
-
-    opacity: 1,
-
-    lineCap: "round",
-
-    lineJoin: "round"
-
-};
-
-
-const roadBorderStyle = {
-
-    color: "#cbd5e1",
-
-    weight: 30,
-
-    opacity: 1,
-
-    lineCap: "round",
-
-    lineJoin: "round"
-
-};
-
-
-// ============================================================
-// MAIN ROAD FROM GATE
-// ============================================================
-
-const mainRoad = [
-
-    [820, 700],
-
-    [730, 700],
-
-    [650, 700],
-
-    [555, 700],
-
-    [455, 700],
-
-    [390, 700]
-
-];
-
-
-L.polyline(
-    mainRoad,
-    roadBorderStyle
-).addTo(map);
-
-
-L.polyline(
-    mainRoad,
-    roadStyle
-).addTo(map);
-
-
-// ============================================================
-// ROUND GARDEN ROAD
-// ============================================================
-
-const roundRoad = [];
-
-const radius = 190;
-
-const centerY = 555;
-
-const centerX = 700;
-
-
-for (
-    let angle = 0;
-    angle <= 360;
-    angle += 8
-) {
+for (let angle = 0; angle <= 360; angle += 15) {
 
     const radians =
         angle * Math.PI / 180;
 
 
-    roundRoad.push([
+    const x =
+        Math.cos(radians) * 42;
 
-        centerY +
-        radius *
-        Math.sin(radians),
 
-        centerX +
-        radius *
-        Math.cos(radians)
+    const y =
+        -35 +
+        Math.sin(radians) * 42;
 
-    ]);
+
+    gardenWalk.push(
+        campusPoint(x, y)
+    );
 
 }
 
 
 L.polyline(
-    roundRoad,
-    roadBorderStyle
+    gardenWalk,
+    {
+
+        color: "#ffffff",
+
+        weight: 7,
+
+        opacity: 0.95,
+
+        lineCap: "round",
+
+        lineJoin: "round"
+
+    }
 ).addTo(map);
 
 
 L.polyline(
-    roundRoad,
-    roadStyle
+    gardenWalk,
+    {
+
+        color: "#c7ccd5",
+
+        weight: 2,
+
+        opacity: 0.9,
+
+        lineCap: "round",
+
+        lineJoin: "round"
+
+    }
 ).addTo(map);
 
 
 // ============================================================
-// LEFT CAMPUS ROAD
-// ============================================================
-
-const leftRoad = [
-
-    [555, 510],
-
-    [455, 470],
-
-    [390, 400],
-
-    [330, 390],
-
-    [290, 470],
-
-    [230, 430],
-
-    [180, 300],
-
-    [230, 180]
-
-];
-
-
-L.polyline(
-    leftRoad,
-    roadBorderStyle
-).addTo(map);
-
-
-L.polyline(
-    leftRoad,
-    roadStyle
-).addTo(map);
-
-
-// ============================================================
-// RIGHT CAMPUS ROAD
-// ============================================================
-
-const rightRoad = [
-
-    [555, 890],
-
-    [455, 925],
-
-    [390, 1000],
-
-    [355, 1060],
-
-    [365, 1180],
-
-    [500, 1100],
-
-    [590, 1190],
-
-    [650, 1180]
-
-];
-
-
-L.polyline(
-    rightRoad,
-    roadBorderStyle
-).addTo(map);
-
-
-L.polyline(
-    rightRoad,
-    roadStyle
-).addTo(map);
-
-
-// ============================================================
-// TOP ROAD
-// ============================================================
-
-const topRoad = [
-
-    [390, 700],
-
-    [300, 700],
-
-    [245, 700],
-
-    [170, 700],
-
-    [105, 700]
-
-];
-
-
-L.polyline(
-    topRoad,
-    roadBorderStyle
-).addTo(map);
-
-
-L.polyline(
-    topRoad,
-    roadStyle
-).addTo(map);
-
-
-// ============================================================
-// RIGHT TOP ROAD
-// ============================================================
-
-const topRightRoad = [
-
-    [245, 700],
-
-    [210, 850],
-
-    [170, 1050],
-
-    [135, 1050],
-
-    [90, 1050]
-
-];
-
-
-L.polyline(
-    topRightRoad,
-    roadBorderStyle
-).addTo(map);
-
-
-L.polyline(
-    topRightRoad,
-    roadStyle
-).addTo(map);
-
-
-// ============================================================
-// 10. MARKERS
+// 12. MARKER STORAGE
 // ============================================================
 
 const markers = {};
 
 
 // ============================================================
-// CUSTOM ICON
+// 13. USER LOCATION
+// ============================================================
+
+let userLocation = null;
+
+let userMarker = null;
+
+let accuracyCircle = null;
+
+
+// ============================================================
+// 14. ROUTE
+// ============================================================
+
+let routeLine = null;
+
+let routeStartMarker = null;
+
+let routeEndMarker = null;
+
+
+// ============================================================
+// 15. DESTINATION
+// ============================================================
+
+let selectedDestination = null;
+
+
+// ============================================================
+// 16. CAMPUS ICON
 // ============================================================
 
 function createCampusIcon(icon) {
@@ -1087,9 +886,7 @@ function createCampusIcon(icon) {
         html: `
 
             <div class="campus-marker">
-
                 ${icon}
-
             </div>
 
         `,
@@ -1104,7 +901,7 @@ function createCampusIcon(icon) {
 
 
 // ============================================================
-// ADD MARKERS
+// 17. ADD CAMPUS MARKERS
 // ============================================================
 
 for (const place in locations) {
@@ -1113,69 +910,20 @@ for (const place in locations) {
         locations[place];
 
 
-    // Do not create duplicate visible marker
-    // for Fountain if desired.
-
-    const marker = L.marker(
-
-        data.coords,
-
-        {
-
-            icon:
-                createCampusIcon(
-                    data.icon
-                ),
-
-            zIndexOffset: 500
-
-        }
-
-    )
-
-    .addTo(map);
-
-
-    marker.bindPopup(`
-
-        <div class="campus-popup">
-
-            <div class="popup-icon">
-
-                ${data.icon}
-
-            </div>
-
-            <div class="popup-title">
-
-                ${place}
-
-            </div>
-
-            <div class="popup-type">
-
-                ${data.type}
-
-            </div>
-
-            <button
-                class="navigate-btn"
-                onclick="selectDestination('${place}')"
-            >
-
-                🧭 Navigate
-
-            </button>
-
-        </div>
-
-    `);
+    const marker =
+        L.marker(
+            data.coords,
+            {
+                icon:
+                    createCampusIcon(
+                        data.icon
+                    )
+            }
+        ).addTo(map);
 
 
     marker.bindTooltip(
-
         place,
-
         {
 
             direction: "top",
@@ -1188,37 +936,46 @@ for (const place in locations) {
             sticky: true
 
         }
-
     );
 
 
-    markers[place] = marker;
+    marker.bindPopup(`
+
+        <div class="campus-popup">
+
+            <div class="popup-icon">
+                ${data.icon}
+            </div>
+
+            <div class="popup-title">
+                ${place}
+            </div>
+
+            <div class="popup-type">
+                ${data.type}
+            </div>
+
+            <button
+                class="navigate-btn"
+                onclick="selectDestination('${place}')">
+
+                🧭 Navigate
+
+            </button>
+
+        </div>
+
+    `);
+
+
+    markers[place] =
+        marker;
 
 }
 
 
 // ============================================================
-// 11. CURRENT LOCATION
-// ============================================================
-
-let userLocation = null;
-
-let userMarker = null;
-
-let accuracyCircle = null;
-
-
-// ============================================================
-// 12. DESTINATION
-// ============================================================
-
-let selectedDestination = null;
-
-let routeLines = [];
-
-
-// ============================================================
-// 13. SELECT DESTINATION
+// 18. SELECT DESTINATION
 // ============================================================
 
 function selectDestination(place) {
@@ -1235,14 +992,13 @@ function selectDestination(place) {
     }
 
 
-    selectedDestination = place;
+    selectedDestination =
+        place;
 
 
-    // Remove old highlight
+    // REMOVE OLD HIGHLIGHT
 
-    for (
-        const name in markers
-    ) {
+    for (const name in markers) {
 
         const element =
             markers[name].getElement();
@@ -1259,7 +1015,7 @@ function selectDestination(place) {
     }
 
 
-    // Highlight selected
+    // ADD NEW HIGHLIGHT
 
     const selectedElement =
         markers[place].getElement();
@@ -1274,47 +1030,43 @@ function selectDestination(place) {
     }
 
 
-    // Open popup
-
     markers[place].openPopup();
 
 
-    // Zoom destination
-
     map.flyTo(
-
         locations[place].coords,
-
-        1.5,
-
+        18,
         {
-
-            duration: 0.8
-
+            duration: 1
         }
-
     );
 
 
-    updateInfo(
+    updateInfo();
 
-        "📍 " + place,
 
-        locations[place].type +
-        "<br><br>" +
-        (
-            userLocation
-            ? "Press Navigate to show walking route."
-            : "Press My Location to detect your location."
-        )
+    if (userLocation) {
 
-    );
+        createRoute();
+
+    }
 
 }
 
 
 // ============================================================
-// 14. SEARCH
+// 19. QUICK SELECT
+// ============================================================
+
+function quickSelect(place) {
+
+    selectDestination(place);
+
+}
+
+
+// ============================================================
+// 20. SEARCH
 // ============================================================
 
 function findDestination() {
@@ -1349,186 +1101,172 @@ function findDestination() {
     }
 
 
-    const aliases = {
-
-        "cs":
-            "Computer Science",
-
-        "computer":
-            "Computer Science",
-
-        "computer science department":
-            "Computer Science",
-
-        "food":
-            "Food Science",
-
-        "library":
-            "Library",
-
-        "canteen":
-            "Canteen",
-
-        "bank":
-            "Canara Bank",
-
-        "canara":
-            "Canara Bank",
-
-        "parking":
-            "Parking Shed",
-
-        "parking shed":
-            "Parking Shed",
-
-        "gate":
-            "Main Gate",
-
-        "main gate":
-            "Main Gate",
-
-        "hostel":
-            "Hostel",
-
-        "bca":
-            "BCA",
-
-        "mca":
-            "MCA",
-
-        "physics":
-            "Physics",
-
-        "chemistry":
-            "Chemistry",
-
-        "maths":
-            "Maths",
-
-        "mathematics":
-            "Maths",
-
-        "history":
-            "History",
-
-        "economics":
-            "Economics",
-
-        "chapel":
-            "Chapel",
-
-        "playground":
-            "Playground",
-
-        "play ground":
-            "Playground",
-
-        "auditorium":
-            "New Auditorium",
-
-        "new auditorium":
-            "New Auditorium",
-
-        "old auditorium":
-            "Old Auditorium",
-
-        "botany":
-            "Botany",
-
-        "tamil":
-            "Tamil & English",
-
-        "english":
-            "English S/F",
-
-        "bcom":
-            "B.Com S/F",
-
-        "zoology":
-            "B.Com & Zoology",
-
-        "nano":
-            "Nano Science",
-
-        "fountain":
-            "Fountain"
-
-    };
-
-
     let foundPlace = null;
 
 
-    // Exact alias
+    // EXACT / PARTIAL
 
-    if (aliases[input]) {
+    for (const place in locations) {
 
-        foundPlace =
-            aliases[input];
-
-    }
+        const name =
+            place.toLowerCase();
 
 
-    // Exact location
-
-    if (!foundPlace) {
-
-        for (
-            const place in locations
+        if (
+            name === input ||
+            name.includes(input) ||
+            input.includes(name)
         ) {
 
-            if (
-                place.toLowerCase() === input
-            ) {
+            foundPlace =
+                place;
 
-                foundPlace = place;
-
-                break;
-
-            }
+            break;
 
         }
 
     }
 
 
-    // Partial location
+    // ALIASES
 
     if (!foundPlace) {
 
-        for (
-            const place in locations
-        ) {
+        const aliases = {
 
-            const name =
-                place.toLowerCase();
+            "gate":
+                "Main Gate",
 
+            "main gate":
+                "Main Gate",
+
+            "bank":
+                "Canara Bank",
+
+            "canara":
+                "Canara Bank",
+
+            "parking":
+                "Parking Shed",
+
+            "parking area":
+                "Parking Shed",
+
+            "cs":
+                "Computer Science",
+
+            "computer":
+                "Computer Science",
+
+            "computer science":
+                "Computer Science",
+
+            "computer science department":
+                "Computer Science",
+
+            "library":
+                "Library",
+
+            "canteen":
+                "Canteen",
+
+            "auditorium":
+                "New Auditorium",
+
+            "old auditorium":
+                "Old Auditorium",
+
+            "new auditorium":
+                "New Auditorium",
+
+            "science":
+                "Physics",
+
+            "science block":
+                "Physics",
+
+            "physics":
+                "Physics",
+
+            "chemistry":
+                "Chemistry",
+
+            "physics sf":
+                "Physics S/F",
+
+            "bca":
+                "BCA",
+
+            "mca":
+                "MCA",
+
+            "history":
+                "History",
+
+            "maths":
+                "Maths",
+
+            "mathematics":
+                "Maths",
+
+            "nano":
+                "Nano Science",
+
+            "chapel":
+                "Chapel",
+
+            "hostel":
+                "Hostel",
+
+            "playground":
+                "Playground",
+
+            "zoology":
+                "Zoology & B.Com",
+
+            "bcom zoology":
+                "Zoology & B.Com",
+
+            "botany":
+                "Botany",
+
+            "english":
+                "English S/F",
+
+            "english sf":
+                "English S/F",
+
+            "bcom":
+                "B.Com S/F",
+
+            "bcom sf":
+                "B.Com S/F",
+
+            "tamil":
+                "Tamil & English",
+
+            "economics":
+                "Economics",
+
+            "partition":
+                "Partition Hall",
+
+            "partition hall":
+                "Partition Hall",
+
+            "management":
+                "Management Office",
+
+            "principal":
+                "Principal Office"
+
+        };
+
+
+        for (const key in aliases) {
 
             if (
-                name.includes(input) ||
-                input.includes(name)
-            ) {
-
-                foundPlace = place;
-
-                break;
-
-            }
-
-        }
-
-    }
-
-
-    // Partial aliases
-
-    if (!foundPlace) {
-
-        for (
-            const key in aliases
-        ) {
-
-            if (
+                key === input ||
                 key.includes(input) ||
                 input.includes(key)
             ) {
@@ -1561,17 +1299,17 @@ function findDestination() {
 
             "Main Gate\n" +
 
+            "Canara Bank\n" +
+
             "Parking Shed\n" +
-
-            "BCA\n" +
-
-            "MCA\n" +
 
             "Physics\n" +
 
             "Chemistry\n" +
 
-            "Botany"
+            "BCA\n" +
+
+            "MCA"
 
         );
 
@@ -1588,7 +1326,7 @@ function findDestination() {
 
 
 // ============================================================
-// 15. ENTER KEY
+// 21. ENTER KEY
 // ============================================================
 
 const destinationInput =
@@ -1621,13 +1359,10 @@ if (destinationInput) {
 
 
 // ============================================================
-// 16. INFORMATION
+// 22. UPDATE INFORMATION
 // ============================================================
 
-function updateInfo(
-    title,
-    text
-) {
+function updateInfo() {
 
     const info =
         document.getElementById(
@@ -1642,17 +1377,49 @@ function updateInfo(
     }
 
 
+    if (!selectedDestination) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 Campus Navigation
+            </div>
+
+            <div class="info-text">
+
+                Search a building or select
+                a campus location.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
     info.innerHTML = `
 
         <div class="info-title">
 
-            ${title}
+            🎯 ${selectedDestination}
 
         </div>
 
         <div class="info-text">
 
-            ${text}
+            ${locations[selectedDestination].type}
+
+            <br><br>
+
+            ${
+                userLocation
+                ?
+                "🧭 Click Navigate to start walking navigation."
+                :
+                "📍 Click My Location first."
+            }
 
         </div>
 
@@ -1662,576 +1429,12 @@ function updateInfo(
 
 
 // ============================================================
-// 17. CAMPUS ROUTE GRAPH
-//
-// Routes follow the drawn campus roads.
-// No OSRM.
-// No external routing server.
-// ============================================================
-
-const routeNetwork = {
-
-    "Main Gate": [
-        "Garden"
-    ],
-
-    "Garden": [
-        "Main Gate",
-        "Main Block",
-        "BCA",
-        "Physics",
-        "Library",
-        "Botany",
-        "Canteen"
-    ],
-
-    "Main Block": [
-        "Garden",
-        "B.Com & Zoology",
-        "Principal Office",
-        "Management Office"
-    ],
-
-    "B.Com & Zoology": [
-        "Main Block",
-        "Playground"
-    ],
-
-    "Playground": [
-        "B.Com & Zoology",
-        "Hostel",
-        "Chapel"
-    ],
-
-    "BCA": [
-        "Garden",
-        "MCA",
-        "History"
-    ],
-
-    "MCA": [
-        "BCA",
-        "History"
-    ],
-
-    "History": [
-        "MCA",
-        "Maths"
-    ],
-
-    "Maths": [
-        "History",
-        "Physics S/F",
-        "Physics"
-    ],
-
-    "Physics S/F": [
-        "Maths",
-        "Chemistry"
-    ],
-
-    "Physics": [
-        "Maths",
-        "Chemistry",
-        "Main Block"
-    ],
-
-    "Chemistry": [
-        "Physics",
-        "New Auditorium"
-    ],
-
-    "New Auditorium": [
-        "Chemistry",
-        "Nano Science"
-    ],
-
-    "Nano Science": [
-        "New Auditorium"
-    ],
-
-    "Botany": [
-        "Garden",
-        "Old Auditorium"
-    ],
-
-    "Old Auditorium": [
-        "Botany",
-        "Library"
-    ],
-
-    "Library": [
-        "Garden",
-        "Old Auditorium",
-        "Tamil & English"
-    ],
-
-    "Tamil & English": [
-        "Library",
-        "Economics"
-    ],
-
-    "Economics": [
-        "Tamil & English"
-    ],
-
-    "Canteen": [
-        "Garden",
-        "Computer Science"
-    ],
-
-    "Computer Science": [
-        "Canteen",
-        "Food Science",
-        "English S/F",
-        "B.Com S/F"
-    ],
-
-    "Food Science": [
-        "Computer Science"
-    ],
-
-    "English S/F": [
-        "Computer Science",
-        "B.Com S/F"
-    ],
-
-    "B.Com S/F": [
-        "English S/F",
-        "Computer Science"
-    ],
-
-    "Hostel": [
-        "Playground"
-    ],
-
-    "Chapel": [
-        "Playground"
-    ],
-
-    "Principal Office": [
-        "Main Block"
-    ],
-
-    "Management Office": [
-        "Main Block"
-    ],
-
-    "Fountain": [
-        "Garden"
-    ],
-
-    "Canara Bank": [
-        "Main Gate"
-    ],
-
-    "Parking Shed": [
-        "Main Gate"
-    ]
-
-};
-
-
-// ============================================================
-// 18. FIND ROUTE USING BFS
-// ============================================================
-
-function findCampusPath(
-    start,
-    destination
-) {
-
-    if (
-        start === destination
-    ) {
-
-        return [start];
-
-    }
-
-
-    const queue = [start];
-
-    const visited = new Set();
-
-    const previous = {};
-
-
-    visited.add(start);
-
-
-    while (
-        queue.length > 0
-    ) {
-
-        const current =
-            queue.shift();
-
-
-        const neighbours =
-            routeNetwork[current] || [];
-
-
-        for (
-            const next of neighbours
-        ) {
-
-            if (
-                visited.has(next)
-            ) {
-
-                continue;
-
-            }
-
-
-            visited.add(next);
-
-            previous[next] =
-                current;
-
-
-            if (
-                next === destination
-            ) {
-
-                const path = [];
-
-                let node =
-                    destination;
-
-
-                while (node) {
-
-                    path.unshift(
-                        node
-                    );
-
-                    node =
-                        previous[node];
-
-                }
-
-
-                return path;
-
-            }
-
-
-            queue.push(next);
-
-        }
-
-    }
-
-
-    return null;
-
-}
-
-
-// ============================================================
-// 19. DRAW ROUTE
-// ============================================================
-
-function createRoute() {
-
-    if (!selectedDestination) {
-
-        alert(
-            "Please select a destination first."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       IMPORTANT:
-
-       Browser GPS coordinates cannot be directly
-       placed on this hand-designed local campus map
-       without a real GPS calibration.
-
-       Therefore, if My Location has not been
-       calibrated to the campus diagram, the route
-       starts from Main Gate.
-    */
-
-
-    let startPoint =
-        "Main Gate";
-
-
-    // If a local user point exists,
-    // use the nearest campus location.
-
-    if (userLocation) {
-
-        startPoint =
-            findNearestCampusLocation(
-                userLocation
-            );
-
-    }
-
-
-    const path =
-        findCampusPath(
-            startPoint,
-            selectedDestination
-        );
-
-
-    if (!path) {
-
-        updateInfo(
-
-            "⚠️ Route Not Available",
-
-            "No connected campus path was found."
-
-        );
-
-        return;
-
-    }
-
-
-    // Remove previous route
-
-    clearRoute();
-
-
-    const routeCoordinates =
-        path.map(
-
-            function(place) {
-
-                return locations[place]
-                    .coords;
-
-            }
-
-        );
-
-
-    // Draw route shadow
-
-    const routeShadow =
-        L.polyline(
-
-            routeCoordinates,
-
-            {
-
-                color: "#ffffff",
-
-                weight: 13,
-
-                opacity: 0.95,
-
-                lineCap: "round",
-
-                lineJoin: "round"
-
-            }
-
-        ).addTo(map);
-
-
-    // Draw route
-
-    const routeLine =
-        L.polyline(
-
-            routeCoordinates,
-
-            {
-
-                color: "#2563eb",
-
-                weight: 7,
-
-                opacity: 1,
-
-                lineCap: "round",
-
-                lineJoin: "round",
-
-                className:
-                    "campus-route-line"
-
-            }
-
-        ).addTo(map);
-
-
-    routeLines.push(
-        routeShadow
-    );
-
-    routeLines.push(
-        routeLine
-    );
-
-
-    // Route distance
-
-    let distance = 0;
-
-
-    for (
-        let i = 0;
-        i < routeCoordinates.length - 1;
-        i++
-    ) {
-
-        distance +=
-            approximateDistance(
-                routeCoordinates[i],
-                routeCoordinates[i + 1]
-            );
-
-    }
-
-
-    const minutes =
-        Math.max(
-            1,
-            Math.round(
-                distance / 70
-            )
-        );
-
-
-    updateInfo(
-
-        "🧭 Route Found",
-
-        `
-
-        📍 From:
-        <b>${startPoint}</b>
-
-        <br><br>
-
-        🎯 To:
-        <b>${selectedDestination}</b>
-
-        <br><br>
-
-        📏 Approx. Distance:
-        <b>${Math.round(distance)} m</b>
-
-        <br>
-
-        🚶 Walking Time:
-        <b>${minutes} min</b>
-
-        <br><br>
-
-        🛣️ Route:
-        <b>${path.join(" → ")}</b>
-
-        `
-
-    );
-
-
-    // Fit route
-
-    map.fitBounds(
-        routeLine.getBounds(),
-        {
-            padding: [100, 100]
-        }
-    );
-
-}
-
-
-// ============================================================
-// 20. APPROXIMATE LOCAL DISTANCE
-// ============================================================
-
-function approximateDistance(
-    a,
-    b
-) {
-
-    const dy =
-        a[0] - b[0];
-
-    const dx =
-        a[1] - b[1];
-
-
-    /*
-       Local campus drawing scale.
-       Approximately 1 local unit = 1 metre.
-    */
-
-    return Math.sqrt(
-        dx * dx +
-        dy * dy
-    );
-
-}
-
-
-// ============================================================
-// 21. CLEAR ROUTE
-// ============================================================
-
-function clearRoute() {
-
-    for (
-        const line of routeLines
-    ) {
-
-        map.removeLayer(line);
-
-    }
-
-
-    routeLines = [];
-
-}
-
-
-// ============================================================
-// 22. DIRECT NAVIGATE
-// ============================================================
-
-function navigateToSelected() {
-
-    if (!selectedDestination) {
-
-        alert(
-            "Please select a destination first."
-        );
-
-        return;
-
-    }
-
-
-    createRoute();
-
-}
-
-
-// ============================================================
-// 23. CURRENT GPS LOCATION
+// 23. GET CURRENT LOCATION
 // ============================================================
 
 function showMyLocation() {
 
-    if (
-        !navigator.geolocation
-    ) {
+    if (!navigator.geolocation) {
 
         alert(
             "Geolocation is not supported by this browser."
@@ -2242,13 +1445,29 @@ function showMyLocation() {
     }
 
 
-    updateInfo(
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
 
-        "📍 Detecting Location...",
 
-        "Please allow location permission."
+    if (info) {
 
-    );
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 Detecting Location...
+            </div>
+
+            <div class="info-text">
+
+                Please allow location permission.
+
+            </div>
+
+        `;
+
+    }
 
 
     navigator.geolocation.getCurrentPosition(
@@ -2258,41 +1477,29 @@ function showMyLocation() {
             const latitude =
                 position.coords.latitude;
 
+
             const longitude =
                 position.coords.longitude;
+
 
             const accuracy =
                 position.coords.accuracy;
 
 
-            /*
-               Store REAL GPS coordinates.
-
-               They are displayed to the user.
-            */
-
-            userLocation = {
-
-                latitude:
-                    latitude,
-
-                longitude:
-                    longitude,
-
-                accuracy:
-                    accuracy
-
-            };
+            userLocation = [
+                latitude,
+                longitude
+            ];
 
 
             console.log(
-                "GPS:",
+                "Current GPS:",
                 latitude,
                 longitude
             );
 
 
-            // Remove old marker
+            // REMOVE OLD
 
             if (userMarker) {
 
@@ -2312,7 +1519,7 @@ function showMyLocation() {
             }
 
 
-            // User icon
+            // USER ICON
 
             const userIcon =
                 L.divIcon({
@@ -2339,136 +1546,97 @@ function showMyLocation() {
                 });
 
 
-            /*
-               IMPORTANT:
-
-               GPS latitude/longitude cannot be placed
-               on this local schematic map directly.
-
-               We show the GPS position in the panel
-               and use the nearest logical campus
-               starting point for navigation.
-            */
-
-
-            const nearest =
-                getLogicalGPSLocation(
-                    latitude,
-                    longitude
-                );
-
-
             userMarker =
                 L.marker(
-
-                    nearest.coords,
-
+                    userLocation,
                     {
 
-                        icon:
-                            userIcon,
+                        icon: userIcon,
 
-                        zIndexOffset:
-                            2000
+                        zIndexOffset: 2000
 
                     }
-
-                )
-
-                .addTo(map);
+                ).addTo(map);
 
 
             userMarker.bindPopup(
-
-                "📍 Current Location"
-
+                "📍 You are here"
             );
 
+
+            // ACCURACY
 
             accuracyCircle =
                 L.circle(
-
-                    nearest.coords,
-
+                    userLocation,
                     {
 
-                        radius:
-                            Math.min(
-                                accuracy,
-                                60
-                            ),
+                        radius: accuracy,
 
-                        color:
-                            "#2563eb",
+                        color: "#1976d2",
 
-                        fillColor:
-                            "#60a5fa",
+                        weight: 1,
 
-                        fillOpacity:
-                            0.15,
+                        fillColor: "#1976d2",
 
-                        weight: 1
+                        fillOpacity: 0.08
 
                     }
+                ).addTo(map);
 
-                )
 
-                .addTo(map);
-
+            // MOVE
 
             map.flyTo(
-
-                nearest.coords,
-
-                1.5,
-
+                userLocation,
+                18,
                 {
-
                     duration: 1
-
                 }
-
             );
 
 
-            updateInfo(
+            // INFO
 
-                "📍 Current Location",
+            if (info) {
 
-                `
+                info.innerHTML = `
 
-                GPS detected successfully.
+                    <div class="info-title">
+                        📍 Current Location
+                    </div>
 
-                <br><br>
+                    <div class="info-text">
 
-                Latitude:
-                <b>${latitude.toFixed(6)}</b>
+                        Location detected successfully.
 
-                <br>
+                        <br><br>
 
-                Longitude:
-                <b>${longitude.toFixed(6)}</b>
+                        Accuracy:
+                        <b>
+                            ${Math.round(accuracy)} m
+                        </b>
 
-                <br>
+                        <br><br>
 
-                Accuracy:
-                <b>${Math.round(accuracy)} m</b>
+                        ${
+                            selectedDestination
+                            ?
+                            "🧭 Creating route..."
+                            :
+                            "🎯 Select a destination."
+                        }
 
-                <br><br>
+                    </div>
 
-                Campus position:
-                <b>${nearest.name}</b>
+                `;
 
-                `
-
-            );
+            }
 
 
-            // Create route if destination selected
+            // CREATE ROUTE
 
-            if (
-                selectedDestination
-            ) {
+            if (selectedDestination) {
 
                 createRoute();
 
@@ -2480,7 +1648,7 @@ function showMyLocation() {
         function(error) {
 
             console.error(
-                "GPS Error:",
+                "GPS error:",
                 error
             );
 
@@ -2489,27 +1657,24 @@ function showMyLocation() {
                 "Unable to access your location.";
 
 
-            if (
-                error.code === 1
-            ) {
+            if (error.code === 1) {
 
                 message =
-                    "Location permission denied. Please allow location access.";
+                    "Location permission denied.\n\n" +
+                    "Please allow location access.";
 
             }
 
-            else if (
-                error.code === 2
-            ) {
+
+            else if (error.code === 2) {
 
                 message =
-                    "Your location is currently unavailable.";
+                    "Location is currently unavailable.";
 
             }
 
-            else if (
-                error.code === 3
-            ) {
+
+            else if (error.code === 3) {
 
                 message =
                     "Location request timed out.";
@@ -2520,15 +1685,29 @@ function showMyLocation() {
             alert(message);
 
 
-            updateInfo(
+            if (info) {
 
-                "⚠️ Location Error",
+                info.innerHTML = `
 
-                message
+                    <div class="info-title">
+                        ⚠️ Location Error
+                    </div>
 
-            );
+                    <div class="info-text">
+
+                        ${message.replace(
+                            /\n/g,
+                            "<br>"
+                        )}
+
+                    </div>
+
+                `;
+
+            }
 
         },
+
 
         {
 
@@ -2546,79 +1725,887 @@ function showMyLocation() {
 
 
 // ============================================================
-// 24. LOGICAL GPS LOCATION
-//
-// Temporary calibration logic.
-// Actual campus GPS calibration can be added later.
+// 24. DISTANCE BETWEEN XY POINTS
 // ============================================================
 
-function getLogicalGPSLocation(
+function distanceXY(a, b) {
+
+    return Math.sqrt(
+
+        Math.pow(
+            a[0] - b[0],
+            2
+        )
+
+        +
+
+        Math.pow(
+            a[1] - b[1],
+            2
+        )
+
+    );
+
+}
+
+
+// ============================================================
+// 25. BUILD GRAPH
+// ============================================================
+
+const graph = {};
+
+
+for (const node in roadNodes) {
+
+    graph[node] = [];
+
+}
+
+
+for (const edge of roadConnections) {
+
+    const a = edge[0];
+
+    const b = edge[1];
+
+
+    const distance =
+        distanceXY(
+            roadNodes[a],
+            roadNodes[b]
+        );
+
+
+    graph[a].push({
+
+        node: b,
+
+        distance: distance
+
+    });
+
+
+    graph[b].push({
+
+        node: a,
+
+        distance: distance
+
+    });
+
+}
+
+
+// ============================================================
+// 26. SHORTEST PATH
+// ============================================================
+
+function shortestPath(
+    start,
+    end
+) {
+
+    const distances = {};
+
+    const previous = {};
+
+    const visited = new Set();
+
+
+    for (const node in graph) {
+
+        distances[node] =
+            Infinity;
+
+        previous[node] =
+            null;
+
+    }
+
+
+    distances[start] = 0;
+
+
+    while (true) {
+
+        let current = null;
+
+        let smallest =
+            Infinity;
+
+
+        for (const node in distances) {
+
+            if (
+                !visited.has(node) &&
+                distances[node] < smallest
+            ) {
+
+                smallest =
+                    distances[node];
+
+                current =
+                    node;
+
+            }
+
+        }
+
+
+        if (current === null) {
+
+            break;
+
+        }
+
+
+        if (current === end) {
+
+            break;
+
+        }
+
+
+        visited.add(current);
+
+
+        for (
+            const connection
+            of graph[current]
+        ) {
+
+            const newDistance =
+                distances[current] +
+                connection.distance;
+
+
+            if (
+                newDistance <
+                distances[connection.node]
+            ) {
+
+                distances[connection.node] =
+                    newDistance;
+
+                previous[connection.node] =
+                    current;
+
+            }
+
+        }
+
+    }
+
+
+    const path = [];
+
+
+    let current =
+        end;
+
+
+    while (current !== null) {
+
+        path.unshift(
+            current
+        );
+
+        current =
+            previous[current];
+
+    }
+
+
+    if (
+        path.length === 0 ||
+        path[0] !== start
+    ) {
+
+        return [];
+
+    }
+
+
+    return path;
+
+}
+
+
+// ============================================================
+// 27. FIND NEAREST ROAD NODE
+// ============================================================
+
+function nearestRoadNode(
+    xyPoint
+) {
+
+    let nearest = null;
+
+    let smallest =
+        Infinity;
+
+
+    for (const node in roadNodes) {
+
+        const d =
+            distanceXY(
+                xyPoint,
+                roadNodes[node]
+            );
+
+
+        if (d < smallest) {
+
+            smallest =
+                d;
+
+            nearest =
+                node;
+
+        }
+
+    }
+
+
+    return nearest;
+
+}
+
+
+// ============================================================
+// 28. LAT/LNG TO LOCAL XY
+// ============================================================
+
+function latLngToXY(
     latitude,
     longitude
 ) {
 
-    /*
-       Since the provided campus diagram is a local
-       schematic and does not contain GPS coordinates,
-       we cannot mathematically convert real GPS into
-       exact drawing coordinates yet.
-
-       For now:
-
-       GPS detected -> Main Gate logical starting point.
-
-       This prevents the GPS marker from appearing
-       in a completely unrelated place.
-    */
+    const y =
+        (
+            latitude -
+            CAMPUS_CENTER[0]
+        ) * 111320;
 
 
-    return {
+    const x =
+        (
+            longitude -
+            CAMPUS_CENTER[1]
+        ) *
 
-        name: "Main Gate",
+        111320 *
 
-        coords:
-            locations["Main Gate"].coords
+        Math.cos(
+            CAMPUS_CENTER[0] *
+            Math.PI /
+            180
+        );
+
+
+    return [
+        x,
+        y
+    ];
+
+}
+
+
+// ============================================================
+// 29. ROUTE NAME
+// ============================================================
+
+function roadNodeName(node) {
+
+    const names = {
+
+        "gate":
+            "Main Gate",
+
+        "bank":
+            "Canara Bank side",
+
+        "parking":
+            "Parking Shed side",
+
+        "roundabout":
+            "Main Roundabout",
+
+        "mainRoad":
+            "Main Campus Road",
+
+        "mainBlock":
+            "Main Block",
+
+        "mainLeft":
+            "Main Block left road",
+
+        "mainRight":
+            "Main Block right road",
+
+        "leftRoad1":
+            "Left-side road",
+
+        "leftRoad2":
+            "Left departments road",
+
+        "leftRoad3":
+            "Science side road",
+
+        "leftRoad4":
+            "BCA side road",
+
+        "science":
+            "Science Block",
+
+        "physicsRoad":
+            "Physics side",
+
+        "physicsSF":
+            "Physics S/F side",
+
+        "zoology":
+            "Zoology & B.Com",
+
+        "topRoad":
+            "Top campus road",
+
+        "chapelRoad":
+            "Chapel side",
+
+        "hostelRoad":
+            "Hostel side",
+
+        "playgroundRoad":
+            "Playground side",
+
+        "rightRoad1":
+            "Library side road",
+
+        "libraryRoad":
+            "Library road",
+
+        "rightRoad2":
+            "Canteen side road",
+
+        "rightRoad3":
+            "Computer Science side",
+
+        "rightRoad4":
+            "Tamil & English side",
+
+        "rightRoad5":
+            "Old Auditorium side"
 
     };
 
-}
 
-
-// ============================================================
-// 25. FIND NEAREST CAMPUS LOCATION
-// ============================================================
-
-function findNearestCampusLocation(
-    gps
-) {
-
-    /*
-       Until GPS calibration points are supplied,
-       Main Gate is used as the safe campus starting
-       point.
-    */
-
-    return "Main Gate";
+    return (
+        names[node] ||
+        "Campus Road"
+    );
 
 }
 
 
 // ============================================================
-// 26. RESET
+// 30. CREATE WALKING ROUTE
+// ============================================================
+
+function createRoute() {
+
+    if (!userLocation) {
+
+        alert(
+            "First click My Location."
+        );
+
+        return;
+
+    }
+
+
+    if (!selectedDestination) {
+
+        alert(
+            "Please select a destination."
+        );
+
+        return;
+
+    }
+
+
+    // REMOVE OLD ROUTE
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
+        );
+
+        routeLine = null;
+
+    }
+
+
+    if (routeStartMarker) {
+
+        map.removeLayer(
+            routeStartMarker
+        );
+
+        routeStartMarker = null;
+
+    }
+
+
+    if (routeEndMarker) {
+
+        map.removeLayer(
+            routeEndMarker
+        );
+
+        routeEndMarker = null;
+
+    }
+
+
+    // USER XY
+
+    const userXY =
+        latLngToXY(
+            userLocation[0],
+            userLocation[1]
+        );
+
+
+    // DESTINATION XY
+
+    const destinationXY =
+        locations[
+            selectedDestination
+        ].xy;
+
+
+    // NEAREST ROAD
+
+    const startNode =
+        nearestRoadNode(
+            userXY
+        );
+
+
+    const endNode =
+        nearestRoadNode(
+            destinationXY
+        );
+
+
+    // SHORTEST CAMPUS ROAD
+
+    const nodePath =
+        shortestPath(
+            startNode,
+            endNode
+        );
+
+
+    if (
+        nodePath.length === 0
+    ) {
+
+        alert(
+            "Campus route could not be created."
+        );
+
+        return;
+
+    }
+
+
+    // BUILD ROUTE
+
+    const routeCoordinates = [];
+
+
+    // CURRENT LOCATION
+
+    routeCoordinates.push(
+        userLocation
+    );
+
+
+    // USER -> ROAD NODE
+
+    routeCoordinates.push(
+        campusPoint(
+            roadNodes[startNode][0],
+            roadNodes[startNode][1]
+        )
+    );
+
+
+    // ROAD NETWORK
+
+    for (
+        const node
+        of nodePath
+    ) {
+
+        routeCoordinates.push(
+
+            campusPoint(
+                roadNodes[node][0],
+                roadNodes[node][1]
+            )
+
+        );
+
+    }
+
+
+    // ROAD -> DESTINATION
+
+    routeCoordinates.push(
+        locations[
+            selectedDestination
+        ].coords
+    );
+
+
+    // DRAW ROUTE
+
+    routeLine =
+        L.polyline(
+            routeCoordinates,
+            {
+
+                color: "#2864f0",
+
+                weight: 7,
+
+                opacity: 0.95,
+
+                lineCap: "round",
+
+                lineJoin: "round",
+
+                className:
+                    "campus-route-line"
+
+            }
+        ).addTo(map);
+
+
+    // START MARKER
+
+    routeStartMarker =
+        L.circleMarker(
+            userLocation,
+            {
+
+                radius: 7,
+
+                color: "#ffffff",
+
+                weight: 3,
+
+                fillColor: "#1976d2",
+
+                fillOpacity: 1
+
+            }
+        ).addTo(map);
+
+
+    // END MARKER
+
+    routeEndMarker =
+        L.circleMarker(
+            locations[
+                selectedDestination
+            ].coords,
+            {
+
+                radius: 8,
+
+                color: "#ffffff",
+
+                weight: 3,
+
+                fillColor: "#e53935",
+
+                fillOpacity: 1
+
+            }
+        ).addTo(map);
+
+
+    // FIT ROUTE
+
+    map.fitBounds(
+        routeLine.getBounds(),
+        {
+
+            padding: [80, 80]
+
+        }
+    );
+
+
+    // DISTANCE
+
+    let totalDistance = 0;
+
+
+    for (
+        let i = 1;
+        i < routeCoordinates.length;
+        i++
+    ) {
+
+        totalDistance +=
+            map.distance(
+                routeCoordinates[i - 1],
+                routeCoordinates[i]
+            );
+
+    }
+
+
+    const walkingMinutes =
+        Math.max(
+            1,
+            Math.round(
+                totalDistance /
+                80
+            )
+        );
+
+
+    const distanceText =
+
+        totalDistance >= 1000
+
+        ?
+
+        (
+            totalDistance /
+            1000
+        ).toFixed(2) + " km"
+
+        :
+
+        Math.round(
+            totalDistance
+        ) + " m";
+
+
+    // ROUTE STEPS
+
+    let stepsHTML = "";
+
+
+    nodePath.forEach(
+        function(node, index) {
+
+            if (index === 0) {
+
+                return;
+
+            }
+
+
+            stepsHTML += `
+
+                <div class="route-step">
+
+                    <div class="step-number">
+                        ${index}
+                    </div>
+
+                    <div>
+
+                        Walk towards
+                        <b>
+                            ${roadNodeName(node)}
+                        </b>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    stepsHTML += `
+
+        <div class="route-step">
+
+            <div class="step-number">
+                ✓
+            </div>
+
+            <div>
+
+                Reach
+                <b>
+                    ${selectedDestination}
+                </b>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    // INFO PANEL
+
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
+
+
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+
+                🧭 Route Found
+
+            </div>
+
+
+            <div class="info-text">
+
+                📍 From:
+                <b>Current Location</b>
+
+                <br><br>
+
+                🎯 To:
+                <b>${selectedDestination}</b>
+
+                <br><br>
+
+                📏 Distance:
+                <b>${distanceText}</b>
+
+                <br>
+
+                🚶 Walking Time:
+                <b>${walkingMinutes} min</b>
+
+                <br><br>
+
+                ${stepsHTML}
+
+            </div>
+
+        `;
+
+    }
+
+
+    console.log(
+        "Route:",
+        nodePath
+    );
+
+
+    console.log(
+        "Distance:",
+        distanceText
+    );
+
+}
+
+
+// ============================================================
+// 31. NAVIGATE BUTTON
+// ============================================================
+
+function navigateToSelected() {
+
+    if (!selectedDestination) {
+
+        alert(
+            "Please select a destination first."
+        );
+
+        return;
+
+    }
+
+
+    if (!userLocation) {
+
+        alert(
+            "Please click My Location first."
+        );
+
+        showMyLocation();
+
+        return;
+
+    }
+
+
+    createRoute();
+
+}
+
+
+// ============================================================
+// 32. RESET
 // ============================================================
 
 function resetCampusView() {
 
-    clearRoute();
+    // REMOVE ROUTE
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
+        );
+
+        routeLine = null;
+
+    }
 
 
-    selectedDestination =
-        null;
+    if (routeStartMarker) {
+
+        map.removeLayer(
+            routeStartMarker
+        );
+
+        routeStartMarker = null;
+
+    }
 
 
-    userLocation =
-        null;
+    if (routeEndMarker) {
 
+        map.removeLayer(
+            routeEndMarker
+        );
+
+        routeEndMarker = null;
+
+    }
+
+
+    // REMOVE GPS
 
     if (userMarker) {
 
@@ -2642,11 +2629,17 @@ function resetCampusView() {
     }
 
 
-    // Remove selected marker style
+    userLocation =
+        null;
 
-    for (
-        const name in markers
-    ) {
+
+    selectedDestination =
+        null;
+
+
+    // REMOVE HIGHLIGHT
+
+    for (const name in markers) {
 
         const element =
             markers[name].getElement();
@@ -2663,32 +2656,66 @@ function resetCampusView() {
     }
 
 
-    map.fitBounds(
+    // RESET INPUT
 
-        campusBounds,
+    const input =
+        document.getElementById(
+            "destinationInput"
+        );
 
+
+    if (input) {
+
+        input.value = "";
+
+    }
+
+
+    // RESET VIEW
+
+    map.flyTo(
+        CAMPUS_CENTER,
+        17.5,
         {
 
-            padding: [30, 30]
+            duration: 1
 
         }
-
     );
 
 
-    updateInfo(
+    // RESET INFO
 
-        "📍 Campus Navigation",
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
 
-        "Search a building or select a campus location."
 
-    );
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 Campus Navigation
+            </div>
+
+            <div class="info-text">
+
+                Search a building or select
+                a campus location.
+
+            </div>
+
+        `;
+
+    }
 
 }
 
 
 // ============================================================
-// 27. ZOOM CONTROL
+// 33. ZOOM CONTROL
 // ============================================================
 
 L.control.zoom({
@@ -2700,54 +2727,59 @@ L.control.zoom({
 
 
 // ============================================================
-// 28. INITIAL VIEW
+// 34. INITIAL VIEW
 // ============================================================
 
-map.fitBounds(
-
-    campusBounds,
-
-    {
-
-        padding: [30, 30]
-
-    }
-
+map.setView(
+    CAMPUS_CENTER,
+    17.5
 );
 
 
 // ============================================================
-// 29. MAP READY
+// 35. MAP READY
 // ============================================================
 
 console.log(
-    "✅ Smart Campus Vector Map Loaded"
+    "================================="
 );
 
 console.log(
-    "✅ No campus image used"
+    "✅ SMART CAMPUS MAP READY"
 );
 
 console.log(
-    "✅ Campus buildings loaded"
+    "📍 Main Gate = Starting Point"
 );
 
 console.log(
-    "✅ Campus roads loaded"
+    "🏦 Bank = Left of Main Gate"
 );
 
 console.log(
-    "✅ Partition wall loaded"
+    "🅿️ Parking = Right of Main Gate"
 );
 
 console.log(
-    "✅ Search loaded"
+    "🏫 Main Block = Center"
 );
 
 console.log(
-    "✅ Navigation loaded"
+    "📚 Library = Right Side"
 );
 
 console.log(
-    "✅ GPS detection loaded"
+    "🍴 Canteen + 💻 CS = Upper Right"
+);
+
+console.log(
+    "🌳 Garden = Area only, NOT a road"
+);
+
+console.log(
+    "🧭 Campus Road Navigation Ready"
+);
+
+console.log(
+    "================================="
 );
