@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -8,50 +10,82 @@
 
     <title>Smart Campus Navigation</title>
 
-    <!-- Leaflet -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-    <!-- Campus CSS -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/campus_map.css') }}">
+    <!-- LEAFLET CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <!-- CAMPUS CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/campus_map.css') }}"
+    >
+
 </head>
+
 
 <body>
 
+
 <!-- =========================================================
-     HEADER
+     MAP
 ========================================================= -->
 
-<header class="top-header">
+<div id="campusMap"></div>
+
+
+<!-- =========================================================
+     TOP HEADER
+========================================================= -->
+
+<div class="top-header">
 
     <div class="brand">
 
-        <div class="brand-icon">🏫</div>
+        <div class="brand-icon">
+            🏫
+        </div>
 
         <div>
-            <h1>Smart Campus Navigation</h1>
-            <p>Sarah Tucker College</p>
+
+            <h1>
+                Smart Campus Navigation
+            </h1>
+
+            <p>
+                Sarah Tucker College
+            </p>
+
         </div>
 
     </div>
 
-    <a href="/dashboard" class="dashboard-btn">
+
+    <a href="/dashboard"
+       class="dashboard-btn">
+
         ← Dashboard
+
     </a>
 
-</header>
+</div>
+
 
 
 <!-- =========================================================
-     SEARCH BAR
+     SEARCH PANEL
 ========================================================= -->
 
 <div class="search-panel">
 
-    <div class="search-box">
+    <div class="search-row">
 
-        <span class="search-icon">🔍</span>
+        <span class="search-icon">
+            🔎
+        </span>
 
         <input
             type="text"
@@ -60,30 +94,34 @@
             autocomplete="off"
         >
 
-        <button onclick="findDestination()">
+        <button
+            onclick="findDestination()"
+            class="search-btn">
+
             Search
+
         </button>
 
     </div>
 
 
-    <!-- QUICK DESTINATIONS -->
+    <!-- QUICK LOCATIONS -->
 
     <div class="quick-buttons">
 
-        <button onclick="selectDestination('Library')">
+        <button onclick="quickSelect('Library')">
             📚 Library
         </button>
 
-        <button onclick="selectDestination('Canteen')">
+        <button onclick="quickSelect('Canteen')">
             🍴 Canteen
         </button>
 
-        <button onclick="selectDestination('Computer Science')">
+        <button onclick="quickSelect('Computer Science')">
             💻 Computer Science
         </button>
 
-        <button onclick="selectDestination('Main Gate')">
+        <button onclick="quickSelect('Main Gate')">
             🚪 Main Gate
         </button>
 
@@ -92,80 +130,113 @@
 </div>
 
 
+
 <!-- =========================================================
-     MAP AREA
+     MAP CONTROL PANEL
 ========================================================= -->
 
-<main class="map-wrapper">
+<div class="map-controls">
 
-    <div id="campusMap"></div>
+    <button
+        onclick="showMyLocation()"
+        class="control-btn location-btn">
 
+        📍 My Location
 
-    <!-- MAP CONTROLS -->
-
-    <div class="map-controls">
-
-        <button onclick="showMyLocation()"
-                class="map-control-btn location-btn">
-            📍 My Location
-        </button>
-
-        <button onclick="navigateToSelected()"
-                class="map-control-btn navigate-main-btn">
-            🧭 Navigate
-        </button>
-
-        <button onclick="resetCampusView()"
-                class="map-control-btn reset-btn">
-            🔄 Reset
-        </button>
-
-    </div>
+    </button>
 
 
-    <!-- INFORMATION CARD -->
+    <button
+        onclick="navigateToSelected()"
+        class="control-btn navigate-control">
 
-    <div id="locationInfo"
-         class="location-info">
+        🧭 Navigate
 
-        <div class="info-title">
-            📍 Campus Navigation
-        </div>
+    </button>
 
-        <div class="info-text">
-            Search a building or select a campus location.
-        </div>
 
-    </div>
+    <button
+        onclick="resetCampusView()"
+        class="control-btn reset-btn">
 
-</main>
+        🔄 Reset
+
+    </button>
+
+</div>
+
 
 
 <!-- =========================================================
-     FOOTER
+     INFORMATION PANEL
 ========================================================= -->
 
-<footer class="map-footer">
+<div
+    id="locationInfo"
+    class="location-info">
 
-    <span>🗺️ Interactive Campus Map</span>
+    <div class="info-title">
+        📍 Campus Navigation
+    </div>
 
-    <span>Leaflet | OpenStreetMap</span>
+    <div class="info-text">
 
-</footer>
+        Search a building or select
+        a campus location.
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAP LEGEND
+========================================================= -->
+
+<div class="map-legend">
+
+    <div class="legend-title">
+        Map
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-dot destination-dot"></span>
+        Destination
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-dot user-dot"></span>
+        Your Location
+    </div>
+
+    <div class="legend-item">
+        <span class="legend-line"></span>
+        Walking Route
+    </div>
+
+</div>
+
 
 
 <!-- =========================================================
      LEAFLET JS
 ========================================================= -->
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
 
 
 <!-- =========================================================
      CAMPUS MAP JS
 ========================================================= -->
 
-<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
+<script
+    src="{{ url_for('static', filename='js/campus_map.js') }}">
+</script>
+
 
 </body>
+
 </html>
