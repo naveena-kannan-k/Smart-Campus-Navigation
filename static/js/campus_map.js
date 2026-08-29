@@ -1,8 +1,8 @@
 // ============================================================
-// SARAH TUCKER COLLEGE
 // SMART CAMPUS NAVIGATION
-// GOOGLE-MAP STYLE
-// NO CAMPUS IMAGE
+// SARAH TUCKER COLLEGE
+// NORMAL OPENSTREETMAP
+// CAMPUS IMAGE NOT USED
 // ============================================================
 
 
@@ -16,245 +16,326 @@ const map = L.map("campusMap", {
 
 
 // ============================================================
-// 2. OPENSTREETMAP BASE MAP
+// 2. OPEN STREET MAP
 // ============================================================
 
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-        maxZoom: 21,
+        maxZoom: 20,
         attribution: "&copy; OpenStreetMap contributors"
     }
 ).addTo(map);
 
 
 // ============================================================
-// 3. SARAH TUCKER COLLEGE CENTER
-// ============================================================
-
-const campusCenter = [
-    8.69860,
-    77.74165
-];
-
-map.setView(campusCenter, 18);
-
-
-// ============================================================
-// 4. CAMPUS LOCATIONS
+// 3. MAIN GATE = BASE POINT
 //
-// IMPORTANT:
-// These positions follow YOUR CAMPUS SKETCH.
-// Latitude  = up/down
-// Longitude = left/right
+// Sarah Tucker College:
+// approximately 8.6986, 77.74165
+//
+// Main Gate is treated as the reference point.
+// Other points are positioned relative to the
+// marked campus layout you provided.
+// ============================================================
+
+const MAIN_GATE_LAT = 8.69860;
+const MAIN_GATE_LNG = 77.74165;
+
+
+// ============================================================
+// 4. LOCAL CAMPUS COORDINATE SYSTEM
+//
+// x = east / west
+// y = north / south
+//
+// These are campus-relative positions based on
+// your marked layout.
+// ============================================================
+
+const SCALE = 0.25;
+
+
+// Latitude / longitude conversion
+
+const METERS_PER_LAT = 111320;
+
+const METERS_PER_LNG =
+    111320 *
+    Math.cos(
+        MAIN_GATE_LAT * Math.PI / 180
+    );
+
+
+// Convert local position to GPS
+
+function localToGPS(x, y) {
+
+    const longitude =
+        MAIN_GATE_LNG +
+        (x * SCALE) / METERS_PER_LNG;
+
+    const latitude =
+        MAIN_GATE_LAT +
+        (y * SCALE) / METERS_PER_LAT;
+
+    return [
+        latitude,
+        longitude
+    ];
+
+}
+
+
+// ============================================================
+// 5. CAMPUS LOCATIONS
+//
+// Positions follow the marked campus arrangement:
+// Main Gate bottom-center
+// Bank left
+// Parking right
+// Main Block above
+// Library right
+// Science departments left
+// S/F departments right
+// Hostel / Chapel / Playground top
 // ============================================================
 
 const locations = {
 
-    // ========================================================
-    // SOUTH / MAIN ENTRANCE
-    // ========================================================
+    // --------------------------------------------------------
+    // ENTRANCE
+    // --------------------------------------------------------
 
     "Main Gate": {
-        coords: [8.69772, 77.74165],
+        pos: [0, 0],
         icon: "🚪",
-        type: "Main Gate"
+        type: "Main Entrance"
     },
 
     "Canara Bank": {
-        coords: [8.69790, 77.74085],
+        pos: [-330, 20],
         icon: "🏦",
-        type: "Canara Bank"
+        type: "Bank"
     },
 
     "Parking Area": {
-        coords: [8.69792, 77.74245],
+        pos: [340, 5],
         icon: "🅿️",
         type: "Parking Area"
     },
 
 
-    // ========================================================
-    // CENTRAL AREA
-    // ========================================================
+    // --------------------------------------------------------
+    // MAIN BLOCK AREA
+    // --------------------------------------------------------
 
     "Principal Office": {
-        coords: [8.69842, 77.74142],
+        pos: [70, 270],
         icon: "🏢",
         type: "Principal Office"
     },
 
     "Management Office": {
-        coords: [8.69848, 77.74172],
+        pos: [190, 270],
         icon: "🏢",
         type: "Management Office"
     },
 
     "Main Block": {
-        coords: [8.69868, 77.74155],
+        pos: [150, 350],
         icon: "🏫",
         type: "Main Block"
     },
 
+
+    // --------------------------------------------------------
+    // CENTRAL AREA
+    // --------------------------------------------------------
+
     "Garden": {
-        coords: [8.69892, 77.74148],
+        pos: [150, 470],
         icon: "🌳",
         type: "Garden"
     },
 
-
-    // ========================================================
-    // RIGHT SIDE
-    // ========================================================
-
-    "Library": {
-        coords: [8.69878, 77.74225],
-        icon: "📚",
-        type: "Library"
+    "Zoology": {
+        pos: [110, 540],
+        icon: "🦋",
+        type: "Zoology Department"
     },
 
-    "Tamil": {
-        coords: [8.69902, 77.74242],
-        icon: "📚",
-        type: "Tamil Department"
-    },
-
-    "Economics": {
-        coords: [8.69912, 77.74258],
-        icon: "📊",
-        type: "Economics Department"
-    },
-
-    "Old Auditorium": {
-        coords: [8.69935, 77.74272],
-        icon: "🏛️",
-        type: "Old Auditorium"
-    },
-
-    "Canteen": {
-        coords: [8.69958, 77.74238],
-        icon: "🍴",
-        type: "Canteen"
-    },
-
-
-    // ========================================================
-    // RIGHT UPPER DEPARTMENTS
-    // ========================================================
-
-    "English S/F": {
-        coords: [8.69978, 77.74255],
-        icon: "📚",
-        type: "English S/F Department"
-    },
-
-    "B.Com S/F": {
-        coords: [8.69990, 77.74270],
+    "B.Com (Aided)": {
+        pos: [200, 540],
         icon: "💼",
-        type: "B.Com S/F Department"
-    },
-
-    "Computer Science": {
-        coords: [8.70002, 77.74285],
-        icon: "💻",
-        type: "Computer Science Department"
-    },
-
-    "Food Science": {
-        coords: [8.70014, 77.74268],
-        icon: "🧪",
-        type: "Food Science Department"
+        type: "B.Com Aided"
     },
 
 
-    // ========================================================
-    // LEFT OF MAIN BLOCK
-    // ========================================================
-
-    "Physics": {
-        coords: [8.69865, 77.74105],
-        icon: "🔬",
-        type: "Physics Department"
-    },
+    // --------------------------------------------------------
+    // SCIENCE AREA - LEFT OF MAIN BLOCK
+    // --------------------------------------------------------
 
     "Chemistry": {
-        coords: [8.69848, 77.74098],
+        pos: [-60, 410],
         icon: "🧪",
         type: "Chemistry Department"
     },
 
+    "Physics": {
+        pos: [60, 410],
+        icon: "🔬",
+        type: "Physics Department"
+    },
+
     "Physics S/F": {
-        coords: [8.69832, 77.74088],
+        pos: [10, 450],
         icon: "🔬",
         type: "Physics S/F"
     },
 
-    "B.Com & Zoology": {
-        coords: [8.69855, 77.74125],
-        icon: "🏫",
-        type: "B.Com & Zoology"
+    "Botany": {
+        pos: [230, 410],
+        icon: "🌿",
+        type: "Botany Department"
     },
 
 
-    // ========================================================
-    // LEFT SIDE DEPARTMENTS
-    // ========================================================
+    // --------------------------------------------------------
+    // LEFT SIDE
+    // --------------------------------------------------------
 
-    "Maths": {
-        coords: [8.69872, 77.74055],
-        icon: "📐",
-        type: "Mathematics Department"
+    "Partition Hall": {
+        pos: [-300, 300],
+        icon: "🏛️",
+        type: "Partition Hall"
     },
 
     "History": {
-        coords: [8.69892, 77.74040],
+        pos: [-430, 650],
         icon: "📖",
         type: "History Department"
     },
 
-    "MCA": {
-        coords: [8.69908, 77.74030],
-        icon: "💻",
-        type: "MCA Department"
-    },
-
     "BCA": {
-        coords: [8.69925, 77.74028],
+        pos: [-410, 590],
         icon: "💻",
         type: "BCA Department"
     },
 
+    "MCA": {
+        pos: [-420, 520],
+        icon: "💻",
+        type: "MCA Department"
+    },
+
+    "Maths": {
+        pos: [-330, 480],
+        icon: "📐",
+        type: "Mathematics Department"
+    },
+
     "Nano Science": {
-        coords: [8.69945, 77.74045],
+        pos: [-390, 720],
         icon: "🧪",
         type: "Nano Science Department"
     },
 
     "New Auditorium": {
-        coords: [8.69972, 77.74058],
+        pos: [-350, 800],
         icon: "🏛️",
         type: "New Auditorium"
     },
 
 
-    // ========================================================
-    // NORTH / TOP AREA
-    // ========================================================
+    // --------------------------------------------------------
+    // RIGHT SIDE
+    // --------------------------------------------------------
+
+    "Library": {
+        pos: [360, 190],
+        icon: "📚",
+        type: "Library"
+    },
+
+    "Tamil & English": {
+        pos: [560, 200],
+        icon: "📚",
+        type: "Tamil & English"
+    },
+
+    "Economics": {
+        pos: [560, 250],
+        icon: "📊",
+        type: "Economics Department"
+    },
+
+    "Old Auditorium": {
+        pos: [570, 500],
+        icon: "🏛️",
+        type: "Old Auditorium"
+    },
+
+
+    // --------------------------------------------------------
+    // RIGHT TOP / S.F.
+    // --------------------------------------------------------
+
+    "Canteen": {
+        pos: [390, 690],
+        icon: "🍴",
+        type: "Canteen"
+    },
+
+    "English S/F": {
+        pos: [600, 690],
+        icon: "📚",
+        type: "English S/F"
+    },
+
+    "B.Com S/F": {
+        pos: [600, 750],
+        icon: "💼",
+        type: "B.Com S/F"
+    },
+
+    "Computer Science": {
+        pos: [600, 810],
+        icon: "💻",
+        type: "Computer Science Department"
+    },
+
+    "Food Science": {
+        pos: [600, 870],
+        icon: "🧪",
+        type: "Food Science Department"
+    },
+
+
+    // --------------------------------------------------------
+    // TOP AREA
+    // --------------------------------------------------------
 
     "Playground": {
-        coords: [8.70018, 77.74160],
+        pos: [100, 760],
         icon: "⚽",
         type: "Playground"
     },
 
+    "Sports Room": {
+        pos: [350, 780],
+        icon: "🏃",
+        type: "Sports Room"
+    },
+
     "Hostel": {
-        coords: [8.70042, 77.74175],
+        pos: [250, 950],
         icon: "🏠",
         type: "Hostel"
     },
 
     "Chapel": {
-        coords: [8.70008, 77.74080],
+        pos: [-300, 950],
         icon: "⛪",
         type: "Chapel"
     }
@@ -263,14 +344,53 @@ const locations = {
 
 
 // ============================================================
-// 5. MARKER STORAGE
+// 6. CONVERT ALL LOCATIONS TO GPS
+// ============================================================
+
+for (const place in locations) {
+
+    locations[place].coords =
+        localToGPS(
+            locations[place].pos[0],
+            locations[place].pos[1]
+        );
+
+}
+
+
+// ============================================================
+// 7. FIND ALL CAMPUS POINTS
+// ============================================================
+
+const allPoints = [];
+
+for (const place in locations) {
+
+    allPoints.push(
+        locations[place].coords
+    );
+
+}
+
+
+// ============================================================
+// 8. SHOW CAMPUS
+// ============================================================
+
+map.fitBounds(allPoints, {
+    padding: [70, 70]
+});
+
+
+// ============================================================
+// 9. MARKER STORAGE
 // ============================================================
 
 const markers = {};
 
 
 // ============================================================
-// 6. USER LOCATION
+// 10. USER LOCATION
 // ============================================================
 
 let userLocation = null;
@@ -281,21 +401,21 @@ let accuracyCircle = null;
 
 
 // ============================================================
-// 7. SELECTED DESTINATION
-// ============================================================
-
-let selectedDestination = null;
-
-
-// ============================================================
-// 8. ROUTE
+// 11. ROUTE
 // ============================================================
 
 let routeControl = null;
 
 
 // ============================================================
-// 9. CUSTOM CAMPUS ICON
+// 12. SELECTED DESTINATION
+// ============================================================
+
+let selectedDestination = null;
+
+
+// ============================================================
+// 13. CAMPUS ICON
 // ============================================================
 
 function createCampusIcon(icon) {
@@ -320,24 +440,28 @@ function createCampusIcon(icon) {
 
 
 // ============================================================
-// 10. ADD CAMPUS MARKERS
+// 14. ADD CAMPUS MARKERS
 // ============================================================
 
 for (const place in locations) {
 
     const data = locations[place];
 
-    const marker = L.marker(
-        data.coords,
-        {
-            icon: createCampusIcon(data.icon)
-        }
-    ).addTo(map);
+    const marker =
+        L.marker(
+            data.coords,
+            {
+                icon:
+                    createCampusIcon(
+                        data.icon
+                    )
+            }
+        ).addTo(map);
 
 
-    // ========================================================
+    // --------------------------------------------------------
     // POPUP
-    // ========================================================
+    // --------------------------------------------------------
 
     marker.bindPopup(`
 
@@ -357,7 +481,7 @@ for (const place in locations) {
 
             <button
                 class="navigate-btn"
-                onclick="selectDestination('${place}')"
+                onclick="selectDestination(${JSON.stringify(place)})"
             >
                 🧭 Navigate
             </button>
@@ -367,9 +491,9 @@ for (const place in locations) {
     `);
 
 
-    // ========================================================
+    // --------------------------------------------------------
     // LABEL
-    // ========================================================
+    // --------------------------------------------------------
 
     marker.bindTooltip(
         place,
@@ -388,7 +512,7 @@ for (const place in locations) {
 
 
 // ============================================================
-// 11. SELECT DESTINATION
+// 15. SELECT DESTINATION
 // ============================================================
 
 function selectDestination(place) {
@@ -396,6 +520,7 @@ function selectDestination(place) {
     if (!locations[place]) {
         return;
     }
+
 
     selectedDestination = place;
 
@@ -432,11 +557,6 @@ function selectDestination(place) {
     }
 
 
-    // Open popup
-
-    markers[place].openPopup();
-
-
     // Move to destination
 
     map.flyTo(
@@ -448,12 +568,18 @@ function selectDestination(place) {
     );
 
 
-    // Information panel
+    // Open popup
+
+    markers[place].openPopup();
+
+
+    // Information
 
     const info =
         document.getElementById(
             "locationInfo"
         );
+
 
     if (info) {
 
@@ -472,7 +598,7 @@ function selectDestination(place) {
                 ${
                     userLocation
                     ? "🧭 Ready for navigation."
-                    : "📍 Click My Location to start navigation."
+                    : "📍 Click My Location first."
                 }
 
             </div>
@@ -481,11 +607,20 @@ function selectDestination(place) {
 
     }
 
+
+    // Automatically route if GPS exists
+
+    if (userLocation) {
+
+        createRoute();
+
+    }
+
 }
 
 
 // ============================================================
-// 12. SEARCH
+// 16. SEARCH
 // ============================================================
 
 function findDestination() {
@@ -494,6 +629,7 @@ function findDestination() {
         document.getElementById(
             "destinationInput"
         );
+
 
     if (!inputElement) {
         return;
@@ -520,12 +656,13 @@ function findDestination() {
     let foundPlace = null;
 
 
-    // Exact / partial match
+    // Exact / partial
 
     for (const place in locations) {
 
         const name =
             place.toLowerCase();
+
 
         if (
             name === input ||
@@ -542,93 +679,88 @@ function findDestination() {
     }
 
 
-    // ========================================================
-    // SEARCH ALIASES
-    // ========================================================
-
-    const aliases = {
-
-        "cs": "Computer Science",
-
-        "computer":
-            "Computer Science",
-
-        "computer science department":
-            "Computer Science",
-
-        "library":
-            "Library",
-
-        "canteen":
-            "Canteen",
-
-        "bank":
-            "Canara Bank",
-
-        "canara":
-            "Canara Bank",
-
-        "parking":
-            "Parking Area",
-
-        "gate":
-            "Main Gate",
-
-        "main gate":
-            "Main Gate",
-
-        "hostel":
-            "Hostel",
-
-        "playground":
-            "Playground",
-
-        "chapel":
-            "Chapel",
-
-        "physics":
-            "Physics",
-
-        "chemistry":
-            "Chemistry",
-
-        "maths":
-            "Maths",
-
-        "mathematics":
-            "Maths",
-
-        "history":
-            "History",
-
-        "economics":
-            "Economics",
-
-        "tamil":
-            "Tamil",
-
-        "english":
-            "English S/F",
-
-        "bca":
-            "BCA",
-
-        "mca":
-            "MCA",
-
-        "food science":
-            "Food Science",
-
-        "bcom":
-            "B.Com S/F",
-
-        "auditorium":
-            "New Auditorium"
-
-    };
-
+    // Aliases
 
     if (!foundPlace) {
+
+        const aliases = {
+
+            "cs": "Computer Science",
+
+            "computer":
+                "Computer Science",
+
+            "computer science department":
+                "Computer Science",
+
+            "library":
+                "Library",
+
+            "canteen":
+                "Canteen",
+
+            "bank":
+                "Canara Bank",
+
+            "parking":
+                "Parking Area",
+
+            "gate":
+                "Main Gate",
+
+            "main gate":
+                "Main Gate",
+
+            "hostel":
+                "Hostel",
+
+            "chapel":
+                "Chapel",
+
+            "sports":
+                "Sports Room",
+
+            "play ground":
+                "Playground",
+
+            "playground":
+                "Playground",
+
+            "bca":
+                "BCA",
+
+            "mca":
+                "MCA",
+
+            "physics":
+                "Physics",
+
+            "chemistry":
+                "Chemistry",
+
+            "maths":
+                "Maths",
+
+            "mathematics":
+                "Maths",
+
+            "history":
+                "History",
+
+            "economics":
+                "Economics",
+
+            "botany":
+                "Botany",
+
+            "zoology":
+                "Zoology",
+
+            "auditorium":
+                "New Auditorium"
+
+        };
+
 
         for (const key in aliases) {
 
@@ -654,9 +786,9 @@ function findDestination() {
 
         alert(
             "Location not found.\n\n" +
-            "Try Library, Computer Science, " +
-            "Canteen, Main Gate, Hostel, " +
-            "Physics, Chemistry, etc."
+            "Try Library, Canteen, " +
+            "Computer Science, Main Gate, " +
+            "Hostel, Physics, Chemistry..."
         );
 
         return;
@@ -664,19 +796,22 @@ function findDestination() {
     }
 
 
-    selectDestination(foundPlace);
+    selectDestination(
+        foundPlace
+    );
 
 }
 
 
 // ============================================================
-// 13. ENTER KEY
+// 17. ENTER KEY
 // ============================================================
 
 const destinationInput =
     document.getElementById(
         "destinationInput"
     );
+
 
 if (destinationInput) {
 
@@ -697,7 +832,7 @@ if (destinationInput) {
 
 
 // ============================================================
-// 14. CURRENT LOCATION
+// 18. CURRENT LOCATION
 // ============================================================
 
 function showMyLocation() {
@@ -776,9 +911,7 @@ function showMyLocation() {
             }
 
 
-            // =================================================
-            // BLUE GPS DOT
-            // =================================================
+            // User icon
 
             const userIcon =
                 L.divIcon({
@@ -804,9 +937,10 @@ function showMyLocation() {
                     userLocation,
                     {
                         icon: userIcon,
-                        zIndexOffset: 1000
+                        zIndexOffset: 2000
                     }
-                ).addTo(map);
+                )
+                .addTo(map);
 
 
             userMarker.bindPopup(
@@ -814,24 +948,22 @@ function showMyLocation() {
             );
 
 
-            // Accuracy circle
+            // Accuracy
 
             accuracyCircle =
                 L.circle(
                     userLocation,
                     {
-                        radius: accuracy,
-                        className:
-                            "location-accuracy"
+                        radius: accuracy
                     }
                 ).addTo(map);
 
 
-            // Move map
+            // Move to user
 
             map.flyTo(
                 userLocation,
-                19,
+                18,
                 {
                     duration: 1
                 }
@@ -855,14 +987,17 @@ function showMyLocation() {
                         <br><br>
 
                         Accuracy:
-                        ${Math.round(accuracy)} m
+                        <b>
+                            ${Math.round(accuracy)}
+                            meters
+                        </b>
 
                         <br><br>
 
                         ${
                             selectedDestination
-                            ? "🧭 Destination selected."
-                            : "🔎 Select a destination."
+                            ? "🧭 Calculating route..."
+                            : "🎯 Select a destination."
                         }
 
                     </div>
@@ -872,7 +1007,7 @@ function showMyLocation() {
             }
 
 
-            // If destination already selected
+            // Route
 
             if (selectedDestination) {
 
@@ -881,7 +1016,6 @@ function showMyLocation() {
             }
 
         },
-
 
         function(error) {
 
@@ -921,11 +1055,13 @@ function showMyLocation() {
 
         },
 
-
         {
             enableHighAccuracy: true,
+
             timeout: 15000,
+
             maximumAge: 0
+
         }
 
     );
@@ -934,7 +1070,7 @@ function showMyLocation() {
 
 
 // ============================================================
-// 15. ROUTE
+// 19. CREATE ROUTE
 // ============================================================
 
 function createRoute() {
@@ -953,7 +1089,7 @@ function createRoute() {
     if (!selectedDestination) {
 
         alert(
-            "Select a destination first."
+            "Please select a destination."
         );
 
         return;
@@ -962,7 +1098,9 @@ function createRoute() {
 
 
     const destination =
-        locations[selectedDestination].coords;
+        locations[
+            selectedDestination
+        ].coords;
 
 
     // Remove old route
@@ -989,7 +1127,7 @@ function createRoute() {
         info.innerHTML = `
 
             <div class="info-title">
-                🧭 Navigation
+                🧭 Finding Route
             </div>
 
             <div class="info-text">
@@ -997,14 +1135,14 @@ function createRoute() {
                 From:
                 <b>Current Location</b>
 
-                <br><br>
+                <br>
 
                 To:
                 <b>${selectedDestination}</b>
 
                 <br><br>
 
-                Finding route...
+                Calculating route...
 
             </div>
 
@@ -1013,9 +1151,7 @@ function createRoute() {
     }
 
 
-    // ========================================================
-    // LEAFLET ROUTING MACHINE
-    // ========================================================
+    // Leaflet Routing Machine
 
     routeControl =
         L.Routing.control({
@@ -1042,18 +1178,22 @@ function createRoute() {
 
                 }),
 
+
             lineOptions: {
 
                 styles: [
+
                     {
                         className:
                             "campus-route-line",
 
                         weight: 7
                     }
+
                 ]
 
             },
+
 
             addWaypoints: false,
 
@@ -1067,33 +1207,36 @@ function createRoute() {
 
             collapsible: true,
 
+
             createMarker: function() {
 
                 return null;
 
             }
 
-        }).addTo(map);
+        })
+
+        .addTo(map);
 
 
-    // ========================================================
-    // ROUTE FOUND
-    // ========================================================
+    // Route found
 
     routeControl.on(
         "routesfound",
         function(event) {
 
-            const route =
-                event.routes[0];
+            if (
+                !event.routes ||
+                event.routes.length === 0
+            ) {
 
-            if (!route) {
                 return;
+
             }
 
 
             const summary =
-                route.summary;
+                event.routes[0].summary;
 
 
             const distance =
@@ -1106,14 +1249,18 @@ function createRoute() {
 
             const distanceText =
                 distance >= 1000
-                ? (distance / 1000).toFixed(2) + " km"
+                ? (
+                    distance / 1000
+                ).toFixed(2) + " km"
                 : Math.round(distance) + " m";
 
 
             const minutes =
                 Math.max(
                     1,
-                    Math.round(time / 60)
+                    Math.round(
+                        time / 60
+                    )
                 );
 
 
@@ -1142,7 +1289,7 @@ function createRoute() {
 
                         <br>
 
-                        🚶 Estimated Time:
+                        🚶 Time:
                         <b>${minutes} min</b>
 
                     </div>
@@ -1155,9 +1302,7 @@ function createRoute() {
     );
 
 
-    // ========================================================
-    // ROUTE ERROR
-    // ========================================================
+    // Route error
 
     routeControl.on(
         "routingerror",
@@ -1174,12 +1319,12 @@ function createRoute() {
                 info.innerHTML = `
 
                     <div class="info-title">
-                        ⚠️ Route Not Available
+                        ⚠️ Route unavailable
                     </div>
 
                     <div class="info-text">
 
-                        Unable to calculate route.
+                        Unable to calculate the route.
 
                         <br><br>
 
@@ -1199,7 +1344,7 @@ function createRoute() {
 
 
 // ============================================================
-// 16. NAVIGATE BUTTON
+// 20. NAVIGATE BUTTON
 // ============================================================
 
 function navigateToSelected() {
@@ -1207,7 +1352,7 @@ function navigateToSelected() {
     if (!selectedDestination) {
 
         alert(
-            "Please select a destination."
+            "Please select a destination first."
         );
 
         return;
@@ -1230,7 +1375,7 @@ function navigateToSelected() {
 
 
 // ============================================================
-// 17. RESET
+// 21. RESET
 // ============================================================
 
 function resetCampusView() {
@@ -1248,7 +1393,7 @@ function resetCampusView() {
     }
 
 
-    // Remove GPS marker
+    // Remove user marker
 
     if (userMarker) {
 
@@ -1279,7 +1424,7 @@ function resetCampusView() {
     selectedDestination = null;
 
 
-    // Remove selected style
+    // Remove selection
 
     for (const name in markers) {
 
@@ -1297,16 +1442,17 @@ function resetCampusView() {
     }
 
 
-    // Return to campus
+    // Reset view
 
-    map.flyTo(
-        campusCenter,
-        18,
+    map.fitBounds(
+        allPoints,
         {
-            duration: 1
+            padding: [70, 70]
         }
     );
 
+
+    // Reset information
 
     const info =
         document.getElementById(
@@ -1335,32 +1481,16 @@ function resetCampusView() {
 
 
 // ============================================================
-// 18. ZOOM CONTROL
+// 22. ZOOM
 // ============================================================
 
 L.control.zoom({
-
     position: "bottomright"
-
 }).addTo(map);
 
 
 // ============================================================
-// 19. FIX MAP SIZE
-// ============================================================
-
-setTimeout(
-    function() {
-
-        map.invalidateSize();
-
-    },
-    300
-);
-
-
-// ============================================================
-// 20. READY
+// 23. READY
 // ============================================================
 
 console.log(
@@ -1368,6 +1498,9 @@ console.log(
 );
 
 console.log(
-    "📍 Campus locations loaded:",
-    Object.keys(locations).length
+    "📍 Marked campus locations loaded"
+);
+
+console.log(
+    "🧭 Current Location + Navigation ready"
 );
