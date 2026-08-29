@@ -1,20 +1,8 @@
 // ============================================================
 // SARAH TUCKER COLLEGE
 // SMART CAMPUS NAVIGATION
-// REAL OPENSTREETMAP VERSION
+// GOOGLE-MAP STYLE
 // NO CAMPUS IMAGE
-//
-// FEATURES
-// ------------------------------------------------------------
-// • Real OpenStreetMap
-// • Campus locations based on your marked campus layout
-// • Search
-// • Current Location
-// • Destination selection
-// • Walking route
-// • Distance
-// • Walking time
-// • Reset
 // ============================================================
 
 
@@ -28,7 +16,7 @@ const map = L.map("campusMap", {
 
 
 // ============================================================
-// 2. OPENSTREETMAP
+// 2. OPENSTREETMAP BASE MAP
 // ============================================================
 
 L.tileLayer(
@@ -42,9 +30,6 @@ L.tileLayer(
 
 // ============================================================
 // 3. SARAH TUCKER COLLEGE CENTER
-//
-// Actual college area is around:
-// 8.6986, 77.74165
 // ============================================================
 
 const campusCenter = [
@@ -52,52 +37,38 @@ const campusCenter = [
     77.74165
 ];
 
-
-// Initial view
-
-map.setView(
-    campusCenter,
-    18
-);
+map.setView(campusCenter, 18);
 
 
 // ============================================================
 // 4. CAMPUS LOCATIONS
 //
-// IMPORTANT
-// ------------------------------------------------------------
-// These are arranged according to the campus layout
-// you marked and showed.
-//
-// Main Gate = bottom
-// Bank = left of Main Gate
-// Parking = right of Main Gate
-// Main Block = centre
-// Library = right
-// Departments = left / right groups
-// Hostel / Chapel / Playground = upper area
+// IMPORTANT:
+// These positions follow YOUR CAMPUS SKETCH.
+// Latitude  = up/down
+// Longitude = left/right
 // ============================================================
 
 const locations = {
 
     // ========================================================
-    // BOTTOM / ENTRANCE
+    // SOUTH / MAIN ENTRANCE
     // ========================================================
 
     "Main Gate": {
-        coords: [8.69778, 77.74165],
+        coords: [8.69772, 77.74165],
         icon: "🚪",
-        type: "Main Entrance"
+        type: "Main Gate"
     },
 
     "Canara Bank": {
-        coords: [8.69798, 77.74082],
+        coords: [8.69790, 77.74085],
         icon: "🏦",
         type: "Canara Bank"
     },
 
     "Parking Area": {
-        coords: [8.69798, 77.74238],
+        coords: [8.69792, 77.74245],
         icon: "🅿️",
         type: "Parking Area"
     },
@@ -107,15 +78,9 @@ const locations = {
     // CENTRAL AREA
     // ========================================================
 
-    "Main Block": {
-        coords: [8.69862, 77.74148],
-        icon: "🏫",
-        type: "Main Block"
-    },
-
     "Principal Office": {
-        coords: [8.69848, 77.74130],
-        icon: "👩‍💼",
+        coords: [8.69842, 77.74142],
+        icon: "🏢",
         type: "Principal Office"
     },
 
@@ -125,69 +90,16 @@ const locations = {
         type: "Management Office"
     },
 
+    "Main Block": {
+        coords: [8.69868, 77.74155],
+        icon: "🏫",
+        type: "Main Block"
+    },
+
     "Garden": {
-        coords: [8.69902, 77.74155],
+        coords: [8.69892, 77.74148],
         icon: "🌳",
-        type: "Central Garden"
-    },
-
-
-    // ========================================================
-    // LEFT SIDE - SCIENCE / ARTS
-    // ========================================================
-
-    "Chemistry": {
-        coords: [8.69872, 77.74072],
-        icon: "🧪",
-        type: "Chemistry Department"
-    },
-
-    "Physics": {
-        coords: [8.69888, 77.74072],
-        icon: "🔬",
-        type: "Physics Department"
-    },
-
-    "Physics S/F": {
-        coords: [8.69902, 77.74070],
-        icon: "🔬",
-        type: "Physics S/F Department"
-    },
-
-    "Maths": {
-        coords: [8.69918, 77.74078],
-        icon: "📐",
-        type: "Mathematics Department"
-    },
-
-    "History": {
-        coords: [8.69938, 77.74082],
-        icon: "📖",
-        type: "History Department"
-    },
-
-    "BCA": {
-        coords: [8.69928, 77.74048],
-        icon: "💻",
-        type: "BCA Department"
-    },
-
-    "MCA": {
-        coords: [8.69948, 77.74050],
-        icon: "💻",
-        type: "MCA Department"
-    },
-
-    "Nano Science": {
-        coords: [8.69968, 77.74068],
-        icon: "🧪",
-        type: "Nano Science Department"
-    },
-
-    "New Auditorium": {
-        coords: [8.69982, 77.74092],
-        icon: "🏛️",
-        type: "New Auditorium"
+        type: "Garden"
     },
 
 
@@ -196,91 +108,155 @@ const locations = {
     // ========================================================
 
     "Library": {
-        coords: [8.69872, 77.74235],
+        coords: [8.69878, 77.74225],
         icon: "📚",
         type: "Library"
     },
 
-    "Tamil & English": {
-        coords: [8.69878, 77.74278],
+    "Tamil": {
+        coords: [8.69902, 77.74242],
         icon: "📚",
-        type: "Tamil & English Department"
+        type: "Tamil Department"
     },
 
     "Economics": {
-        coords: [8.69898, 77.74278],
+        coords: [8.69912, 77.74258],
         icon: "📊",
         type: "Economics Department"
     },
 
     "Old Auditorium": {
-        coords: [8.69922, 77.74278],
+        coords: [8.69935, 77.74272],
         icon: "🏛️",
         type: "Old Auditorium"
     },
 
     "Canteen": {
-        coords: [8.69948, 77.74245],
+        coords: [8.69958, 77.74238],
         icon: "🍴",
         type: "Canteen"
     },
 
 
     // ========================================================
-    // SELF FINANCING DEPARTMENTS
+    // RIGHT UPPER DEPARTMENTS
     // ========================================================
 
     "English S/F": {
-        coords: [8.69962, 77.74260],
+        coords: [8.69978, 77.74255],
         icon: "📚",
         type: "English S/F Department"
     },
 
     "B.Com S/F": {
-        coords: [8.69978, 77.74260],
+        coords: [8.69990, 77.74270],
         icon: "💼",
         type: "B.Com S/F Department"
     },
 
     "Computer Science": {
-        coords: [8.69994, 77.74260],
+        coords: [8.70002, 77.74285],
         icon: "💻",
         type: "Computer Science Department"
     },
 
     "Food Science": {
-        coords: [8.70010, 77.74260],
+        coords: [8.70014, 77.74268],
         icon: "🧪",
         type: "Food Science Department"
     },
 
 
     // ========================================================
-    // OTHER CAMPUS AREAS
+    // LEFT OF MAIN BLOCK
     // ========================================================
 
+    "Physics": {
+        coords: [8.69865, 77.74105],
+        icon: "🔬",
+        type: "Physics Department"
+    },
+
+    "Chemistry": {
+        coords: [8.69848, 77.74098],
+        icon: "🧪",
+        type: "Chemistry Department"
+    },
+
+    "Physics S/F": {
+        coords: [8.69832, 77.74088],
+        icon: "🔬",
+        type: "Physics S/F"
+    },
+
     "B.Com & Zoology": {
-        coords: [8.69882, 77.74145],
+        coords: [8.69855, 77.74125],
         icon: "🏫",
         type: "B.Com & Zoology"
     },
 
-    "Chapel": {
-        coords: [8.69965, 77.73995],
-        icon: "⛪",
-        type: "Chapel"
+
+    // ========================================================
+    // LEFT SIDE DEPARTMENTS
+    // ========================================================
+
+    "Maths": {
+        coords: [8.69872, 77.74055],
+        icon: "📐",
+        type: "Mathematics Department"
+    },
+
+    "History": {
+        coords: [8.69892, 77.74040],
+        icon: "📖",
+        type: "History Department"
+    },
+
+    "MCA": {
+        coords: [8.69908, 77.74030],
+        icon: "💻",
+        type: "MCA Department"
+    },
+
+    "BCA": {
+        coords: [8.69925, 77.74028],
+        icon: "💻",
+        type: "BCA Department"
+    },
+
+    "Nano Science": {
+        coords: [8.69945, 77.74045],
+        icon: "🧪",
+        type: "Nano Science Department"
+    },
+
+    "New Auditorium": {
+        coords: [8.69972, 77.74058],
+        icon: "🏛️",
+        type: "New Auditorium"
+    },
+
+
+    // ========================================================
+    // NORTH / TOP AREA
+    // ========================================================
+
+    "Playground": {
+        coords: [8.70018, 77.74160],
+        icon: "⚽",
+        type: "Playground"
     },
 
     "Hostel": {
-        coords: [8.70015, 77.74135],
+        coords: [8.70042, 77.74175],
         icon: "🏠",
         type: "Hostel"
     },
 
-    "Playground": {
-        coords: [8.70005, 77.74205],
-        icon: "⚽",
-        type: "Playground"
+    "Chapel": {
+        coords: [8.70008, 77.74080],
+        icon: "⛪",
+        type: "Chapel"
     }
 
 };
@@ -312,23 +288,14 @@ let selectedDestination = null;
 
 
 // ============================================================
-// 8. ROUTE LINE
+// 8. ROUTE
 // ============================================================
 
-let routeLine = null;
-
-
-// ============================================================
-// 9. ROUTE MARKERS
-// ============================================================
-
-let routeStartMarker = null;
-
-let routeEndMarker = null;
+let routeControl = null;
 
 
 // ============================================================
-// 10. CAMPUS ICON
+// 9. CUSTOM CAMPUS ICON
 // ============================================================
 
 function createCampusIcon(icon) {
@@ -343,9 +310,9 @@ function createCampusIcon(icon) {
             </div>
         `,
 
-        iconSize: [40, 40],
+        iconSize: [38, 38],
 
-        iconAnchor: [20, 20]
+        iconAnchor: [19, 19]
 
     });
 
@@ -353,13 +320,12 @@ function createCampusIcon(icon) {
 
 
 // ============================================================
-// 11. ADD CAMPUS MARKERS
+// 10. ADD CAMPUS MARKERS
 // ============================================================
 
 for (const place in locations) {
 
     const data = locations[place];
-
 
     const marker = L.marker(
         data.coords,
@@ -422,29 +388,19 @@ for (const place in locations) {
 
 
 // ============================================================
-// 12. SELECT DESTINATION
+// 11. SELECT DESTINATION
 // ============================================================
 
 function selectDestination(place) {
 
     if (!locations[place]) {
-
-        console.error(
-            "Destination not found:",
-            place
-        );
-
         return;
-
     }
-
 
     selectedDestination = place;
 
 
-    // ========================================================
-    // REMOVE OLD SELECTED STYLE
-    // ========================================================
+    // Remove previous selection
 
     for (const name in markers) {
 
@@ -462,9 +418,7 @@ function selectDestination(place) {
     }
 
 
-    // ========================================================
-    // HIGHLIGHT
-    // ========================================================
+    // Highlight selected marker
 
     const selectedElement =
         markers[place].getElement();
@@ -478,22 +432,28 @@ function selectDestination(place) {
     }
 
 
-    // ========================================================
-    // OPEN POPUP
-    // ========================================================
+    // Open popup
 
     markers[place].openPopup();
 
 
-    // ========================================================
-    // INFORMATION PANEL
-    // ========================================================
+    // Move to destination
+
+    map.flyTo(
+        locations[place].coords,
+        19,
+        {
+            duration: 1
+        }
+    );
+
+
+    // Information panel
 
     const info =
         document.getElementById(
             "locationInfo"
         );
-
 
     if (info) {
 
@@ -511,8 +471,8 @@ function selectDestination(place) {
 
                 ${
                     userLocation
-                    ? "Press Navigate to calculate walking route."
-                    : "Press My Location first."
+                    ? "🧭 Ready for navigation."
+                    : "📍 Click My Location to start navigation."
                 }
 
             </div>
@@ -521,24 +481,11 @@ function selectDestination(place) {
 
     }
 
-
-    // ========================================================
-    // MOVE TO DESTINATION
-    // ========================================================
-
-    map.flyTo(
-        locations[place].coords,
-        19,
-        {
-            duration: 1
-        }
-    );
-
 }
 
 
 // ============================================================
-// 13. SEARCH
+// 12. SEARCH
 // ============================================================
 
 function findDestination() {
@@ -548,11 +495,8 @@ function findDestination() {
             "destinationInput"
         );
 
-
     if (!inputElement) {
-
         return;
-
     }
 
 
@@ -576,15 +520,12 @@ function findDestination() {
     let foundPlace = null;
 
 
-    // ========================================================
-    // DIRECT SEARCH
-    // ========================================================
+    // Exact / partial match
 
     for (const place in locations) {
 
         const name =
             place.toLowerCase();
-
 
         if (
             name === input ||
@@ -602,116 +543,92 @@ function findDestination() {
 
 
     // ========================================================
-    // ALIASES
+    // SEARCH ALIASES
     // ========================================================
 
+    const aliases = {
+
+        "cs": "Computer Science",
+
+        "computer":
+            "Computer Science",
+
+        "computer science department":
+            "Computer Science",
+
+        "library":
+            "Library",
+
+        "canteen":
+            "Canteen",
+
+        "bank":
+            "Canara Bank",
+
+        "canara":
+            "Canara Bank",
+
+        "parking":
+            "Parking Area",
+
+        "gate":
+            "Main Gate",
+
+        "main gate":
+            "Main Gate",
+
+        "hostel":
+            "Hostel",
+
+        "playground":
+            "Playground",
+
+        "chapel":
+            "Chapel",
+
+        "physics":
+            "Physics",
+
+        "chemistry":
+            "Chemistry",
+
+        "maths":
+            "Maths",
+
+        "mathematics":
+            "Maths",
+
+        "history":
+            "History",
+
+        "economics":
+            "Economics",
+
+        "tamil":
+            "Tamil",
+
+        "english":
+            "English S/F",
+
+        "bca":
+            "BCA",
+
+        "mca":
+            "MCA",
+
+        "food science":
+            "Food Science",
+
+        "bcom":
+            "B.Com S/F",
+
+        "auditorium":
+            "New Auditorium"
+
+    };
+
+
     if (!foundPlace) {
-
-        const aliases = {
-
-            "cs": "Computer Science",
-
-            "computer":
-                "Computer Science",
-
-            "computer science department":
-                "Computer Science",
-
-            "library":
-                "Library",
-
-            "canteen":
-                "Canteen",
-
-            "bank":
-                "Canara Bank",
-
-            "canara":
-                "Canara Bank",
-
-            "parking":
-                "Parking Area",
-
-            "gate":
-                "Main Gate",
-
-            "main gate":
-                "Main Gate",
-
-            "principal":
-                "Principal Office",
-
-            "principal office":
-                "Principal Office",
-
-            "management":
-                "Management Office",
-
-            "office":
-                "Management Office",
-
-            "hostel":
-                "Hostel",
-
-            "chapel":
-                "Chapel",
-
-            "playground":
-                "Playground",
-
-            "bca":
-                "BCA",
-
-            "mca":
-                "MCA",
-
-            "physics":
-                "Physics",
-
-            "chemistry":
-                "Chemistry",
-
-            "maths":
-                "Maths",
-
-            "mathematics":
-                "Maths",
-
-            "history":
-                "History",
-
-            "economics":
-                "Economics",
-
-            "auditorium":
-                "New Auditorium",
-
-            "old auditorium":
-                "Old Auditorium",
-
-            "new auditorium":
-                "New Auditorium",
-
-            "food":
-                "Food Science",
-
-            "food science":
-                "Food Science",
-
-            "bcom":
-                "B.Com S/F",
-
-            "zoology":
-                "B.Com & Zoology",
-
-            "tamil":
-                "Tamil & English",
-
-            "english":
-                "Tamil & English"
-
-        };
-
 
         for (const key in aliases) {
 
@@ -733,10 +650,6 @@ function findDestination() {
     }
 
 
-    // ========================================================
-    // NOT FOUND
-    // ========================================================
-
     if (!foundPlace) {
 
         alert(
@@ -757,14 +670,13 @@ function findDestination() {
 
 
 // ============================================================
-// 14. ENTER KEY
+// 13. ENTER KEY
 // ============================================================
 
 const destinationInput =
     document.getElementById(
         "destinationInput"
     );
-
 
 if (destinationInput) {
 
@@ -785,7 +697,7 @@ if (destinationInput) {
 
 
 // ============================================================
-// 15. CURRENT LOCATION
+// 14. CURRENT LOCATION
 // ============================================================
 
 function showMyLocation() {
@@ -844,16 +756,7 @@ function showMyLocation() {
             ];
 
 
-            console.log(
-                "GPS Location:",
-                latitude,
-                longitude
-            );
-
-
-            // =================================================
-            // REMOVE OLD USER MARKER
-            // =================================================
+            // Remove old marker
 
             if (userMarker) {
 
@@ -874,7 +777,7 @@ function showMyLocation() {
 
 
             // =================================================
-            // USER ICON
+            // BLUE GPS DOT
             // =================================================
 
             const userIcon =
@@ -901,10 +804,9 @@ function showMyLocation() {
                     userLocation,
                     {
                         icon: userIcon,
-                        zIndexOffset: 2000
+                        zIndexOffset: 1000
                     }
-                )
-                .addTo(map);
+                ).addTo(map);
 
 
             userMarker.bindPopup(
@@ -912,9 +814,7 @@ function showMyLocation() {
             );
 
 
-            // =================================================
-            // ACCURACY CIRCLE
-            // =================================================
+            // Accuracy circle
 
             accuracyCircle =
                 L.circle(
@@ -927,9 +827,7 @@ function showMyLocation() {
                 ).addTo(map);
 
 
-            // =================================================
-            // MOVE TO USER
-            // =================================================
+            // Move map
 
             map.flyTo(
                 userLocation,
@@ -940,9 +838,7 @@ function showMyLocation() {
             );
 
 
-            // =================================================
-            // INFO
-            // =================================================
+            // Information
 
             if (info) {
 
@@ -954,18 +850,18 @@ function showMyLocation() {
 
                     <div class="info-text">
 
-                        Location detected successfully.
+                        Location detected.
 
                         <br><br>
 
                         Accuracy:
-                        <b>${Math.round(accuracy)} m</b>
+                        ${Math.round(accuracy)} m
 
                         <br><br>
 
                         ${
                             selectedDestination
-                            ? "🧭 Ready to navigate."
+                            ? "🧭 Destination selected."
                             : "🔎 Select a destination."
                         }
 
@@ -976,9 +872,7 @@ function showMyLocation() {
             }
 
 
-            // =================================================
-            // IF DESTINATION ALREADY SELECTED
-            // =================================================
+            // If destination already selected
 
             if (selectedDestination) {
 
@@ -1004,15 +898,14 @@ function showMyLocation() {
             if (error.code === 1) {
 
                 message =
-                    "Location permission denied.\n\n" +
-                    "Please allow location access.";
+                    "Location permission denied.";
 
             }
 
             else if (error.code === 2) {
 
                 message =
-                    "Your location is unavailable.";
+                    "Location unavailable.";
 
             }
 
@@ -1025,26 +918,6 @@ function showMyLocation() {
 
 
             alert(message);
-
-
-            if (info) {
-
-                info.innerHTML = `
-
-                    <div class="info-title">
-                        ⚠️ Location Error
-                    </div>
-
-                    <div class="info-text">
-                        ${message.replace(
-                            /\n/g,
-                            "<br>"
-                        )}
-                    </div>
-
-                `;
-
-            }
 
         },
 
@@ -1061,12 +934,10 @@ function showMyLocation() {
 
 
 // ============================================================
-// 16. CREATE WALKING ROUTE
-//
-// Valhalla pedestrian routing
+// 15. ROUTE
 // ============================================================
 
-async function createRoute() {
+function createRoute() {
 
     if (!userLocation) {
 
@@ -1082,7 +953,7 @@ async function createRoute() {
     if (!selectedDestination) {
 
         alert(
-            "Please select a destination."
+            "Select a destination first."
         );
 
         return;
@@ -1091,9 +962,20 @@ async function createRoute() {
 
 
     const destination =
-        locations[
-            selectedDestination
-        ].coords;
+        locations[selectedDestination].coords;
+
+
+    // Remove old route
+
+    if (routeControl) {
+
+        map.removeControl(
+            routeControl
+        );
+
+        routeControl = null;
+
+    }
 
 
     const info =
@@ -1102,53 +984,12 @@ async function createRoute() {
         );
 
 
-    // ========================================================
-    // REMOVE OLD ROUTE
-    // ========================================================
-
-    if (routeLine) {
-
-        map.removeLayer(
-            routeLine
-        );
-
-        routeLine = null;
-
-    }
-
-
-    if (routeStartMarker) {
-
-        map.removeLayer(
-            routeStartMarker
-        );
-
-        routeStartMarker = null;
-
-    }
-
-
-    if (routeEndMarker) {
-
-        map.removeLayer(
-            routeEndMarker
-        );
-
-        routeEndMarker = null;
-
-    }
-
-
-    // ========================================================
-    // SHOW LOADING
-    // ========================================================
-
     if (info) {
 
         info.innerHTML = `
 
             <div class="info-title">
-                🧭 Finding Walking Route...
+                🧭 Navigation
             </div>
 
             <div class="info-text">
@@ -1163,7 +1004,7 @@ async function createRoute() {
 
                 <br><br>
 
-                Please wait...
+                Finding route...
 
             </div>
 
@@ -1173,460 +1014,192 @@ async function createRoute() {
 
 
     // ========================================================
-    // VALHALLA REQUEST
+    // LEAFLET ROUTING MACHINE
     // ========================================================
 
-    const requestData = {
+    routeControl =
+        L.Routing.control({
 
-        locations: [
+            waypoints: [
 
-            {
-                lat: userLocation[0],
-                lon: userLocation[1]
+                L.latLng(
+                    userLocation[0],
+                    userLocation[1]
+                ),
+
+                L.latLng(
+                    destination[0],
+                    destination[1]
+                )
+
+            ],
+
+            router:
+                L.Routing.osrmv1({
+
+                    serviceUrl:
+                        "https://router.project-osrm.org/route/v1"
+
+                }),
+
+            lineOptions: {
+
+                styles: [
+                    {
+                        className:
+                            "campus-route-line",
+
+                        weight: 7
+                    }
+                ]
+
             },
 
-            {
-                lat: destination[0],
-                lon: destination[1]
+            addWaypoints: false,
+
+            draggableWaypoints: false,
+
+            routeWhileDragging: false,
+
+            fitSelectedRoutes: true,
+
+            showAlternatives: false,
+
+            collapsible: true,
+
+            createMarker: function() {
+
+                return null;
+
             }
 
-        ],
-
-        costing: "pedestrian",
-
-        units: "kilometers",
-
-        directions_options: {
-            units: "kilometers"
-        }
-
-    };
+        }).addTo(map);
 
 
-    try {
+    // ========================================================
+    // ROUTE FOUND
+    // ========================================================
 
-        const response =
-            await fetch(
-                "https://valhalla1.openstreetmap.de/route",
-                {
+    routeControl.on(
+        "routesfound",
+        function(event) {
 
-                    method: "POST",
+            const route =
+                event.routes[0];
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify(
-                            requestData
-                        )
-
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Routing server error"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        // ====================================================
-        // CHECK ROUTE
-        // ====================================================
-
-        if (
-            !data.trip ||
-            !data.trip.legs ||
-            data.trip.legs.length === 0
-        ) {
-
-            throw new Error(
-                "No walking route found"
-            );
-
-        }
-
-
-        const leg =
-            data.trip.legs[0];
-
-
-        const shape =
-            leg.shape;
-
-
-        // ====================================================
-        // DECODE POLYLINE6
-        // ====================================================
-
-        const coordinates =
-            decodePolyline6(
-                shape
-            );
-
-
-        // ====================================================
-        // DRAW ROUTE
-        // ====================================================
-
-        routeLine =
-            L.polyline(
-                coordinates,
-                {
-
-                    className:
-                        "campus-route-line",
-
-                    weight: 7,
-
-                    opacity: 0.9,
-
-                    lineCap: "round",
-
-                    lineJoin: "round"
-
-                }
-            )
-            .addTo(map);
-
-
-        // ====================================================
-        // START MARKER
-        // ====================================================
-
-        routeStartMarker =
-            L.circleMarker(
-                userLocation,
-                {
-
-                    radius: 9,
-
-                    className:
-                        "route-start-marker"
-
-                }
-            )
-            .addTo(map);
-
-
-        routeStartMarker.bindPopup(
-            "📍 You are here"
-        );
-
-
-        // ====================================================
-        // DESTINATION MARKER
-        // ====================================================
-
-        routeEndMarker =
-            L.circleMarker(
-                destination,
-                {
-
-                    radius: 9,
-
-                    className:
-                        "route-end-marker"
-
-                }
-            )
-            .addTo(map);
-
-
-        routeEndMarker.bindPopup(
-            "🎯 " +
-            selectedDestination
-        );
-
-
-        // ====================================================
-        // FIT ROUTE
-        // ====================================================
-
-        map.fitBounds(
-            routeLine.getBounds(),
-            {
-                padding: [60, 60]
+            if (!route) {
+                return;
             }
-        );
 
 
-        // ====================================================
-        // DISTANCE
-        // ====================================================
-
-        let distance =
-            data.trip.summary
-            ? data.trip.summary.length
-            : 0;
+            const summary =
+                route.summary;
 
 
-        // ====================================================
-        // TIME
-        // ========================================================
-
-        let timeSeconds =
-            data.trip.summary
-            ? data.trip.summary.time
-            : 0;
+            const distance =
+                summary.totalDistance;
 
 
-        const distanceText =
-            distance < 1
-            ? Math.round(distance * 1000) + " m"
-            : distance.toFixed(2) + " km";
+            const time =
+                summary.totalTime;
 
 
-        const minutes =
-            Math.max(
-                1,
-                Math.round(
-                    timeSeconds / 60
-                )
+            const distanceText =
+                distance >= 1000
+                ? (distance / 1000).toFixed(2) + " km"
+                : Math.round(distance) + " m";
+
+
+            const minutes =
+                Math.max(
+                    1,
+                    Math.round(time / 60)
+                );
+
+
+            if (info) {
+
+                info.innerHTML = `
+
+                    <div class="info-title">
+                        🧭 Route Found
+                    </div>
+
+                    <div class="info-text">
+
+                        📍 From:
+                        <b>Current Location</b>
+
+                        <br><br>
+
+                        🎯 To:
+                        <b>${selectedDestination}</b>
+
+                        <br><br>
+
+                        📏 Distance:
+                        <b>${distanceText}</b>
+
+                        <br>
+
+                        🚶 Estimated Time:
+                        <b>${minutes} min</b>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+    // ========================================================
+    // ROUTE ERROR
+    // ========================================================
+
+    routeControl.on(
+        "routingerror",
+        function(error) {
+
+            console.error(
+                "Routing error:",
+                error
             );
 
 
-        // ====================================================
-        // INFO PANEL
-        // ====================================================
+            if (info) {
 
-        if (info) {
+                info.innerHTML = `
 
-            info.innerHTML = `
+                    <div class="info-title">
+                        ⚠️ Route Not Available
+                    </div>
 
-                <div class="info-title">
-                    🧭 Route Found
-                </div>
+                    <div class="info-text">
 
-                <div class="info-text">
+                        Unable to calculate route.
 
-                    📍 From:
-                    <b>Current Location</b>
+                        <br><br>
 
-                    <br><br>
+                        Please check your
+                        internet connection.
 
-                    🎯 To:
-                    <b>${selectedDestination}</b>
+                    </div>
 
-                    <br><br>
+                `;
 
-                    📏 Distance:
-                    <b>${distanceText}</b>
-
-                    <br><br>
-
-                    🚶 Walking Time:
-                    <b>${minutes} min</b>
-
-                </div>
-
-            `;
-
-        }
-
-
-        console.log(
-            "Walking route created"
-        );
-
-        console.log(
-            "Distance:",
-            distanceText
-        );
-
-        console.log(
-            "Time:",
-            minutes,
-            "minutes"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Routing Error:",
-            error
-        );
-
-
-        // ====================================================
-        // FALLBACK STRAIGHT ROUTE
-        // ====================================================
-
-        routeLine =
-            L.polyline(
-                [
-                    userLocation,
-                    destination
-                ],
-                {
-
-                    className:
-                        "campus-route-line",
-
-                    weight: 7,
-
-                    dashArray:
-                        "12, 10",
-
-                    opacity: 0.8
-
-                }
-            )
-            .addTo(map);
-
-
-        map.fitBounds(
-            routeLine.getBounds(),
-            {
-                padding: [60, 60]
             }
-        );
-
-
-        if (info) {
-
-            info.innerHTML = `
-
-                <div class="info-title">
-                    ⚠️ Route Service Unavailable
-                </div>
-
-                <div class="info-text">
-
-                    The walking routing server
-                    could not calculate a road route.
-
-                    <br><br>
-
-                    Please try again.
-
-                </div>
-
-            `;
 
         }
-
-    }
+    );
 
 }
 
 
 // ============================================================
-// 17. POLYLINE6 DECODER
-// ============================================================
-
-function decodePolyline6(encoded) {
-
-    let index = 0;
-
-    let lat = 0;
-
-    let lng = 0;
-
-    const coordinates = [];
-
-
-    while (
-        index <
-        encoded.length
-    ) {
-
-        let result = 1;
-
-        let shift = 0;
-
-        let b;
-
-
-        do {
-
-            b =
-                encoded.charCodeAt(
-                    index++
-                ) - 63;
-
-
-            result +=
-                (b & 0x1f) << shift;
-
-
-            shift += 5;
-
-        }
-
-        while (b >= 0x20);
-
-
-        const deltaLat =
-            (result & 1)
-            ? ~(result >> 1)
-            : (result >> 1);
-
-
-        lat += deltaLat;
-
-
-        result = 1;
-
-        shift = 0;
-
-
-        do {
-
-            b =
-                encoded.charCodeAt(
-                    index++
-                ) - 63;
-
-
-            result +=
-                (b & 0x1f) << shift;
-
-
-            shift += 5;
-
-        }
-
-        while (b >= 0x20);
-
-
-        const deltaLng =
-            (result & 1)
-            ? ~(result >> 1)
-            : (result >> 1);
-
-
-        lng += deltaLng;
-
-
-        coordinates.push(
-            [
-                lat / 1000000,
-                lng / 1000000
-            ]
-        );
-
-    }
-
-
-    return coordinates;
-
-}
-
-
-// ============================================================
-// 18. NAVIGATE BUTTON
+// 16. NAVIGATE BUTTON
 // ============================================================
 
 function navigateToSelected() {
@@ -1634,7 +1207,7 @@ function navigateToSelected() {
     if (!selectedDestination) {
 
         alert(
-            "Please select a destination first."
+            "Please select a destination."
         );
 
         return;
@@ -1643,10 +1216,6 @@ function navigateToSelected() {
 
 
     if (!userLocation) {
-
-        alert(
-            "Please click My Location first."
-        );
 
         showMyLocation();
 
@@ -1661,52 +1230,25 @@ function navigateToSelected() {
 
 
 // ============================================================
-// 19. RESET MAP
+// 17. RESET
 // ============================================================
 
 function resetCampusView() {
 
+    // Remove route
 
-    // ========================================================
-    // REMOVE ROUTE
-    // ========================================================
+    if (routeControl) {
 
-    if (routeLine) {
-
-        map.removeLayer(
-            routeLine
+        map.removeControl(
+            routeControl
         );
 
-        routeLine = null;
+        routeControl = null;
 
     }
 
 
-    if (routeStartMarker) {
-
-        map.removeLayer(
-            routeStartMarker
-        );
-
-        routeStartMarker = null;
-
-    }
-
-
-    if (routeEndMarker) {
-
-        map.removeLayer(
-            routeEndMarker
-        );
-
-        routeEndMarker = null;
-
-    }
-
-
-    // ========================================================
-    // REMOVE USER LOCATION
-    // ========================================================
+    // Remove GPS marker
 
     if (userMarker) {
 
@@ -1719,6 +1261,8 @@ function resetCampusView() {
     }
 
 
+    // Remove accuracy
+
     if (accuracyCircle) {
 
         map.removeLayer(
@@ -1730,18 +1274,12 @@ function resetCampusView() {
     }
 
 
-    // ========================================================
-    // RESET VARIABLES
-    // ========================================================
-
     userLocation = null;
 
     selectedDestination = null;
 
 
-    // ========================================================
-    // REMOVE HIGHLIGHT
-    // ========================================================
+    // Remove selected style
 
     for (const name in markers) {
 
@@ -1759,9 +1297,7 @@ function resetCampusView() {
     }
 
 
-    // ========================================================
-    // RESET MAP
-    // ========================================================
+    // Return to campus
 
     map.flyTo(
         campusCenter,
@@ -1771,27 +1307,6 @@ function resetCampusView() {
         }
     );
 
-
-    // ========================================================
-    // CLEAR SEARCH
-    // ========================================================
-
-    const input =
-        document.getElementById(
-            "destinationInput"
-        );
-
-
-    if (input) {
-
-        input.value = "";
-
-    }
-
-
-    // ========================================================
-    // RESET INFO
-    // ========================================================
 
     const info =
         document.getElementById(
@@ -1808,10 +1323,8 @@ function resetCampusView() {
             </div>
 
             <div class="info-text">
-
                 Search a building or select
                 a campus location.
-
             </div>
 
         `;
@@ -1822,7 +1335,7 @@ function resetCampusView() {
 
 
 // ============================================================
-// 20. ZOOM CONTROL
+// 18. ZOOM CONTROL
 // ============================================================
 
 L.control.zoom({
@@ -1833,9 +1346,7 @@ L.control.zoom({
 
 
 // ============================================================
-// 21. FIX MAP SIZE
-//
-// Important when map is inside a hidden/loaded container.
+// 19. FIX MAP SIZE
 // ============================================================
 
 setTimeout(
@@ -1848,44 +1359,15 @@ setTimeout(
 );
 
 
-window.addEventListener(
-    "resize",
-    function() {
-
-        map.invalidateSize();
-
-    }
-);
-
-
 // ============================================================
-// 22. READY
+// 20. READY
 // ============================================================
 
 console.log(
-    "========================================"
+    "✅ Sarah Tucker College Campus Map Loaded"
 );
 
 console.log(
-    "✅ SARAH TUCKER COLLEGE MAP READY"
-);
-
-console.log(
-    "✅ OpenStreetMap Loaded"
-);
-
-console.log(
-    "✅ Campus Locations Loaded"
-);
-
-console.log(
-    "✅ Current Location Ready"
-);
-
-console.log(
-    "✅ Walking Navigation Ready"
-);
-
-console.log(
-    "========================================"
+    "📍 Campus locations loaded:",
+    Object.keys(locations).length
 );
