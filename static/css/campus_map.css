@@ -1,156 +1,1298 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Smart Campus Navigation</title>
-
-    <!-- Leaflet -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-    <!-- Campus CSS -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/campus_map.css') }}">
-
-</head>
-
-<body>
-
-<div class="page">
-
-    <!-- HEADER -->
-    <header class="topbar">
-
-        <div class="brand">
-
-            <div class="brand-icon">
-                🏫
-            </div>
-
-            <div>
-                <h1>Smart Campus Navigation</h1>
-                <p>Sarah Tucker College</p>
-            </div>
-
-        </div>
-
-        <a href="/dashboard"
-           class="dashboard-btn">
-            ← Dashboard
-        </a>
-
-    </header>
+/* ============================================================
+   SARAH TUCKER COLLEGE
+   SMART CAMPUS NAVIGATION
+   CAMPUS MAP CSS
+============================================================ */
 
 
-    <!-- SEARCH -->
-    <section class="search-panel">
+/* ============================================================
+   GLOBAL
+============================================================ */
 
-        <div class="search-box">
-
-            <span>🔍</span>
-
-            <input
-                type="text"
-                id="destinationInput"
-                placeholder="Search campus location..."
-                autocomplete="off"
-            >
-
-            <button onclick="findDestination()">
-                Search
-            </button>
-
-        </div>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 
-        <div class="quick-buttons">
-
-            <button onclick="selectDestination('Library')">
-                📚 Library
-            </button>
-
-            <button onclick="selectDestination('Canteen')">
-                🍴 Canteen
-            </button>
-
-            <button onclick="selectDestination('Computer Science')">
-                💻 Computer Science
-            </button>
-
-            <button onclick="selectDestination('Main Gate')">
-                🚪 Main Gate
-            </button>
-
-        </div>
-
-    </section>
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
 
 
-    <!-- MAP -->
-    <main id="campusMap"></main>
+body {
+
+    font-family:
+        "Poppins",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: #f3f6fa;
+
+    color: #172033;
+
+    overflow: hidden;
+
+}
 
 
-    <!-- MAP CONTROLS -->
-    <div class="map-controls">
+/* ============================================================
+   TOP BAR
+============================================================ */
 
-        <button onclick="showMyLocation()">
-            📍 My Location
-        </button>
+.topbar {
 
-        <button onclick="navigateToSelected()">
-            🧭 Navigate
-        </button>
+    height: 72px;
 
-        <button onclick="resetCampusView()">
-            🔄 Reset
-        </button>
+    background:
+        linear-gradient(
+            135deg,
+            #102a43,
+            #173f63
+        );
 
-    </div>
+    color: white;
 
+    display: flex;
 
-    <!-- INFORMATION -->
-    <div id="locationInfo"
-         class="location-info">
+    align-items: center;
 
-        <div class="info-title">
-            📍 Campus Navigation
-        </div>
+    justify-content: space-between;
 
-        <div class="info-text">
-            Search a building or select a campus location.
-        </div>
+    padding: 0 24px;
 
-    </div>
+    box-shadow:
+        0 3px 12px
+        rgba(0, 0, 0, 0.20);
 
+    position: relative;
 
-    <!-- FOOTER -->
-    <footer>
+    z-index: 1000;
 
-        <span>
-            🗺️ Interactive Campus Map
-        </span>
-
-        <span>
-            OpenStreetMap
-        </span>
-
-    </footer>
-
-</div>
+}
 
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+/* Brand */
 
-<!-- Campus Map -->
-<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
+.brand {
 
-</body>
+    display: flex;
 
-</html>
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.brand-logo {
+
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 12px;
+
+    background: white;
+
+    color: #173f63;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 3px 8px
+        rgba(0, 0, 0, 0.20);
+
+}
+
+
+.brand-text h1 {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+}
+
+
+.brand-text span {
+
+    font-size: 12px;
+
+    opacity: 0.82;
+
+}
+
+
+/* Top buttons */
+
+.top-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.top-btn,
+.home-btn {
+
+    border: none;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    background:
+        rgba(255,255,255,0.10);
+
+    color: white;
+
+    padding: 9px 13px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    transition: 0.2s;
+
+}
+
+
+.top-btn:hover,
+.home-btn:hover {
+
+    background:
+        rgba(255,255,255,0.20);
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ============================================================
+   MAIN CONTAINER
+============================================================ */
+
+.main-container {
+
+    width: 100%;
+
+    height:
+        calc(100vh - 108px);
+
+    display: flex;
+
+}
+
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+
+.sidebar {
+
+    width: 370px;
+
+    min-width: 370px;
+
+    height: 100%;
+
+    background: #ffffff;
+
+    border-right:
+        1px solid #dfe5ec;
+
+    overflow-y: auto;
+
+    padding: 18px;
+
+    z-index: 900;
+
+}
+
+
+/* Scrollbar */
+
+.sidebar::-webkit-scrollbar {
+
+    width: 6px;
+
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+
+    background: #b7c2ce;
+
+    border-radius: 10px;
+
+}
+
+
+/* ============================================================
+   SEARCH SECTION
+============================================================ */
+
+.search-section {
+
+    margin-bottom: 15px;
+
+}
+
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.section-title span {
+
+    font-size: 21px;
+
+}
+
+
+.section-title h2 {
+
+    font-size: 19px;
+
+    color: #173f63;
+
+}
+
+
+.search-help {
+
+    font-size: 12px;
+
+    color: #718096;
+
+    line-height: 1.5;
+
+    margin-bottom: 12px;
+
+}
+
+
+/* Search */
+
+.search-wrapper {
+
+    position: relative;
+
+    display: flex;
+
+    width: 100%;
+
+}
+
+
+.search-wrapper input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding:
+        0 92px 0 14px;
+
+    border:
+        1px solid #d5dde6;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    color: #1e293b;
+
+    background: #f9fbfd;
+
+    transition: 0.2s;
+
+}
+
+
+.search-wrapper input:focus {
+
+    border-color: #2674b9;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(38,116,185,0.10);
+
+}
+
+
+.search-btn {
+
+    position: absolute;
+
+    right: 4px;
+
+    top: 4px;
+
+    height: 38px;
+
+    padding: 0 13px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #1976d2;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.search-btn:hover {
+
+    background: #125ca6;
+
+}
+
+
+/* Suggestions */
+
+.suggestions {
+
+    position: absolute;
+
+    top: 50px;
+
+    left: 0;
+
+    width: 100%;
+
+    background: white;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 8px 24px
+        rgba(0,0,0,0.16);
+
+    overflow: hidden;
+
+    z-index: 2000;
+
+}
+
+
+.suggestion-item {
+
+    padding: 11px 14px;
+
+    border-bottom:
+        1px solid #edf1f5;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+
+.suggestion-item:hover {
+
+    background: #eef6ff;
+
+    color: #1565a8;
+
+}
+
+
+/* ============================================================
+   QUICK SEARCH
+============================================================ */
+
+.quick-search {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 7px;
+
+    margin-top: 11px;
+
+}
+
+
+.quick-search button {
+
+    border:
+        1px solid #e0e6ed;
+
+    background: #f8fafc;
+
+    color: #334155;
+
+    border-radius: 8px;
+
+    padding: 9px 7px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    transition: 0.2s;
+
+}
+
+
+.quick-search button:hover {
+
+    background: #edf6ff;
+
+    border-color: #8dbde6;
+
+    color: #145a91;
+
+}
+
+
+/* ============================================================
+   RESULT CARD
+============================================================ */
+
+.result-card {
+
+    background: white;
+
+    border:
+        1px solid #e1e7ee;
+
+    border-radius: 12px;
+
+    padding: 16px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(20, 40, 60, 0.05);
+
+}
+
+
+.empty-result {
+
+    text-align: center;
+
+    padding: 12px 5px;
+
+}
+
+
+.empty-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    margin:
+        0 auto 9px;
+
+    border-radius: 50%;
+
+    background: #eef5fb;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 21px;
+
+}
+
+
+.empty-result h3 {
+
+    font-size: 15px;
+
+    color: #30465c;
+
+    margin-bottom: 5px;
+
+}
+
+
+.empty-result p {
+
+    color: #8793a0;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* Destination */
+
+.destination-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.destination-pin {
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #fee2e2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+}
+
+
+.destination-name {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #173f63;
+
+}
+
+
+.distance {
+
+    background: #f1f7fd;
+
+    border-radius: 8px;
+
+    padding: 10px;
+
+    font-size: 12px;
+
+    color: #536779;
+
+    margin-bottom: 10px;
+
+}
+
+
+.distance strong {
+
+    display: block;
+
+    font-size: 16px;
+
+    color: #173f63;
+
+    margin-top: 2px;
+
+}
+
+
+.description {
+
+    font-size: 12px;
+
+    color: #596979;
+
+    line-height: 1.55;
+
+}
+
+
+.route-box {
+
+    margin-top: 12px;
+
+    padding: 11px;
+
+    background: #f7f9fc;
+
+    border-radius: 8px;
+
+    border-left:
+        3px solid #e53935;
+
+    font-size: 12px;
+
+    color: #45596b;
+
+}
+
+
+.route-box strong {
+
+    color: #173f63;
+
+}
+
+
+/* ============================================================
+   NEARBY
+============================================================ */
+
+.nearby-section {
+
+    border:
+        1px solid #e1e7ee;
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    background: white;
+
+}
+
+
+.nearby-title {
+
+    margin-bottom: 10px;
+
+}
+
+
+.nearby-title h3 {
+
+    font-size: 14px;
+
+    color: #30465c;
+
+}
+
+
+.nearby-columns {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+
+}
+
+
+.nearby-columns h4 {
+
+    font-size: 11px;
+
+    color: #738394;
+
+    margin-bottom: 6px;
+
+}
+
+
+.place-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+.place-item {
+
+    padding: 8px;
+
+    border:
+        1px solid #edf0f4;
+
+    border-radius: 7px;
+
+    background: #fafbfd;
+
+    transition: 0.2s;
+
+}
+
+
+.place-item:hover {
+
+    background: #eef6ff;
+
+    border-color: #b8d4eb;
+
+}
+
+
+.place-name {
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: #31485c;
+
+}
+
+
+.place-distance {
+
+    font-size: 10px;
+
+    color: #8996a4;
+
+    margin-top: 2px;
+
+}
+
+
+.small-text {
+
+    font-size: 10px;
+
+    color: #9aa5b1;
+
+}
+
+
+/* ============================================================
+   SIDEBAR ACTIONS
+============================================================ */
+
+.sidebar-actions {
+
+    margin-top: 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.action-btn {
+
+    width: 100%;
+
+    border: none;
+
+    background: #173f63;
+
+    color: white;
+
+    padding: 11px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+
+}
+
+
+.action-btn:hover {
+
+    background: #0e304e;
+
+}
+
+
+.action-btn.secondary {
+
+    background: #eef2f6;
+
+    color: #46596b;
+
+}
+
+
+.action-btn.secondary:hover {
+
+    background: #e0e7ee;
+
+}
+
+
+/* ============================================================
+   MAP
+============================================================ */
+
+.map-area {
+
+    position: relative;
+
+    flex: 1;
+
+    height: 100%;
+
+    background: #e7ebef;
+
+}
+
+
+#map {
+
+    width: 100%;
+
+    height: 100%;
+
+}
+
+
+/* ============================================================
+   LEAFLET POPUP
+============================================================ */
+
+.leaflet-popup-content-wrapper {
+
+    border-radius: 10px;
+
+}
+
+
+.leaflet-popup-content {
+
+    margin: 13px 15px;
+
+}
+
+
+/* ============================================================
+   MAP INFORMATION
+============================================================ */
+
+.map-info {
+
+    position: absolute;
+
+    left: 18px;
+
+    bottom: 18px;
+
+    z-index: 500;
+
+    background:
+        rgba(255,255,255,0.95);
+
+    padding: 10px 13px;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.18);
+
+    display: flex;
+
+    gap: 14px;
+
+    font-size: 11px;
+
+}
+
+
+.info-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+}
+
+
+.info-dot {
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+}
+
+
+.info-dot.gate {
+
+    background: #16a34a;
+
+}
+
+
+.info-dot.place {
+
+    background: #1976d2;
+
+}
+
+
+.info-dot.destination {
+
+    background: #e53935;
+
+}
+
+
+/* ============================================================
+   FLOATING MAP CONTROLS
+============================================================ */
+
+.floating-controls {
+
+    position: absolute;
+
+    right: 18px;
+
+    top: 18px;
+
+    z-index: 500;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+
+.floating-controls button {
+
+    width: 42px;
+
+    height: 42px;
+
+    border: none;
+
+    background: white;
+
+    border-radius: 9px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0,0,0,0.20);
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    transition: 0.2s;
+
+}
+
+
+.floating-controls button:hover {
+
+    transform: scale(1.05);
+
+    background: #f2f7fc;
+
+}
+
+
+/* ============================================================
+   CUSTOM MARKERS
+============================================================ */
+
+.custom-gate-marker,
+.campus-marker,
+.destination-marker {
+
+    background: transparent !important;
+
+    border: none !important;
+
+}
+
+
+/* ============================================================
+   ROUTE LINE
+============================================================ */
+
+.campus-route {
+
+    animation:
+        routeFlow 1.5s linear infinite;
+
+}
+
+
+@keyframes routeFlow {
+
+    from {
+        stroke-dashoffset: 20;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.footer {
+
+    height: 36px;
+
+    background: #102a43;
+
+    color: rgba(255,255,255,0.85);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    font-size: 10px;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    body {
+
+        overflow: auto;
+
+    }
+
+
+    .topbar {
+
+        height: auto;
+
+        min-height: 65px;
+
+        padding: 9px 12px;
+
+    }
+
+
+    .brand-text h1 {
+
+        font-size: 14px;
+
+    }
+
+
+    .brand-text span {
+
+        font-size: 10px;
+
+    }
+
+
+    .top-actions {
+
+        gap: 4px;
+
+    }
+
+
+    .top-btn span,
+    .home-btn {
+
+        display: none;
+
+    }
+
+
+    .top-btn {
+
+        width: 38px;
+
+        height: 38px;
+
+        justify-content: center;
+
+        padding: 0;
+
+    }
+
+
+    .main-container {
+
+        height: auto;
+
+        min-height:
+            calc(100vh - 101px);
+
+        flex-direction: column;
+
+    }
+
+
+    .sidebar {
+
+        width: 100%;
+
+        min-width: 100%;
+
+        height: auto;
+
+        max-height: 48vh;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #dfe5ec;
+
+    }
+
+
+    .map-area {
+
+        height: 58vh;
+
+        min-height: 450px;
+
+    }
+
+
+    .map-info {
+
+        left: 10px;
+
+        bottom: 10px;
+
+        gap: 7px;
+
+        flex-wrap: wrap;
+
+    }
+
+
+    .footer {
+
+        display: none;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 500px) {
+
+    .sidebar {
+
+        padding: 12px;
+
+        max-height: 52vh;
+
+    }
+
+
+    .quick-search {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .nearby-columns {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .map-area {
+
+        min-height: 400px;
+
+    }
+
+
+    .map-info {
+
+        font-size: 9px;
+
+    }
+
+}
