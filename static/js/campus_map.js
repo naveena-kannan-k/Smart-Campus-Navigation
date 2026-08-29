@@ -1,14 +1,12 @@
-```javascript
 // ============================================================
 // SMART CAMPUS NAVIGATION
-// REAL MAP VERSION
-// NO CAMPUS IMAGE
-// CURRENT LOCATION → DESTINATION → WALKING ROUTE
+// REAL MAP - NO IMAGE
+// GPS + DESTINATION + ROUTE
 // ============================================================
 
 
 // ============================================================
-// 1. CREATE REAL MAP
+// 1. CREATE MAP
 // ============================================================
 
 const map = L.map("campusMap", {
@@ -17,7 +15,7 @@ const map = L.map("campusMap", {
 
 
 // ============================================================
-// 2. OPENSTREETMAP
+// 2. OPEN STREET MAP
 // ============================================================
 
 L.tileLayer(
@@ -30,10 +28,9 @@ L.tileLayer(
 
 
 // ============================================================
-// 3. DEFAULT CAMPUS CENTER
+// 3. CAMPUS CENTER
 // ============================================================
 
-// Sarah Tucker College area
 const campusCenter = [8.7257, 77.7345];
 
 map.setView(campusCenter, 17);
@@ -41,9 +38,7 @@ map.setView(campusCenter, 17);
 
 // ============================================================
 // 4. CAMPUS LOCATIONS
-//
-// IMPORTANT:
-// coords = [latitude, longitude]
+// [LATITUDE, LONGITUDE]
 // ============================================================
 
 const locations = {
@@ -220,37 +215,24 @@ const locations = {
 
 
 // ============================================================
-// 5. MARKER STORAGE
+// 5. VARIABLES
 // ============================================================
 
 const markers = {};
 
-
-// ============================================================
-// 6. USER LOCATION
-// ============================================================
-
 let userLocation = null;
+
 let userMarker = null;
+
 let accuracyCircle = null;
 
-
-// ============================================================
-// 7. ROUTE
-// ============================================================
-
-let routeControl = null;
-
-
-// ============================================================
-// 8. SELECTED DESTINATION
-// ============================================================
+let routeLine = null;
 
 let selectedDestination = null;
 
 
 // ============================================================
-// 9. CUSTOM CAMPUS ICON
+// 6. CAMPUS MARKER ICON
 // ============================================================
 
 function createCampusIcon(icon) {
@@ -275,7 +257,7 @@ function createCampusIcon(icon) {
 
 
 // ============================================================
-// 10. ADD ALL CAMPUS MARKERS
+// 7. ADD CAMPUS MARKERS
 // ============================================================
 
 for (const place in locations) {
@@ -290,12 +272,7 @@ for (const place in locations) {
     ).addTo(map);
 
 
-    // --------------------------------------------------------
-    // POPUP
-    // --------------------------------------------------------
-
     marker.bindPopup(`
-
         <div class="campus-popup">
 
             <div class="popup-icon">
@@ -318,54 +295,38 @@ for (const place in locations) {
             </button>
 
         </div>
-
     `);
 
-
-    // --------------------------------------------------------
-    // LABEL
-    // --------------------------------------------------------
 
     marker.bindTooltip(
         place,
         {
             direction: "top",
             offset: [0, -22],
-            className: "campus-label",
-            sticky: true
+            className: "campus-label"
         }
     );
 
 
     markers[place] = marker;
-
 }
 
 
 // ============================================================
-// 11. SELECT DESTINATION
+// 8. SELECT DESTINATION
 // ============================================================
 
 function selectDestination(place) {
 
     if (!locations[place]) {
-
-        console.error(
-            "Destination not found:",
-            place
-        );
-
         return;
-
     }
 
 
     selectedDestination = place;
 
 
-    // --------------------------------------------------------
-    // REMOVE OLD SELECTED STYLE
-    // --------------------------------------------------------
+    // Remove previous selected style
 
     for (const name in markers) {
 
@@ -379,13 +340,10 @@ function selectDestination(place) {
             );
 
         }
-
     }
 
 
-    // --------------------------------------------------------
-    // HIGHLIGHT DESTINATION
-    // --------------------------------------------------------
+    // Add selected style
 
     const selectedElement =
         markers[place].getElement();
@@ -399,16 +357,12 @@ function selectDestination(place) {
     }
 
 
-    // --------------------------------------------------------
-    // OPEN POPUP
-    // --------------------------------------------------------
+    // Open popup
 
     markers[place].openPopup();
 
 
-    // --------------------------------------------------------
-    // SHOW DESTINATION
-    // --------------------------------------------------------
+    // Move map
 
     map.flyTo(
         locations[place].coords,
@@ -419,47 +373,28 @@ function selectDestination(place) {
     );
 
 
-    // --------------------------------------------------------
-    // INFORMATION PANEL
-    // --------------------------------------------------------
+    updateInfo(
+        "📍 Destination Selected",
+        `
+        Destination:
+        <b>${place}</b>
 
-    const info =
-        document.getElementById(
-            "locationInfo"
-        );
+        <br><br>
 
+        ${locations[place].type}
 
-    if (info) {
+        <br><br>
 
-        info.innerHTML = `
-
-            <div class="info-title">
-                📍 ${place}
-            </div>
-
-            <div class="info-text">
-
-                ${locations[place].type}
-
-                <br><br>
-
-                ${
-                    userLocation
-                    ? "Click Navigate to calculate route."
-                    : "Click My Location first to start navigation."
-                }
-
-            </div>
-
-        `;
-
-    }
+        ${
+            userLocation
+            ? "🧭 Route is being calculated..."
+            : "📍 Click My Location to start navigation."
+        }
+        `
+    );
 
 
-    // --------------------------------------------------------
-    // IF GPS EXISTS
-    // AUTOMATICALLY CREATE ROUTE
-    // --------------------------------------------------------
+    // If current location already exists
 
     if (userLocation) {
 
@@ -471,7 +406,7 @@ function selectDestination(place) {
 
 
 // ============================================================
-// 12. SEARCH DESTINATION
+// 9. SEARCH
 // ============================================================
 
 function findDestination() {
@@ -483,9 +418,7 @@ function findDestination() {
 
 
     if (!inputElement) {
-
         return;
-
     }
 
 
@@ -502,16 +435,13 @@ function findDestination() {
         );
 
         return;
-
     }
 
 
     let foundPlace = null;
 
 
-    // --------------------------------------------------------
-    // EXACT / PARTIAL SEARCH
-    // --------------------------------------------------------
+    // Search location names
 
     for (const place in locations) {
 
@@ -528,22 +458,21 @@ function findDestination() {
             foundPlace = place;
 
             break;
-
         }
-
     }
 
 
-    // --------------------------------------------------------
-    // SPECIAL SEARCH WORDS
-    // --------------------------------------------------------
+    // Search aliases
 
     if (!foundPlace) {
 
         const aliases = {
 
             "cs": "Computer Science",
-            "computer": "Computer Science",
+
+            "computer":
+                "Computer Science",
+
             "computer science department":
                 "Computer Science",
 
@@ -612,34 +541,21 @@ function findDestination() {
                     aliases[key];
 
                 break;
-
             }
-
         }
-
     }
 
-
-    // --------------------------------------------------------
-    // NOT FOUND
-    // --------------------------------------------------------
 
     if (!foundPlace) {
 
         alert(
             "Location not found.\n\n" +
-            "Try:\n" +
-            "Library\n" +
-            "Computer Science\n" +
-            "Canteen\n" +
-            "Main Gate\n" +
-            "Hostel\n" +
-            "Physics\n" +
-            "Chemistry"
+            "Try Library, Computer Science, " +
+            "Canteen, Main Gate, Hostel, " +
+            "Physics or Chemistry."
         );
 
         return;
-
     }
 
 
@@ -649,7 +565,7 @@ function findDestination() {
 
 
 // ============================================================
-// 13. ENTER KEY SEARCH
+// 10. ENTER KEY
 // ============================================================
 
 const destinationInput =
@@ -677,21 +593,10 @@ if (destinationInput) {
 
 
 // ============================================================
-// 14. GET CURRENT LOCATION
+// 11. INFORMATION PANEL
 // ============================================================
 
-function showMyLocation() {
-
-    if (!navigator.geolocation) {
-
-        alert(
-            "Geolocation is not supported by this browser."
-        );
-
-        return;
-
-    }
-
+function updateInfo(title, text) {
 
     const info =
         document.getElementById(
@@ -699,21 +604,46 @@ function showMyLocation() {
         );
 
 
-    if (info) {
-
-        info.innerHTML = `
-
-            <div class="info-title">
-                📍 Detecting Location...
-            </div>
-
-            <div class="info-text">
-                Please allow location permission.
-            </div>
-
-        `;
-
+    if (!info) {
+        return;
     }
+
+
+    info.innerHTML = `
+
+        <div class="info-title">
+            ${title}
+        </div>
+
+        <div class="info-text">
+            ${text}
+        </div>
+
+    `;
+
+}
+
+
+// ============================================================
+// 12. MY LOCATION
+// ============================================================
+
+function showMyLocation() {
+
+    if (!navigator.geolocation) {
+
+        alert(
+            "Geolocation is not supported."
+        );
+
+        return;
+    }
+
+
+    updateInfo(
+        "📍 Detecting Location",
+        "Please allow location permission..."
+    );
 
 
     navigator.geolocation.getCurrentPosition(
@@ -737,15 +667,13 @@ function showMyLocation() {
 
 
             console.log(
-                "Current Location:",
+                "GPS Location:",
                 latitude,
                 longitude
             );
 
 
-            // ------------------------------------------------
-            // REMOVE OLD USER MARKER
-            // ------------------------------------------------
+            // Remove old marker
 
             if (userMarker) {
 
@@ -765,9 +693,7 @@ function showMyLocation() {
             }
 
 
-            // ------------------------------------------------
-            // USER LOCATION ICON
-            // ------------------------------------------------
+            // User icon
 
             const userIcon =
                 L.divIcon({
@@ -804,24 +730,18 @@ function showMyLocation() {
             );
 
 
-            // ------------------------------------------------
-            // ACCURACY CIRCLE
-            // ------------------------------------------------
+            // Accuracy
 
             accuracyCircle =
                 L.circle(
                     userLocation,
                     {
-                        radius: accuracy,
-                        className:
-                            "location-accuracy"
+                        radius: accuracy
                     }
                 ).addTo(map);
 
 
-            // ------------------------------------------------
-            // MOVE MAP TO USER
-            // ------------------------------------------------
+            // Move to user
 
             map.flyTo(
                 userLocation,
@@ -832,45 +752,28 @@ function showMyLocation() {
             );
 
 
-            // ------------------------------------------------
-            // INFORMATION
-            // ------------------------------------------------
+            updateInfo(
+                "📍 Current Location",
+                `
+                Location detected successfully.
 
-            if (info) {
+                <br><br>
 
-                info.innerHTML = `
+                Accuracy:
+                <b>${Math.round(accuracy)} meters</b>
 
-                    <div class="info-title">
-                        📍 Current Location
-                    </div>
+                <br><br>
 
-                    <div class="info-text">
-
-                        Location detected successfully.
-
-                        <br><br>
-
-                        Accuracy:
-                        ${Math.round(accuracy)} meters
-
-                        <br><br>
-
-                        ${
-                            selectedDestination
-                            ? "🧭 Calculating route..."
-                            : "🔎 Select a destination."
-                        }
-
-                    </div>
-
-                `;
-
-            }
+                ${
+                    selectedDestination
+                    ? "🧭 Creating route..."
+                    : "🔎 Select a destination."
+                }
+                `
+            );
 
 
-            // ------------------------------------------------
-            // CREATE ROUTE IF DESTINATION EXISTS
-            // ------------------------------------------------
+            // Create route
 
             if (selectedDestination) {
 
@@ -889,54 +792,45 @@ function showMyLocation() {
             );
 
 
-            let message =
-                "Unable to access your location.";
-
-
             if (error.code === 1) {
 
-                message =
+                alert(
                     "Location permission denied.\n\n" +
-                    "Please allow location access.";
+                    "Please allow location access."
+                );
 
             }
 
             else if (error.code === 2) {
 
-                message =
-                    "Your location is currently unavailable.";
+                alert(
+                    "Your location is unavailable."
+                );
 
             }
 
             else if (error.code === 3) {
 
-                message =
-                    "Location request timed out.";
+                alert(
+                    "Location request timed out."
+                );
 
             }
 
+            else {
 
-            alert(message);
-
-
-            if (info) {
-
-                info.innerHTML = `
-
-                    <div class="info-title">
-                        ⚠️ Location Error
-                    </div>
-
-                    <div class="info-text">
-                        ${message.replace(/\n/g, "<br>")}
-                    </div>
-
-                `;
-
+                alert(
+                    "Unable to access your location."
+                );
             }
+
+
+            updateInfo(
+                "⚠️ Location Error",
+                "Please allow browser location permission and try again."
+            );
 
         },
-
 
         {
             enableHighAccuracy: true,
@@ -950,19 +844,18 @@ function showMyLocation() {
 
 
 // ============================================================
-// 15. CREATE WALKING ROUTE
+// 13. CREATE ROUTE
 // ============================================================
 
-function createRoute() {
+async function createRoute() {
 
     if (!userLocation) {
 
         alert(
-            "First click My Location to detect your current location."
+            "First click My Location."
         );
 
         return;
-
     }
 
 
@@ -973,7 +866,6 @@ function createRoute() {
         );
 
         return;
-
     }
 
 
@@ -981,169 +873,215 @@ function createRoute() {
         locations[selectedDestination].coords;
 
 
-    // --------------------------------------------------------
-    // REMOVE OLD ROUTE
-    // --------------------------------------------------------
+    updateInfo(
+        "🧭 Finding Route",
+        `
+        From:
+        <b>Current Location</b>
 
-    if (routeControl) {
+        <br><br>
 
-        map.removeControl(
-            routeControl
+        To:
+        <b>${selectedDestination}</b>
+
+        <br><br>
+
+        Calculating route...
+        `
+    );
+
+
+    // Remove previous route
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
         );
 
-        routeControl = null;
+        routeLine = null;
 
     }
 
 
-    // --------------------------------------------------------
-    // UPDATE INFORMATION
-    // --------------------------------------------------------
+    try {
 
-    const info =
-        document.getElementById(
-            "locationInfo"
-        );
+        // ====================================================
+        // VALHALLA WALKING ROUTING
+        // ====================================================
 
-
-    if (info) {
-
-        info.innerHTML = `
-
-            <div class="info-title">
-                🧭 Finding Route
-            </div>
-
-            <div class="info-text">
-
-                From:
-                <b>Current Location</b>
-
-                <br>
-
-                To:
-                <b>${selectedDestination}</b>
-
-                <br><br>
-
-                Calculating walking route...
-
-            </div>
-
-        `;
-
-    }
+        const url =
+            "https://valhalla1.openstreetmap.de/route";
 
 
-    // --------------------------------------------------------
-    // OSRM ROUTING
-    //
-    // Foot routing depends on the routing server.
-    // ========================================================
+        const requestData = {
 
-    routeControl =
-        L.Routing.control({
+            locations: [
 
-            waypoints: [
+                {
+                    lat: userLocation[0],
+                    lon: userLocation[1]
+                },
 
-                L.latLng(
-                    userLocation[0],
-                    userLocation[1]
-                ),
-
-                L.latLng(
-                    destination[0],
-                    destination[1]
-                )
+                {
+                    lat: destination[0],
+                    lon: destination[1]
+                }
 
             ],
 
-            router:
-                L.Routing.osrmv1({
+            costing: "pedestrian",
 
-                    serviceUrl:
-                        "https://router.project-osrm.org/route/v1",
+            units: "kilometers",
 
-                    profile:
-                        "foot"
+            directions_options: {
 
-                }),
-
-            lineOptions: {
-
-                styles: [
-                    {
-                        className:
-                            "campus-route-line",
-                        weight: 7
-                    }
-                ]
-
-            },
-
-            show: true,
-
-            addWaypoints: false,
-
-            draggableWaypoints: false,
-
-            routeWhileDragging: false,
-
-            fitSelectedRoutes: true,
-
-            showAlternatives: false,
-
-            collapsible: true,
-
-            createMarker: function() {
-
-                return null;
+                units: "kilometers"
 
             }
 
-        })
-        .addTo(map);
+        };
 
 
-    // --------------------------------------------------------
-    // ROUTE FOUND
-    // --------------------------------------------------------
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "POST",
 
-    routeControl.on(
-        "routesfound",
-        function(event) {
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-            const routes =
-                event.routes;
+                    body:
+                        JSON.stringify(
+                            requestData
+                        )
+                }
+            );
 
 
-            if (
-                !routes ||
-                routes.length === 0
-            ) {
+        if (!response.ok) {
 
-                return;
+            throw new Error(
+                "Routing server error"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.trip ||
+            !data.trip.legs ||
+            !data.trip.legs.length
+        ) {
+
+            throw new Error(
+                "No route found"
+            );
+
+        }
+
+
+        // ====================================================
+        // GET ROUTE SHAPE
+        // ====================================================
+
+        const shape =
+            data.trip.legs[0].shape;
+
+
+        const decoded =
+            decodePolyline(
+                shape
+            );
+
+
+        // ====================================================
+        // DRAW ROUTE
+        // ====================================================
+
+        routeLine =
+            L.polyline(
+                decoded,
+                {
+                    className:
+                        "campus-route-line",
+
+                    weight: 7,
+
+                    opacity: 0.9,
+
+                    lineCap: "round",
+
+                    lineJoin: "round"
+                }
+            )
+            .addTo(map);
+
+
+        // ====================================================
+        // FIT ROUTE
+        // ====================================================
+
+        map.fitBounds(
+            routeLine.getBounds(),
+            {
+                padding: [70, 70]
+            }
+        );
+
+
+        // ====================================================
+        // DISTANCE
+        // ====================================================
+
+        const distance =
+            data.trip.summary
+            ? data.trip.summary.length
+            : null;
+
+
+        const time =
+            data.trip.summary
+            ? data.trip.summary.time
+            : null;
+
+
+        let distanceText =
+            "Route available";
+
+
+        if (distance !== null) {
+
+            if (distance < 1) {
+
+                distanceText =
+                    Math.round(
+                        distance * 1000
+                    ) + " m";
+
+            } else {
+
+                distanceText =
+                    distance.toFixed(2) +
+                    " km";
 
             }
 
-
-            const summary =
-                routes[0].summary;
+        }
 
 
-            const distance =
-                summary.totalDistance;
+        let timeText =
+            "Walking";
 
 
-            const time =
-                summary.totalTime;
-
-
-            const distanceText =
-                distance >= 1000
-                ? (distance / 1000).toFixed(2) + " km"
-                : Math.round(distance) + " m";
-
+        if (time !== null) {
 
             const minutes =
                 Math.max(
@@ -1154,102 +1092,220 @@ function createRoute() {
                 );
 
 
-            if (info) {
-
-                info.innerHTML = `
-
-                    <div class="info-title">
-                        🧭 Route Found
-                    </div>
-
-                    <div class="info-text">
-
-                        📍 From:
-                        <b>Current Location</b>
-
-                        <br><br>
-
-                        🎯 To:
-                        <b>${selectedDestination}</b>
-
-                        <br><br>
-
-                        📏 Distance:
-                        <b>${distanceText}</b>
-
-                        <br>
-
-                        🚶 Walking Time:
-                        <b>${minutes} min</b>
-
-                    </div>
-
-                `;
-
-            }
-
-
-            console.log(
-                "Route distance:",
-                distanceText
-            );
-
-            console.log(
-                "Walking time:",
-                minutes,
-                "minutes"
-            );
+            timeText =
+                minutes +
+                " min";
 
         }
-    );
 
 
-    // --------------------------------------------------------
-    // ROUTE ERROR
-    // --------------------------------------------------------
+        // ====================================================
+        // SHOW RESULT
+        // ====================================================
 
-    routeControl.on(
-        "routingerror",
-        function(error) {
+        updateInfo(
+            "🧭 Route Found",
+            `
+            📍 From:
+            <b>Current Location</b>
 
-            console.error(
-                "Routing Error:",
-                error
-            );
+            <br><br>
+
+            🎯 To:
+            <b>${selectedDestination}</b>
+
+            <br><br>
+
+            📏 Distance:
+            <b>${distanceText}</b>
+
+            <br>
+
+            🚶 Walking Time:
+            <b>${timeText}</b>
+            `
+        );
 
 
-            if (info) {
+        console.log(
+            "✅ Walking route created"
+        );
 
-                info.innerHTML = `
+    }
 
-                    <div class="info-title">
-                        ⚠️ Route Not Available
-                    </div>
+    catch (error) {
 
-                    <div class="info-text">
+        console.error(
+            "Route Error:",
+            error
+        );
 
-                        Unable to calculate the route.
 
-                        <br><br>
+        // ====================================================
+        // FALLBACK STRAIGHT ROUTE
+        // ====================================================
 
-                        Please check your
-                        internet connection
-                        and try again.
+        routeLine =
+            L.polyline(
+                [
+                    userLocation,
+                    destination
+                ],
+                {
+                    className:
+                        "campus-route-line",
 
-                    </div>
+                    weight: 6,
 
-                `;
+                    opacity: 0.8,
 
+                    dashArray: "10 8"
+                }
+            )
+            .addTo(map);
+
+
+        map.fitBounds(
+            routeLine.getBounds(),
+            {
+                padding: [70, 70]
             }
+        );
 
-        }
-    );
+
+        updateInfo(
+            "🧭 Route Preview",
+            `
+            📍 From:
+            <b>Current Location</b>
+
+            <br><br>
+
+            🎯 To:
+            <b>${selectedDestination}</b>
+
+            <br><br>
+
+            ⚠️ Walking road route is
+            temporarily unavailable.
+
+            <br><br>
+
+            Showing direct route preview.
+            `
+        );
+
+    }
 
 }
 
 
 // ============================================================
-// 16. DIRECT NAVIGATE BUTTON
+// 14. DECODE VALHALLA POLYLINE
+// ============================================================
+
+function decodePolyline(encoded) {
+
+    let index = 0;
+
+    let lat = 0;
+
+    let lon = 0;
+
+    const coordinates = [];
+
+
+    while (
+        index < encoded.length
+    ) {
+
+        let result = 1;
+
+        let shift = 0;
+
+        let byte;
+
+
+        do {
+
+            byte =
+                encoded.charCodeAt(index++)
+                - 63;
+
+            result +=
+                (byte & 0x1f)
+                << shift;
+
+            shift += 5;
+
+        }
+        while (
+            byte >= 0x20
+        );
+
+
+        const deltaLat =
+            (
+                result & 1
+            )
+            ? ~(result >> 1)
+            : (result >> 1);
+
+
+        lat += deltaLat;
+
+
+        result = 1;
+
+        shift = 0;
+
+
+        do {
+
+            byte =
+                encoded.charCodeAt(index++)
+                - 63;
+
+            result +=
+                (byte & 0x1f)
+                << shift;
+
+            shift += 5;
+
+        }
+        while (
+            byte >= 0x20
+        );
+
+
+        const deltaLon =
+            (
+                result & 1
+            )
+            ? ~(result >> 1)
+            : (result >> 1);
+
+
+        lon += deltaLon;
+
+
+        coordinates.push(
+            [
+                lat / 1e6,
+                lon / 1e6
+            ]
+        );
+
+    }
+
+
+    return coordinates;
+
+}
+
+
+// ============================================================
+// 15. NAVIGATE BUTTON
 // ============================================================
 
 function navigateToSelected() {
@@ -1261,20 +1317,14 @@ function navigateToSelected() {
         );
 
         return;
-
     }
 
 
     if (!userLocation) {
 
-        alert(
-            "Please click My Location first."
-        );
-
         showMyLocation();
 
         return;
-
     }
 
 
@@ -1284,29 +1334,28 @@ function navigateToSelected() {
 
 
 // ============================================================
-// 17. RESET MAP
+// 16. RESET MAP
 // ============================================================
 
 function resetCampusView() {
 
-    // --------------------------------------------------------
-    // REMOVE ROUTE
-    // --------------------------------------------------------
+    selectedDestination = null;
 
-    if (routeControl) {
 
-        map.removeControl(
-            routeControl
+    // Remove route
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
         );
 
-        routeControl = null;
+        routeLine = null;
 
     }
 
 
-    // --------------------------------------------------------
-    // REMOVE USER LOCATION
-    // --------------------------------------------------------
+    // Remove user marker
 
     if (userMarker) {
 
@@ -1319,6 +1368,8 @@ function resetCampusView() {
     }
 
 
+    // Remove accuracy
+
     if (accuracyCircle) {
 
         map.removeLayer(
@@ -1330,16 +1381,10 @@ function resetCampusView() {
     }
 
 
-    // --------------------------------------------------------
-    // RESET SELECTION
-    // --------------------------------------------------------
-
-    selectedDestination = null;
+    userLocation = null;
 
 
-    // --------------------------------------------------------
-    // REMOVE MARKER HIGHLIGHT
-    // --------------------------------------------------------
+    // Remove selected style
 
     for (const name in markers) {
 
@@ -1357,9 +1402,7 @@ function resetCampusView() {
     }
 
 
-    // --------------------------------------------------------
-    // RESET MAP VIEW
-    // --------------------------------------------------------
+    // Reset view
 
     map.flyTo(
         campusCenter,
@@ -1370,56 +1413,53 @@ function resetCampusView() {
     );
 
 
-    // --------------------------------------------------------
-    // RESET INFORMATION
-    // --------------------------------------------------------
-
-    const info =
-        document.getElementById(
-            "locationInfo"
-        );
-
-
-    if (info) {
-
-        info.innerHTML = `
-
-            <div class="info-title">
-                📍 Campus Navigation
-            </div>
-
-            <div class="info-text">
-                Search a building or select
-                a campus location.
-            </div>
-
-        `;
-
-    }
+    updateInfo(
+        "📍 Campus Navigation",
+        "Search a building or select a campus location."
+    );
 
 }
 
 
 // ============================================================
-// 18. ZOOM CONTROL
+// 17. ZOOM
 // ============================================================
 
 L.control.zoom({
-
     position: "bottomright"
-
 }).addTo(map);
 
 
 // ============================================================
-// 19. MAP READY
+// 18. MAP INVALIDATE SIZE
+// ============================================================
+
+setTimeout(
+    function() {
+
+        map.invalidateSize();
+
+    },
+    500
+);
+
+
+// ============================================================
+// 19. READY
 // ============================================================
 
 console.log(
-    "✅ Real Smart Campus Map Loaded"
+    "✅ Smart Campus Real Map Loaded"
 );
 
 console.log(
-    "📍 GPS + Destination + Route Navigation Ready"
+    "📍 GPS Ready"
 );
-```
+
+console.log(
+    "🧭 Destination Ready"
+);
+
+console.log(
+    "🚶 Walking Route Ready"
+);
