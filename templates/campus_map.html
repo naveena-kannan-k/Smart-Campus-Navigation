@@ -1,126 +1,53 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Smart Campus Navigation</title>
 
-    <title>
-        Smart Campus Navigation
-    </title>
-
-
-    <!-- =====================================================
-         LEAFLET CSS
-    ====================================================== -->
-
+    <!-- Leaflet -->
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
 
-
-    <!-- =====================================================
-         LEAFLET ROUTING MACHINE CSS
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-    >
-
-
-    <!-- =====================================================
-         GOOGLE FONT
-    ====================================================== -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-
-    <!-- =====================================================
-         CAMPUS MAP CSS
-    ====================================================== -->
-
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/campus_map.css') }}"
     >
-
 </head>
-
 
 <body>
 
+<header class="topbar">
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+    <div class="brand">
 
-<header class="map-header">
-
-    <div class="header-left">
-
-        <div class="college-icon">
-            🏫
-        </div>
+        <div class="brand-icon">🏫</div>
 
         <div>
-
-            <h1>
-                Smart Campus Navigation
-            </h1>
-
-            <p>
-                Sarah Tucker College
-            </p>
-
+            <h1>Smart Campus Navigation</h1>
+            <p>Sarah Tucker College</p>
         </div>
 
     </div>
 
-
-    <a
-        href="/dashboard"
-        class="back-button"
-    >
+    <a href="/dashboard" class="dashboard-btn">
         ← Dashboard
     </a>
 
 </header>
 
 
+<!-- SEARCH -->
 
-<!-- =========================================================
-     SEARCH PANEL
-========================================================= -->
-
-<section class="search-panel">
+<div class="search-panel">
 
     <div class="search-box">
 
-        <span class="search-icon">
-            🔍
-        </span>
+        <span>🔍</span>
 
         <input
             type="text"
@@ -129,10 +56,7 @@
             autocomplete="off"
         >
 
-        <button
-            onclick="findDestination()"
-            class="search-button"
-        >
+        <button onclick="findDestination()">
             Search
         </button>
 
@@ -141,160 +65,97 @@
 
     <div class="quick-buttons">
 
-        <button
-            onclick="selectDestination('Library')"
-        >
+        <button onclick="selectDestination('Library')">
             📚 Library
         </button>
 
-        <button
-            onclick="selectDestination('Canteen')"
-        >
+        <button onclick="selectDestination('Canteen')">
             🍴 Canteen
         </button>
 
-        <button
-            onclick="selectDestination('Computer Science')"
-        >
+        <button onclick="selectDestination('Computer Science')">
             💻 Computer Science
         </button>
 
-        <button
-            onclick="selectDestination('Main Gate')"
-        >
+        <button onclick="selectDestination('Main Gate')">
             🚪 Main Gate
         </button>
 
     </div>
 
-</section>
+</div>
 
 
+<!-- MAP -->
 
-<!-- =========================================================
-     MAIN CONTENT
-========================================================= -->
-
-<main class="map-container">
+<main id="campusMap"></main>
 
 
-    <!-- =====================================================
-         MAP
-    ====================================================== -->
+<!-- MAP CONTROLS -->
 
-    <div
-        id="campusMap"
-        class="campus-map"
-    ></div>
+<div class="map-controls">
 
+    <button onclick="showMyLocation()">
+        📍 My Location
+    </button>
 
-    <!-- =====================================================
-         MAP CONTROLS
-    ====================================================== -->
+    <button onclick="navigateToSelected()">
+        🧭 Navigate
+    </button>
 
-    <div class="map-actions">
+    <button onclick="resetCampusView()">
+        🔄 Reset
+    </button>
 
-        <button
-            onclick="showMyLocation()"
-            class="action-button location-button"
-        >
-            📍
-            <span>My Location</span>
-        </button>
+</div>
 
 
-        <button
-            onclick="navigateToSelected()"
-            class="action-button navigate-button"
-        >
-            🧭
-            <span>Navigate</span>
-        </button>
+<!-- INFORMATION -->
 
+<div id="locationInfo" class="location-info">
 
-        <button
-            onclick="resetCampusView()"
-            class="action-button reset-button"
-        >
-            🔄
-            <span>Reset</span>
-        </button>
-
+    <div class="info-title">
+        📍 Campus Navigation
     </div>
 
+    <div class="info-text">
+        Search a building or select a campus location.
+    </div>
 
-    <!-- =====================================================
-         LOCATION INFORMATION
-    ====================================================== -->
+</div>
 
-    <aside
-        id="locationInfo"
-        class="location-info"
-    >
-
-        <div class="info-title">
-            📍 Campus Navigation
-        </div>
-
-        <div class="info-text">
-            Search a building or select
-            a campus location.
-        </div>
-
-    </aside>
-
-</main>
-
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 
 <footer class="map-footer">
 
-    <span>
-        🗺️ Interactive Campus Map
-    </span>
+    <span>🗺️ Interactive Campus Map</span>
 
-    <span>
-        OpenStreetMap
-    </span>
+    <span>OpenStreetMap</span>
 
 </footer>
 
 
-
-<!-- =========================================================
-     LEAFLET JS
-========================================================= -->
+<!-- Leaflet -->
 
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 
+<!-- Routing Machine -->
 
-<!-- =========================================================
-     LEAFLET ROUTING MACHINE JS
-========================================================= -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+>
 
 <script
-    src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js">
+    src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js">
 </script>
 
-
-
-<!-- =========================================================
-     CAMPUS MAP JS
-========================================================= -->
 
 <script
     src="{{ url_for('static', filename='js/campus_map.js') }}">
 </script>
 
-
 </body>
-
 </html>
-```
