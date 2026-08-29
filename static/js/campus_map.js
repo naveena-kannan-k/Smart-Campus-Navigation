@@ -1,522 +1,1425 @@
-/*
-    SMART CAMPUS NAVIGATION SYSTEM
+```javascript
+// ============================================================
+// SMART CAMPUS NAVIGATION
+// REAL MAP VERSION
+// NO CAMPUS IMAGE
+// CURRENT LOCATION → DESTINATION → WALKING ROUTE
+// ============================================================
 
-    IMPORTANT:
-    The positions below follow the uploaded hand-drawn
-    master campus map.
 
-    These are LOCAL MAP coordinates for the prototype.
-    They must later be calibrated with the actual
-    latitude/longitude of the campus for true GPS navigation.
-*/
+// ============================================================
+// 1. CREATE REAL MAP
+// ============================================================
 
+const map = L.map("campusMap", {
+    zoomControl: false
+});
+
+
+// ============================================================
+// 2. OPENSTREETMAP
+// ============================================================
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom: 20,
+        attribution: "&copy; OpenStreetMap contributors"
+    }
+).addTo(map);
+
+
+// ============================================================
+// 3. DEFAULT CAMPUS CENTER
+// ============================================================
+
+// Sarah Tucker College area
+const campusCenter = [8.7257, 77.7345];
+
+map.setView(campusCenter, 17);
+
+
+// ============================================================
+// 4. CAMPUS LOCATIONS
+//
+// IMPORTANT:
+// coords = [latitude, longitude]
+// ============================================================
 
 const locations = {
 
-    "main-gate": {
-        name: "Main Gate",
-        position: [50, 10],
-        description: "Main entrance of the campus"
+    "Main Gate": {
+        coords: [8.72595, 77.73385],
+        icon: "🚪",
+        type: "Main Entrance"
     },
 
-    "canara-bank": {
-        name: "Canara Bank",
-        position: [42, 24],
-        description: "Canara Bank area near the main gate"
+    "Canara Bank": {
+        coords: [8.72620, 77.73405],
+        icon: "🏦",
+        type: "Bank"
     },
 
-    "parking": {
-        name: "Parking Area",
-        position: [45, 82],
-        description: "Campus parking area"
+    "Parking Shed": {
+        coords: [8.72580, 77.73515],
+        icon: "🅿️",
+        type: "Parking"
     },
 
-    "main-block": {
-        name: "Main Block",
-        position: [50, 48],
-        description: "Main academic and administrative block"
+    "Garden": {
+        coords: [8.72520, 77.73440],
+        icon: "🌳",
+        type: "Central Garden"
     },
 
-    "library": {
-        name: "Library",
-        position: [43, 39],
-        description: "Campus library"
+    "Main Block": {
+        coords: [8.72485, 77.73450],
+        icon: "🏫",
+        type: "Academic Block"
     },
 
-    "partition-hall": {
-        name: "Partition Hall",
-        position: [25, 45],
-        description: "Partition Hall"
+    "Management Office": {
+        coords: [8.72505, 77.73475],
+        icon: "🏢",
+        type: "Administration"
     },
 
-    "zoology": {
-        name: "Zoology - B.Sc. (Aided)",
-        position: [48, 25],
-        description: "Zoology department"
+    "Old Auditorium": {
+        coords: [8.72490, 77.73520],
+        icon: "🏛️",
+        type: "Old Auditorium"
     },
 
-    "canteen": {
-        name: "Canteen",
-        position: [68, 35],
-        description: "Campus canteen"
+    "Economics": {
+        coords: [8.72545, 77.73520],
+        icon: "📊",
+        type: "Economics Department"
     },
 
-    "john-innes": {
-        name: "John Innes Block",
-        position: [80, 46],
-        description: "Academic block containing Food Science, Computer Science and B.Com"
+    "Tamil & English": {
+        coords: [8.72520, 77.73535],
+        icon: "📚",
+        type: "Tamil & English Department"
     },
 
-    "old-auditorium": {
-        name: "Old Auditorium",
-        position: [78, 70],
-        description: "Old Auditorium"
+    "Library": {
+        coords: [8.72555, 77.73505],
+        icon: "📚",
+        type: "Library"
     },
 
-    "tamil": {
-        name: "Tamil",
-        position: [66, 78],
-        description: "Tamil Department"
+    "Canteen": {
+        coords: [8.72420, 77.73500],
+        icon: "🍴",
+        type: "Canteen"
     },
 
-    "english": {
-        name: "English",
-        position: [77, 85],
-        description: "English Department"
+    "English S/F": {
+        coords: [8.72395, 77.73515],
+        icon: "📚",
+        type: "English S/F Department"
     },
 
-    "economics": {
-        name: "Economics",
-        position: [87, 85],
-        description: "Economics Department"
+    "B.Com S/F": {
+        coords: [8.72390, 77.73530],
+        icon: "💼",
+        type: "B.Com S/F Department"
     },
 
-    "history": {
-        name: "History",
-        position: [45, 18],
-        description: "History Department"
+    "Computer Science": {
+        coords: [8.72385, 77.73545],
+        icon: "💻",
+        type: "Computer Science Department"
     },
 
-    "maths": {
-        name: "Maths",
-        position: [55, 20],
-        description: "Mathematics Department"
+    "Food Science": {
+        coords: [8.72375, 77.73530],
+        icon: "🧪",
+        type: "Food Science Department"
     },
 
-    "botany": {
-        name: "Botany",
-        position: [63, 53],
-        description: "Botany Department"
+    "Physics": {
+        coords: [8.72460, 77.73420],
+        icon: "🔬",
+        type: "Physics Department"
     },
 
-    "chemistry": {
-        name: "Chemistry",
-        position: [53, 53],
-        description: "Chemistry Department"
+    "Chemistry": {
+        coords: [8.72445, 77.73420],
+        icon: "🧪",
+        type: "Chemistry Department"
     },
 
-    "physics": {
-        name: "Physics",
-        position: [61, 57],
-        description: "Physics Department"
+    "Physics S/F": {
+        coords: [8.72430, 77.73395],
+        icon: "🔬",
+        type: "Physics S/F"
+    },
+
+    "B.Com & Zoology": {
+        coords: [8.72415, 77.73450],
+        icon: "🏫",
+        type: "B.Com & Zoology"
+    },
+
+    "BCA": {
+        coords: [8.72425, 77.73370],
+        icon: "💻",
+        type: "BCA Department"
+    },
+
+    "MCA": {
+        coords: [8.72445, 77.73370],
+        icon: "💻",
+        type: "MCA Department"
+    },
+
+    "History": {
+        coords: [8.72470, 77.73355],
+        icon: "📖",
+        type: "History Department"
+    },
+
+    "Maths": {
+        coords: [8.72495, 77.73375],
+        icon: "📐",
+        type: "Mathematics Department"
+    },
+
+    "Nano Science": {
+        coords: [8.72540, 77.73355],
+        icon: "🧪",
+        type: "Nano Science Department"
+    },
+
+    "New Auditorium": {
+        coords: [8.72555, 77.73345],
+        icon: "🏛️",
+        type: "New Auditorium"
+    },
+
+    "Chapel": {
+        coords: [8.72395, 77.73420],
+        icon: "⛪",
+        type: "Chapel"
+    },
+
+    "Hostel": {
+        coords: [8.72390, 77.73470],
+        icon: "🏠",
+        type: "Hostel"
+    },
+
+    "Playground": {
+        coords: [8.72415, 77.73485],
+        icon: "⚽",
+        type: "Playground"
     }
 
 };
 
 
-/* ---------------------------------------------------
-   CREATE MAP
---------------------------------------------------- */
-
-const map = L.map("map", {
-    crs: L.CRS.Simple,
-    minZoom: -2,
-    maxZoom: 4
-});
-
-
-/*
-    Campus drawing area.
-*/
-
-const campusBounds = [
-    [0, 0],
-    [100, 100]
-];
-
-map.fitBounds(campusBounds);
-
-
-/* ---------------------------------------------------
-   CAMPUS BOUNDARY
---------------------------------------------------- */
-
-const campusBoundary = L.rectangle(
-    campusBounds,
-    {
-        weight: 3,
-        fillOpacity: 0.04
-    }
-).addTo(map);
-
-
-/* ---------------------------------------------------
-   DRAW ROADS
---------------------------------------------------- */
-
-const roads = [
-
-    [
-        [10, 10],
-        [10, 90]
-    ],
-
-    [
-        [10, 48],
-        [90, 48]
-    ],
-
-    [
-        [48, 10],
-        [48, 90]
-    ],
-
-    [
-        [48, 70],
-        [82, 70]
-    ],
-
-    [
-        [48, 25],
-        [75, 25]
-    ],
-
-    [
-        [48, 48],
-        [80, 48]
-    ]
-
-];
-
-
-roads.forEach(function(road) {
-
-    L.polyline(
-        road,
-        {
-            weight: 8,
-            opacity: 0.45,
-            lineCap: "round"
-        }
-    ).addTo(map);
-
-});
-
-
-/* ---------------------------------------------------
-   MARKERS
---------------------------------------------------- */
+// ============================================================
+// 5. MARKER STORAGE
+// ============================================================
 
 const markers = {};
 
-Object.keys(locations).forEach(function(id) {
 
-    const location = locations[id];
+// ============================================================
+// 6. USER LOCATION
+// ============================================================
 
-    const marker = L.marker(
-        location.position
-    ).addTo(map);
-
-
-    marker.bindTooltip(
-        location.name,
-        {
-            direction: "top"
-        }
-    );
+let userLocation = null;
+let userMarker = null;
+let accuracyCircle = null;
 
 
-    marker.on("click", function() {
+// ============================================================
+// 7. ROUTE
+// ============================================================
 
-        showInformation(
-            location.name,
-            location.description
-        );
+let routeControl = null;
+
+
+// ============================================================
+// 8. SELECTED DESTINATION
+// ============================================================
+
+let selectedDestination = null;
+
+
+// ============================================================
+// 9. CUSTOM CAMPUS ICON
+// ============================================================
+
+function createCampusIcon(icon) {
+
+    return L.divIcon({
+
+        className: "custom-campus-marker",
+
+        html: `
+            <div class="campus-marker">
+                ${icon}
+            </div>
+        `,
+
+        iconSize: [40, 40],
+
+        iconAnchor: [20, 20]
 
     });
-
-
-    markers[id] = marker;
-
-});
-
-
-/* ---------------------------------------------------
-   INFORMATION CARD
---------------------------------------------------- */
-
-function showInformation(title, description) {
-
-    document.getElementById("infoTitle").textContent =
-        title;
-
-    document.getElementById("infoDescription").textContent =
-        description;
-
-    document.getElementById("infoCard").style.display =
-        "block";
 
 }
 
 
-document.getElementById("closeInfo").onclick =
-    function() {
+// ============================================================
+// 10. ADD ALL CAMPUS MARKERS
+// ============================================================
 
-        document.getElementById("infoCard").style.display =
-            "none";
+for (const place in locations) {
 
-    };
+    const data = locations[place];
 
-
-/* ---------------------------------------------------
-   ROUTE
---------------------------------------------------- */
-
-let routeLine = null;
-
-
-function createRoute(fromId, toId) {
-
-    if (routeLine) {
-
-        map.removeLayer(routeLine);
-
-    }
+    const marker = L.marker(
+        data.coords,
+        {
+            icon: createCampusIcon(data.icon)
+        }
+    ).addTo(map);
 
 
-    if (!locations[fromId] || !locations[toId]) {
+    // --------------------------------------------------------
+    // POPUP
+    // --------------------------------------------------------
+
+    marker.bindPopup(`
+
+        <div class="campus-popup">
+
+            <div class="popup-icon">
+                ${data.icon}
+            </div>
+
+            <div class="popup-title">
+                ${place}
+            </div>
+
+            <div class="popup-type">
+                ${data.type}
+            </div>
+
+            <button
+                class="navigate-btn"
+                onclick="selectDestination('${place}')"
+            >
+                🧭 Navigate
+            </button>
+
+        </div>
+
+    `);
+
+
+    // --------------------------------------------------------
+    // LABEL
+    // --------------------------------------------------------
+
+    marker.bindTooltip(
+        place,
+        {
+            direction: "top",
+            offset: [0, -22],
+            className: "campus-label",
+            sticky: true
+        }
+    );
+
+
+    markers[place] = marker;
+
+}
+
+
+// ============================================================
+// 11. SELECT DESTINATION
+// ============================================================
+
+function selectDestination(place) {
+
+    if (!locations[place]) {
+
+        console.error(
+            "Destination not found:",
+            place
+        );
 
         return;
 
     }
 
 
-    const start =
-        locations[fromId].position;
-
-    const destination =
-        locations[toId].position;
+    selectedDestination = place;
 
 
-    /*
-        Prototype route.
+    // --------------------------------------------------------
+    // REMOVE OLD SELECTED STYLE
+    // --------------------------------------------------------
 
-        Later this will be replaced with the actual
-        campus road network / shortest-path algorithm.
-    */
+    for (const name in markers) {
 
-    const middlePoint = [
-        start[0],
-        destination[1]
-    ];
+        const element =
+            markers[name].getElement();
 
+        if (element) {
 
-    routeLine = L.polyline(
-        [
-            start,
-            middlePoint,
-            destination
-        ],
-        {
-            weight: 6,
-            opacity: 0.9,
-            dashArray: "10, 8",
-            lineCap: "round"
+            element.classList.remove(
+                "selected-marker"
+            );
+
         }
-    ).addTo(map);
+
+    }
 
 
-    map.fitBounds(
-        routeLine.getBounds(),
+    // --------------------------------------------------------
+    // HIGHLIGHT DESTINATION
+    // --------------------------------------------------------
+
+    const selectedElement =
+        markers[place].getElement();
+
+    if (selectedElement) {
+
+        selectedElement.classList.add(
+            "selected-marker"
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // OPEN POPUP
+    // --------------------------------------------------------
+
+    markers[place].openPopup();
+
+
+    // --------------------------------------------------------
+    // SHOW DESTINATION
+    // --------------------------------------------------------
+
+    map.flyTo(
+        locations[place].coords,
+        18,
         {
-            padding: [80, 80]
+            duration: 1
         }
     );
 
 
-    document.getElementById("routeText").textContent =
-        locations[fromId].name +
-        " → " +
-        locations[toId].name;
+    // --------------------------------------------------------
+    // INFORMATION PANEL
+    // --------------------------------------------------------
+
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
+
+
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 ${place}
+            </div>
+
+            <div class="info-text">
+
+                ${locations[place].type}
+
+                <br><br>
+
+                ${
+                    userLocation
+                    ? "Click Navigate to calculate route."
+                    : "Click My Location first to start navigation."
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
+    // --------------------------------------------------------
+    // IF GPS EXISTS
+    // AUTOMATICALLY CREATE ROUTE
+    // --------------------------------------------------------
+
+    if (userLocation) {
+
+        createRoute();
+
+    }
 
 }
 
 
-/* ---------------------------------------------------
-   ROUTE BUTTON
---------------------------------------------------- */
+// ============================================================
+// 12. SEARCH DESTINATION
+// ============================================================
 
-document.getElementById("routeBtn").onclick =
-    function() {
+function findDestination() {
 
-        const from =
-            document.getElementById("fromLocation").value;
-
-        const to =
-            document.getElementById("toLocation").value;
+    const inputElement =
+        document.getElementById(
+            "destinationInput"
+        );
 
 
-        if (!to) {
+    if (!inputElement) {
 
-            alert("Please select a destination.");
+        return;
 
-            return;
+    }
+
+
+    const input =
+        inputElement.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!input) {
+
+        alert(
+            "Please enter a campus location."
+        );
+
+        return;
+
+    }
+
+
+    let foundPlace = null;
+
+
+    // --------------------------------------------------------
+    // EXACT / PARTIAL SEARCH
+    // --------------------------------------------------------
+
+    for (const place in locations) {
+
+        const name =
+            place.toLowerCase();
+
+
+        if (
+            name === input ||
+            name.includes(input) ||
+            input.includes(name)
+        ) {
+
+            foundPlace = place;
+
+            break;
 
         }
 
+    }
 
-        if (from === "current") {
 
-            if (!currentLocation) {
+    // --------------------------------------------------------
+    // SPECIAL SEARCH WORDS
+    // --------------------------------------------------------
 
-                alert(
-                    "Please click 'My Location' first."
+    if (!foundPlace) {
+
+        const aliases = {
+
+            "cs": "Computer Science",
+            "computer": "Computer Science",
+            "computer science department":
+                "Computer Science",
+
+            "library":
+                "Library",
+
+            "canteen":
+                "Canteen",
+
+            "bank":
+                "Canara Bank",
+
+            "parking":
+                "Parking Shed",
+
+            "gate":
+                "Main Gate",
+
+            "hostel":
+                "Hostel",
+
+            "bca":
+                "BCA",
+
+            "mca":
+                "MCA",
+
+            "physics":
+                "Physics",
+
+            "chemistry":
+                "Chemistry",
+
+            "maths":
+                "Maths",
+
+            "mathematics":
+                "Maths",
+
+            "history":
+                "History",
+
+            "economics":
+                "Economics",
+
+            "chapel":
+                "Chapel",
+
+            "playground":
+                "Playground",
+
+            "auditorium":
+                "New Auditorium"
+
+        };
+
+
+        for (const key in aliases) {
+
+            if (
+                key.includes(input) ||
+                input.includes(key)
+            ) {
+
+                foundPlace =
+                    aliases[key];
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+    // --------------------------------------------------------
+    // NOT FOUND
+    // --------------------------------------------------------
+
+    if (!foundPlace) {
+
+        alert(
+            "Location not found.\n\n" +
+            "Try:\n" +
+            "Library\n" +
+            "Computer Science\n" +
+            "Canteen\n" +
+            "Main Gate\n" +
+            "Hostel\n" +
+            "Physics\n" +
+            "Chemistry"
+        );
+
+        return;
+
+    }
+
+
+    selectDestination(foundPlace);
+
+}
+
+
+// ============================================================
+// 13. ENTER KEY SEARCH
+// ============================================================
+
+const destinationInput =
+    document.getElementById(
+        "destinationInput"
+    );
+
+
+if (destinationInput) {
+
+    destinationInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                findDestination();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// 14. GET CURRENT LOCATION
+// ============================================================
+
+function showMyLocation() {
+
+    if (!navigator.geolocation) {
+
+        alert(
+            "Geolocation is not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
+
+
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 Detecting Location...
+            </div>
+
+            <div class="info-text">
+                Please allow location permission.
+            </div>
+
+        `;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+            const accuracy =
+                position.coords.accuracy;
+
+
+            userLocation = [
+                latitude,
+                longitude
+            ];
+
+
+            console.log(
+                "Current Location:",
+                latitude,
+                longitude
+            );
+
+
+            // ------------------------------------------------
+            // REMOVE OLD USER MARKER
+            // ------------------------------------------------
+
+            if (userMarker) {
+
+                map.removeLayer(
+                    userMarker
                 );
+
+            }
+
+
+            if (accuracyCircle) {
+
+                map.removeLayer(
+                    accuracyCircle
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // USER LOCATION ICON
+            // ------------------------------------------------
+
+            const userIcon =
+                L.divIcon({
+
+                    className:
+                        "user-location-marker",
+
+                    html: `
+                        <div class="user-location-dot">
+                            <div class="user-location-pulse"></div>
+                        </div>
+                    `,
+
+                    iconSize: [30, 30],
+
+                    iconAnchor: [15, 15]
+
+                });
+
+
+            userMarker =
+                L.marker(
+                    userLocation,
+                    {
+                        icon: userIcon,
+                        zIndexOffset: 1000
+                    }
+                )
+                .addTo(map);
+
+
+            userMarker.bindPopup(
+                "📍 You are here"
+            );
+
+
+            // ------------------------------------------------
+            // ACCURACY CIRCLE
+            // ------------------------------------------------
+
+            accuracyCircle =
+                L.circle(
+                    userLocation,
+                    {
+                        radius: accuracy,
+                        className:
+                            "location-accuracy"
+                    }
+                ).addTo(map);
+
+
+            // ------------------------------------------------
+            // MOVE MAP TO USER
+            // ------------------------------------------------
+
+            map.flyTo(
+                userLocation,
+                18,
+                {
+                    duration: 1
+                }
+            );
+
+
+            // ------------------------------------------------
+            // INFORMATION
+            // ------------------------------------------------
+
+            if (info) {
+
+                info.innerHTML = `
+
+                    <div class="info-title">
+                        📍 Current Location
+                    </div>
+
+                    <div class="info-text">
+
+                        Location detected successfully.
+
+                        <br><br>
+
+                        Accuracy:
+                        ${Math.round(accuracy)} meters
+
+                        <br><br>
+
+                        ${
+                            selectedDestination
+                            ? "🧭 Calculating route..."
+                            : "🔎 Select a destination."
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // ------------------------------------------------
+            // CREATE ROUTE IF DESTINATION EXISTS
+            // ------------------------------------------------
+
+            if (selectedDestination) {
+
+                createRoute();
+
+            }
+
+        },
+
+
+        function(error) {
+
+            console.error(
+                "GPS Error:",
+                error
+            );
+
+
+            let message =
+                "Unable to access your location.";
+
+
+            if (error.code === 1) {
+
+                message =
+                    "Location permission denied.\n\n" +
+                    "Please allow location access.";
+
+            }
+
+            else if (error.code === 2) {
+
+                message =
+                    "Your location is currently unavailable.";
+
+            }
+
+            else if (error.code === 3) {
+
+                message =
+                    "Location request timed out.";
+
+            }
+
+
+            alert(message);
+
+
+            if (info) {
+
+                info.innerHTML = `
+
+                    <div class="info-title">
+                        ⚠️ Location Error
+                    </div>
+
+                    <div class="info-text">
+                        ${message.replace(/\n/g, "<br>")}
+                    </div>
+
+                `;
+
+            }
+
+        },
+
+
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0
+        }
+
+    );
+
+}
+
+
+// ============================================================
+// 15. CREATE WALKING ROUTE
+// ============================================================
+
+function createRoute() {
+
+    if (!userLocation) {
+
+        alert(
+            "First click My Location to detect your current location."
+        );
+
+        return;
+
+    }
+
+
+    if (!selectedDestination) {
+
+        alert(
+            "Please select a destination."
+        );
+
+        return;
+
+    }
+
+
+    const destination =
+        locations[selectedDestination].coords;
+
+
+    // --------------------------------------------------------
+    // REMOVE OLD ROUTE
+    // --------------------------------------------------------
+
+    if (routeControl) {
+
+        map.removeControl(
+            routeControl
+        );
+
+        routeControl = null;
+
+    }
+
+
+    // --------------------------------------------------------
+    // UPDATE INFORMATION
+    // --------------------------------------------------------
+
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
+
+
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                🧭 Finding Route
+            </div>
+
+            <div class="info-text">
+
+                From:
+                <b>Current Location</b>
+
+                <br>
+
+                To:
+                <b>${selectedDestination}</b>
+
+                <br><br>
+
+                Calculating walking route...
+
+            </div>
+
+        `;
+
+    }
+
+
+    // --------------------------------------------------------
+    // OSRM ROUTING
+    //
+    // Foot routing depends on the routing server.
+    // ========================================================
+
+    routeControl =
+        L.Routing.control({
+
+            waypoints: [
+
+                L.latLng(
+                    userLocation[0],
+                    userLocation[1]
+                ),
+
+                L.latLng(
+                    destination[0],
+                    destination[1]
+                )
+
+            ],
+
+            router:
+                L.Routing.osrmv1({
+
+                    serviceUrl:
+                        "https://router.project-osrm.org/route/v1",
+
+                    profile:
+                        "foot"
+
+                }),
+
+            lineOptions: {
+
+                styles: [
+                    {
+                        className:
+                            "campus-route-line",
+                        weight: 7
+                    }
+                ]
+
+            },
+
+            show: true,
+
+            addWaypoints: false,
+
+            draggableWaypoints: false,
+
+            routeWhileDragging: false,
+
+            fitSelectedRoutes: true,
+
+            showAlternatives: false,
+
+            collapsible: true,
+
+            createMarker: function() {
+
+                return null;
+
+            }
+
+        })
+        .addTo(map);
+
+
+    // --------------------------------------------------------
+    // ROUTE FOUND
+    // --------------------------------------------------------
+
+    routeControl.on(
+        "routesfound",
+        function(event) {
+
+            const routes =
+                event.routes;
+
+
+            if (
+                !routes ||
+                routes.length === 0
+            ) {
 
                 return;
 
             }
 
-            /*
-                For the first prototype,
-                current GPS position is handled separately.
-            */
 
-            routeFromCurrentLocation(to);
-
-            return;
-
-        }
+            const summary =
+                routes[0].summary;
 
 
-        createRoute(from, to);
-
-    };
-
-
-/* ---------------------------------------------------
-   REAL-TIME LOCATION
---------------------------------------------------- */
-
-let currentLocation = null;
-
-let currentMarker = null;
+            const distance =
+                summary.totalDistance;
 
 
-document.getElementById("locationBtn").onclick =
-    function() {
-
-        if (!navigator.geolocation) {
-
-            alert(
-                "Geolocation is not supported by this browser."
-            );
-
-            return;
-
-        }
+            const time =
+                summary.totalTime;
 
 
-        navigator.geolocation.watchPosition(
-
-            function(position) {
-
-                const latitude =
-                    position.coords.latitude;
-
-                const longitude =
-                    position.coords.longitude;
+            const distanceText =
+                distance >= 1000
+                ? (distance / 1000).toFixed(2) + " km"
+                : Math.round(distance) + " m";
 
 
-                currentLocation = {
-                    latitude: latitude,
-                    longitude: longitude
-                };
-
-
-                console.log(
-                    "Current GPS:",
-                    latitude,
-                    longitude
+            const minutes =
+                Math.max(
+                    1,
+                    Math.round(
+                        time / 60
+                    )
                 );
 
 
-                /*
-                    IMPORTANT:
-                    Browser gives REAL latitude/longitude.
+            if (info) {
 
-                    The campus prototype currently uses
-                    local map coordinates.
+                info.innerHTML = `
 
-                    GPS-to-map calibration will be added
-                    after actual campus coordinates are provided.
-                */
+                    <div class="info-title">
+                        🧭 Route Found
+                    </div>
 
-                alert(
-                    "Live location detected.\n\n" +
-                    "Latitude: " +
-                    latitude +
-                    "\nLongitude: " +
-                    longitude
-                );
+                    <div class="info-text">
 
-            },
+                        📍 From:
+                        <b>Current Location</b>
 
-            function(error) {
+                        <br><br>
 
-                alert(
-                    "Unable to get your location.\n" +
-                    "Please allow location permission."
-                );
+                        🎯 To:
+                        <b>${selectedDestination}</b>
 
-            },
+                        <br><br>
 
-            {
-                enableHighAccuracy: true,
-                maximumAge: 5000,
-                timeout: 10000
+                        📏 Distance:
+                        <b>${distanceText}</b>
+
+                        <br>
+
+                        🚶 Walking Time:
+                        <b>${minutes} min</b>
+
+                    </div>
+
+                `;
+
             }
 
+
+            console.log(
+                "Route distance:",
+                distanceText
+            );
+
+            console.log(
+                "Walking time:",
+                minutes,
+                "minutes"
+            );
+
+        }
+    );
+
+
+    // --------------------------------------------------------
+    // ROUTE ERROR
+    // --------------------------------------------------------
+
+    routeControl.on(
+        "routingerror",
+        function(error) {
+
+            console.error(
+                "Routing Error:",
+                error
+            );
+
+
+            if (info) {
+
+                info.innerHTML = `
+
+                    <div class="info-title">
+                        ⚠️ Route Not Available
+                    </div>
+
+                    <div class="info-text">
+
+                        Unable to calculate the route.
+
+                        <br><br>
+
+                        Please check your
+                        internet connection
+                        and try again.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// 16. DIRECT NAVIGATE BUTTON
+// ============================================================
+
+function navigateToSelected() {
+
+    if (!selectedDestination) {
+
+        alert(
+            "Please select a destination first."
         );
-
-    };
-
-
-/* ---------------------------------------------------
-   CURRENT LOCATION ROUTE
---------------------------------------------------- */
-
-function routeFromCurrentLocation(destinationId) {
-
-    if (!currentLocation) {
 
         return;
 
     }
 
 
-    /*
-        GPS calibration is required here.
+    if (!userLocation) {
 
-        Once actual campus coordinates are added,
-        currentLocation will be converted into the
-        campus map coordinate system.
-    */
+        alert(
+            "Please click My Location first."
+        );
 
-    alert(
-        "Your real GPS location was detected.\n\n" +
-        "Next step: connect the campus GPS coordinates " +
-        "to this map for true live navigation."
-    );
+        showMyLocation();
+
+        return;
+
+    }
+
+
+    createRoute();
 
 }
+
+
+// ============================================================
+// 17. RESET MAP
+// ============================================================
+
+function resetCampusView() {
+
+    // --------------------------------------------------------
+    // REMOVE ROUTE
+    // --------------------------------------------------------
+
+    if (routeControl) {
+
+        map.removeControl(
+            routeControl
+        );
+
+        routeControl = null;
+
+    }
+
+
+    // --------------------------------------------------------
+    // REMOVE USER LOCATION
+    // --------------------------------------------------------
+
+    if (userMarker) {
+
+        map.removeLayer(
+            userMarker
+        );
+
+        userMarker = null;
+
+    }
+
+
+    if (accuracyCircle) {
+
+        map.removeLayer(
+            accuracyCircle
+        );
+
+        accuracyCircle = null;
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESET SELECTION
+    // --------------------------------------------------------
+
+    selectedDestination = null;
+
+
+    // --------------------------------------------------------
+    // REMOVE MARKER HIGHLIGHT
+    // --------------------------------------------------------
+
+    for (const name in markers) {
+
+        const element =
+            markers[name].getElement();
+
+        if (element) {
+
+            element.classList.remove(
+                "selected-marker"
+            );
+
+        }
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESET MAP VIEW
+    // --------------------------------------------------------
+
+    map.flyTo(
+        campusCenter,
+        17,
+        {
+            duration: 1
+        }
+    );
+
+
+    // --------------------------------------------------------
+    // RESET INFORMATION
+    // --------------------------------------------------------
+
+    const info =
+        document.getElementById(
+            "locationInfo"
+        );
+
+
+    if (info) {
+
+        info.innerHTML = `
+
+            <div class="info-title">
+                📍 Campus Navigation
+            </div>
+
+            <div class="info-text">
+                Search a building or select
+                a campus location.
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ============================================================
+// 18. ZOOM CONTROL
+// ============================================================
+
+L.control.zoom({
+
+    position: "bottomright"
+
+}).addTo(map);
+
+
+// ============================================================
+// 19. MAP READY
+// ============================================================
+
+console.log(
+    "✅ Real Smart Campus Map Loaded"
+);
+
+console.log(
+    "📍 GPS + Destination + Route Navigation Ready"
+);
+```
