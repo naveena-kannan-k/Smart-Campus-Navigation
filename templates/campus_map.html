@@ -2,8 +2,11 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Smart Campus Navigation</title>
 
@@ -13,13 +16,23 @@
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     >
 
+    <!-- Leaflet Routing -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+    >
+
+    <!-- Your CSS -->
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/campus_map.css') }}"
     >
+
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
@@ -34,6 +47,7 @@
 
     </div>
 
+
     <a href="/dashboard" class="dashboard-btn">
         ← Dashboard
     </a>
@@ -41,7 +55,6 @@
 </header>
 
 
-<!-- SEARCH -->
 
 <div class="search-panel">
 
@@ -50,10 +63,9 @@
         <span>🔍</span>
 
         <input
-            type="text"
             id="destinationInput"
+            type="text"
             placeholder="Search campus location..."
-            autocomplete="off"
         >
 
         <button onclick="findDestination()">
@@ -86,12 +98,6 @@
 </div>
 
 
-<!-- MAP -->
-
-<main id="campusMap"></main>
-
-
-<!-- MAP CONTROLS -->
 
 <div class="map-controls">
 
@@ -110,7 +116,10 @@
 </div>
 
 
-<!-- INFORMATION -->
+
+<div id="campusMap"></div>
+
+
 
 <div id="locationInfo" class="location-info">
 
@@ -125,37 +134,37 @@
 </div>
 
 
-<footer class="map-footer">
+
+<div class="map-footer">
 
     <span>🗺️ Interactive Campus Map</span>
 
     <span>OpenStreetMap</span>
 
-</footer>
+</div>
 
 
-<!-- Leaflet -->
+
+<!-- Leaflet JS -->
 
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 
-<!-- Routing Machine -->
-
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
->
+<!-- Leaflet Routing Machine -->
 
 <script
     src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js">
 </script>
 
 
+<!-- Your JS -->
+
 <script
     src="{{ url_for('static', filename='js/campus_map.js') }}">
 </script>
+
 
 </body>
 </html>
