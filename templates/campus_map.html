@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -11,30 +9,21 @@
     <title>Smart Campus Navigation</title>
 
     <!-- Leaflet -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    >
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-    <!-- Leaflet Routing -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
-    >
-
-    <!-- Your CSS -->
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/campus_map.css') }}"
-    >
-
+    <!-- Campus CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/campus_map.css') }}">
 </head>
-
 
 <body>
 
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
-<header class="topbar">
+<header class="top-header">
 
     <div class="brand">
 
@@ -47,7 +36,6 @@
 
     </div>
 
-
     <a href="/dashboard" class="dashboard-btn">
         ← Dashboard
     </a>
@@ -55,17 +43,21 @@
 </header>
 
 
+<!-- =========================================================
+     SEARCH BAR
+========================================================= -->
 
 <div class="search-panel">
 
     <div class="search-box">
 
-        <span>🔍</span>
+        <span class="search-icon">🔍</span>
 
         <input
-            id="destinationInput"
             type="text"
+            id="destinationInput"
             placeholder="Search campus location..."
+            autocomplete="off"
         >
 
         <button onclick="findDestination()">
@@ -74,6 +66,8 @@
 
     </div>
 
+
+    <!-- QUICK DESTINATIONS -->
 
     <div class="quick-buttons">
 
@@ -98,73 +92,80 @@
 </div>
 
 
+<!-- =========================================================
+     MAP AREA
+========================================================= -->
 
-<div class="map-controls">
+<main class="map-wrapper">
 
-    <button onclick="showMyLocation()">
-        📍 My Location
-    </button>
-
-    <button onclick="navigateToSelected()">
-        🧭 Navigate
-    </button>
-
-    <button onclick="resetCampusView()">
-        🔄 Reset
-    </button>
-
-</div>
+    <div id="campusMap"></div>
 
 
+    <!-- MAP CONTROLS -->
 
-<div id="campusMap"></div>
+    <div class="map-controls">
 
+        <button onclick="showMyLocation()"
+                class="map-control-btn location-btn">
+            📍 My Location
+        </button>
 
+        <button onclick="navigateToSelected()"
+                class="map-control-btn navigate-main-btn">
+            🧭 Navigate
+        </button>
 
-<div id="locationInfo" class="location-info">
+        <button onclick="resetCampusView()"
+                class="map-control-btn reset-btn">
+            🔄 Reset
+        </button>
 
-    <div class="info-title">
-        📍 Campus Navigation
     </div>
 
-    <div class="info-text">
-        Search a building or select a campus location.
+
+    <!-- INFORMATION CARD -->
+
+    <div id="locationInfo"
+         class="location-info">
+
+        <div class="info-title">
+            📍 Campus Navigation
+        </div>
+
+        <div class="info-text">
+            Search a building or select a campus location.
+        </div>
+
     </div>
 
-</div>
+</main>
 
 
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 
-<div class="map-footer">
+<footer class="map-footer">
 
     <span>🗺️ Interactive Campus Map</span>
 
-    <span>OpenStreetMap</span>
+    <span>Leaflet | OpenStreetMap</span>
 
-</div>
-
-
-
-<!-- Leaflet JS -->
-
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+</footer>
 
 
-<!-- Leaflet Routing Machine -->
+<!-- =========================================================
+     LEAFLET JS
+========================================================= -->
 
-<script
-    src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js">
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 
-<!-- Your JS -->
+<!-- =========================================================
+     CAMPUS MAP JS
+========================================================= -->
 
-<script
-    src="{{ url_for('static', filename='js/campus_map.js') }}">
-</script>
-
+<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
 
 </body>
 </html>
