@@ -1,6 +1,6 @@
 /* ============================================================
    SMART CAMPUS NAVIGATION
-   CAMPUS MAP CSS
+   GOOGLE-MAP STYLE CAMPUS UI
    NO IMAGE
 ============================================================ */
 
@@ -16,36 +16,61 @@
 }
 
 
-/* ============================================================
-   BODY
-============================================================ */
-
+html,
 body {
-    min-height: 100vh;
-
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     font-family:
         "Poppins",
         "Segoe UI",
         Arial,
         sans-serif;
-
-    background: #eef1f5;
-
-    color: #172554;
-
-    overflow: hidden;
 }
 
 
 /* ============================================================
-   HEADER
+   MAP
+============================================================ */
+
+#campusMap {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    z-index: 1;
+
+    background: #e8eaed;
+}
+
+
+/* ============================================================
+   TOP HEADER
 ============================================================ */
 
 .top-header {
 
-    height: 82px;
+    position: fixed;
 
-    background: #ffffff;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+
+    height: 70px;
+
+    background: rgba(255,255,255,0.96);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.18);
+
+    z-index: 1000;
 
     display: flex;
 
@@ -53,16 +78,13 @@ body {
 
     justify-content: space-between;
 
-    padding: 0 28px;
-
-    box-shadow:
-        0 2px 12px rgba(0,0,0,0.12);
-
-    position: relative;
-
-    z-index: 1000;
+    padding: 10px 16px;
 }
 
+
+/* ============================================================
+   BRAND
+============================================================ */
 
 .brand {
 
@@ -70,24 +92,23 @@ body {
 
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 }
 
 
 .brand-icon {
 
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
 
-    border-radius: 14px;
-
-    background: #eef2ff;
+    border-radius: 13px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
+
+    background: #eef4ff;
 
     font-size: 25px;
 }
@@ -95,21 +116,23 @@ body {
 
 .brand h1 {
 
-    font-size: 21px;
+    font-size: 19px;
+
+    color: #182858;
 
     font-weight: 700;
 
-    color: #172554;
 }
 
 
 .brand p {
 
-    font-size: 13px;
-
-    color: #64748b;
-
     margin-top: 2px;
+
+    font-size: 12px;
+
+    color: #74809a;
+
 }
 
 
@@ -121,23 +144,26 @@ body {
 
     text-decoration: none;
 
-    background: #f1f5f9;
+    background: #f5f7fb;
 
-    color: #1e293b;
+    color: #23345f;
 
-    padding: 12px 18px;
+    padding: 11px 16px;
 
     border-radius: 12px;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
+
+    transition: 0.2s;
 }
 
 
 .dashboard-btn:hover {
 
-    background: #e2e8f0;
+    background: #e8edf9;
+
 }
 
 
@@ -147,46 +173,50 @@ body {
 
 .search-panel {
 
-    position: absolute;
+    position: fixed;
 
-    top: 96px;
-
+    top: 95px;
     left: 24px;
 
-    z-index: 900;
+    width: min(520px, calc(100% - 48px));
 
-    width: 370px;
+    background: rgba(255,255,255,0.97);
+
+    padding: 12px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.18);
+
+    z-index: 1000;
 }
 
 
-.search-box {
+/* ============================================================
+   SEARCH ROW
+============================================================ */
 
-    height: 54px;
-
-    background: white;
-
-    border-radius: 16px;
+.search-row {
 
     display: flex;
 
     align-items: center;
 
-    padding: 5px;
+    gap: 8px;
 
-    box-shadow:
-        0 5px 22px rgba(0,0,0,0.20);
 }
 
 
 .search-icon {
 
-    margin-left: 13px;
-
     font-size: 18px;
+
+    padding-left: 5px;
 }
 
 
-.search-box input {
+#destinationInput {
 
     flex: 1;
 
@@ -194,38 +224,47 @@ body {
 
     outline: none;
 
-    padding: 0 10px;
-
     font-size: 14px;
 
-    color: #334155;
+    padding: 12px 8px;
+
+    color: #24345f;
+
+    background: transparent;
+}
+
+
+#destinationInput::placeholder {
+
+    color: #8b95a9;
 
 }
 
 
-.search-box button {
-
-    height: 44px;
+.search-btn {
 
     border: none;
 
-    border-radius: 11px;
-
-    padding: 0 18px;
-
-    background: #2563eb;
+    background: #2864f0;
 
     color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 10px;
 
     font-weight: 600;
 
     cursor: pointer;
+
+    transition: 0.2s;
 }
 
 
-.search-box button:hover {
+.search-btn:hover {
 
-    background: #1d4ed8;
+    background: #174fd0;
+
 }
 
 
@@ -239,9 +278,9 @@ body {
 
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 7px;
 
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 
@@ -249,185 +288,141 @@ body {
 
     border: none;
 
-    background: white;
+    background: #f5f6f8;
 
-    padding: 9px 13px;
+    color: #394564;
 
-    border-radius: 20px;
+    border-radius: 18px;
 
-    font-size: 12px;
+    padding: 7px 11px;
 
-    color: #334155;
+    font-size: 11px;
 
     cursor: pointer;
 
-    box-shadow:
-        0 3px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
 }
 
 
 .quick-buttons button:hover {
 
-    background: #eff6ff;
+    background: #e6ecfb;
 
-    color: #1d4ed8;
 }
 
 
 /* ============================================================
-   MAP WRAPPER
-============================================================ */
-
-.map-wrapper {
-
-    position: relative;
-
-    height: calc(100vh - 117px);
-
-    width: 100%;
-}
-
-
-/* ============================================================
-   MAP
-============================================================ */
-
-#campusMap {
-
-    width: 100%;
-
-    height: 100%;
-
-    background: #e8edf2;
-}
-
-
-/* ============================================================
-   LEAFLET
-============================================================ */
-
-.leaflet-container {
-
-    font-family:
-        "Poppins",
-        "Segoe UI",
-        Arial,
-        sans-serif;
-}
-
-
-/* ============================================================
-   MAP CONTROLS
+   CONTROL PANEL
 ============================================================ */
 
 .map-controls {
 
-    position: absolute;
+    position: fixed;
 
-    right: 22px;
+    top: 180px;
 
-    top: 105px;
+    right: 20px;
 
-    z-index: 800;
+    z-index: 1000;
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 10px;
+    gap: 9px;
 }
 
 
-.map-control-btn {
+.control-btn {
 
-    width: 135px;
-
-    min-height: 44px;
+    min-width: 125px;
 
     border: none;
 
-    border-radius: 13px;
-
     background: white;
 
-    box-shadow:
-        0 4px 16px rgba(0,0,0,0.18);
+    color: #26385f;
 
-    font-size: 13px;
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    font-size: 12px;
 
     font-weight: 600;
 
-    color: #334155;
-
     cursor: pointer;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.17);
+
+    transition: 0.2s;
 }
 
 
-.map-control-btn:hover {
+.control-btn:hover {
 
     transform: translateY(-1px);
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,0.22);
+        0 6px 18px rgba(0,0,0,0.22);
 }
 
 
 .location-btn {
 
-    color: #be123c;
+    color: #d52d5d;
 }
 
 
-.navigate-main-btn {
+.navigate-control {
 
-    color: #047857;
+    color: #16834b;
 }
 
 
 .reset-btn {
 
-    color: #1e40af;
+    color: #435170;
 }
 
 
 /* ============================================================
-   LOCATION INFORMATION
+   INFORMATION PANEL
 ============================================================ */
 
 .location-info {
 
-    position: absolute;
+    position: fixed;
 
-    bottom: 20px;
+    bottom: 50px;
 
-    left: 50%;
+    right: 24px;
 
-    transform: translateX(-50%);
+    width: 310px;
 
-    width: 330px;
+    max-width: calc(100% - 48px);
 
-    min-height: 90px;
+    background: rgba(255,255,255,0.97);
 
-    background: white;
+    padding: 16px;
 
-    border-radius: 16px;
+    border-radius: 15px;
 
-    padding: 17px;
-
-    z-index: 800;
+    z-index: 1000;
 
     box-shadow:
-        0 5px 22px rgba(0,0,0,0.18);
+        0 5px 20px rgba(0,0,0,0.18);
 }
 
 
 .info-title {
 
+    color: #1d3568;
+
+    font-size: 14px;
+
     font-weight: 700;
-
-    color: #172554;
-
-    font-size: 15px;
 
     margin-bottom: 7px;
 }
@@ -435,16 +430,104 @@ body {
 
 .info-text {
 
+    color: #68738a;
+
     font-size: 12px;
 
     line-height: 1.6;
-
-    color: #64748b;
 }
 
 
 /* ============================================================
-   CUSTOM MARKERS
+   LEGEND
+============================================================ */
+
+.map-legend {
+
+    position: fixed;
+
+    bottom: 48px;
+
+    left: 18px;
+
+    background: rgba(255,255,255,0.96);
+
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.15);
+
+    font-size: 11px;
+
+    color: #58647b;
+}
+
+
+.legend-title {
+
+    font-weight: 700;
+
+    color: #273a65;
+
+    margin-bottom: 7px;
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 5px;
+}
+
+
+.legend-dot {
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+}
+
+
+.destination-dot {
+
+    background: #e53935;
+}
+
+
+.user-dot {
+
+    background: #1976d2;
+}
+
+
+.legend-line {
+
+    width: 22px;
+
+    height: 4px;
+
+    border-radius: 4px;
+
+    background: #2864f0;
+
+    display: inline-block;
+}
+
+
+/* ============================================================
+   CAMPUS MARKER
 ============================================================ */
 
 .custom-campus-marker {
@@ -458,25 +541,23 @@ body {
 .campus-marker {
 
     width: 38px;
-
     height: 38px;
-
-    border-radius: 50%;
 
     background: white;
 
-    border: 3px solid #2563eb;
+    border: 3px solid #2864f0;
+
+    border-radius: 50%;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    font-size: 18px;
+    font-size: 19px;
 
     box-shadow:
-        0 3px 9px rgba(0,0,0,0.30);
+        0 2px 8px rgba(0,0,0,0.25);
 
     transition: 0.2s;
 }
@@ -484,108 +565,44 @@ body {
 
 .selected-marker .campus-marker {
 
-    border-color: #ef4444;
+    transform: scale(1.25);
 
-    transform: scale(1.35);
+    border-color: #e53935;
 
     box-shadow:
-        0 0 0 6px rgba(239,68,68,0.20),
-        0 5px 15px rgba(0,0,0,0.30);
+        0 0 0 7px rgba(229,57,53,0.18),
+        0 3px 12px rgba(0,0,0,0.3);
 }
 
 
 /* ============================================================
-   CAMPUS LABEL
+   LABEL
 ============================================================ */
 
 .campus-label {
 
-    background: white !important;
+    background: rgba(255,255,255,0.94);
 
-    border: none !important;
+    border: none;
 
-    border-radius: 7px !important;
+    border-radius: 6px;
 
-    padding: 5px 8px !important;
+    padding: 4px 7px;
 
-    color: #172554 !important;
+    color: #26385e;
 
-    font-size: 11px !important;
+    font-size: 10px;
 
-    font-weight: 700 !important;
+    font-weight: 600;
 
     box-shadow:
-        0 2px 8px rgba(0,0,0,0.16) !important;
+        0 2px 7px rgba(0,0,0,0.15);
 }
 
 
 .campus-label::before {
 
-    display: none !important;
-}
-
-
-/* ============================================================
-   POPUP
-============================================================ */
-
-.campus-popup {
-
-    min-width: 170px;
-
-    text-align: center;
-
-    padding: 4px;
-}
-
-
-.popup-icon {
-
-    font-size: 28px;
-
-    margin-bottom: 4px;
-}
-
-
-.popup-title {
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-    color: #172554;
-
-    margin-bottom: 4px;
-}
-
-
-.popup-type {
-
-    font-size: 11px;
-
-    color: #64748b;
-
-    margin-bottom: 10px;
-}
-
-
-.navigate-btn {
-
-    border: none;
-
-    background: #2563eb;
-
-    color: white;
-
-    padding: 9px 14px;
-
-    border-radius: 9px;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    cursor: pointer;
+    display: none;
 }
 
 
@@ -604,14 +621,13 @@ body {
 .user-location-dot {
 
     width: 22px;
-
     height: 22px;
 
-    border-radius: 50%;
-
-    background: #2563eb;
+    background: #1976d2;
 
     border: 4px solid white;
+
+    border-radius: 50%;
 
     box-shadow:
         0 2px 8px rgba(0,0,0,0.35);
@@ -624,27 +640,25 @@ body {
 
     position: absolute;
 
-    width: 40px;
+    width: 38px;
+    height: 38px;
 
-    height: 40px;
+    top: -12px;
+    left: -12px;
 
     border-radius: 50%;
 
-    background: rgba(37,99,235,0.22);
+    background: rgba(25,118,210,0.20);
 
-    top: -13px;
-
-    left: -13px;
-
-    animation: locationPulse 1.8s infinite;
+    animation: gpsPulse 1.8s infinite;
 }
 
 
-@keyframes locationPulse {
+@keyframes gpsPulse {
 
     0% {
         transform: scale(0.7);
-        opacity: 0.9;
+        opacity: 0.8;
     }
 
     70% {
@@ -660,51 +674,125 @@ body {
 
 
 /* ============================================================
-   ROUTE
+   POPUP
 ============================================================ */
 
-.campus-route-line {
+.campus-popup {
 
-    stroke: #2563eb;
+    min-width: 190px;
 
-    stroke-width: 7;
+    text-align: center;
+}
 
-    stroke-linecap: round;
 
-    stroke-linejoin: round;
+.popup-icon {
 
-    opacity: 0.90;
+    font-size: 28px;
+
+    margin-bottom: 4px;
+}
+
+
+.popup-title {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #203565;
+}
+
+
+.popup-type {
+
+    font-size: 11px;
+
+    color: #788298;
+
+    margin-top: 3px;
+
+    margin-bottom: 10px;
+}
+
+
+.navigate-btn {
+
+    width: 100%;
+
+    border: none;
+
+    background: #2864f0;
+
+    color: white;
+
+    padding: 9px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
 }
 
 
 /* ============================================================
-   FOOTER
+   ROUTE LINE
 ============================================================ */
 
-.map-footer {
+.campus-route-line {
 
-    height: 35px;
+    filter:
+        drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
 
-    background: white;
+
+/* ============================================================
+   ROUTE STEP
+============================================================ */
+
+.route-step {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    padding: 6px 0;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+
+.route-step:last-child {
+
+    border-bottom: none;
+}
+
+
+.step-number {
+
+    width: 22px;
+    height: 22px;
+
+    min-width: 22px;
+
+    border-radius: 50%;
+
+    background: #2864f0;
+
+    color: white;
 
     display: flex;
 
     align-items: center;
+    justify-content: center;
 
-    justify-content: space-between;
+    font-size: 10px;
 
-    padding: 0 25px;
-
-    font-size: 11px;
-
-    color: #64748b;
-
-    box-shadow:
-        0 -2px 8px rgba(0,0,0,0.08);
-
-    position: relative;
-
-    z-index: 1000;
+    font-weight: 700;
 }
 
 
@@ -716,29 +804,38 @@ body {
 
     .top-header {
 
-        padding: 0 14px;
+        height: 62px;
 
-        height: 72px;
+        padding: 8px 10px;
     }
 
 
     .brand h1 {
 
-        font-size: 16px;
+        font-size: 14px;
     }
 
 
     .brand p {
 
-        font-size: 11px;
+        font-size: 10px;
+    }
+
+
+    .brand-icon {
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 20px;
     }
 
 
     .dashboard-btn {
 
-        padding: 9px 10px;
+        padding: 8px 10px;
 
-        font-size: 11px;
+        font-size: 10px;
     }
 
 
@@ -746,33 +843,47 @@ body {
 
         top: 82px;
 
-        left: 12px;
+        left: 10px;
 
-        width: calc(100% - 24px);
+        width: calc(100% - 20px);
     }
 
 
     .map-controls {
 
-        right: 12px;
+        top: 170px;
 
-        top: 180px;
+        right: 10px;
     }
 
 
-    .map-control-btn {
+    .control-btn {
 
-        width: 110px;
+        min-width: 105px;
 
-        font-size: 11px;
+        padding: 9px;
+
+        font-size: 10px;
     }
 
 
     .location-info {
 
-        width: calc(100% - 30px);
+        bottom: 18px;
 
-        bottom: 12px;
+        left: 10px;
+
+        right: 10px;
+
+        width: auto;
+
+        max-width: none;
+    }
+
+
+    .map-legend {
+
+        display: none;
     }
 
 }
