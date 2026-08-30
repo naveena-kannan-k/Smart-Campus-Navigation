@@ -592,3 +592,1799 @@ campusRoads.forEach(road => {
     }
 
 });
+// ============================================================
+// FIND NEAREST ROAD NODE
+// ============================================================
+
+function nearestGraphNode(point) {
+
+    let bestIndex = -1;
+    let bestDistance = Infinity;
+
+    graphNodes.forEach((node, index) => {
+
+        const d = distanceMeters(
+            point,
+            node
+        );
+
+        if (d < bestDistance) {
+
+            bestDistance = d;
+            bestIndex = index;
+        }
+    });
+
+    return {
+        index: bestIndex,
+        distance: bestDistance
+    };
+}
+
+
+// ============================================================
+// DIJKSTRA SHORTEST PATH
+// ============================================================
+
+function shortestGraphPath(startIndex, endIndex) {
+
+    if (
+        startIndex < 0 ||
+        endIndex < 0
+    ) {
+        return null;
+    }
+
+    if (startIndex === endIndex) {
+        return [startIndex];
+    }
+
+    const distances =
+        Array(graphNodes.length).fill(Infinity);
+
+    const previous =
+        Array(graphNodes.length).fill(-1);
+
+    const visited =
+        Array(graphNodes.length).fill(false);
+
+
+    distances[startIndex] = 0;
+
+
+    for (
+        let step = 0;
+        step < graphNodes.length;
+        step++
+    ) {
+
+        let current = -1;
+        let best = Infinity;
+
+
+        for (
+            let i = 0;
+            i < graphNodes.length;
+            i++
+        ) {
+
+            if (
+                !visited[i] &&
+                distances[i] < best
+            ) {
+
+                best = distances[i];
+                current = i;
+            }
+        }
+
+
+        if (current === -1) {
+            break;
+        }
+
+
+        if (current === endIndex) {
+            break;
+        }
+
+
+        visited[current] = true;
+
+
+        for (
+            const edge of graphNodes[current].edges
+        ) {
+
+            if (visited[edge.to]) {
+                continue;
+            }
+
+
+            const newDistance =
+                distances[current] +
+                edge.weight;
+
+
+            if (
+                newDistance <
+                distances[edge.to]
+            ) {
+
+                distances[edge.to] =
+                    newDistance;
+
+                previous[edge.to] =
+                    current;
+            }
+        }
+    }
+
+
+    if (
+        !Number.isFinite(
+            distances[endIndex]
+        )
+    ) {
+
+        return null;
+    }
+
+
+    const path = [];
+
+    let current = endIndex;
+
+
+    while (current !== -1) {
+
+        path.unshift(current);
+
+        current =
+            previous[current];
+    }
+
+
+    return path;
+}
+
+
+// ============================================================
+// BUILD ROUTE
+// ============================================================
+
+function buildRoute(
+    startPoint,
+    destinationPoint
+) {
+
+    const startNearest =
+        nearestGraphNode(startPoint);
+
+    const destinationNearest =
+        nearestGraphNode(destinationPoint);
+
+
+    // Maximum allowed distance
+    // from a location to a campus road.
+    if (
+        startNearest.distance > 80 ||
+        destinationNearest.distance > 80
+    ) {
+
+        return null;
+    }
+
+
+    const nodePath =
+        shortestGraphPath(
+            startNearest.index,
+            destinationNearest.index
+        );
+
+
+    if (
+        !nodePath ||
+        nodePath.length === 0
+    ) {
+
+        return null;
+    }
+
+
+    const routePoints = [];
+
+
+    // Start location
+    routePoints.push([
+        startPoint.lat,
+        startPoint.lng
+    ]);
+
+
+    // Road network
+    nodePath.forEach(index => {
+
+        routePoints.push([
+            graphNodes[index].lat,
+            graphNodes[index].lng
+        ]);
+
+    });
+
+
+    // Destination
+    routePoints.push([
+        destinationPoint.lat,
+        destinationPoint.lng
+    ]);
+
+
+    return routePoints;
+}
+
+
+// ============================================================
+// CREATE CAMPUS MARKERS
+// ============================================================
+
+function createMarkers() {
+
+    Object.keys(places).forEach(key => {
+
+        const place = places[key];
+
+
+        const marker =
+            L.marker(
+                [
+                    place.lat,
+                    place.lng
+                ],
+                {
+                    icon:
+                        key === "main gate"
+                            ? gateIcon
+                            : placeIcon
+                }
+            )
+            .addTo(map);
+
+
+        marker.bindTooltip(
+            place.name,
+            {
+                direction: "top",
+                offset: [0, -10]
+            }
+        );
+
+
+        marker.bindPopup(`
+            <div style="
+                min-width:210px;
+                font-family:Arial;
+            ">
+
+                <h3 style="
+                    margin:0 0 10px;
+                    color:#173f63;
+                ">
+                    ${escapeHtml(place.name)}
+                </h3>
+
+
+                <button
+                    onclick="selectPlace('${key}')"
+                    style="
+                        padding:9px 16px;
+                        border:0;
+                        border-radius:6px;
+                        background:#173f63;
+                        color:white;
+                        cursor:pointer;
+                        font-weight:bold;
+                    "
+                >
+                    Navigate Here
+                </button>
+
+            </div>
+        `);
+
+
+        marker.on(
+            "click",
+            function() {
+
+                selectPlace(key);
+
+            }
+        );
+    });
+}
+
+
+// Create all markers
+createMarkers();
+
+
+// ============================================================
+// CALCULATE TOTAL ROUTE DISTANCE
+// ============================================================
+
+function calculateRouteDistance(points) {
+
+    let totalDistance = 0;
+
+
+    for (
+        let i = 0;
+        i < points.length - 1;
+        i++
+    ) {
+
+        totalDistance +=
+            distanceMeters(
+                L.latLng(points[i]),
+                L.latLng(points[i + 1])
+            );
+    }
+
+
+    return Math.round(
+        totalDistance
+    );
+}
+
+
+// ============================================================
+// SHOW RESULT CARD
+// ============================================================
+
+function showResult(
+    key,
+    place,
+    distance,
+    startName
+) {
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (!result) {
+        return;
+    }
+
+
+    result.innerHTML = `
+
+        <div style="
+            padding:5px;
+        ">
+
+            <div style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-bottom:12px;
+            ">
+
+                <div style="
+                    font-size:30px;
+                ">
+                    🎯
+                </div>
+
+
+                <div>
+
+                    <div style="
+                        font-size:10px;
+                        color:#7a8794;
+                        font-weight:bold;
+                    ">
+                        DESTINATION
+                    </div>
+
+
+                    <div style="
+                        font-size:16px;
+                        font-weight:bold;
+                        color:#173f63;
+                    ">
+                        ${escapeHtml(
+                            place.name
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div style="
+                padding:10px;
+                background:#f5f8fb;
+                border-radius:8px;
+                margin-bottom:10px;
+            ">
+
+                📍 From:
+                <b>
+                    ${escapeHtml(
+                        startName
+                    )}
+                </b>
+
+                <br><br>
+
+                🛣️ Distance:
+                <b>
+                    ${formatDistance(
+                        distance
+                    )}
+                </b>
+
+            </div>
+
+
+            <div style="
+                padding:10px;
+                border-left:4px solid #2563eb;
+                background:#eff6ff;
+                border-radius:6px;
+            ">
+
+                <b>
+                    🔵 Route Ready
+                </b>
+
+                <br><br>
+
+                📍 ${escapeHtml(
+                    startName
+                )}
+
+                <br>
+
+                ↓
+
+                <br>
+
+                🚶 Campus Road
+
+                <br>
+
+                ↓
+
+                <br>
+
+                🎯 ${escapeHtml(
+                    place.name
+                )}
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+// ============================================================
+// SELECT DESTINATION
+// ============================================================
+
+function selectPlace(key) {
+
+    if (!places[key]) {
+        return;
+    }
+
+
+    selectedDestinationKey =
+        key;
+
+
+    const place =
+        places[key];
+
+
+    // Remove old route
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
+        );
+
+        routeLine = null;
+    }
+
+
+    // Remove old destination marker
+    if (currentMarker) {
+
+        map.removeLayer(
+            currentMarker
+        );
+
+        currentMarker = null;
+    }
+
+
+    const destination =
+        L.latLng(
+            place.lat,
+            place.lng
+        );
+
+
+    // --------------------------------------------------------
+    // START LOCATION
+    // --------------------------------------------------------
+    // If GPS is available -> use GPS.
+    // Otherwise -> use Main Gate.
+    // --------------------------------------------------------
+
+    let startPoint;
+    let startName;
+
+
+    if (currentUserLocation) {
+
+        startPoint =
+            L.latLng(
+                currentUserLocation.lat,
+                currentUserLocation.lng
+            );
+
+        startName =
+            "Your Current Location";
+
+    } else {
+
+        startPoint =
+            L.latLng(
+                places["main gate"].lat,
+                places["main gate"].lng
+            );
+
+        startName =
+            "Main Gate";
+    }
+
+
+    // --------------------------------------------------------
+    // BUILD BLUE ROUTE
+    // --------------------------------------------------------
+
+    const routePoints =
+        buildRoute(
+            startPoint,
+            destination
+        );
+
+
+    // --------------------------------------------------------
+    // IF NO ROUTE FOUND
+    // --------------------------------------------------------
+
+    if (!routePoints) {
+
+        const result =
+            document.getElementById(
+                "result"
+            );
+
+
+        if (result) {
+
+            result.innerHTML = `
+
+                <div style="
+                    text-align:center;
+                    padding:15px;
+                ">
+
+                    <div style="
+                        font-size:30px;
+                    ">
+                        ⚠️
+                    </div>
+
+
+                    <h3>
+                        Route Not Found
+                    </h3>
+
+
+                    <p style="
+                        color:#718096;
+                        font-size:13px;
+                    ">
+
+                        The selected location
+                        is not connected to
+                        the campus road network.
+
+                    </p>
+
+                </div>
+
+            `;
+        }
+
+
+        currentMarker =
+            L.marker(
+                destination,
+                {
+                    icon:
+                        destinationIcon,
+                    zIndexOffset: 2000
+                }
+            )
+            .addTo(map);
+
+
+        map.setView(
+            destination,
+            19
+        );
+
+
+        return;
+    }
+
+
+    // --------------------------------------------------------
+    // DRAW BLUE NAVIGATION LINE
+    // --------------------------------------------------------
+
+    routeLine =
+        L.polyline(
+            routePoints,
+            {
+
+                color: "#2563eb",
+
+                weight: 7,
+
+                opacity: 0.95,
+
+                lineCap: "round",
+
+                lineJoin: "round",
+
+                className:
+                    "campus-navigation-route"
+
+            }
+        )
+        .addTo(map);
+
+
+    // --------------------------------------------------------
+    // DESTINATION MARKER
+    // --------------------------------------------------------
+
+    currentMarker =
+        L.marker(
+            destination,
+            {
+                icon:
+                    destinationIcon,
+
+                zIndexOffset: 2000
+            }
+        )
+        .addTo(map);
+
+
+    currentMarker.bindPopup(`
+
+        <div style="
+            min-width:200px;
+            font-family:Arial;
+        ">
+
+            <h3 style="
+                color:#e53935;
+                margin:0 0 8px;
+            ">
+
+                🎯
+                ${escapeHtml(
+                    place.name
+                )}
+
+            </h3>
+
+
+            <p>
+                Destination
+            </p>
+
+        </div>
+
+    `);
+
+
+    // --------------------------------------------------------
+    // DISTANCE
+    // --------------------------------------------------------
+
+    const distance =
+        calculateRouteDistance(
+            routePoints
+        );
+
+
+    // --------------------------------------------------------
+    // RESULT
+    // --------------------------------------------------------
+
+    showResult(
+        key,
+        place,
+        distance,
+        startName
+    );
+
+
+    // --------------------------------------------------------
+    // NEARBY PLACES
+    // --------------------------------------------------------
+
+    showNearbyPlaces(
+        key
+    );
+
+
+    // --------------------------------------------------------
+    // FIT ROUTE ON SCREEN
+    // --------------------------------------------------------
+
+    map.fitBounds(
+        routeLine.getBounds(),
+        {
+            padding: [
+                80,
+                80
+            ]
+        }
+    );
+
+
+    // Update search box
+    const input =
+        document.getElementById(
+            "placeInput"
+        );
+
+
+    if (input) {
+
+        input.value =
+            place.name;
+    }
+
+
+    const suggestions =
+        document.getElementById(
+            "suggestions"
+        );
+
+
+    if (suggestions) {
+
+        suggestions.innerHTML =
+            "";
+    }
+}
+// ============================================================
+// SEARCH
+// ============================================================
+
+function findPlace() {
+
+    const input =
+        document.getElementById("placeInput");
+
+    if (!input) return;
+
+    const query =
+        input.value.trim().toLowerCase();
+
+    if (!query) {
+        return;
+    }
+
+
+    // Exact match
+    if (places[query]) {
+
+        selectPlace(query);
+
+        return;
+    }
+
+
+    // Partial match
+    const matchedKey =
+        Object.keys(places).find(
+            key =>
+                key.includes(query) ||
+                places[key].name
+                    .toLowerCase()
+                    .includes(query)
+        );
+
+
+    if (matchedKey) {
+
+        selectPlace(
+            matchedKey
+        );
+
+        return;
+    }
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:15px;
+            ">
+
+                <div style="
+                    font-size:32px;
+                ">
+                    🔎
+                </div>
+
+                <h3>
+                    Location Not Found
+                </h3>
+
+                <p style="
+                    color:#718096;
+                    font-size:13px;
+                ">
+                    Try searching for a
+                    campus building or department.
+                </p>
+
+            </div>
+
+        `;
+    }
+}
+
+
+// ============================================================
+// SEARCH SUGGESTIONS
+// ============================================================
+
+function updateSuggestions() {
+
+    const input =
+        document.getElementById(
+            "placeInput"
+        );
+
+    const box =
+        document.getElementById(
+            "suggestions"
+        );
+
+
+    if (!input || !box) {
+        return;
+    }
+
+
+    const query =
+        input.value.trim().toLowerCase();
+
+
+    box.innerHTML = "";
+
+
+    if (!query) {
+        return;
+    }
+
+
+    const matches =
+        Object.keys(places)
+            .filter(key =>
+                key.includes(query) ||
+                places[key].name
+                    .toLowerCase()
+                    .includes(query)
+            )
+            .slice(0, 8);
+
+
+    matches.forEach(key => {
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+
+        item.style.padding =
+            "10px 12px";
+
+        item.style.cursor =
+            "pointer";
+
+        item.style.borderBottom =
+            "1px solid #eee";
+
+        item.textContent =
+            places[key].name;
+
+
+        item.addEventListener(
+            "click",
+            function() {
+
+                input.value =
+                    places[key].name;
+
+                box.innerHTML =
+                    "";
+
+                selectPlace(key);
+            }
+        );
+
+
+        box.appendChild(item);
+
+    });
+}
+
+
+// Search while typing
+const placeInput =
+    document.getElementById(
+        "placeInput"
+    );
+
+
+if (placeInput) {
+
+    placeInput.addEventListener(
+        "input",
+        updateSuggestions
+    );
+
+
+    placeInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                findPlace();
+            }
+        }
+    );
+}
+
+
+// ============================================================
+// NEARBY LOCATIONS
+// ============================================================
+
+function showNearbyPlaces(
+    selectedKey
+) {
+
+    const leftBox =
+        document.getElementById(
+            "leftPlaces"
+        );
+
+    const rightBox =
+        document.getElementById(
+            "rightPlaces"
+        );
+
+
+    if (!leftBox || !rightBox) {
+        return;
+    }
+
+
+    leftBox.innerHTML = "";
+    rightBox.innerHTML = "";
+
+
+    const selected =
+        places[selectedKey];
+
+
+    const selectedPoint =
+        L.latLng(
+            selected.lat,
+            selected.lng
+        );
+
+
+    const nearby =
+        Object.keys(places)
+
+            .filter(
+                key =>
+                    key !== selectedKey &&
+                    key !== "main gate"
+            )
+
+            .map(key => {
+
+                const point =
+                    L.latLng(
+                        places[key].lat,
+                        places[key].lng
+                    );
+
+                return {
+
+                    key: key,
+
+                    name:
+                        places[key].name,
+
+                    distance:
+                        distanceMeters(
+                            selectedPoint,
+                            point
+                        ),
+
+                    lng:
+                        places[key].lng
+
+                };
+
+            })
+
+            .sort(
+                (a,b) =>
+                    a.distance -
+                    b.distance
+            )
+
+            .slice(0, 8);
+
+
+    const centerLng =
+        selected.lng;
+
+
+    nearby.forEach(item => {
+
+        const targetBox =
+            item.lng < centerLng
+                ? leftBox
+                : rightBox;
+
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.style.padding =
+            "7px 4px";
+
+        div.style.cursor =
+            "pointer";
+
+        div.style.fontSize =
+            "13px";
+
+        div.innerHTML = `
+            <span style="
+                color:#1976d2;
+                font-weight:bold;
+            ">
+                📍
+            </span>
+            ${escapeHtml(
+                item.name
+            )}
+            <br>
+            <small style="
+                color:#7a8794;
+            ">
+                ${formatDistance(
+                    item.distance
+                )}
+            </small>
+        `;
+
+
+        div.addEventListener(
+            "click",
+            function() {
+
+                selectPlace(
+                    item.key
+                );
+
+            }
+        );
+
+
+        targetBox.appendChild(
+            div
+        );
+
+    });
+
+
+    if (!leftBox.children.length) {
+
+        leftBox.innerHTML =
+            `<p class="small-text">
+                No nearby locations
+            </p>`;
+    }
+
+
+    if (!rightBox.children.length) {
+
+        rightBox.innerHTML =
+            `<p class="small-text">
+                No nearby locations
+            </p>`;
+    }
+}
+
+
+// ============================================================
+// MY LOCATION / GPS
+// ============================================================
+
+function locateUser() {
+
+    if (
+        !navigator.geolocation
+    ) {
+
+        alert(
+            "Geolocation is not supported by this browser."
+        );
+
+        return;
+    }
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:15px;
+            ">
+
+                <div style="
+                    font-size:30px;
+                ">
+                    📍
+                </div>
+
+                <h3>
+                    Getting your location...
+                </h3>
+
+                <p>
+                    Please allow location access.
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const lat =
+                position.coords.latitude;
+
+            const lng =
+                position.coords.longitude;
+
+
+            currentUserLocation = {
+                lat: lat,
+                lng: lng
+            };
+
+
+            // Remove old user marker
+            if (userMarker) {
+
+                map.removeLayer(
+                    userMarker
+                );
+            }
+
+
+            // Add current location marker
+            userMarker =
+                L.marker(
+                    [lat, lng],
+                    {
+                        icon:
+                            userIcon,
+                        zIndexOffset:
+                            3000
+                    }
+                )
+                .addTo(map);
+
+
+            userMarker.bindPopup(
+                "📍 You are here"
+            );
+
+
+            map.setView(
+                [lat, lng],
+                19
+            );
+
+
+            // If destination already selected,
+            // automatically rebuild route.
+            if (
+                selectedDestinationKey &&
+                places[
+                    selectedDestinationKey
+                ]
+            ) {
+
+                selectPlace(
+                    selectedDestinationKey
+                );
+
+            } else {
+
+                if (result) {
+
+                    result.innerHTML = `
+
+                        <div style="
+                            padding:8px;
+                        ">
+
+                            <h3>
+                                📍 Your Location
+                            </h3>
+
+                            <p>
+                                Current location
+                                detected successfully.
+                            </p>
+
+                            <p style="
+                                font-size:12px;
+                                color:#718096;
+                            ">
+                                Now select a
+                                destination to
+                                create the blue route.
+                            </p>
+
+                        </div>
+
+                    `;
+                }
+            }
+
+        },
+
+        function(error) {
+
+            let message =
+                "Unable to get your location.";
+
+
+            if (
+                error.code ===
+                error.PERMISSION_DENIED
+            ) {
+
+                message =
+                    "Location permission was denied. Please allow location access in your browser.";
+
+            } else if (
+                error.code ===
+                error.POSITION_UNAVAILABLE
+            ) {
+
+                message =
+                    "Your location is currently unavailable.";
+
+            } else if (
+                error.code ===
+                error.TIMEOUT
+            ) {
+
+                message =
+                    "Location request timed out.";
+
+            }
+
+
+            alert(message);
+
+
+            // Fallback to Main Gate
+            currentUserLocation =
+                null;
+
+
+            if (
+                selectedDestinationKey
+            ) {
+
+                selectPlace(
+                    selectedDestinationKey
+                );
+            }
+
+        },
+
+        {
+            enableHighAccuracy:
+                true,
+
+            timeout:
+                15000,
+
+            maximumAge:
+                5000
+        }
+    );
+}
+
+
+// ============================================================
+// SHOW WHOLE CAMPUS
+// ============================================================
+
+function showWholeCampus() {
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
+        );
+
+        routeLine = null;
+    }
+
+
+    if (currentMarker) {
+
+        map.removeLayer(
+            currentMarker
+        );
+
+        currentMarker = null;
+    }
+
+
+    selectedDestinationKey =
+        null;
+
+
+    const allPoints = [];
+
+
+    campusRoads.forEach(
+        road => {
+
+            road.forEach(
+                point => {
+
+                    allPoints.push(
+                        point
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    Object.keys(
+        places
+    ).forEach(
+        key => {
+
+            allPoints.push([
+                places[key].lat,
+                places[key].lng
+            ]);
+
+        }
+    );
+
+
+    if (
+        allPoints.length
+    ) {
+
+        map.fitBounds(
+            allPoints,
+            {
+                padding: [
+                    50,
+                    50
+                ]
+            }
+        );
+    }
+
+
+    const input =
+        document.getElementById(
+            "placeInput"
+        );
+
+
+    if (input) {
+        input.value = "";
+    }
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:10px;
+            ">
+
+                <div style="
+                    font-size:30px;
+                ">
+                    🏫
+                </div>
+
+                <h3>
+                    Whole Campus
+                </h3>
+
+                <p>
+                    Select a destination
+                    to start navigation.
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    const left =
+        document.getElementById(
+            "leftPlaces"
+        );
+
+    const right =
+        document.getElementById(
+            "rightPlaces"
+        );
+
+
+    if (left) {
+
+        left.innerHTML =
+            `<p class="small-text">
+                Select a location
+            </p>`;
+    }
+
+
+    if (right) {
+
+        right.innerHTML =
+            `<p class="small-text">
+                Select a location
+            </p>`;
+    }
+}
+
+
+// ============================================================
+// CLEAR NAVIGATION
+// ============================================================
+
+function clearNavigation() {
+
+    if (routeLine) {
+
+        map.removeLayer(
+            routeLine
+        );
+
+        routeLine = null;
+    }
+
+
+    if (currentMarker) {
+
+        map.removeLayer(
+            currentMarker
+        );
+
+        currentMarker = null;
+    }
+
+
+    selectedDestinationKey =
+        null;
+
+
+    const input =
+        document.getElementById(
+            "placeInput"
+        );
+
+
+    if (input) {
+
+        input.value = "";
+    }
+
+
+    const suggestions =
+        document.getElementById(
+            "suggestions"
+        );
+
+
+    if (suggestions) {
+
+        suggestions.innerHTML =
+            "";
+    }
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML = `
+
+            <div class="empty-result">
+
+                <div class="empty-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Select a Destination
+                </h3>
+
+                <p>
+                    Search or click a location
+                    to start navigation.
+                </p>
+
+            </div>
+
+        `;
+    }
+
+
+    const left =
+        document.getElementById(
+            "leftPlaces"
+        );
+
+    const right =
+        document.getElementById(
+            "rightPlaces"
+        );
+
+
+    if (left) {
+
+        left.innerHTML =
+            `<p class="small-text">
+                Select a location
+            </p>`;
+    }
+
+
+    if (right) {
+
+        right.innerHTML =
+            `<p class="small-text">
+                Select a location
+            </p>`;
+    }
+}
+
+
+// ============================================================
+// INITIAL CAMPUS VIEW
+// ============================================================
+
+showWholeCampus();
+
+
+// ============================================================
+// MAP RESIZE FIX
+// ============================================================
+
+setTimeout(
+    function() {
+
+        map.invalidateSize();
+
+    },
+    500
+);
+
+
+// ============================================================
+// OPTIONAL GPS WATCH
+// ============================================================
+
+function startLocationTracking() {
+
+    if (
+        !navigator.geolocation
+    ) {
+        return;
+    }
+
+
+    if (watchId !== null) {
+
+        navigator.geolocation.clearWatch(
+            watchId
+        );
+    }
+
+
+    watchId =
+        navigator.geolocation.watchPosition(
+
+            function(position) {
+
+                currentUserLocation = {
+
+                    lat:
+                        position.coords.latitude,
+
+                    lng:
+                        position.coords.longitude
+
+                };
+
+
+                if (userMarker) {
+
+                    userMarker.setLatLng([
+                        currentUserLocation.lat,
+                        currentUserLocation.lng
+                    ]);
+
+                } else {
+
+                    userMarker =
+                        L.marker(
+                            [
+                                currentUserLocation.lat,
+                                currentUserLocation.lng
+                            ],
+                            {
+                                icon:
+                                    userIcon,
+                                zIndexOffset:
+                                    3000
+                            }
+                        )
+                        .addTo(map);
+
+                }
+
+
+                // Automatically update
+                // route when user moves.
+                if (
+                    selectedDestinationKey
+                ) {
+
+                    selectPlace(
+                        selectedDestinationKey
+                    );
+
+                }
+
+            },
+
+            function() {
+                // Ignore background GPS errors.
+            },
+
+            {
+                enableHighAccuracy:
+                    true,
+
+                maximumAge:
+                    3000,
+
+                timeout:
+                    10000
+            }
+        );
+}
+
+
+// ============================================================
+// FINISHED
+// ============================================================
+
+console.log(
+    "Sarah Tucker College Campus Navigation loaded successfully."
+);
+
+console.log(
+    "Road nodes:",
+    graphNodes.length
+);
+
+console.log(
+    "Campus places:",
+    Object.keys(places).length
+);
