@@ -283,48 +283,53 @@ function clearNavigation() {
 
 
 // ============================================================
-// 11. COMPUTER SCIENCE ROUTE
+// COMPUTER SCIENCE NAVIGATION ROUTE
+// MAIN GATE → STRAIGHT → RIGHT → LEFT → CANTEEN → DOWN → CS
 // ============================================================
 
 const computerScienceRoute = [
 
-    // MAIN GATE
+    // START - MAIN GATE
     [8.6988565, 77.739888],
 
-    // STRAIGHT
+    // 1. MAIN GATE-லிருந்து STRAIGHT
     [8.6988479, 77.7399128],
     [8.6988585, 77.7400764],
     [8.6990176, 77.7403795],
     [8.6990176, 77.7405807],
 
-    // RIGHT
+    // 2. RIGHT TURN
     [8.6993029, 77.7411164],
     [8.6993093, 77.7412170],
 
-    // LEFT
+    // 3. LEFT TURN
+    [8.6990387, 77.7411699],
     [8.6985959, 77.7411485],
+
+    // 4. MANAGEMENT OFFICE / MAIN BLOCK SIDE
     [8.6985030, 77.7410439],
     [8.6984580, 77.7410251],
 
-    // CENTRAL ROAD
+    // 5. TURN INTO CENTRAL ROAD
     [8.6984527, 77.7411539],
     [8.6984500, 77.7412518],
     [8.6984474, 77.7413336],
 
-    // CANTEEN SIDE
+    // 6. CANTEEN SIDE
     [8.6981808, 77.7419523],
     [8.6978892, 77.7419738],
 
-    // DOWN
+    // 7. GO DOWN
     [8.6979581, 77.7416304],
     [8.6978812, 77.7416331],
+
+    // 8. CONTINUE DOWN
     [8.6978865, 77.7421132],
     [8.6977168, 77.7421159],
 
-    // COMPUTER SCIENCE
+    // 9. FINAL APPROACH TO COMPUTER SCIENCE
     [8.6975920, 77.7420998]
 ];
-
 
 // ============================================================
 // 12. LIBRARY ROUTE
