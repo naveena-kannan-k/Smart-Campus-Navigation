@@ -2388,3 +2388,111 @@ console.log(
     "Campus places:",
     Object.keys(places).length
 );
+// ============================================================
+// LOAD CAMPUS MAP FROM GEOJSON
+// ============================================================
+
+fetch("/static/data/campus_map_converted.geojson")
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error(
+                "GeoJSON file could not be loaded"
+            );
+        }
+
+        return response.json();
+    })
+
+    .then(data => {
+
+        console.log(
+            "Campus GeoJSON loaded successfully:",
+            data
+        );
+
+
+        // Add GeoJSON roads and locations to map
+        L.geoJSON(data, {
+
+            style: function(feature) {
+
+                // Lines = Roads
+                if (
+                    feature.geometry &&
+                    feature.geometry.type === "LineString"
+                ) {
+
+                    return {
+
+                        color: "#2563eb",
+
+                        weight: 5,
+
+                        opacity: 0.9,
+
+                        lineCap: "round",
+
+                        lineJoin: "round"
+
+                    };
+                }
+
+
+                return {};
+            },
+
+
+            pointToLayer: function(
+                feature,
+                latlng
+            ) {
+
+                return L.circleMarker(
+                    latlng,
+                    {
+
+                        radius: 7,
+
+                        fillOpacity: 1,
+
+                        weight: 2
+
+                    }
+                );
+            },
+
+
+            onEachFeature:
+                function(
+                    feature,
+                    layer
+                ) {
+
+                    const name =
+                        feature.properties &&
+                        feature.properties.name
+                            ? feature.properties.name
+                            : "Campus Location";
+
+
+                    layer.bindPopup(
+                        "<b>" +
+                        name +
+                        "</b>"
+                    );
+
+                }
+
+        }).addTo(map);
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "Campus GeoJSON error:",
+            error
+        );
+
+    });
