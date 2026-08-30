@@ -352,31 +352,99 @@ const roads = [
 
 
 // ============================================================
-// 8. DRAW PROFESSIONAL ROADS
+// 8. DRAW PROFESSIONAL CAMPUS ROADS
 // ============================================================
+
+const campusRoadLayer = L.layerGroup().addTo(map);
+
+
+// ------------------------------------------------------------
+// ROAD BORDER
+// ------------------------------------------------------------
 
 roads.forEach(function(coords) {
 
-    // OUTER ROAD BORDER
     L.polyline(coords, {
-        color: "#d0d0d0",
-        weight: 18,
+        color: "#c9c9c9",
+        weight: 20,
         opacity: 1,
+
         lineCap: "round",
         lineJoin: "round",
-        smoothFactor: 1
-    }).addTo(map);
+
+        smoothFactor: 1,
+
+        interactive: false
+    }).addTo(campusRoadLayer);
+
+});
 
 
-    // MAIN WHITE ROAD
+// ------------------------------------------------------------
+// WHITE ROAD SURFACE
+// ------------------------------------------------------------
+
+roads.forEach(function(coords) {
+
     L.polyline(coords, {
         color: "#ffffff",
-        weight: 14,
+        weight: 15,
         opacity: 1,
+
         lineCap: "round",
         lineJoin: "round",
-        smoothFactor: 1
-    }).addTo(map);
+
+        smoothFactor: 1,
+
+        interactive: false
+    }).addTo(campusRoadLayer);
+
+});
+
+
+// ------------------------------------------------------------
+// SMOOTH ROAD JUNCTIONS
+// ------------------------------------------------------------
+// This makes touching road ends look continuous.
+// It does NOT change any location.
+// ------------------------------------------------------------
+
+roads.forEach(function(coords) {
+
+    if (coords.length < 2) {
+        return;
+    }
+
+    const start = coords[0];
+    const end = coords[coords.length - 1];
+
+
+    // Start junction
+
+    L.circleMarker(start, {
+        radius: 7.5,
+
+        stroke: false,
+
+        fillColor: "#ffffff",
+        fillOpacity: 1,
+
+        interactive: false
+    }).addTo(campusRoadLayer);
+
+
+    // End junction
+
+    L.circleMarker(end, {
+        radius: 7.5,
+
+        stroke: false,
+
+        fillColor: "#ffffff",
+        fillOpacity: 1,
+
+        interactive: false
+    }).addTo(campusRoadLayer);
 
 });
 
