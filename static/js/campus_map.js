@@ -3,8 +3,8 @@
 // SMART CAMPUS NAVIGATION
 //
 // IMPORTANT:
-// LOCATION COORDINATES ARE NOT CHANGED.
-// ROAD SYSTEM ONLY IS MODIFIED.
+// LOCATION COORDINATES ARE NOT MODIFIED.
+// ONLY ROAD DISPLAY + ROAD CONNECTION + NAVIGATION ARE CHANGED.
 // ============================================================
 
 
@@ -19,7 +19,7 @@ const COLLEGE_CENTER = [
 
 
 // ============================================================
-// 2. CREATE MAP
+// 2. MAP
 // ============================================================
 
 const map = L.map("map", {
@@ -28,10 +28,10 @@ const map = L.map("map", {
 
     preferCanvas: true
 
-}).setView(
+});
 
+map.setView(
     COLLEGE_CENTER,
-
     18
 );
 
@@ -41,25 +41,19 @@ const map = L.map("map", {
 // ============================================================
 
 L.tileLayer(
-
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-
     {
-
         maxZoom: 22,
-
         attribution:
             "&copy; OpenStreetMap contributors"
-
     }
-
 ).addTo(map);
 
 
 // ============================================================
 // 4. LOCATIONS
 //
-// DO NOT CHANGE ANY COORDINATE
+// DO NOT CHANGE THESE LOCATIONS
 // ============================================================
 
 const places = [
@@ -243,7 +237,9 @@ const places = [
 
 
 // ============================================================
-// 5. YOUR DRAWN ROADS
+// 5. YOUR ORIGINAL ROAD DATA
+//
+// SAME ROAD COORDINATES
 // ============================================================
 
 const roads = [
@@ -427,27 +423,23 @@ const roads = [
 
 
 // ============================================================
-// 6. DRAW NORMAL ROADS
+// 6. NORMAL ROAD STYLE
 //
-// WHITE OUTER + GREY INNER
+// WHITE OUTSIDE
+// GREY INSIDE
 // ============================================================
-
-const roadLayers = [];
 
 roads.forEach(road => {
 
-    /*
-     * White road border
-     */
-
-    const roadBorder = L.polyline(
+    // WHITE ROAD BORDER
+    L.polyline(
 
         road.coords,
 
         {
             color: "#ffffff",
 
-            weight: 14,
+            weight: 16,
 
             opacity: 1,
 
@@ -461,18 +453,15 @@ roads.forEach(road => {
     ).addTo(map);
 
 
-    /*
-     * Grey road surface
-     */
-
-    const roadSurface = L.polyline(
+    // GREY ROAD SURFACE
+    L.polyline(
 
         road.coords,
 
         {
-            color: "#b7b7b7",
+            color: "#9e9e9e",
 
-            weight: 9,
+            weight: 11,
 
             opacity: 1,
 
@@ -484,32 +473,240 @@ roads.forEach(road => {
         }
 
     ).addTo(map);
-
-
-    roadLayers.push(
-        roadBorder,
-        roadSurface
-    );
 
 });
 
 
 // ============================================================
-// 7. SHOW LOCATIONS
+// 7. ROAD CONNECTORS
+//
+// CONNECT NEARBY ROAD ENDS
+// WITHOUT TOUCHING LOCATION COORDINATES
+// ============================================================
+
+function distanceMeters(a, b) {
+
+    const R = 6371000;
+
+    const lat1 =
+        a[0] * Math.PI / 180;
+
+    const lat2 =
+        b[0] * Math.PI / 180;
+
+    const dLat =
+        (b[0] - a[0]) * Math.PI / 180;
+
+    const dLng =
+        (b[1] - a[1]) * Math.PI / 180;
+
+    const x =
+
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2)
+
+        +
+
+        Math.cos(lat1) *
+        Math.cos(lat2) *
+
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+
+    return (
+
+        R *
+        2 *
+        Math.atan2(
+            Math.sqrt(x),
+            Math.sqrt(1 - x)
+        )
+
+    );
+
+}
+
+
+// ============================================================
+// 8. CONNECTOR POINTS
+//
+// ONLY SMALL ROAD GAPS ARE CONNECTED
+// ============================================================
+
+const roadEnds = [];
+
+roads.forEach((road, index) => {
+
+    roadEnds.push({
+
+        road: index,
+
+        side: "start",
+
+        point: road.coords[0]
+
+    });
+
+
+    roadEnds.push({
+
+        road: index,
+
+        side: "end",
+
+        point:
+            road.coords[
+                road.coords.length - 1
+            ]
+
+    });
+
+});
+
+
+// maximum automatic road gap
+const MAX_CONNECT_DISTANCE = 35;
+
+
+// avoid duplicate connectors
+const connectorKeys = new Set();
+
+
+for (
+    let i = 0;
+    i < roadEnds.length;
+    i++
+) {
+
+    for (
+        let j = i + 1;
+        j < roadEnds.length;
+        j++
+    ) {
+
+        const A = roadEnds[i];
+
+        const B = roadEnds[j];
+
+
+        if (
+            A.road === B.road
+        ) {
+
+            continue;
+        }
+
+
+        const d =
+            distanceMeters(
+                A.point,
+                B.point
+            );
+
+
+        if (
+            d <= MAX_CONNECT_DISTANCE
+        ) {
+
+            const key =
+                [
+                    A.road,
+                    B.road
+                ]
+                .sort()
+                .join("-");
+
+
+            if (
+                connectorKeys.has(key)
+            ) {
+
+                continue;
+            }
+
+
+            connectorKeys.add(key);
+
+
+            const connector = [
+
+                A.point,
+
+                B.point
+
+            ];
+
+
+            // WHITE
+            L.polyline(
+
+                connector,
+
+                {
+                    color: "#ffffff",
+
+                    weight: 16,
+
+                    opacity: 1,
+
+                    lineCap: "round",
+
+                    lineJoin: "round",
+
+                    interactive: false
+                }
+
+            ).addTo(map);
+
+
+            // GREY
+            L.polyline(
+
+                connector,
+
+                {
+                    color: "#9e9e9e",
+
+                    weight: 11,
+
+                    opacity: 1,
+
+                    lineCap: "round",
+
+                    lineJoin: "round",
+
+                    interactive: false
+                }
+
+            ).addTo(map);
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// 9. MARKERS
 // ============================================================
 
 const markers = {};
 
+
 places.forEach(place => {
 
-    const marker = L.marker(
+    const marker =
 
-        [
+        L.marker([
+
             place.lat,
-            place.lng
-        ]
 
-    ).addTo(map);
+            place.lng
+
+        ])
+
+        .addTo(map);
 
 
     marker.bindTooltip(
@@ -517,9 +714,11 @@ places.forEach(place => {
         place.name,
 
         {
+
             direction: "top",
 
             offset: [0, -8]
+
         }
 
     );
@@ -535,171 +734,280 @@ places.forEach(place => {
     `);
 
 
-    markers[place.name] = marker;
+    markers[
+        place.name
+    ] = marker;
 
 });
 
 
 // ============================================================
-// 8. FIND PLACE
-// ============================================================
-
-function findPlace(text) {
-
-    const query =
-        text
-            .toLowerCase()
-            .trim();
-
-
-    return places.find(place => {
-
-        const name =
-            place.name
-                .toLowerCase();
-
-
-        return (
-
-            name.includes(query) ||
-
-            query.includes(name) ||
-
-            (
-                query.includes("computer") &&
-                name.includes("computer science")
-            )
-
-        );
-
-    });
-
-}
-
-
-// ============================================================
-// 9. MAIN GATE → COMPUTER SCIENCE
+// 10. COMPUTER SCIENCE ROUTE
 //
-// IMPORTANT:
-//
-// NO DIRECT STRAIGHT LINE.
-//
-// The route follows the campus road pattern.
+// MAIN GATE
+// ↓
+// MAIN ROAD
+// ↓
+// RIGHT
+// ↓
+// MANAGEMENT SIDE
+// ↓
+// BOTANY SIDE
+// ↓
+// CANTEEN SIDE
+// ↓
+// DOWN
+// ↓
+// COMPUTER SCIENCE
 // ============================================================
 
 const COMPUTER_SCIENCE_ROUTE = [
 
-    // ==========================================
     // MAIN GATE
-    // ==========================================
 
-    [8.6988565, 77.7398880],
-
-
-    // ==========================================
-    // STRAIGHT FROM MAIN GATE
-    // ==========================================
-
-    [8.6988374, 77.7398879],
-
-    [8.6988400, 77.7400810],
-
-    [8.6988585, 77.7400764],
-
-    [8.6990176, 77.7403795],
+    [
+        8.6988565,
+        77.739888
+    ],
 
 
-    // ==========================================
+    // GATE ROAD
+
+    [
+        8.6988374,
+        77.7398879
+    ],
+
+    [
+        8.6988400,
+        77.7400810
+    ],
+
+
+    // MAIN ROAD
+
+    [
+        8.6988585,
+        77.7400764
+    ],
+
+    [
+        8.6990176,
+        77.7403795
+    ],
+
+
     // RIGHT TURN
-    // ==========================================
 
-    [8.6990176, 77.7405807],
-
-
-    // ==========================================
-    // MANAGEMENT / MAIN BLOCK SIDE
-    // ==========================================
-
-    [8.6990121, 77.7405504],
-
-    [8.6988371, 77.7406737],
-
-    [8.6988451, 77.7407140],
+    [
+        8.6990176,
+        77.7405807
+    ],
 
 
-    // ==========================================
-    // TURN TOWARDS BOTANY SIDE
-    // ==========================================
+    // MANAGEMENT SIDE
 
-    [8.6985959, 77.7411485],
+    [
+        8.6990121,
+        77.7405504
+    ],
 
-    [8.6985030, 77.7410439],
+    [
+        8.6988371,
+        77.7406737
+    ],
 
-    [8.6984580, 77.7410251],
-
-
-    // ==========================================
-    // BOTANY SIDE ROAD
-    // ==========================================
-
-    [8.6984527, 77.7411539],
-
-    [8.6984500, 77.7412518],
-
-    [8.6984474, 77.7413336],
+    [
+        8.6988451,
+        77.7407140
+    ],
 
 
-    // ==========================================
-    // TOWARDS CANTEEN SIDE
-    // ==========================================
+    // TURN TO BOTANY SIDE
 
-    [8.6981822, 77.7413523],
+    [
+        8.6985959,
+        77.7411485
+    ],
 
-    [8.6981808, 77.7419523],
+    [
+        8.6985030,
+        77.7410439
+    ],
 
-    [8.6978892, 77.7419738],
+    [
+        8.6984580,
+        77.7410251
+    ],
 
 
-    // ==========================================
+    // BOTANY ROAD
+
+    [
+        8.6984527,
+        77.7411539
+    ],
+
+    [
+        8.6984500,
+        77.7412518
+    ],
+
+    [
+        8.6984474,
+        77.7413336
+    ],
+
+
+    // TOWARDS CANTEEN
+
+    [
+        8.6981822,
+        77.7413523
+    ],
+
+    [
+        8.6981808,
+        77.7419523
+    ],
+
+    [
+        8.6978892,
+        77.7419738
+    ],
+
+
     // CANTEEN SIDE
-    // ==========================================
 
-    [8.6980138, 77.7419684],
+    [
+        8.6980138,
+        77.7419684
+    ],
 
-    [8.6980164, 77.7420757],
+    [
+        8.6980164,
+        77.7420757
+    ],
 
 
-    // ==========================================
     // DOWN ROAD
-    // ==========================================
 
-    [8.6979528, 77.7405736],
+    [
+        8.6979528,
+        77.7405736
+    ],
 
-    [8.6979581, 77.7416304],
+    [
+        8.6979581,
+        77.7416304
+    ],
 
-    [8.6978812, 77.7416331],
+    [
+        8.6978812,
+        77.7416331
+    ],
 
-    [8.6978865, 77.7421132],
+    [
+        8.6978865,
+        77.7421132
+    ],
 
-    [8.6977168, 77.7421159],
+    [
+        8.6977168,
+        77.7421159
+    ],
 
 
-    // ==========================================
-    // COMPUTER SCIENCE
-    // ==========================================
+    // DESTINATION
 
-    [8.6975920, 77.7420998]
+    [
+        8.697592,
+        77.7420998
+    ]
 
 ];
 
 
 // ============================================================
-// 10. ACTIVE NAVIGATION VARIABLES
+// 11. LIBRARY ROUTE
+//
+// MAIN GATE
+// → MAIN ROAD
+// → LIBRARY SIDE ROAD
+// → LIBRARY
+// ============================================================
+
+const LIBRARY_ROUTE = [
+
+    // MAIN GATE
+
+    [
+        8.6988565,
+        77.739888
+    ],
+
+
+    // MAIN GATE ROAD
+
+    [
+        8.6988374,
+        77.7398879
+    ],
+
+    [
+        8.6988400,
+        77.7400810
+    ],
+
+
+    // MAIN ROAD
+
+    [
+        8.6988585,
+        77.7400764
+    ],
+
+    [
+        8.6990176,
+        77.7403795
+    ],
+
+
+    // RETURN TOWARDS LIBRARY SIDE
+
+    [
+        8.6985667,
+        77.7400830
+    ],
+
+    [
+        8.6985004,
+        77.7401957
+    ],
+
+    [
+        8.6983573,
+        77.7401796
+    ],
+
+
+    // LIBRARY
+
+    [
+        8.6983229,
+        77.7401688
+    ]
+
+];
+
+
+// ============================================================
+// 12. ACTIVE ROUTE
 // ============================================================
 
 let activeRoute = null;
 
-let activeArrows = null;
+let activeRouteArrows = null;
 
 let routeStartMarker = null;
 
@@ -707,7 +1015,7 @@ let routeDestinationMarker = null;
 
 
 // ============================================================
-// 11. CLEAR OLD NAVIGATION
+// 13. CLEAR PREVIOUS ROUTE
 // ============================================================
 
 function clearNavigation() {
@@ -722,13 +1030,13 @@ function clearNavigation() {
     }
 
 
-    if (activeArrows) {
+    if (activeRouteArrows) {
 
         map.removeLayer(
-            activeArrows
+            activeRouteArrows
         );
 
-        activeArrows = null;
+        activeRouteArrows = null;
     }
 
 
@@ -755,10 +1063,167 @@ function clearNavigation() {
 
 
 // ============================================================
-// 12. CALCULATE DISTANCE
+// 14. BLUE ARROW ICON
 // ============================================================
 
-function distance(a, b) {
+function createArrowIcon(angle) {
+
+    return L.divIcon({
+
+        className: "",
+
+        html: `
+
+            <div
+
+                style="
+
+                    transform:
+                    rotate(${angle}deg);
+
+                    color:#1a73e8;
+
+                    font-size:24px;
+
+                    font-weight:900;
+
+                    text-shadow:
+                    0 0 3px #ffffff,
+                    0 0 3px #ffffff;
+
+                    width:26px;
+
+                    height:26px;
+
+                    text-align:center;
+
+                    line-height:26px;
+
+                "
+
+            >
+
+                ➤
+
+            </div>
+
+        `,
+
+        iconSize: [
+            26,
+            26
+        ],
+
+        iconAnchor: [
+            13,
+            13
+        ]
+
+    });
+
+}
+
+
+// ============================================================
+// 15. CALCULATE ANGLE
+// ============================================================
+
+function getAngle(a, b) {
+
+    const dx =
+        b[1] - a[1];
+
+    const dy =
+        b[0] - a[0];
+
+    return (
+
+        Math.atan2(
+            dx,
+            dy
+        )
+
+        *
+
+        180
+
+        /
+
+        Math.PI
+
+    );
+
+}
+
+
+// ============================================================
+// 16. PUT BLUE ARROWS ON ROUTE
+// ============================================================
+
+function addRouteArrows(coords) {
+
+    const arrowLayer =
+        L.layerGroup().addTo(map);
+
+
+    /*
+     * Put arrows every few points.
+     */
+
+    for (
+        let i = 1;
+        i < coords.length;
+        i += 2
+    ) {
+
+        const previous =
+            coords[i - 1];
+
+        const current =
+            coords[i];
+
+
+        const angle =
+            getAngle(
+                previous,
+                current
+            );
+
+
+        L.marker(
+
+            current,
+
+            {
+
+                icon:
+                    createArrowIcon(
+                        angle
+                    ),
+
+                interactive: false,
+
+                zIndexOffset: 1000
+
+            }
+
+        ).addTo(
+            arrowLayer
+        );
+
+    }
+
+
+    return arrowLayer;
+
+}
+
+
+// ============================================================
+// 17. DISTANCE
+// ============================================================
+
+function calculateDistance(a, b) {
 
     const R = 6371000;
 
@@ -821,31 +1286,29 @@ function distance(a, b) {
 
 
 // ============================================================
-// 13. TOTAL ROUTE DISTANCE
+// 18. ROUTE DISTANCE
 // ============================================================
 
-function routeDistance(coords) {
+function getRouteDistance(coords) {
 
     let total = 0;
 
 
     for (
-
         let i = 1;
-
         i < coords.length;
-
         i++
-
     ) {
 
-        total += distance(
+        total +=
 
-            coords[i - 1],
+            calculateDistance(
 
-            coords[i]
+                coords[i - 1],
 
-        );
+                coords[i]
+
+            );
 
     }
 
@@ -856,168 +1319,27 @@ function routeDistance(coords) {
 
 
 // ============================================================
-// 14. CREATE BLUE NAVIGATION ARROWS
+// 19. START NAVIGATION
 // ============================================================
 
-function createNavigationArrows(coords) {
-
-    if (
-
-        typeof L.polylineDecorator !==
-        "function"
-
-    ) {
-
-        console.warn(
-            "Leaflet PolylineDecorator not loaded."
-        );
-
-        return null;
-    }
-
-
-    return L.polylineDecorator(
-
-        coords,
-
-        {
-
-            patterns: [
-
-                {
-
-                    /*
-                     * Repeated arrow
-                     * along the blue route
-                     */
-
-                    offset: "8%",
-
-                    repeat: "12%",
-
-                    symbol:
-
-                        L.Symbol.arrowHead({
-
-                            pixelSize: 12,
-
-                            polygon: true,
-
-                            pathOptions: {
-
-                                stroke: false,
-
-                                fill: true,
-
-                                fillOpacity: 1,
-
-                                color: "#1a73e8"
-                            }
-
-                        })
-
-                }
-
-            ]
-
-        }
-
-    ).addTo(map);
-
-}
-
-
-// ============================================================
-// 15. SHOW NAVIGATION
-// ============================================================
-
-function showNavigation(destinationName) {
+function navigate(route, destination) {
 
     clearNavigation();
 
 
     // ==========================================
-    // DESTINATION
-    // ==========================================
-
-    const destination =
-        findPlace(destinationName);
-
-
-    if (!destination) {
-
-        alert(
-            "Destination not found."
-        );
-
-        return;
-    }
-
-
-    // ==========================================
-    // COMPUTER SCIENCE
-    // ==========================================
-
-    const isComputerScience =
-
-        destination.name
-            .toLowerCase()
-            .includes(
-                "computer science"
-            );
-
-
-    if (!isComputerScience) {
-
-        /*
-         * Locations are intentionally NOT changed.
-         *
-         * For now, only the specifically
-         * corrected Computer Science route
-         * uses the custom road navigation.
-         */
-
-        map.setView(
-
-            [
-                destination.lat,
-                destination.lng
-            ],
-
-            19
-        );
-
-
-        markers[
-            destination.name
-        ]?.openPopup();
-
-
-        return;
-    }
-
-
-    // ==========================================
-    // ROUTE
-    // ==========================================
-
-    const coords =
-        COMPUTER_SCIENCE_ROUTE;
-
-
-    // ==========================================
-    // WHITE ROUTE BORDER
+    // WHITE BORDER
     // ==========================================
 
     L.polyline(
 
-        coords,
+        route,
 
         {
 
             color: "#ffffff",
 
-            weight: 14,
+            weight: 15,
 
             opacity: 1,
 
@@ -1033,20 +1355,20 @@ function showNavigation(destinationName) {
 
 
     // ==========================================
-    // BLUE ROUTE
+    // BLUE NAVIGATION ROAD
     // ==========================================
 
     activeRoute =
 
         L.polyline(
 
-            coords,
+            route,
 
             {
 
                 color: "#1a73e8",
 
-                weight: 8,
+                weight: 9,
 
                 opacity: 1,
 
@@ -1065,21 +1387,21 @@ function showNavigation(destinationName) {
     // BLUE ARROWS
     // ==========================================
 
-    activeArrows =
-        createNavigationArrows(
-            coords
+    activeRouteArrows =
+        addRouteArrows(
+            route
         );
 
 
     // ==========================================
-    // START MARKER
+    // START
     // ==========================================
 
     routeStartMarker =
 
         L.circleMarker(
 
-            coords[0],
+            route[0],
 
             {
 
@@ -1099,14 +1421,12 @@ function showNavigation(destinationName) {
 
 
     routeStartMarker.bindPopup(
-
-        "<b>🚪 Start: Main Gate</b>"
-
+        "<b>🚪 Main Gate</b>"
     );
 
 
     // ==========================================
-    // DESTINATION MARKER
+    // DESTINATION
     // ==========================================
 
     routeDestinationMarker =
@@ -1121,11 +1441,18 @@ function showNavigation(destinationName) {
         ).addTo(map);
 
 
-    routeDestinationMarker.bindPopup(
+    routeDestinationMarker
 
-        "<b>💻 Computer Science</b>"
+        .bindPopup(
 
-    ).openPopup();
+            `<b>
+                ${destination.icon}
+                ${destination.name}
+            </b>`
+
+        )
+
+        .openPopup();
 
 
     // ==========================================
@@ -1138,7 +1465,10 @@ function showNavigation(destinationName) {
 
         {
 
-            padding: [80, 80]
+            padding: [
+                80,
+                80
+            ]
 
         }
 
@@ -1146,15 +1476,16 @@ function showNavigation(destinationName) {
 
 
     // ==========================================
-    // DISTANCE
+    // INFORMATION
     // ==========================================
 
     const meters =
-        routeDistance(coords);
+        getRouteDistance(
+            route
+        );
 
 
     const minutes =
-
         Math.max(
 
             1,
@@ -1165,10 +1496,6 @@ function showNavigation(destinationName) {
 
         );
 
-
-    // ==========================================
-    // ROUTE INFO
-    // ==========================================
 
     const info =
         document.getElementById(
@@ -1183,53 +1510,51 @@ function showNavigation(destinationName) {
 
     info.innerHTML = `
 
-        <b>🚶 Walking Route</b>
+        <b>🚶 Navigation Started</b>
 
         <br><br>
 
         🚪
-        <b>Main Gate</b>
+        Main Gate
 
         <br>
 
-        ↓ Straight
+        ➜ Follow the road
 
         <br>
 
-        ↪ Right Turn
+        ↪ Turn Right
 
         <br>
 
-        ↩ Left Turn
+        ↩ Turn Left
 
         <br>
 
-        ↓ Continue Straight
+        ➜ Continue through campus road
 
         <br>
 
-        🍽️ Canteen Side
+        🍽️ Canteen side
 
         <br>
 
-        ↓ Down Road
+        ↓ Continue down the road
 
-        <br>
+        <br><br>
 
-        💻
-        <b>Computer Science</b>
+        📍
+        <b>${destination.name}</b>
 
         <br><br>
 
         📏
-        Distance:
-        <b>${Math.round(meters)} m</b>
+        ${Math.round(meters)} metres
 
         <br>
 
         ⏱️
-        Walking:
-        <b>${minutes} min</b>
+        ${minutes} minutes
 
     `;
 
@@ -1237,7 +1562,75 @@ function showNavigation(destinationName) {
 
 
 // ============================================================
-// 16. SEARCH BOX
+// 20. FIND DESTINATION
+// ============================================================
+
+function findPlace(text) {
+
+    const q =
+        text
+            .toLowerCase()
+            .trim();
+
+
+    return places.find(
+        place => {
+
+            const name =
+                place.name
+                    .toLowerCase();
+
+
+            if (
+                name.includes(q)
+            ) {
+
+                return true;
+            }
+
+
+            if (
+                q.includes(
+                    "computer science"
+                )
+
+                &&
+
+                name.includes(
+                    "computer science"
+                )
+
+            ) {
+
+                return true;
+            }
+
+
+            if (
+                q === "cs"
+
+                &&
+
+                name.includes(
+                    "computer science"
+                )
+
+            ) {
+
+                return true;
+            }
+
+
+            return false;
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// 21. SEARCH
 // ============================================================
 
 const destinationInput =
@@ -1258,7 +1651,7 @@ destinationInput.addEventListener(
 
     function () {
 
-        const query =
+        const q =
             this.value
                 .toLowerCase()
                 .trim();
@@ -1267,9 +1660,10 @@ destinationInput.addEventListener(
         results.innerHTML = "";
 
 
-        if (!query) {
+        if (!q) {
 
             return;
+
         }
 
 
@@ -1279,7 +1673,7 @@ destinationInput.addEventListener(
 
                 place.name
                     .toLowerCase()
-                    .includes(query)
+                    .includes(q)
 
             )
 
@@ -1297,7 +1691,8 @@ destinationInput.addEventListener(
 
                 item.innerHTML =
 
-                    `${place.icon} ${place.name}`;
+                    `${place.icon}
+                     ${place.name}`;
 
 
                 item.onclick = () => {
@@ -1322,11 +1717,13 @@ destinationInput.addEventListener(
 
 
 // ============================================================
-// 17. NAVIGATION BUTTON
+// 22. NAVIGATION BUTTON
 // ============================================================
 
 document
-    .getElementById("navigateBtn")
+    .getElementById(
+        "navigateBtn"
+    )
     .addEventListener(
 
         "click",
@@ -1349,9 +1746,108 @@ document
             }
 
 
-            showNavigation(
-                value
+            const destination =
+                findPlace(
+                    value
+                );
+
+
+            if (!destination) {
+
+                alert(
+                    "Destination not found."
+                );
+
+                return;
+            }
+
+
+            // ======================================
+            // COMPUTER SCIENCE
+            // ======================================
+
+            if (
+
+                destination.name
+                    .toLowerCase()
+                    .includes(
+                        "computer science"
+                    )
+
+            ) {
+
+                navigate(
+
+                    COMPUTER_SCIENCE_ROUTE,
+
+                    destination
+
+                );
+
+                return;
+
+            }
+
+
+            // ======================================
+            // LIBRARY
+            // ======================================
+
+            if (
+
+                destination.name
+                    .toLowerCase()
+                    .includes(
+                        "library"
+                    )
+
+            ) {
+
+                navigate(
+
+                    LIBRARY_ROUTE,
+
+                    destination
+
+                );
+
+                return;
+
+            }
+
+
+            // ======================================
+            // OTHER LOCATIONS
+            //
+            // LOCATION IS NOT MOVED
+            // ======================================
+
+            clearNavigation();
+
+
+            map.setView(
+
+                [
+                    destination.lat,
+                    destination.lng
+                ],
+
+                19
+
             );
+
+
+            if (
+                markers[
+                    destination.name
+                ]
+            ) {
+
+                markers[
+                    destination.name
+                ].openPopup();
+
+            }
 
         }
 
@@ -1359,14 +1855,14 @@ document
 
 
 // ============================================================
-// 18. ENTER KEY
+// 23. ENTER KEY
 // ============================================================
 
 destinationInput.addEventListener(
 
     "keydown",
 
-    function (event) {
+    function(event) {
 
         if (
             event.key === "Enter"
@@ -1386,10 +1882,13 @@ destinationInput.addEventListener(
 
 
 // ============================================================
-// 19. GO TO COLLEGE
+// 24. GO TO COLLEGE
 // ============================================================
 
 function goToCollege() {
+
+    clearNavigation();
+
 
     map.setView(
 
@@ -1403,12 +1902,15 @@ function goToCollege() {
 
 
 // ============================================================
-// 20. INITIAL VIEW
+// 25. INITIAL MAP
 // ============================================================
 
-const allPoints =
+const bounds = [];
 
-    places.map(place => [
+
+places.forEach(place => {
+
+    bounds.push([
 
         place.lat,
 
@@ -1416,15 +1918,35 @@ const allPoints =
 
     ]);
 
+});
 
-map.fitBounds(
 
-    allPoints,
+roads.forEach(road => {
 
-    {
+    road.coords.forEach(point => {
 
-        padding: [50, 50]
+        bounds.push(point);
 
-    }
+    });
 
-);
+});
+
+
+if (bounds.length) {
+
+    map.fitBounds(
+
+        bounds,
+
+        {
+
+            padding: [
+                40,
+                40
+            ]
+
+        }
+
+    );
+
+}
