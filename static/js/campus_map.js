@@ -268,73 +268,60 @@ const libraryRoute = [
 
     [8.6983083, 77.7402171]
 ];
+
 // ============================================================
-// MANAGEMENT OFFICE ROUTE
-// MAIN GATE
-//    ↓
-// STRAIGHT
-//    ↓
-// FRONT ROUND ROAD
-//    ↓
-// ROUND-ஐ சுற்றி
-//    ↓
-// MANAGEMENT OFFICE
+// MAIN BLOCK - COMMON ROUTE
 // ============================================================
 
-const managementOfficeRoute = [
+const officeBuildingRoute = [
 
-    // MAIN GATE
-    [8.6988565, 77.739888],
+    [8.6988565, 77.739888],   // Main Gate
 
-    // STRAIGHT INSIDE
     [8.6988479, 77.7399128],
     [8.6988585, 77.7400764],
     [8.6990176, 77.7403795],
     [8.6990176, 77.7405807],
 
-    // FRONT ROUND
+    // Front Round → Main Block
     [8.6990121, 77.7405504],
-    [8.6989200, 77.7406100],
     [8.6988371, 77.7406737],
-    [8.6988451, 77.7407140],
+    [8.6988451, 77.7407140]
+];
 
-    // MANAGEMENT OFFICE
+
+// ============================================================
+// MANAGEMENT OFFICE
+// RIGHT SIDE - GROUND FLOOR
+// ============================================================
+
+const managementOfficeRoute = [
+    ...officeBuildingRoute,
+
     [8.6985889, 77.7408047]
 ];
 
 
 // ============================================================
-// PRINCIPAL OFFICE ROUTE
-// MAIN GATE
-//    ↓
-// STRAIGHT
-//    ↓
-// FRONT ROUND ROAD
-//    ↓
-// ROUND-ஐ சுற்றி
-//    ↓
 // PRINCIPAL OFFICE
+// LEFT SIDE - GROUND FLOOR
 // ============================================================
 
 const principalOfficeRoute = [
+    ...officeBuildingRoute,
 
-    // MAIN GATE
-    [8.6988565, 77.739888],
-
-    // STRAIGHT INSIDE
-    [8.6988479, 77.7399128],
-    [8.6988585, 77.7400764],
-    [8.6990176, 77.7403795],
-    [8.6990176, 77.7405807],
-
-    // FRONT ROUND
-    [8.6990121, 77.7405504],
-    [8.6989200, 77.7406100],
-    [8.6988371, 77.7406737],
-    [8.6988451, 77.7407140],
-
-    // PRINCIPAL OFFICE
     [8.6988395, 77.7408101]
+];
+
+
+// ============================================================
+// PHYSICS (REGULAR)
+// FIRST FLOOR - MAIN BLOCK
+// ============================================================
+
+const physicsRegularRoute = [
+    ...officeBuildingRoute,
+
+    [8.6989193, 77.7407981]
 ];
 // ============================================================
 // 12. DRAW NAVIGATION
