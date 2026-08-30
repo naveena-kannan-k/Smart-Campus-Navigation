@@ -26,14 +26,13 @@ const map = L.map("map", {
 // 3. OPEN STREET MAP
 // ============================================================
 
-L.tileLayer(
+const osmLayer = L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
         maxZoom: 22,
         attribution: "&copy; OpenStreetMap contributors"
     }
 ).addTo(map);
-
 
 // ============================================================
 // 4. INITIAL LOCATION
