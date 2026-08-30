@@ -1,0 +1,758 @@
+{
+  "type": "FeatureCollection",
+  "name": "Sarah Tucker College Campus Map",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Botony"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7409389,
+          8.6984368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Physics(regular)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7407981,
+          8.6989193
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chemistry"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7410046,
+          8.6991182
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zoology&B.Com(Aided)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7413077,
+          8.6987364
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Old Auditorium"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7407428,
+          8.6980713
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Library"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7401688,
+          8.6983229
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Parking Area"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7400521,
+          8.6984369
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tamil, English(regular), Economics"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7403781,
+          8.6980622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Toilet"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.741516,
+          8.6977444
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "English(sf), B.Com(sf),Computer Science, Food Science"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7420998,
+          8.697592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sports Room"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7421669,
+          8.698168
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Canteen"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7421696,
+          8.6980195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Play Ground"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7418037,
+          8.698729
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7427011,
+          8.6987209
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "New Auditorium"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7406171,
+          8.699646
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "History(Tamil&English)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7407055,
+          8.699699
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nano Science"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7404803,
+          8.6996354
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Maths"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.740668,
+          8.699479
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Physics(sf)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.740947,
+          8.6994551
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "BCA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7409014,
+          8.6997309
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MCA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7410918,
+          8.6997653
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Main Gate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.739888,
+          8.6988565
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "NCC Room"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.7422827,
+          8.6990958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 44"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7398879,
+            8.6988374
+          ],
+          [
+            77.740081,
+            8.69884
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 45"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7399128,
+            8.6988479
+          ],
+          [
+            77.7400764,
+            8.6988585
+          ],
+          [
+            77.7403795,
+            8.6990176
+          ],
+          [
+            77.7405807,
+            8.6990176
+          ],
+          [
+            77.7408516,
+            8.6991714
+          ],
+          [
+            77.7407577,
+            8.6993411
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 48"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.740871,
+            8.6991865
+          ],
+          [
+            77.7410775,
+            8.6992819
+          ],
+          [
+            77.7409944,
+            8.6994118
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 50"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7410145,
+            8.6992528
+          ],
+          [
+            77.7411164,
+            8.6993029
+          ],
+          [
+            77.741217,
+            8.6993093
+          ],
+          [
+            77.7411231,
+            8.6997017
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 51"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7411312,
+            8.6996566
+          ],
+          [
+            77.7410064,
+            8.6996301
+          ],
+          [
+            77.7408817,
+            8.6995903
+          ],
+          [
+            77.7408656,
+            8.6996566
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 53"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7408656,
+            8.6996566
+          ],
+          [
+            77.7407458,
+            8.6996076
+          ],
+          [
+            77.7407257,
+            8.6996486
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 55"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7413523,
+            8.6981822
+          ],
+          [
+            77.7413336,
+            8.6984474
+          ],
+          [
+            77.7412518,
+            8.69845
+          ],
+          [
+            77.7411539,
+            8.6984527
+          ],
+          [
+            77.7411431,
+            8.6986489
+          ],
+          [
+            77.7412424,
+            8.6986515
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 56"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7411539,
+            8.6984527
+          ],
+          [
+            77.7410439,
+            8.698503
+          ],
+          [
+            77.7410251,
+            8.698458
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 58"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7411485,
+            8.6985959
+          ],
+          [
+            77.7411699,
+            8.6990387
+          ],
+          [
+            77.7410841,
+            8.699089
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 59"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7405504,
+            8.6990121
+          ],
+          [
+            77.7406737,
+            8.6988371
+          ],
+          [
+            77.740714,
+            8.6988451
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 65"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7405736,
+            8.6979528
+          ],
+          [
+            77.7416304,
+            8.6979581
+          ],
+          [
+            77.7416331,
+            8.6978812
+          ],
+          [
+            77.7421132,
+            8.6978865
+          ],
+          [
+            77.7421159,
+            8.6977168
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 67"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7419523,
+            8.6981808
+          ],
+          [
+            77.7419738,
+            8.6978892
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 68"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7419684,
+            8.6980138
+          ],
+          [
+            77.7420757,
+            8.6980164
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 71"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.740083,
+            8.6985667
+          ],
+          [
+            77.7400991,
+            8.6984315
+          ],
+          [
+            77.7400723,
+            8.6984288
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 72"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.740083,
+            8.6985667
+          ],
+          [
+            77.7401957,
+            8.6985004
+          ],
+          [
+            77.7401796,
+            8.6983573
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 73"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7405658,
+            8.6984315
+          ],
+          [
+            77.7405819,
+            8.6980842
+          ],
+          [
+            77.7404075,
+            8.6980709
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 74"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7405819,
+            8.6980842
+          ],
+          [
+            77.7406355,
+            8.6980815
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 75"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7425364,
+            8.6987709
+          ],
+          [
+            77.7426759,
+            8.6987656
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Line 76"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            77.7402956,
+            8.6994271
+          ],
+          [
+            77.7404726,
+            8.6995835
+          ]
+        ]
+      }
+    }
+  ]
+}
