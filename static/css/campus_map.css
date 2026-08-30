@@ -1,3 +1,8 @@
+/* ============================================================
+   SARAH TUCKER COLLEGE
+   CAMPUS MAP CSS
+============================================================ */
+
 * {
     margin: 0;
     padding: 0;
@@ -11,23 +16,35 @@ body {
     font-family: Arial, sans-serif;
 }
 
+body {
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   MAP
+============================================================ */
+
 #map {
     width: 100%;
     height: 100vh;
 }
 
-/* ================================
+
+/* ============================================================
    NAVIGATION PANEL
-================================ */
+============================================================ */
 
 .navigation-panel {
+
     position: absolute;
-    z-index: 1000;
 
     top: 18px;
     left: 18px;
 
     width: 350px;
+
+    z-index: 1000;
 
     background: #ffffff;
 
@@ -35,39 +52,90 @@ body {
 
     border-radius: 16px;
 
-    box-shadow: 0 5px 25px rgba(0,0,0,0.20);
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.22);
 }
 
-.navigation-panel h2 {
-    margin-bottom: 5px;
+
+/* TITLE */
+
+.title {
+
     font-size: 21px;
+
+    font-weight: 700;
+
+    color: #202124;
+
+    margin-bottom: 4px;
 }
+
+
+/* SUBTITLE */
 
 .subtitle {
-    color: #666;
+
     font-size: 13px;
+
+    color: #70757a;
+
     margin-bottom: 18px;
 }
 
+
+/* LABEL */
+
 .navigation-panel label {
+
     display: block;
 
-    margin-top: 10px;
-    margin-bottom: 6px;
-
     font-size: 13px;
-    font-weight: bold;
+
+    font-weight: 600;
+
+    color: #444;
+
+    margin-top: 10px;
+
+    margin-bottom: 6px;
 }
 
-.navigation-panel select,
-.navigation-panel input {
+
+/* SELECT */
+
+.navigation-panel select {
+
     width: 100%;
 
-    padding: 12px;
+    height: 44px;
+
+    padding: 0 12px;
+
+    border-radius: 9px;
 
     border: 1px solid #d5d5d5;
 
+    background: white;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+/* SEARCH */
+
+.navigation-panel input {
+
+    width: 100%;
+
+    height: 44px;
+
+    padding: 0 12px;
+
     border-radius: 9px;
+
+    border: 1px solid #d5d5d5;
 
     font-size: 14px;
 
@@ -75,127 +143,196 @@ body {
 }
 
 .navigation-panel input:focus {
+
     border-color: #4285f4;
+
+    box-shadow:
+        0 0 0 2px rgba(66, 133, 244, 0.12);
 }
 
-/* ================================
+
+/* ============================================================
    SEARCH RESULTS
-================================ */
+============================================================ */
 
 #results {
+
     margin-top: 5px;
 
-    max-height: 170px;
+    max-height: 180px;
 
     overflow-y: auto;
 }
 
-.result-item {
-    padding: 10px;
 
-    cursor: pointer;
+.result-item {
+
+    padding: 10px 12px;
 
     border-radius: 8px;
 
+    cursor: pointer;
+
     font-size: 14px;
+
+    color: #333;
 }
 
+
 .result-item:hover {
+
     background: #f1f3f4;
 }
 
-/* ================================
+
+/* ============================================================
    NAVIGATION BUTTON
-================================ */
+============================================================ */
 
 #navigateBtn {
+
     width: 100%;
 
-    margin-top: 15px;
+    height: 46px;
 
-    padding: 13px;
+    margin-top: 15px;
 
     border: none;
 
     border-radius: 10px;
 
-    background: #4285f4;
+    background: #1a73e8;
 
     color: white;
 
     font-size: 15px;
 
-    font-weight: bold;
+    font-weight: 700;
 
     cursor: pointer;
+
+    transition: 0.2s;
 }
+
 
 #navigateBtn:hover {
-    background: #3367d6;
+
+    background: #1557b0;
+
+    transform: translateY(-1px);
 }
 
-/* ================================
-   ROUTE INFORMATION
-================================ */
+
+/* ============================================================
+   ROUTE INFO
+============================================================ */
 
 #routeInfo {
+
+    display: none;
+
     margin-top: 15px;
 
-    padding: 12px;
+    padding: 13px;
+
+    border-radius: 10px;
 
     background: #f5f7fa;
 
-    border-radius: 10px;
+    color: #333;
 
     font-size: 13px;
 
     line-height: 1.7;
 }
 
-/* ================================
-   LOCATION BUTTON
-================================ */
+
+#routeInfo.show {
+
+    display: block;
+}
+
+
+/* ============================================================
+   MAP LOCATION BUTTON
+============================================================ */
 
 .location-button {
+
     position: absolute;
 
     right: 20px;
+
     bottom: 25px;
 
     z-index: 1000;
 
-    width: 48px;
-    height: 48px;
+    width: 50px;
 
-    display: flex;
+    height: 50px;
 
-    align-items: center;
-    justify-content: center;
-
-    background: white;
+    border: none;
 
     border-radius: 50%;
 
-    box-shadow: 0 3px 15px rgba(0,0,0,0.25);
+    background: white;
 
-    cursor: pointer;
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.25);
 
     font-size: 21px;
+
+    cursor: pointer;
 }
 
-/* ================================
+
+.location-button:hover {
+
+    background: #f5f5f5;
+}
+
+
+/* ============================================================
+   BLUE NAVIGATION ARROW
+============================================================ */
+
+.navigation-arrow {
+
+    color: #1a73e8;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 1px 2px white,
+        1px 0 2px white,
+        -1px 0 2px white;
+}
+
+
+/* ============================================================
    MOBILE
-================================ */
+============================================================ */
 
 @media (max-width: 600px) {
 
     .navigation-panel {
+
         top: 10px;
+
         left: 10px;
+
         right: 10px;
 
         width: auto;
 
         padding: 15px;
     }
+
+    .title {
+
+        font-size: 18px;
+    }
+
 }
