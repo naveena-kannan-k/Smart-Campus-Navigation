@@ -332,52 +332,66 @@ const computerScienceRoute = [
 ];
 
 // ============================================================
-// LIBRARY ROUTE
-// MAIN GATE
-//      ↓
+// LIBRARY NAVIGATION ROUTE
+// DO NOT CHANGE ANY LOCATION COORDINATES
+//
+// Main Gate
+//     ↓
+// Main Road
+//     ↓
+// Management Office Road
+//     ↓
+// RIGHT TURN
+//     ↓
 // STRAIGHT
-//      ↓
-// MANAGEMENT OFFICE ROAD
-//      ↓
-// RIGHT
-//      ↓
-// STRAIGHT
-//      ↓
-// LEFT
-//      ↓
-// LIBRARY
+//     ↓
+// LEFT TURN
+//     ↓
+// Library
 // ============================================================
 
 const libraryRoute = [
 
-    // START - MAIN GATE
+    // 1. MAIN GATE
     [8.6988565, 77.739888],
 
-    // STRAIGHT FROM MAIN GATE
+    // 2. COME STRAIGHT FROM MAIN GATE
     [8.6988479, 77.7399128],
     [8.6988585, 77.7400764],
     [8.6990176, 77.7403795],
     [8.6990176, 77.7405807],
 
-    // MANAGEMENT OFFICE ROAD
+    // 3. COME TO MANAGEMENT OFFICE ROAD
+    [8.6990121, 77.7405504],
     [8.6988371, 77.7406737],
     [8.6988451, 77.7407140],
-    [8.6985959, 77.7408047],
 
-    // RIGHT TURN
+    // 4. RIGHT TURN
+    [8.6985889, 77.7408047],
+    [8.6985959, 77.7411485],
+
+    // 5. STRAIGHT ON THE ROAD
+    [8.6985030, 77.7410439],
+    [8.6984580, 77.7410251],
+
+    // 6. LEFT TURN TOWARDS LIBRARY SIDE
+    [8.6984527, 77.7411539],
+    [8.6984500, 77.7412518],
+    [8.6984474, 77.7413336],
+
+    // 7. COME BACK TOWARDS LIBRARY ROAD
+    [8.6984315, 77.7405658],
+    [8.6980842, 77.7405819],
+    [8.6980709, 77.7404075],
+
+    // 8. LIBRARY CONNECTION
     [8.6985667, 77.7400830],
-
-    // STRAIGHT
     [8.6985004, 77.7401957],
-
-    // LEFT TURN
     [8.6983573, 77.7401796],
 
-    // LIBRARY
+    // 9. LIBRARY DESTINATION
     [8.6983229, 77.7401688]
 ];
-
-
 // ============================================================
 // 13. ARROW
 // ============================================================
