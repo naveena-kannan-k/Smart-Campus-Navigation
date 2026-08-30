@@ -37,7 +37,9 @@ L.tileLayer(
 
 
 // ============================================================
-// 4. YOUR PLACES DATA
+// 4. LOCATIONS
+// IMPORTANT:
+// DO NOT CHANGE THESE COORDINATES
 // ============================================================
 
 const places = [
@@ -70,20 +72,22 @@ const places = [
 
 
 // ============================================================
-// 5. YOUR DRAWN CAMPUS PATHS
+// 5. YOUR DRAWN ROADS
+// These are your original path coordinates.
 // ============================================================
 
-const routes = [
+const roads = [
+
     {
-        name: "Line 44",
+        name: "Main Gate Road",
         coords: [
             [8.6988374,77.7398879],
-            [8.69884,77.740081]
+            [8.6988400,77.7400810]
         ]
     },
 
     {
-        name: "Line 45",
+        name: "Main Campus Road",
         coords: [
             [8.6988479,77.7399128],
             [8.6988585,77.7400764],
@@ -95,7 +99,7 @@ const routes = [
     },
 
     {
-        name: "Line 48",
+        name: "Central Road",
         coords: [
             [8.6990121,77.7405504],
             [8.6992819,77.7410775],
@@ -104,17 +108,17 @@ const routes = [
     },
 
     {
-        name: "Line 50",
+        name: "Upper Campus Road",
         coords: [
             [8.6990176,77.7405807],
             [8.6993029,77.7411164],
-            [8.6993093,77.741217],
+            [8.6993093,77.7412170],
             [8.6997017,77.7411231]
         ]
     },
 
     {
-        name: "Line 51",
+        name: "Upper Turn Road",
         coords: [
             [8.6996566,77.7411312],
             [8.6996301,77.7410064],
@@ -124,7 +128,7 @@ const routes = [
     },
 
     {
-        name: "Line 53",
+        name: "Upper Left Road",
         coords: [
             [8.6996566,77.7408656],
             [8.6996076,77.7407458],
@@ -133,11 +137,11 @@ const routes = [
     },
 
     {
-        name: "Line 55",
+        name: "Botany Side Road",
         coords: [
             [8.6981822,77.7413523],
             [8.6984474,77.7413336],
-            [8.69845,77.7412518],
+            [8.6984500,77.7412518],
             [8.6984527,77.7411539],
             [8.6986489,77.7411431],
             [8.6986515,77.7412424]
@@ -145,34 +149,34 @@ const routes = [
     },
 
     {
-        name: "Line 56",
+        name: "Botany Turn Road",
         coords: [
             [8.6984527,77.7411539],
-            [8.698503,77.7410439],
-            [8.698458,77.7410251]
+            [8.6985030,77.7410439],
+            [8.6984580,77.7410251]
         ]
     },
 
     {
-        name: "Line 58",
+        name: "Management Side Road",
         coords: [
             [8.6985959,77.7411485],
             [8.6990387,77.7411699],
-            [8.699089,77.7410841]
+            [8.6990890,77.7410841]
         ]
     },
 
     {
-        name: "Line 59",
+        name: "Management Turn",
         coords: [
             [8.6990121,77.7405504],
             [8.6988371,77.7406737],
-            [8.6988451,77.740714]
+            [8.6988451,77.7407140]
         ]
     },
 
     {
-        name: "Line 65",
+        name: "Computer Science Down Road",
         coords: [
             [8.6979528,77.7405736],
             [8.6979581,77.7416304],
@@ -183,7 +187,7 @@ const routes = [
     },
 
     {
-        name: "Line 67",
+        name: "Canteen Side Road",
         coords: [
             [8.6981808,77.7419523],
             [8.6978892,77.7419738]
@@ -191,7 +195,7 @@ const routes = [
     },
 
     {
-        name: "Line 68",
+        name: "Canteen Entrance",
         coords: [
             [8.6980138,77.7419684],
             [8.6980164,77.7420757]
@@ -199,25 +203,25 @@ const routes = [
     },
 
     {
-        name: "Line 71",
+        name: "Library Side Road",
         coords: [
-            [8.6985667,77.740083],
+            [8.6985667,77.7400830],
             [8.6984315,77.7400991],
             [8.6984288,77.7400723]
         ]
     },
 
     {
-        name: "Line 72",
+        name: "Library Road",
         coords: [
-            [8.6985667,77.740083],
+            [8.6985667,77.7400830],
             [8.6985004,77.7401957],
             [8.6983573,77.7401796]
         ]
     },
 
     {
-        name: "Line 73",
+        name: "Old Auditorium Road",
         coords: [
             [8.6984315,77.7405658],
             [8.6980842,77.7405819],
@@ -226,7 +230,7 @@ const routes = [
     },
 
     {
-        name: "Line 74",
+        name: "Old Auditorium Turn",
         coords: [
             [8.6980842,77.7405819],
             [8.6980815,77.7406355]
@@ -234,7 +238,7 @@ const routes = [
     },
 
     {
-        name: "Line 75",
+        name: "Hostel Road",
         coords: [
             [8.6987709,77.7425364],
             [8.6987656,77.7426759]
@@ -242,7 +246,7 @@ const routes = [
     },
 
     {
-        name: "Line 76",
+        name: "Upper Left Campus",
         coords: [
             [8.6994271,77.7402956],
             [8.6995835,77.7404726]
@@ -252,7 +256,40 @@ const routes = [
 
 
 // ============================================================
-// 6. SHOW ALL PLACES
+// 6. DRAW ROADS AS PROPER ROADS
+// ============================================================
+
+roads.forEach(road => {
+
+    // Road shadow / border
+    L.polyline(
+        road.coords,
+        {
+            color: "#ffffff",
+            weight: 11,
+            opacity: 0.95,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
+
+    // Actual road
+    L.polyline(
+        road.coords,
+        {
+            color: "#b8b8b8",
+            weight: 7,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
+
+});
+
+
+// ============================================================
+// 7. SHOW LOCATIONS
 // ============================================================
 
 const markers = {};
@@ -264,61 +301,116 @@ places.forEach(place => {
         place.lng
     ]).addTo(map);
 
+    marker.bindTooltip(
+        place.name,
+        {
+            direction: "top"
+        }
+    );
+
     marker.bindPopup(`
         <b>${place.icon} ${place.name}</b>
     `);
-
-    marker.bindTooltip(place.name);
 
     markers[place.name] = marker;
 });
 
 
 // ============================================================
-// 7. SHOW YOUR ORIGINAL PATHS
+// 8. SPECIAL ROUTE
+// MAIN GATE → COMPUTER SCIENCE
+//
+// IMPORTANT:
+// This is NOT a straight line.
+//
+// It follows the campus-road direction:
+// Main Gate
+// → Main road
+// → Management side
+// → Botany side
+// → Canteen side
+// → Down road
+// → Computer Science
 // ============================================================
 
-routes.forEach(route => {
+const COMPUTER_SCIENCE_ROUTE = [
 
-    L.polyline(
-        route.coords,
-        {
-            color: "#777",
-            weight: 4,
-            opacity: 0.65
-        }
-    ).addTo(map);
+    // START — MAIN GATE
+    [8.6988565, 77.7398880],
 
-});
+    // Straight from Main Gate
+    [8.6988374, 77.7398879],
+    [8.6988400, 77.7400810],
+    [8.6988585, 77.7400764],
+    [8.6990176, 77.7403795],
+
+    // RIGHT TURN
+    [8.6990176, 77.7405807],
+
+    // Continue
+    [8.6988371, 77.7406737],
+    [8.6988451, 77.7407140],
+
+    // LEFT / MANAGEMENT SIDE
+    [8.6985959, 77.7411485],
+    [8.6985030, 77.7410439],
+    [8.6984580, 77.7410251],
+
+    // BOTANY SIDE
+    [8.6984527, 77.7411539],
+    [8.6984474, 77.7413336],
+
+    // Continue toward canteen side
+    [8.6981808, 77.7419523],
+    [8.6978892, 77.7419738],
+
+    // CANTEEN SIDE
+    [8.6980138, 77.7419684],
+    [8.6980164, 77.7420757],
+
+    // DOWN / SOUTH SIDE ROAD
+    [8.6979528, 77.7405736],
+    [8.6979581, 77.7416304],
+    [8.6978812, 77.7416331],
+    [8.6978865, 77.7421132],
+    [8.6977168, 77.7421159],
+
+    // COMPUTER SCIENCE DESTINATION
+    [8.6975920, 77.7420998]
+];
 
 
 // ============================================================
-// 8. FIND PLACE
+// 9. OTHER DESTINATIONS
 // ============================================================
 
-function findPlace(name) {
+const ROUTES = {
 
-    const search = name
-        .toLowerCase()
-        .trim();
+    "computer science":
+        COMPUTER_SCIENCE_ROUTE,
 
-    return places.find(place =>
-        place.name.toLowerCase().includes(search) ||
-        search.includes(place.name.toLowerCase())
-    );
-}
+    "computer":
+        COMPUTER_SCIENCE_ROUTE,
+
+    "cs":
+        COMPUTER_SCIENCE_ROUTE
+
+};
 
 
 // ============================================================
-// 9. DISTANCE BETWEEN TWO POINTS
+// 10. DISTANCE CALCULATION
 // ============================================================
 
-function distance(a, b) {
+function getDistance(a, b) {
 
     const R = 6371000;
 
-    const lat1 = a[0] * Math.PI / 180;
-    const lat2 = b[0] * Math.PI / 180;
+    const lat1 =
+        a[0] * Math.PI / 180;
+
+    const lat2 =
+        b[0] * Math.PI / 180;
 
     const dLat =
         (b[0] - a[0]) * Math.PI / 180;
@@ -329,238 +421,140 @@ function distance(a, b) {
     const x =
         Math.sin(dLat / 2) *
         Math.sin(dLat / 2) +
+
         Math.cos(lat1) *
         Math.cos(lat2) *
+
         Math.sin(dLng / 2) *
         Math.sin(dLng / 2);
 
-    return R * 2 * Math.atan2(
-        Math.sqrt(x),
-        Math.sqrt(1 - x)
-    );
+    return R *
+        2 *
+        Math.atan2(
+            Math.sqrt(x),
+            Math.sqrt(1 - x)
+        );
 }
 
 
 // ============================================================
-// 10. FIND NEAREST PATH POINT
+// 11. ROUTE DISTANCE
 // ============================================================
 
-function nearestPathPoint(point) {
+function calculateRouteDistance(coords) {
 
-    let nearest = null;
-    let smallest = Infinity;
+    let total = 0;
 
-    routes.forEach(route => {
-
-        route.coords.forEach(coord => {
-
-            const d = distance(
-                point,
-                coord
-            );
-
-            if (d < smallest) {
-
-                smallest = d;
-
-                nearest = {
-                    coord: coord,
-                    route: route
-                };
-            }
-
-        });
-
-    });
-
-    return nearest;
-}
-
-
-// ============================================================
-// 11. BUILD ROUTE
-// ============================================================
-
-function buildRoute(startPlace, destinationPlace) {
-
-    const start = [
-        startPlace.lat,
-        startPlace.lng
-    ];
-
-    const end = [
-        destinationPlace.lat,
-        destinationPlace.lng
-    ];
-
-    const startNearest =
-        nearestPathPoint(start);
-
-    const endNearest =
-        nearestPathPoint(end);
-
-    if (!startNearest || !endNearest) {
-
-        alert("Campus path not found.");
-
-        return;
-    }
-
-    let routeCoordinates = [];
-
-    routeCoordinates.push(start);
-
-    routeCoordinates.push(
-        startNearest.coord
-    );
-
-
-    // Same path
-    if (
-        startNearest.route.name ===
-        endNearest.route.name
+    for (
+        let i = 1;
+        i < coords.length;
+        i++
     ) {
 
-        const coords =
-            startNearest.route.coords;
-
-        let startIndex =
-            coords.findIndex(c =>
-                c[0] === startNearest.coord[0] &&
-                c[1] === startNearest.coord[1]
-            );
-
-        let endIndex =
-            coords.findIndex(c =>
-                c[0] === endNearest.coord[0] &&
-                c[1] === endNearest.coord[1]
-            );
-
-        if (startIndex > endIndex) {
-
-            const temp = startIndex;
-
-            startIndex = endIndex;
-
-            endIndex = temp;
-        }
-
-        for (
-            let i = startIndex;
-            i <= endIndex;
-            i++
-        ) {
-
-            routeCoordinates.push(
-                coords[i]
-            );
-        }
-
-    } else {
-
-        /*
-         * Connect the nearest campus paths.
-         * This keeps the route based on
-         * your drawn campus paths.
-         */
-
-        routeCoordinates.push(
-            endNearest.coord
+        total += getDistance(
+            coords[i - 1],
+            coords[i]
         );
     }
 
-    routeCoordinates.push(end);
+    return total;
+}
 
 
-    // ========================================================
-    // REMOVE OLD ROUTE
-    // ========================================================
+// ============================================================
+// 12. DRAW NAVIGATION ROUTE
+// ============================================================
 
-    if (window.activeRoute) {
+let activeRoute = null;
 
-        map.removeLayer(
-            window.activeRoute
-        );
+function showNavigationRoute(
+    destinationName,
+    routeCoordinates
+) {
+
+    // Remove previous route
+    if (activeRoute) {
+
+        map.removeLayer(activeRoute);
     }
 
 
-    // ========================================================
-    // DRAW ACTIVE ROUTE
-    // ========================================================
+    // Route border
+    L.polyline(
+        routeCoordinates,
+        {
+            color: "#ffffff",
+            weight: 13,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round"
+        }
+    ).addTo(map);
 
-    window.activeRoute =
+
+    // Blue navigation route
+    activeRoute =
         L.polyline(
             routeCoordinates,
             {
                 color: "#1a73e8",
                 weight: 8,
-                opacity: 1
+                opacity: 1,
+                lineCap: "round",
+                lineJoin: "round"
             }
         ).addTo(map);
 
 
-    // ========================================================
-    // START MARKER
-    // ========================================================
+    // Start marker
+    L.marker(
+        routeCoordinates[0]
+    )
+    .addTo(map)
+    .bindPopup(
+        "🚪 <b>Start: Main Gate</b>"
+    );
 
-    L.marker(start)
+
+    // Destination marker
+    const destination =
+        findPlace(destinationName);
+
+    if (destination) {
+
+        L.marker([
+            destination.lat,
+            destination.lng
+        ])
         .addTo(map)
         .bindPopup(
-            "🚪 <b>Start: Main Gate</b>"
+            "📍 <b>" +
+            destination.name +
+            "</b>"
         )
         .openPopup();
+    }
 
 
-    // ========================================================
-    // DESTINATION MARKER
-    // ========================================================
-
-    L.marker(end)
-        .addTo(map)
-        .bindPopup(
-            "📍 <b>Destination: " +
-            destinationPlace.name +
-            "</b>"
-        );
-
-
-    // ========================================================
-    // FIT ROUTE
-    // ========================================================
-
+    // Fit route
     map.fitBounds(
-        window.activeRoute.getBounds(),
+        activeRoute.getBounds(),
         {
-            padding: [80, 80]
+            padding: [70, 70]
         }
     );
 
 
-    // ========================================================
-    // DISTANCE
-    // ========================================================
-
-    let totalDistance = 0;
-
-    for (
-        let i = 1;
-        i < routeCoordinates.length;
-        i++
-    ) {
-
-        totalDistance += distance(
-            routeCoordinates[i - 1],
-            routeCoordinates[i]
+    // Distance
+    const distance =
+        calculateRouteDistance(
+            routeCoordinates
         );
-    }
 
-
-    const walkingMinutes =
+    const minutes =
         Math.max(
             1,
-            Math.round(
-                totalDistance / 80
-            )
+            Math.round(distance / 80)
         );
 
 
@@ -568,62 +562,51 @@ function buildRoute(startPlace, destinationPlace) {
         "routeInfo"
     ).innerHTML = `
 
-        🚶 <b>Route Found</b><br>
+        🚶 <b>Walking Route</b><br><br>
 
-        From:
-        <b>${startPlace.name}</b><br>
+        🚪 From:
+        <b>Main Gate</b><br>
 
-        To:
-        <b>${destinationPlace.name}</b><br>
+        📍 To:
+        <b>${destinationName}</b><br>
 
         📏 Distance:
-        ${Math.round(totalDistance)} m<br>
+        <b>${Math.round(distance)} m</b><br>
 
-        ⏱️ Walking:
-        ${walkingMinutes} min
+        ⏱️ Walking time:
+        <b>${minutes} min</b>
 
     `;
 }
 
 
 // ============================================================
-// 12. NAVIGATION BUTTON
+// 13. FIND PLACE
 // ============================================================
 
-document
-    .getElementById("navigateBtn")
-    .addEventListener("click", () => {
+function findPlace(searchText) {
 
-        const destination =
-            document
-                .getElementById("destination")
-                .value;
+    const q =
+        searchText
+            .toLowerCase()
+            .trim();
 
-        const place =
-            findPlace(destination);
+    return places.find(place => {
 
-        if (!place) {
+        const name =
+            place.name
+                .toLowerCase();
 
-            alert(
-                "Destination not found. Please select a building."
-            );
-
-            return;
-        }
-
-        const start =
-            findPlace("Main Gate");
-
-        buildRoute(
-            start,
-            place
+        return (
+            name.includes(q) ||
+            q.includes(name)
         );
-
     });
+}
 
 
 // ============================================================
-// 13. SEARCH SUGGESTIONS
+// 14. SEARCH
 // ============================================================
 
 const destinationInput =
@@ -641,22 +624,23 @@ destinationInput.addEventListener(
     "input",
     function () {
 
-        const value =
+        const q =
             this.value
                 .toLowerCase()
                 .trim();
 
         results.innerHTML = "";
 
-        if (!value) {
+        if (!q) {
             return;
         }
+
 
         places
             .filter(place =>
                 place.name
                     .toLowerCase()
-                    .includes(value)
+                    .includes(q)
             )
             .forEach(place => {
 
@@ -686,7 +670,107 @@ destinationInput.addEventListener(
 
 
 // ============================================================
-// 14. GO TO COLLEGE
+// 15. START NAVIGATION
+// ============================================================
+
+document
+    .getElementById("navigateBtn")
+    .addEventListener(
+        "click",
+        function () {
+
+            const text =
+                destinationInput
+                    .value
+                    .trim();
+
+            if (!text) {
+
+                alert(
+                    "Please select a destination."
+                );
+
+                return;
+            }
+
+
+            const lower =
+                text.toLowerCase();
+
+
+            // ==================================================
+            // COMPUTER SCIENCE
+            // USE THE SPECIFIC CAMPUS ROAD
+            // ==================================================
+
+            if (
+                lower.includes("computer science") ||
+                lower === "computer" ||
+                lower === "cs"
+            ) {
+
+                showNavigationRoute(
+                    "English(sf), B.Com(sf),Computer Science, Food Science",
+                    COMPUTER_SCIENCE_ROUTE
+                );
+
+                return;
+            }
+
+
+            // ==================================================
+            // OTHER LOCATIONS
+            // ==================================================
+
+            const place =
+                findPlace(text);
+
+            if (!place) {
+
+                alert(
+                    "Destination not found."
+                );
+
+                return;
+            }
+
+
+            /*
+             * For other destinations we only
+             * show their location.
+             *
+             * Their coordinates are NOT changed.
+             */
+
+            map.setView(
+                [
+                    place.lat,
+                    place.lng
+                ],
+                19
+            );
+
+            markers[
+                place.name
+            ]?.openPopup();
+
+            document.getElementById(
+                "routeInfo"
+            ).innerHTML = `
+
+                📍 <b>${place.name}</b><br>
+
+                Location selected.<br>
+
+                Main Gate → ${place.name}
+
+            `;
+        }
+    );
+
+
+// ============================================================
+// 16. COLLEGE BUTTON
 // ============================================================
 
 function goToCollege() {
@@ -699,21 +783,18 @@ function goToCollege() {
 
 
 // ============================================================
-// 15. INITIAL VIEW
+// 17. INITIAL MAP VIEW
 // ============================================================
 
-const allPoints =
+const allCoordinates =
     places.map(place => [
         place.lat,
         place.lng
     ]);
 
-if (allPoints.length) {
-
-    map.fitBounds(
-        allPoints,
-        {
-            padding: [50, 50]
-        }
-    );
-}
+map.fitBounds(
+    allCoordinates,
+    {
+        padding: [50, 50]
+    }
+);
