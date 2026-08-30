@@ -196,6 +196,29 @@ function findPlace(searchText) {
     });
 
 }
+if (
+    destinationName
+        .toLowerCase()
+        .includes("management office")
+) {
+    drawNavigation(
+        managementOfficeRoute,
+        destinationName
+    );
+    return;
+}
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("principal office")
+) {
+    drawNavigation(
+        principalOfficeRoute,
+        destinationName
+    );
+    return;
+}
 
 
 const computerScienceRoute = [
