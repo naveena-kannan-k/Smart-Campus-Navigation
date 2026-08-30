@@ -1,7 +1,7 @@
 // ============================================================
 // SARAH TUCKER COLLEGE
 // SMART CAMPUS NAVIGATION
-// FINAL CLEAN LEAFLET VERSION
+// CLEAN FINAL VERSION
 // ============================================================
 
 
@@ -23,8 +23,6 @@ const map = L.map("map", {
 
 // ============================================================
 // 3. OPEN STREET MAP
-// IMPORTANT:
-// NO CUSTOM WHITE ROADS ARE DRAWN HERE
 // ============================================================
 
 L.tileLayer(
@@ -37,7 +35,7 @@ L.tileLayer(
 
 
 // ============================================================
-// 4. INITIAL VIEW
+// 4. INITIAL LOCATION
 // ============================================================
 
 map.setView(COLLEGE_CENTER, 18);
@@ -45,7 +43,7 @@ map.setView(COLLEGE_CENTER, 18);
 
 // ============================================================
 // 5. CAMPUS LOCATIONS
-// DO NOT CHANGE COORDINATES
+// DO NOT CHANGE
 // ============================================================
 
 const places = [
@@ -106,40 +104,15 @@ const places = [
 
 
 // ============================================================
-// 6. MARKER ICON
+// 6. ADD LOCATION MARKERS
 // ============================================================
 
-const campusIcon = L.icon({
+places.forEach(function(place) {
 
-    iconUrl:
-        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-
-    shadowUrl:
-        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-
-    iconSize: [25, 41],
-
-    iconAnchor: [12, 41],
-
-    popupAnchor: [1, -34],
-
-    shadowSize: [41, 41]
-
-});
-
-
-// ============================================================
-// 7. ADD CAMPUS MARKERS
-// ============================================================
-
-places.forEach(function (place) {
-
-    const marker = L.marker(
-        [place[1], place[2]],
-        {
-            icon: campusIcon
-        }
-    ).addTo(map);
+    const marker = L.marker([
+        place[1],
+        place[2]
+    ]).addTo(map);
 
     marker.bindTooltip(
         place[0],
@@ -157,121 +130,68 @@ places.forEach(function (place) {
 
 
 // ============================================================
-// 8. NAVIGATION VARIABLES
+// 7. NAVIGATION VARIABLES
 // ============================================================
 
-let routeLayer = null;
-
-let routeArrowLayer = null;
-
-let startMarker = null;
-
-let destinationMarker = null;
+let navigationLayers = [];
 
 
 // ============================================================
-// 9. CLEAR OLD ROUTE
+// 8. CLEAR NAVIGATION
 // ============================================================
 
-function clearRoute() {
+function clearNavigation() {
 
-    if (routeLayer) {
+    navigationLayers.forEach(function(layer) {
 
-        map.removeLayer(routeLayer);
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+        }
 
-        routeLayer = null;
-    }
+    });
 
-
-    if (routeArrowLayer) {
-
-        map.removeLayer(routeArrowLayer);
-
-        routeArrowLayer = null;
-    }
-
-
-    if (startMarker) {
-
-        map.removeLayer(startMarker);
-
-        startMarker = null;
-    }
-
-
-    if (destinationMarker) {
-
-        map.removeLayer(destinationMarker);
-
-        destinationMarker = null;
-    }
+    navigationLayers = [];
 
 }
 
 
 // ============================================================
-// 10. FIND PLACE
+// 9. FIND PLACE
 // ============================================================
 
-function findPlace(name) {
+function findPlace(searchText) {
 
-    if (!name) {
+    if (!searchText) {
         return null;
     }
 
-    const search = name
-        .toLowerCase()
-        .trim();
+    const text =
+        searchText.toLowerCase().trim();
 
 
-    return places.find(function (place) {
+    // COMPUTER SCIENCE SHORT NAME
+    if (
+        text === "cs" ||
+        text === "computer science"
+    ) {
+
+        return places.find(function(place) {
+
+            return place[0]
+                .toLowerCase()
+                .includes("computer science");
+
+        });
+
+    }
+
+
+    // NORMAL SEARCH
+    return places.find(function(place) {
 
         return place[0]
             .toLowerCase()
-            .includes(search);
-
-    }) || null;
-
-}
-
-
-// ============================================================
-// 11. ARROW ICON
-// ============================================================
-
-function createNavigationArrow(angle) {
-
-    return L.divIcon({
-
-        className:
-            "navigation-arrow-icon",
-
-        html:
-            '<div style="' +
-
-            'font-size:24px;' +
-
-            'font-weight:bold;' +
-
-            'color:#1677ff;' +
-
-            'text-shadow:' +
-            '0 0 2px #ffffff,' +
-            '0 0 4px #ffffff;' +
-
-            'transform:rotate(' +
-            angle +
-            'deg);' +
-
-            '">' +
-
-            '➤' +
-
-            '</div>',
-
-        iconSize: [28, 28],
-
-        iconAnchor: [14, 14]
+            .includes(text);
 
     });
 
@@ -279,67 +199,390 @@ function createNavigationArrow(angle) {
 
 
 // ============================================================
-// 12. CALCULATE DIRECTION
+// 10. COMPUTER SCIENCE ROUTE
+//
+// MAIN GATE
+//      ↓
+// ENTER COLLEGE
+//      ↓
+// ROUND ROAD
+//      ↓
+// FOLLOW ROUND
+//      ↓
+// LEFT TURN
+//      ↓
+// CANTEEN SIDE
+//      ↓
+// DOWN
+//      ↓
+// COMPUTER SCIENCE
+//
+// IMPORTANT:
+// NO PUBLIC ROAD
+// NO OSRM
 // ============================================================
 
-function calculateAngle(a, b) {
+const computerScienceRoute = [
 
-    const lat1 = a[0];
+    // MAIN GATE
+    [8.6988565, 77.739888],
 
-    const lng1 = a[1];
+    // ENTER CAMPUS
+    [8.6988500, 77.739950],
 
-    const lat2 = b[0];
+    [8.6988450, 77.740020],
 
-    const lng2 = b[1];
-
-
-    const y = lng2 - lng1;
-
-    const x = lat2 - lat1;
+    [8.6988200, 77.740090],
 
 
-    return Math.atan2(y, x)
-        * 180 / Math.PI;
+    // ========================================================
+    // ROUND ROAD
+    // ========================================================
 
-}
+    [8.6987600, 77.740130],
+
+    [8.6986800, 77.740145],
+
+    [8.6986000, 77.740120],
+
+    [8.6985400, 77.740060],
+
+    [8.6985150, 77.739990],
+
+    [8.6985200, 77.739920],
+
+    [8.6985600, 77.739870],
+
+    [8.6986200, 77.739850],
+
+    [8.6986900, 77.739875],
+
+    [8.6987500, 77.739925],
+
+
+    // ========================================================
+    // EXIT ROUND ROAD
+    // ========================================================
+
+    [8.6988000, 77.740000],
+
+    [8.6988300, 77.740080],
+
+    [8.6988500, 77.740180],
+
+
+    // ========================================================
+    // STRAIGHT INSIDE CAMPUS
+    // ========================================================
+
+    [8.6989000, 77.740280],
+
+    [8.6989800, 77.740380],
+
+    [8.6990176, 77.7403795],
+
+    [8.6990176, 77.7405807],
+
+
+    // ========================================================
+    // MOVE TO LEFT-TURN ROAD
+    // ========================================================
+
+    [8.6989500, 77.7406500],
+
+    [8.6988500, 77.7407000],
+
+    [8.6987500, 77.7407500],
+
+    [8.6986500, 77.7408000],
+
+
+    // ========================================================
+    // LEFT TURN
+    // ========================================================
+
+    [8.6985959, 77.7411485],
+
+    [8.6985000, 77.7411500],
+
+    [8.6984527, 77.7411539],
+
+
+    // ========================================================
+    // STRAIGHT
+    // ========================================================
+
+    [8.6984500, 77.7412518],
+
+    [8.6984474, 77.7413336],
+
+
+    // ========================================================
+    // CANTEEN SIDE
+    // ========================================================
+
+    [8.6984000, 77.7414500],
+
+    [8.6983200, 77.7416000],
+
+    [8.6982500, 77.7417500],
+
+    [8.6981808, 77.7419523],
+
+    [8.6981000, 77.7419700],
+
+    [8.6978892, 77.7419738],
+
+
+    // ========================================================
+    // DOWN
+    // ========================================================
+
+    [8.6979581, 77.7416304],
+
+    [8.6978812, 77.7416331],
+
+    [8.6978865, 77.7421132],
+
+    [8.6977168, 77.7421159],
+
+
+    // ========================================================
+    // COMPUTER SCIENCE
+    // ========================================================
+
+    [8.6975920, 77.7420998]
+
+];
 
 
 // ============================================================
-// 13. DRAW ARROWS
+// 11. LIBRARY ROUTE
 // ============================================================
 
-function drawRouteArrows(coordinates) {
+const libraryRoute = [
 
-    routeArrowLayer =
-        L.layerGroup().addTo(map);
+    // MAIN GATE
+    [8.6988565, 77.739888],
+
+    // ENTER CAMPUS
+    [8.6988500, 77.739950],
+
+    [8.6988450, 77.740020],
+
+    [8.6988200, 77.740090],
 
 
-    // Put arrows at intervals
-    // instead of every coordinate.
+    // ROUND ROAD
+    [8.6987600, 77.740130],
+
+    [8.6986800, 77.740145],
+
+    [8.6986000, 77.740120],
+
+    [8.6985400, 77.740060],
+
+    [8.6985150, 77.739990],
+
+    [8.6985200, 77.739920],
+
+    [8.6985600, 77.739870],
+
+    [8.6986200, 77.739850],
+
+    [8.6986900, 77.739875],
+
+    [8.6987500, 77.739925],
+
+
+    // EXIT ROUND
+    [8.6988000, 77.740000],
+
+    [8.6988300, 77.740080],
+
+    [8.6988500, 77.740180],
+
+
+    // MAIN ROAD
+    [8.6989000, 77.740280],
+
+    [8.6989800, 77.740380],
+
+    [8.6990176, 77.7403795],
+
+
+    // MANAGEMENT OFFICE SIDE
+    [8.6990176, 77.7405807],
+
+    [8.6989500, 77.7406500],
+
+    [8.6988500, 77.7407000],
+
+    [8.6987500, 77.7407500],
+
+    [8.6986500, 77.7408000],
+
+
+    // LEFT TOWARDS LIBRARY
+    [8.6985667, 77.7400830],
+
+    [8.6985004, 77.7401957],
+
+    [8.6983573, 77.7401796],
+
+    [8.6983229, 77.7401688]
+
+];
+
+
+// ============================================================
+// 12. DRAW NAVIGATION
+// ============================================================
+
+function drawNavigation(
+    route,
+    destinationName
+) {
+
+    clearNavigation();
+
+
+    // ========================================================
+    // WHITE OUTLINE
+    // ========================================================
+
+    const whiteLine =
+        L.polyline(
+            route,
+            {
+                color: "#ffffff",
+                weight: 12,
+                opacity: 1,
+                lineCap: "round",
+                lineJoin: "round",
+                interactive: false
+            }
+        ).addTo(map);
+
+
+    navigationLayers.push(
+        whiteLine
+    );
+
+
+    // ========================================================
+    // BLUE ROUTE
+    // ========================================================
+
+    const blueLine =
+        L.polyline(
+            route,
+            {
+                color: "#1677ff",
+                weight: 6,
+                opacity: 1,
+                lineCap: "round",
+                lineJoin: "round",
+                interactive: false
+            }
+        ).addTo(map);
+
+
+    navigationLayers.push(
+        blueLine
+    );
+
+
+    // ========================================================
+    // START
+    // ========================================================
+
+    const start =
+        L.circleMarker(
+            route[0],
+            {
+                radius: 8,
+                color: "#ffffff",
+                weight: 3,
+                fillColor: "#1677ff",
+                fillOpacity: 1
+            }
+        ).addTo(map);
+
+
+    start.bindPopup(
+        "<b>🚪 Main Gate</b>"
+    );
+
+
+    navigationLayers.push(
+        start
+    );
+
+
+    // ========================================================
+    // DESTINATION
+    // ========================================================
+
+    const destination =
+        findPlace(destinationName);
+
+
+    if (destination) {
+
+        const end =
+            L.marker(
+                [
+                    destination[1],
+                    destination[2]
+                ]
+            ).addTo(map);
+
+
+        end.bindPopup(
+            "<b>📍 " +
+            destination[0] +
+            "</b>"
+        );
+
+
+        end.openPopup();
+
+
+        navigationLayers.push(
+            end
+        );
+
+    }
+
+
+    // ========================================================
+    // ARROWS
+    // ========================================================
 
     for (
-        let i = 0;
-        i < coordinates.length - 1;
-        i += 4
+        let i = 2;
+        i < route.length;
+        i += 3
     ) {
 
         const current =
-            coordinates[i];
+            route[i];
 
         const next =
-            coordinates[
+            route[
                 Math.min(
                     i + 1,
-                    coordinates.length - 1
+                    route.length - 1
                 )
             ];
 
 
         const angle =
-            calculateAngle(
-                current,
-                next
-            );
+            Math.atan2(
+                next[1] - current[1],
+                next[0] - current[0]
+            ) * 180 / Math.PI;
 
 
         const arrow =
@@ -347,36 +590,63 @@ function drawRouteArrows(coordinates) {
                 current,
                 {
                     icon:
-                        createNavigationArrow(
-                            angle
-                        ),
+                        L.divIcon({
+
+                            className:
+                                "campus-route-arrow",
+
+                            html:
+                                '<div style="' +
+                                'font-size:24px;' +
+                                'font-weight:bold;' +
+                                'color:#1677ff;' +
+                                'text-shadow:0 0 3px white;' +
+                                'transform:rotate(' +
+                                angle +
+                                'deg);">' +
+                                '➤' +
+                                '</div>',
+
+                            iconSize:
+                                [28, 28],
+
+                            iconAnchor:
+                                [14, 14]
+
+                        }),
 
                     interactive: false,
 
                     zIndexOffset: 1000
                 }
-            );
+            ).addTo(map);
 
 
-        routeArrowLayer.addLayer(
+        navigationLayers.push(
             arrow
         );
 
     }
 
-}
+
+    // ========================================================
+    // FIT ROUTE
+    // ========================================================
+
+    map.fitBounds(
+        blueLine.getBounds(),
+        {
+            padding: [
+                50,
+                50
+            ]
+        }
+    );
 
 
-// ============================================================
-// 14. SHOW ROUTE INFORMATION
-// ============================================================
-
-function showRouteInformation(
-    fromName,
-    toName,
-    distance,
-    duration
-) {
+    // ========================================================
+    // ROUTE INFORMATION
+    // ========================================================
 
     const info =
         document.getElementById(
@@ -384,404 +654,51 @@ function showRouteInformation(
         );
 
 
-    if (!info) {
-        return;
-    }
+    if (info) {
 
+        info.style.display =
+            "block";
 
-    info.style.display =
-        "block";
 
+        info.innerHTML =
 
-    const distanceKm =
-        (
-            distance / 1000
-        ).toFixed(2);
+            "<b>🔵 Navigation Started</b>" +
 
+            "<br><br>" +
 
-    const minutes =
-        Math.round(
-            duration / 60
-        );
+            "🚪 Main Gate" +
 
+            "<br>↓" +
 
-    info.innerHTML =
+            "🔄 Follow round road" +
 
-        "<b>🔵 Navigation Started</b>" +
+            "<br>↓" +
 
-        "<br><br>" +
+            "➡️ Continue inside campus" +
 
-        "🚶 <b>From:</b> " +
-        fromName +
+            "<br>↓" +
 
-        "<br>" +
+            "↩️ Take left turn" +
 
-        "📍 <b>To:</b> " +
-        toName +
+            "<br>↓" +
 
-        "<br><br>" +
+            "➡️ Go straight" +
 
-        "📏 Distance: " +
-        distanceKm +
-        " km" +
+            "<br>↓" +
 
-        "<br>" +
+            "🍽️ Canteen side" +
 
-        "⏱️ Walking time: " +
-        minutes +
-        " min";
+            "<br>↓" +
 
-}
+            "⬇️ Go down" +
 
+            "<br>↓" +
 
-// ============================================================
-// 15. GET REAL ROAD ROUTE
-// OSRM WALKING ROUTE
-// ============================================================
+            "📍 <b>" +
 
-async function getRoadRoute(
-    start,
-    destination
-) {
+            destinationName +
 
-    const startLng =
-        start[1];
-
-    const startLat =
-        start[0];
-
-
-    const endLng =
-        destination[1];
-
-    const endLat =
-        destination[0];
-
-
-    const url =
-
-        "https://router.project-osrm.org/route/v1/foot/" +
-
-        startLng +
-        "," +
-        startLat +
-
-        ";" +
-
-        endLng +
-        "," +
-        endLat +
-
-        "?overview=full&geometries=geojson";
-
-
-    const response =
-        await fetch(url);
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "Routing server error"
-        );
-
-    }
-
-
-    const data =
-        await response.json();
-
-
-    if (
-        data.code !== "Ok" ||
-        !data.routes ||
-        data.routes.length === 0
-    ) {
-
-        throw new Error(
-            "Route not found"
-        );
-
-    }
-
-
-    return data.routes[0];
-
-}
-
-
-// ============================================================
-// 16. START NAVIGATION
-// ============================================================
-
-async function startNavigation() {
-
-    clearRoute();
-
-
-    const fromSelect =
-        document.getElementById(
-            "from"
-        );
-
-
-    const destinationInput =
-        document.getElementById(
-            "destination"
-        );
-
-
-    const fromValue =
-        fromSelect
-            ? fromSelect.value
-            : "Main Gate";
-
-
-    const toValue =
-        destinationInput
-            ? destinationInput.value.trim()
-            : "";
-
-
-    if (!toValue) {
-
-        alert(
-            "Please select a destination."
-        );
-
-        return;
-
-    }
-
-
-    const startPlace =
-        findPlace(fromValue);
-
-
-    const destinationPlace =
-        findPlace(toValue);
-
-
-    if (!startPlace) {
-
-        alert(
-            "Starting location not found."
-        );
-
-        return;
-
-    }
-
-
-    if (!destinationPlace) {
-
-        alert(
-            "Destination not found."
-        );
-
-        return;
-
-    }
-
-
-    const start =
-        [
-            startPlace[1],
-            startPlace[2]
-        ];
-
-
-    const destination =
-        [
-            destinationPlace[1],
-            destinationPlace[2]
-        ];
-
-
-    try {
-
-        // ----------------------------------------------------
-        // GET ROAD ROUTE
-        // ----------------------------------------------------
-
-        const route =
-            await getRoadRoute(
-                start,
-                destination
-            );
-
-
-        const coordinates =
-            route.geometry.coordinates.map(
-                function (point) {
-
-                    return [
-                        point[1],
-                        point[0]
-                    ];
-
-                }
-            );
-
-
-        // ----------------------------------------------------
-        // WHITE OUTLINE
-        // Only navigation route gets outline.
-        // No permanent white campus roads.
-        // ----------------------------------------------------
-
-        const routeOutline =
-            L.polyline(
-                coordinates,
-                {
-                    color: "#ffffff",
-
-                    weight: 11,
-
-                    opacity: 0.95,
-
-                    lineCap: "round",
-
-                    lineJoin: "round",
-
-                    interactive: false
-                }
-            ).addTo(map);
-
-
-        // ----------------------------------------------------
-        // BLUE NAVIGATION ROUTE
-        // ----------------------------------------------------
-
-        routeLayer =
-            L.polyline(
-                coordinates,
-                {
-                    color: "#1677ff",
-
-                    weight: 6,
-
-                    opacity: 1,
-
-                    lineCap: "round",
-
-                    lineJoin: "round",
-
-                    interactive: false
-                }
-            ).addTo(map);
-
-
-        // Store both layers together
-        routeLayer._outline =
-            routeOutline;
-
-
-        // ----------------------------------------------------
-        // START MARKER
-        // ----------------------------------------------------
-
-        startMarker =
-            L.circleMarker(
-                start,
-                {
-                    radius: 8,
-
-                    color: "#ffffff",
-
-                    weight: 3,
-
-                    fillColor: "#1677ff",
-
-                    fillOpacity: 1
-                }
-            ).addTo(map);
-
-
-        startMarker.bindPopup(
-            "<b>🚶 Start</b><br>" +
-            startPlace[0]
-        );
-
-
-        // ----------------------------------------------------
-        // DESTINATION MARKER
-        // ----------------------------------------------------
-
-        destinationMarker =
-            L.marker(
-                destination,
-                {
-                    icon: campusIcon,
-
-                    zIndexOffset: 2000
-                }
-            ).addTo(map);
-
-
-        destinationMarker.bindPopup(
-            "<b>📍 Destination</b><br>" +
-            destinationPlace[0]
-        );
-
-
-        destinationMarker.openPopup();
-
-
-        // ----------------------------------------------------
-        // ARROWS
-        // ----------------------------------------------------
-
-        drawRouteArrows(
-            coordinates
-        );
-
-
-        // ----------------------------------------------------
-        // FIT ROUTE
-        // ----------------------------------------------------
-
-        map.fitBounds(
-            routeLayer.getBounds(),
-            {
-                padding: [
-                    60,
-                    60
-                ]
-            }
-        );
-
-
-        // ----------------------------------------------------
-        // INFORMATION
-        // ----------------------------------------------------
-
-        showRouteInformation(
-
-            startPlace[0],
-
-            destinationPlace[0],
-
-            route.distance,
-
-            route.duration
-
-        );
-
-
-    }
-    catch (error) {
-
-        console.error(
-            "Navigation error:",
-            error
-        );
-
-
-        alert(
-            "Road route could not be found. " +
-            "Please try another destination."
-        );
+            "</b>";
 
     }
 
@@ -789,32 +706,14 @@ async function startNavigation() {
 
 
 // ============================================================
-// 17. NAVIGATE BUTTON
+// 13. FROM / TO
 // ============================================================
 
-const navigateBtn =
+const fromInput =
     document.getElementById(
-        "navigateBtn"
+        "from"
     );
 
-
-if (navigateBtn) {
-
-    navigateBtn.addEventListener(
-        "click",
-        function () {
-
-            startNavigation();
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// 18. SEARCH RESULTS
-// ============================================================
 
 const destinationInput =
     document.getElementById(
@@ -822,87 +721,144 @@ const destinationInput =
     );
 
 
-const resultsBox =
+const navigateBtn =
     document.getElementById(
-        "results"
+        "navigateBtn"
     );
 
 
-if (
-    destinationInput &&
-    resultsBox
-) {
+// ============================================================
+// 14. NAVIGATE
+// ============================================================
 
-    destinationInput.addEventListener(
-        "input",
+if (navigateBtn) {
+
+    navigateBtn.addEventListener(
+        "click",
         function () {
 
-            const text =
-                destinationInput.value
-                    .toLowerCase()
-                    .trim();
+            const fromText =
+                fromInput
+                    ? fromInput.value.trim()
+                    : "Main Gate";
 
 
-            resultsBox.innerHTML =
-                "";
+            const toText =
+                destinationInput
+                    ? destinationInput.value.trim()
+                    : "";
 
 
-            if (!text) {
+            if (!toText) {
+
+                alert(
+                    "Please select a destination."
+                );
 
                 return;
 
             }
 
 
-            places.forEach(
-                function (place) {
-
-                    const name =
-                        place[0]
-                            .toLowerCase();
+            const destination =
+                findPlace(toText);
 
 
-                    if (
-                        name.includes(text)
-                    ) {
+            if (!destination) {
 
-                        const result =
-                            document.createElement(
-                                "div"
-                            );
+                alert(
+                    "Destination not found."
+                );
 
+                return;
 
-                        result.className =
-                            "result";
+            }
 
 
-                        result.textContent =
-                            "📍 " +
-                            place[0];
+            const destinationName =
+                destination[0];
 
 
-                        result.addEventListener(
-                            "click",
-                            function () {
+            // =================================================
+            // COMPUTER SCIENCE
+            // =================================================
 
-                                destinationInput.value =
-                                    place[0];
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes(
+                        "computer science"
+                    )
+            ) {
+
+                drawNavigation(
+                    computerScienceRoute,
+                    destinationName
+                );
+
+                return;
+
+            }
 
 
-                                resultsBox.innerHTML =
-                                    "";
+            // =================================================
+            // LIBRARY
+            // =================================================
 
-                            }
-                        );
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes(
+                        "library"
+                    )
+            ) {
+
+                drawNavigation(
+                    libraryRoute,
+                    destinationName
+                );
+
+                return;
+
+            }
 
 
-                        resultsBox.appendChild(
-                            result
-                        );
+            // =================================================
+            // OTHER LOCATION
+            // =================================================
 
-                    }
+            clearNavigation();
 
-                }
+
+            map.setView(
+                [
+                    destination[1],
+                    destination[2]
+                ],
+                19
+            );
+
+
+            destinationMarker =
+                L.marker(
+                    [
+                        destination[1],
+                        destination[2]
+                    ]
+                ).addTo(map);
+
+
+            destinationMarker
+                .bindPopup(
+                    "<b>📍 " +
+                    destinationName +
+                    "</b>"
+                )
+                .openPopup();
+
+
+            navigationLayers.push(
+                destinationMarker
             );
 
         }
@@ -912,38 +868,115 @@ if (
 
 
 // ============================================================
-// 19. ENTER KEY NAVIGATION
+// 15. SEARCH SUGGESTIONS
 // ============================================================
 
-if (destinationInput) {
+if (
+    destinationInput
+) {
 
-    destinationInput.addEventListener(
-        "keydown",
-        function (event) {
+    const resultsBox =
+        document.getElementById(
+            "results"
+        );
 
-            if (
-                event.key === "Enter"
-            ) {
 
-                event.preventDefault();
+    if (resultsBox) {
 
-                startNavigation();
+        destinationInput
+            .addEventListener(
+                "input",
+                function () {
 
-            }
+                    const text =
+                        destinationInput.value
+                            .toLowerCase()
+                            .trim();
 
-        }
-    );
+
+                    resultsBox.innerHTML =
+                        "";
+
+
+                    if (!text) {
+                        return;
+                    }
+
+
+                    places.forEach(
+                        function(place) {
+
+                            const name =
+                                place[0]
+                                    .toLowerCase();
+
+
+                            if (
+                                name.includes(
+                                    text
+                                ) ||
+                                (
+                                    text === "cs" &&
+                                    name.includes(
+                                        "computer science"
+                                    )
+                                )
+                            ) {
+
+                                const item =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                item.className =
+                                    "result";
+
+
+                                item.textContent =
+                                    "📍 " +
+                                    place[0];
+
+
+                                item.addEventListener(
+                                    "click",
+                                    function() {
+
+                                        destinationInput.value =
+                                            place[0];
+
+
+                                        resultsBox.innerHTML =
+                                            "";
+
+                                    }
+                                );
+
+
+                                resultsBox.appendChild(
+                                    item
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+    }
 
 }
 
 
 // ============================================================
-// 20. GO TO COLLEGE
+// 16. GO TO COLLEGE
 // ============================================================
 
 function goToCollege() {
 
-    clearRoute();
+    clearNavigation();
 
 
     map.setView(
@@ -955,11 +988,11 @@ function goToCollege() {
 
 
 // ============================================================
-// 21. MAP SIZE FIX
+// 17. MAP SIZE FIX
 // ============================================================
 
 setTimeout(
-    function () {
+    function() {
 
         map.invalidateSize();
 
