@@ -1,13 +1,281 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html,
 body {
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
 #map {
+    position: fixed;
+    inset: 0;
+
     width: 100%;
-    height: 100vh !important;
-    min-height: 600px !important;
+    height: 100%;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   NAVIGATION PANEL
+   ========================================================= */
+
+.navigation-panel {
+
+    position: fixed;
+
+    top: 20px;
+    left: 20px;
+
+    width: 330px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.25);
+
+    z-index: 1000;
+}
+
+
+/* TITLE */
+
+.title {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+
+/* SUBTITLE */
+
+.subtitle {
+
+    font-size: 13px;
+
+    color: #666666;
+
+    margin-bottom: 18px;
+}
+
+
+/* LABEL */
+
+.navigation-panel label {
+
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-top: 12px;
+
+    margin-bottom: 6px;
+}
+
+
+/* FROM */
+
+#start {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #cccccc;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    font-size: 14px;
+}
+
+
+/* TO */
+
+#destination {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #cccccc;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+
+#destination:focus {
+
+    border-color: #1677ff;
+}
+
+
+/* SEARCH RESULTS */
+
+#results {
+
+    width: 100%;
+
+    max-height: 180px;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 8px;
+
+    margin-top: 5px;
+}
+
+
+/* RESULT */
+
+.result {
+
+    padding: 11px;
+
+    cursor: pointer;
+
+    border-bottom: 1px solid #eeeeee;
+
+    font-size: 14px;
+}
+
+
+.result:hover {
+
+    background: #f1f5ff;
+}
+
+
+/* NAVIGATION BUTTON */
+
+#navigateBtn {
+
+    width: 100%;
+
+    height: 45px;
+
+    margin-top: 16px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #1677ff;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+#navigateBtn:hover {
+
+    background: #0d63d8;
+}
+
+
+/* ROUTE INFO */
+
+#routeInfo {
+
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    background: #f4f7fb;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* LOCATION BUTTON */
+
+.location-button {
+
+    position: fixed;
+
+    right: 20px;
+
+    bottom: 25px;
+
+    width: 48px;
+
+    height: 48px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.25);
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 1000;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .navigation-panel {
+
+        top: 10px;
+
+        left: 10px;
+
+        right: 10px;
+
+        width: auto;
+
+        padding: 15px;
+    }
+
 }
