@@ -196,30 +196,6 @@ function findPlace(searchText) {
     });
 
 }
-if (
-    destinationName
-        .toLowerCase()
-        .includes("management office")
-) {
-    drawNavigation(
-        managementOfficeRoute,
-        destinationName
-    );
-    return;
-}
-
-if (
-    destinationName
-        .toLowerCase()
-        .includes("principal office")
-) {
-    drawNavigation(
-        principalOfficeRoute,
-        destinationName
-    );
-    return;
-}
-
 
 const computerScienceRoute = [
     [8.6988326, 77.7399079],  // Main Gate
