@@ -324,6 +324,62 @@ const physicsRegularRoute = [
     [8.6989193, 77.7407981]
 ];
 // ============================================================
+// OLD AUDITORIUM ROUTE
+// MAIN GATE → FRONT ROUND → OLD AUDITORIUM
+// ============================================================
+
+const oldAuditoriumRoute = [
+
+    // Main Gate
+    [8.6988565, 77.739888],
+
+    // Straight inside
+    [8.6988479, 77.7399128],
+    [8.6988585, 77.7400764],
+    [8.6990176, 77.7403795],
+    [8.6990176, 77.7405807],
+
+    // Front round
+    [8.6990121, 77.7405504],
+    [8.6988371, 77.7406737],
+    [8.6986800, 77.7406894],
+    [8.6985554, 77.7406304],
+    [8.6984652, 77.7405177],
+
+    // Old Auditorium side
+    [8.6983000, 77.7406500],
+    [8.6980713, 77.7407428]
+];
+
+
+// ============================================================
+// TAMIL + ENGLISH (REGULAR) + ECONOMICS
+// OPPOSITE SIDE OF OLD AUDITORIUM
+// ============================================================
+
+const tamilEnglishEconomicsRoute = [
+
+    // Main Gate
+    [8.6988565, 77.739888],
+
+    // Straight inside
+    [8.6988479, 77.7399128],
+    [8.6988585, 77.7400764],
+    [8.6990176, 77.7403795],
+    [8.6990176, 77.7405807],
+
+    // Front round
+    [8.6990121, 77.7405504],
+    [8.6988371, 77.7406737],
+    [8.6986800, 77.7406894],
+    [8.6985554, 77.7406304],
+    [8.6984652, 77.7405177],
+
+    // Opposite side
+    [8.6983000, 77.7404500],
+    [8.6980622, 77.7403781]
+];
+// ============================================================
 // 12. DRAW NAVIGATION
 // ============================================================
 
@@ -715,6 +771,32 @@ if (
         destinationName
     );
 
+    return;
+}
+            // OLD AUDITORIUM
+if (
+    destinationName
+        .toLowerCase()
+        .includes("old auditorium")
+) {
+    drawNavigation(
+        oldAuditoriumRoute,
+        destinationName
+    );
+    return;
+}
+
+
+// TAMIL / ENGLISH / ECONOMICS
+if (
+    destinationName
+        .toLowerCase()
+        .includes("tamil, english (regular), economics")
+) {
+    drawNavigation(
+        tamilEnglishEconomicsRoute,
+        destinationName
+    );
     return;
 }
 
