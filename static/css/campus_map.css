@@ -16,30 +16,31 @@ body {
     height: 100vh;
 }
 
-/* Navigation panel */
+/* ================================
+   NAVIGATION PANEL
+================================ */
 
 .navigation-panel {
     position: absolute;
     z-index: 1000;
 
-    top: 20px;
-    left: 20px;
+    top: 18px;
+    left: 18px;
 
-    width: 340px;
+    width: 350px;
 
-    background: white;
+    background: #ffffff;
 
     padding: 20px;
 
     border-radius: 16px;
 
-    box-shadow:
-        0 5px 25px rgba(0,0,0,0.20);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.20);
 }
 
 .navigation-panel h2 {
-    font-size: 21px;
     margin-bottom: 5px;
+    font-size: 21px;
 }
 
 .subtitle {
@@ -51,11 +52,11 @@ body {
 .navigation-panel label {
     display: block;
 
-    font-size: 13px;
-    font-weight: bold;
-
     margin-top: 10px;
     margin-bottom: 6px;
+
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .navigation-panel select,
@@ -64,7 +65,7 @@ body {
 
     padding: 12px;
 
-    border: 1px solid #d0d0d0;
+    border: 1px solid #d5d5d5;
 
     border-radius: 9px;
 
@@ -73,17 +74,18 @@ body {
     outline: none;
 }
 
-.navigation-panel input:focus,
-.navigation-panel select:focus {
+.navigation-panel input:focus {
     border-color: #4285f4;
 }
 
-/* Search results */
+/* ================================
+   SEARCH RESULTS
+================================ */
 
 #results {
     margin-top: 5px;
 
-    max-height: 180px;
+    max-height: 170px;
 
     overflow-y: auto;
 }
@@ -102,7 +104,9 @@ body {
     background: #f1f3f4;
 }
 
-/* Navigation button */
+/* ================================
+   NAVIGATION BUTTON
+================================ */
 
 #navigateBtn {
     width: 100%;
@@ -130,7 +134,9 @@ body {
     background: #3367d6;
 }
 
-/* Route information */
+/* ================================
+   ROUTE INFORMATION
+================================ */
 
 #routeInfo {
     margin-top: 15px;
@@ -143,10 +149,12 @@ body {
 
     font-size: 13px;
 
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
-/* Current location button */
+/* ================================
+   LOCATION BUTTON
+================================ */
 
 .location-button {
     position: absolute;
@@ -161,8 +169,8 @@ body {
 
     display: flex;
 
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     background: white;
 
@@ -175,12 +183,13 @@ body {
     font-size: 21px;
 }
 
-/* Mobile */
+/* ================================
+   MOBILE
+================================ */
 
 @media (max-width: 600px) {
 
     .navigation-panel {
-
         top: 10px;
         left: 10px;
         right: 10px;
@@ -189,5 +198,4 @@ body {
 
         padding: 15px;
     }
-
 }
