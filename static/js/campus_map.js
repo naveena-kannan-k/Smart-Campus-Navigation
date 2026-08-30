@@ -380,34 +380,35 @@ const tamilEnglishEconomicsRoute = [
     [8.6980622, 77.7403781]
 ];
 // ============================================================
-// NEW AUDITORIUM / MATHS / NANO SCIENCE / HISTORY
-// SAME MAIN BLOCK ROAD
+// NEW AUDITORIUM SIDE - ACTUAL KMZ ROAD
+// MAIN GATE → FRONT ROUND → NEW AUDITORIUM SIDE
 // ============================================================
 
-// Common road to New Auditorium block
+// Common route to New Auditorium side
 const newAuditoriumCommonRoute = [
 
-    // MAIN GATE
+    // MAIN GATE → STRAIGHT
     [8.6988565, 77.739888],
+    [8.6988523, 77.7399115],
+    [8.6988630, 77.7400725],
+    [8.6989796, 77.7402602],
+    [8.6990247, 77.7404480],
 
-    // MAIN ROAD - STRAIGHT
-    [8.6988479, 77.7399128],
-    [8.6988585, 77.7400764],
-    [8.6990176, 77.7403795],
-    [8.6990176, 77.7405807],
-
-    // FRONT / ROUND ROAD
-    [8.6990121, 77.7405504],
-    [8.6988371, 77.7406737],
+    // FRONT ROUND
+    [8.6989929, 77.7405687],
+    [8.6988470, 77.7406733],
     [8.6986800, 77.7406894],
     [8.6985554, 77.7406304],
+    [8.6984652, 77.7405177],
 
-    // ROAD TOWARDS NEW AUDITORIUM BLOCK
-    [8.6987000, 77.7407500],
-    [8.6988500, 77.7408200],
-    [8.6990170, 77.7408500],
-    [8.6993000, 77.7408500],
-    [8.6994790, 77.7406680]
+    // FROM ROUND → NEW AUDITORIUM SIDE
+    [8.6990018, 77.7405711],
+    [8.6990919, 77.7405174],
+    [8.6991900, 77.7404906],
+    [8.6993438, 77.7403552],
+    [8.6994287, 77.7402988],
+    [8.6995162, 77.7402452],
+    [8.6996249, 77.7404531]
 ];
 
 
@@ -418,7 +419,6 @@ const newAuditoriumCommonRoute = [
 
 const mathsRoute = [
     ...newAuditoriumCommonRoute,
-
     [8.6994790, 77.7406680]
 ];
 
@@ -430,7 +430,6 @@ const mathsRoute = [
 
 const newAuditoriumRoute = [
     ...newAuditoriumCommonRoute,
-
     [8.6996460, 77.7406171]
 ];
 
@@ -442,7 +441,6 @@ const newAuditoriumRoute = [
 
 const nanoScienceRoute = [
     ...newAuditoriumCommonRoute,
-
     [8.6996354, 77.7404803]
 ];
 
@@ -454,9 +452,9 @@ const nanoScienceRoute = [
 
 const historyTamilEnglishRoute = [
     ...newAuditoriumCommonRoute,
-
     [8.6996990, 77.7407055]
 ];
+
 // ============================================================
 // 12. DRAW NAVIGATION
 // ============================================================
@@ -891,7 +889,27 @@ if (
 }
 
 
+// ============================================================
+// MATHS
+// ============================================================
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("maths")
+) {
+    drawNavigation(
+        mathsRoute,
+        destinationName
+    );
+    return;
+}
+
+
+// ============================================================
 // NEW AUDITORIUM
+// ============================================================
+
 if (
     destinationName
         .toLowerCase()
@@ -905,7 +923,10 @@ if (
 }
 
 
+// ============================================================
 // NANO SCIENCE
+// ============================================================
+
 if (
     destinationName
         .toLowerCase()
@@ -919,11 +940,14 @@ if (
 }
 
 
-// HISTORY
+// ============================================================
+// HISTORY (TAMIL & ENGLISH)
+// ============================================================
+
 if (
     destinationName
         .toLowerCase()
-        .includes("history (tamil & english)")
+        .includes("history")
 ) {
     drawNavigation(
         historyTamilEnglishRoute,
@@ -931,7 +955,6 @@ if (
     );
     return;
 }
-
             // =================================================
             // COMPUTER SCIENCE
             // =================================================
