@@ -1,4 +1,3 @@
-```javascript
 // ============================================================
 // SARAH TUCKER COLLEGE
 // CAMPUS MAP + CLEAN ROADS
@@ -816,4 +815,3 @@ setTimeout(function() {
     map.invalidateSize();
 
 }, 700);
-```
