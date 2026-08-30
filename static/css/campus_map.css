@@ -1,33 +1,23 @@
 /* ============================================================
-   SARAH TUCKER COLLEGE
-   CAMPUS MAP CSS
-============================================================ */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    overflow: hidden;
-}
-
-
-/* ============================================================
    MAP
 ============================================================ */
 
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+}
+
 #map {
+
     width: 100%;
     height: 100vh;
+
 }
 
 
@@ -42,67 +32,28 @@ body {
     top: 18px;
     left: 18px;
 
-    width: 350px;
-
     z-index: 1000;
 
-    background: #ffffff;
+    width: 350px;
 
     padding: 20px;
+
+    background: #ffffff;
 
     border-radius: 16px;
 
     box-shadow:
-        0 5px 25px rgba(0, 0, 0, 0.22);
+        0 5px 25px
+        rgba(0,0,0,0.20);
+
 }
 
 
-/* TITLE */
+/* ============================================================
+   SEARCH
+============================================================ */
 
-.title {
-
-    font-size: 21px;
-
-    font-weight: 700;
-
-    color: #202124;
-
-    margin-bottom: 4px;
-}
-
-
-/* SUBTITLE */
-
-.subtitle {
-
-    font-size: 13px;
-
-    color: #70757a;
-
-    margin-bottom: 18px;
-}
-
-
-/* LABEL */
-
-.navigation-panel label {
-
-    display: block;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    color: #444;
-
-    margin-top: 10px;
-
-    margin-bottom: 6px;
-}
-
-
-/* SELECT */
-
+.navigation-panel input,
 .navigation-panel select {
 
     width: 100%;
@@ -111,82 +62,36 @@ body {
 
     padding: 0 12px;
 
-    border-radius: 9px;
-
     border: 1px solid #d5d5d5;
 
-    background: white;
+    border-radius: 9px;
+
+    background: #ffffff;
 
     font-size: 14px;
 
     outline: none;
+
 }
 
 
-/* SEARCH */
+.navigation-panel label {
 
-.navigation-panel input {
+    display: block;
 
-    width: 100%;
+    margin-top: 10px;
 
-    height: 44px;
+    margin-bottom: 6px;
 
-    padding: 0 12px;
+    font-size: 13px;
 
-    border-radius: 9px;
+    font-weight: 600;
 
-    border: 1px solid #d5d5d5;
-
-    font-size: 14px;
-
-    outline: none;
-}
-
-.navigation-panel input:focus {
-
-    border-color: #4285f4;
-
-    box-shadow:
-        0 0 0 2px rgba(66, 133, 244, 0.12);
 }
 
 
 /* ============================================================
-   SEARCH RESULTS
-============================================================ */
-
-#results {
-
-    margin-top: 5px;
-
-    max-height: 180px;
-
-    overflow-y: auto;
-}
-
-
-.result-item {
-
-    padding: 10px 12px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    color: #333;
-}
-
-
-.result-item:hover {
-
-    background: #f1f3f4;
-}
-
-
-/* ============================================================
-   NAVIGATION BUTTON
+   BUTTON
 ============================================================ */
 
 #navigateBtn {
@@ -203,7 +108,7 @@ body {
 
     background: #1a73e8;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 15px;
 
@@ -211,7 +116,6 @@ body {
 
     cursor: pointer;
 
-    transition: 0.2s;
 }
 
 
@@ -219,7 +123,39 @@ body {
 
     background: #1557b0;
 
-    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   SEARCH RESULTS
+============================================================ */
+
+#results {
+
+    max-height: 180px;
+
+    overflow-y: auto;
+
+}
+
+
+.result-item {
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+}
+
+
+.result-item:hover {
+
+    background: #f1f3f4;
+
 }
 
 
@@ -235,26 +171,26 @@ body {
 
     padding: 13px;
 
-    border-radius: 10px;
-
     background: #f5f7fa;
 
-    color: #333;
+    border-radius: 10px;
 
     font-size: 13px;
 
     line-height: 1.7;
+
 }
 
 
 #routeInfo.show {
 
     display: block;
+
 }
 
 
 /* ============================================================
-   MAP LOCATION BUTTON
+   LOCATION BUTTON
 ============================================================ */
 
 .location-button {
@@ -275,39 +211,16 @@ body {
 
     border-radius: 50%;
 
-    background: white;
+    background: #ffffff;
 
     box-shadow:
-        0 3px 15px rgba(0, 0, 0, 0.25);
+        0 3px 15px
+        rgba(0,0,0,0.25);
 
     font-size: 21px;
 
     cursor: pointer;
-}
 
-
-.location-button:hover {
-
-    background: #f5f5f5;
-}
-
-
-/* ============================================================
-   BLUE NAVIGATION ARROW
-============================================================ */
-
-.navigation-arrow {
-
-    color: #1a73e8;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    text-shadow:
-        0 1px 2px white,
-        1px 0 2px white,
-        -1px 0 2px white;
 }
 
 
@@ -328,11 +241,7 @@ body {
         width: auto;
 
         padding: 15px;
-    }
 
-    .title {
-
-        font-size: 18px;
     }
 
 }
