@@ -1,406 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sarah Tucker College - Campus Navigation</title>
 
-    <!-- Leaflet CSS -->
     <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIINfQ3a2fM6dK0n3qjY0z5Gm8f8Q1y5z2A="
-          crossorigin="">
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-    <!-- Campus CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/campus_map.css') }}">
-
 </head>
-
 
 <body>
 
+<div id="map"></div>
 
-<!-- =========================================================
-     TOP NAVIGATION
-========================================================= -->
+<div class="navigation-panel">
 
-<header class="topbar">
+    <h2>🏫 Sarah Tucker College</h2>
 
-    <div class="brand">
+    <p class="subtitle">
+        Smart Campus Navigation
+    </p>
 
-        <div class="brand-logo">
-            STC
-        </div>
+    <label>From</label>
 
-        <div class="brand-text">
+    <select id="start">
+        <option value="Main Gate">Main Gate</option>
+    </select>
 
-            <h1>Sarah Tucker College</h1>
+    <label>To</label>
 
-            <span>
-                Smart Campus Navigation
-            </span>
+    <input
+        id="destination"
+        type="text"
+        placeholder="Search Computer Science, Library..."
+        autocomplete="off">
 
-        </div>
+    <div id="results"></div>
 
-    </div>
+    <button id="navigateBtn">
+        🚶 Start Navigation
+    </button>
 
-
-    <div class="top-actions">
-
-        <button class="top-btn"
-                onclick="showWholeCampus()">
-
-            🏫
-            <span>Campus</span>
-
-        </button>
-
-
-        <button class="top-btn"
-                onclick="locateUser()">
-
-            📍
-            <span>My Location</span>
-
-        </button>
-
-
-        <a href="/"
-           class="home-btn">
-
-            🏠
-            Home
-
-        </a>
-
-    </div>
-
-</header>
-
-
-
-<!-- =========================================================
-     MAIN LAYOUT
-========================================================= -->
-
-<div class="main-container">
-
-
-    <!-- =====================================================
-         LEFT CONTROL PANEL
-    ====================================================== -->
-
-    <aside class="sidebar">
-
-
-        <!-- Search -->
-        <div class="search-section">
-
-            <div class="section-title">
-
-                <span>🔎</span>
-
-                <h2>Campus Navigation</h2>
-
-            </div>
-
-
-            <p class="search-help">
-
-                Search a building, department or campus location.
-
-            </p>
-
-
-            <div class="search-wrapper">
-
-                <input
-                    type="text"
-                    id="placeInput"
-                    placeholder="Search campus place..."
-                    autocomplete="off"
-                >
-
-
-                <button
-                    class="search-btn"
-                    onclick="findPlace()">
-
-                    Search
-
-                </button>
-
-
-                <div
-                    id="suggestions"
-                    class="suggestions">
-                </div>
-
-            </div>
-
-
-            <div class="quick-search">
-
-                <button onclick="selectPlace('library')">
-                    📚 Library
-                </button>
-
-                <button onclick="selectPlace('canteen')">
-                    🍴 Canteen
-                </button>
-
-                <button onclick="selectPlace('computer science')">
-                    💻 Computer Science
-                </button>
-
-                <button onclick="selectPlace('hostel')">
-                    🏠 Hostel
-                </button>
-
-                <button onclick="selectPlace('chapel')">
-                    ⛪ Chapel
-                </button>
-
-                <button onclick="selectPlace('playground')">
-                    ⚽ Playground
-                </button>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- Result -->
-        <div id="result"
-             class="result-card">
-
-            <div class="empty-result">
-
-                <div class="empty-icon">
-                    📍
-                </div>
-
-                <h3>
-                    Select a Destination
-                </h3>
-
-                <p>
-                    Search or click a location
-                    to start navigation.
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- Nearby -->
-        <div class="nearby-section">
-
-            <div class="nearby-title">
-
-                <h3>
-                    Nearby Locations
-                </h3>
-
-            </div>
-
-
-            <div class="nearby-columns">
-
-                <div>
-
-                    <h4>
-                        ← Left
-                    </h4>
-
-                    <div id="leftPlaces"
-                         class="place-list">
-
-                        <p class="small-text">
-                            Select a location
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <h4>
-                        Right →
-                    </h4>
-
-                    <div id="rightPlaces"
-                         class="place-list">
-
-                        <p class="small-text">
-                            Select a location
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Map controls -->
-        <div class="sidebar-actions">
-
-            <button
-                onclick="showWholeCampus()"
-                class="action-btn">
-
-                🗺️
-                Show Whole Campus
-
-            </button>
-
-
-            <button
-                onclick="clearNavigation()"
-                class="action-btn secondary">
-
-                ✖
-                Clear Route
-
-            </button>
-
-        </div>
-
-
-    </aside>
-
-
-
-    <!-- =====================================================
-         MAP AREA
-    ====================================================== -->
-
-    <main class="map-area">
-
-
-        <div id="map"></div>
-
-
-        <!-- Map information -->
-        <div class="map-info">
-
-            <div class="info-item">
-
-                <span class="info-dot gate"></span>
-
-                Main Gate
-
-            </div>
-
-
-            <div class="info-item">
-
-                <span class="info-dot place"></span>
-
-                Campus Place
-
-            </div>
-
-
-            <div class="info-item">
-
-                <span class="info-dot destination"></span>
-
-                Destination
-
-            </div>
-
-        </div>
-
-
-        <!-- Map floating controls -->
-        <div class="floating-controls">
-
-            <button
-                onclick="showWholeCampus()"
-                title="Show entire campus">
-
-                🏫
-
-            </button>
-
-
-            <button
-                onclick="locateUser()"
-                title="My current location">
-
-                📍
-
-            </button>
-
-
-            <button
-                onclick="clearNavigation()"
-                title="Clear route">
-
-                ✖
-
-            </button>
-
-        </div>
-
-
-    </main>
+    <div id="routeInfo"></div>
 
 </div>
 
+<div class="location-button"
+     onclick="goToCollege()">
+    📍
+</div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer class="footer">
-
-    <span>
-        AI Driven Smart Campus Navigation
-    </span>
-
-    <span>
-        Sarah Tucker College
-    </span>
-
-</footer>
-
-
-
-<!-- =========================================================
-     LEAFLET JS
-========================================================= -->
-
-<script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin="">
-</script>
-
-
-<!-- Campus JavaScript -->
-
-<script
-    src="{{ url_for('static', filename='js/campus_map.js') }}">
-</script>
-
+<script src="{{ url_for('static', filename='js/campus_map.js') }}"></script>
 
 </body>
-
 </html>
