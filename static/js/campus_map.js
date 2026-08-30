@@ -665,6 +665,58 @@ if (navigateBtn) {
 
             const destinationName =
                 destination[0];
+            // =================================================
+// MANAGEMENT OFFICE
+// =================================================
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("management office")
+) {
+    drawNavigation(
+        managementOfficeRoute,
+        destinationName
+    );
+
+    return;
+}
+
+
+// =================================================
+// PRINCIPAL OFFICE
+// =================================================
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("principal office")
+) {
+    drawNavigation(
+        principalOfficeRoute,
+        destinationName
+    );
+
+    return;
+}
+
+
+// =================================================
+// PHYSICS (REGULAR)
+// =================================================
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("physics (regular)")
+) {
+    drawNavigation(
+        physicsRegularRoute,
+        destinationName
+    );
+
+    return;
+}
 
 
             // =================================================
