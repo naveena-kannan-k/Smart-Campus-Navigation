@@ -9,3 +9,7 @@ L.tileLayer(
 ).addTo(map);
 
 map.setView([8.6986, 77.74165], 18);
+
+setTimeout(function () {
+    map.invalidateSize();
+}, 500);
