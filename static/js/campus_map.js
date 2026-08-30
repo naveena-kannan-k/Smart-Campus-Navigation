@@ -199,71 +199,66 @@ function findPlace(searchText) {
 
 
 // ============================================================
-// COMPUTER SCIENCE ROUTE - FINAL
-// Main Gate
-//      ↓
-// Internal Main Road
-//      ↓
-// Straight
-//      ↓
-// Round / Circular Road
-//      ↓
-// Left Turn
-//      ↓
-// Canteen Side
-//      ↓
-// Down
-//      ↓
-// Computer Science
+// COMPUTER SCIENCE - FINAL ROUTE
 // ============================================================
 
 const computerScienceRoute = [
 
-    // MAIN GATE
+    // 1. MAIN GATE
     [8.6988565, 77.739888],
 
-    // ENTER COLLEGE - STRAIGHT
+    // 2. MAIN GATE → STRAIGHT INSIDE
     [8.6988479, 77.7399128],
     [8.6988585, 77.7400764],
     [8.6990176, 77.7403795],
     [8.6990176, 77.7405807],
 
-    // MOVE INTO INTERNAL ROAD
-    [8.6990121, 77.7405504],
-
-    // ROUND ROAD APPROACH
+    // 3. STRAIGHT TOWARDS MANAGEMENT OFFICE ROUND
+    [8.6990500, 77.7406500],
     [8.6991200, 77.7407600],
-    [8.6992200, 77.7409000],
+    [8.6992000, 77.7408800],
     [8.6993029, 77.7411164],
 
-    // FOLLOW THE ROUND ROAD
+    // 4. REACH THE ROUND
     [8.6993093, 77.7412170],
-    [8.6992000, 77.7412500],
+
+    // 5. FOLLOW ROUND
+    [8.6992500, 77.7412600],
+    [8.6991500, 77.7412500],
     [8.6990387, 77.7411699],
 
-    // LEFT TURN
+    // ========================================================
+    // 6. ONLY HERE → LEFT TURN
+    // ========================================================
+
     [8.6985959, 77.7411485],
 
-    // STRAIGHT TOWARDS CANTEEN SIDE
+    // 7. STRAIGHT
     [8.6985030, 77.7410439],
     [8.6984580, 77.7410251],
+
+    // 8. CONTINUE TOWARDS CANTEEN
     [8.6984527, 77.7411539],
     [8.6984500, 77.7412518],
     [8.6984474, 77.7413336],
 
-    // CANTEEN SIDE ROAD
+    // 9. CANTEEN ROAD
+    [8.6983500, 77.7415700],
+    [8.6982500, 77.7418000],
     [8.6981808, 77.7419523],
+
+    // 10. CANTEEN SIDE
     [8.6978892, 77.7419738],
 
-    // GO DOWN
+    // 11. DOWN
     [8.6979581, 77.7416304],
     [8.6978812, 77.7416331],
 
-    // CONTINUE DOWN
+    // 12. CONTINUE DOWN
     [8.6978865, 77.7421132],
     [8.6977168, 77.7421159],
 
-    // COMPUTER SCIENCE DESTINATION
+    // 13. COMPUTER SCIENCE
     [8.6975920, 77.7420998]
 ];
 // ============================================================
