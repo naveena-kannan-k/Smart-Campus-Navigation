@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -10,14 +9,17 @@
 
     <title>Sarah Tucker College - Smart Navigation</title>
 
-    <!-- Leaflet -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 
     <!-- Campus CSS -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/campus_map.css') }}">
-
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/campus_map.css') }}"
+    >
 </head>
 
 <body>
@@ -38,46 +40,39 @@
         </div>
 
 
-        <!-- FROM -->
-
-        <label>From</label>
+        <label for="start">
+            From
+        </label>
 
         <select id="start">
-
             <option value="Main Gate">
                 Main Gate
             </option>
-
         </select>
 
 
-        <!-- TO -->
-
-        <label>To</label>
+        <label for="destination">
+            To
+        </label>
 
         <input
             type="text"
             id="destination"
             placeholder="Search Computer Science, Library..."
-            autocomplete="off">
+            autocomplete="off"
+        >
 
-
-        <!-- SEARCH RESULTS -->
 
         <div id="results"></div>
 
 
-        <!-- NAVIGATION BUTTON -->
-
-        <button id="navigateBtn">
-
-            <span>🚶</span>
-            Start Navigation
-
+        <button
+            type="button"
+            id="navigateBtn"
+        >
+            🚶 Start Navigation
         </button>
 
-
-        <!-- ROUTE INFORMATION -->
 
         <div id="routeInfo"></div>
 
@@ -85,34 +80,25 @@
 
 
     <!-- LOCATION BUTTON -->
-
     <button
+        type="button"
         class="location-button"
-        onclick="goToCollege()">
-
+        onclick="goToCollege()"
+    >
         📍
-
     </button>
 
 
-    <!-- LEAFLET -->
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
-    <!-- ARROW PLUGIN -->
-
+    <!-- Leaflet JS -->
     <script
-        src="https://cdn.jsdelivr.net/npm/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js">
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
     </script>
 
 
-    <!-- CAMPUS JS -->
-
+    <!-- Campus JS -->
     <script
         src="{{ url_for('static', filename='js/campus_map.js') }}">
     </script>
 
 </body>
-
 </html>
