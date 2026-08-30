@@ -1,7 +1,8 @@
 // ============================================================
 // SARAH TUCKER COLLEGE
 // SMART CAMPUS NAVIGATION
-// CLEAN VERSION
+// FINAL CLEAN VERSION
+// BASED ON YOUR MY MAPS KMZ
 // ============================================================
 
 
@@ -13,7 +14,7 @@ const COLLEGE_CENTER = [8.6988565, 77.739888];
 
 
 // ============================================================
-// 2. MAP
+// 2. CREATE MAP
 // ============================================================
 
 const map = L.map("map", {
@@ -35,7 +36,7 @@ L.tileLayer(
 
 
 // ============================================================
-// 4. INITIAL VIEW
+// 4. INITIAL LOCATION
 // ============================================================
 
 map.setView(COLLEGE_CENTER, 18);
@@ -47,30 +48,57 @@ map.setView(COLLEGE_CENTER, 18);
 // ============================================================
 
 const places = [
+
     ["Botony", 8.6984368, 77.7409389],
+
     ["Physics (regular)", 8.6989193, 77.7407981],
+
     ["Chemistry", 8.6991182, 77.7410046],
+
     ["Zoology & B.Com (Aided)", 8.6987364, 77.7413077],
+
     ["Old Auditorium", 8.6980713, 77.7407428],
-    ["Library", 8.6983229, 77.7401688],
+
+    ["Library", 8.6983083, 77.7402171],
+
     ["Parking Area", 8.6984369, 77.7400521],
-    ["Tamil, English (regular), Economics", 8.6980622, 77.7403781],
-    ["Toilet", 8.6977444, 77.741516],
-    ["English (SF), B.Com (SF), Computer Science, Food Science", 8.697592, 77.7420998],
-    ["Sports Room", 8.698168, 77.7421669],
+
+    ["Tamil, English (regular), Economics",
+        8.6980622, 77.7403781],
+
+    ["Toilet", 8.6977444, 77.7415160],
+
+    ["English (SF), B.Com (SF), Computer Science, Food Science",
+        8.6975920, 77.7420998],
+
+    ["Sports Room", 8.6981680, 77.7421669],
+
     ["Canteen", 8.6980195, 77.7421696],
-    ["Play Ground", 8.698729, 77.7418037],
+
+    ["Play Ground", 8.6987290, 77.7418037],
+
     ["Hostel", 8.6987209, 77.7427011],
-    ["New Auditorium", 8.699646, 77.7406171],
-    ["History (Tamil & English)", 8.699699, 77.7407055],
+
+    ["New Auditorium", 8.6996460, 77.7406171],
+
+    ["History (Tamil & English)", 8.6996990, 77.7407055],
+
     ["Nano Science", 8.6996354, 77.7404803],
-    ["Maths", 8.699479, 77.740668],
-    ["Physics (SF)", 8.6994551, 77.740947],
+
+    ["Maths", 8.6994790, 77.7406680],
+
+    ["Physics (SF)", 8.6994551, 77.7409470],
+
     ["BCA", 8.6997309, 77.7409014],
+
     ["MCA", 8.6997653, 77.7410918],
-    ["Main Gate", 8.6988565, 77.739888],
+
+    ["Main Gate", 8.6988565, 77.7398880],
+
     ["NCC Room", 8.6990958, 77.7422827],
+
     ["Principal Office", 8.6988395, 77.7408101],
+
     ["Management Office", 8.6985889, 77.7408047]
 ];
 
@@ -79,7 +107,7 @@ const places = [
 // 6. LOCATION MARKERS
 // ============================================================
 
-places.forEach(function (place) {
+places.forEach(function(place) {
 
     const marker = L.marker([
         place[1],
@@ -98,145 +126,289 @@ places.forEach(function (place) {
 
 
 // ============================================================
-// 7. CAMPUS ROADS
+// 7. MY MAPS ROAD NETWORK
+// EXACT ROAD POINTS FROM KMZ
 // ============================================================
 
 const roads = [
 
-    // MAIN GATE ROAD
+    // ========================================================
+    // LINE 45
+    // MAIN GATE + ROUND ROAD
+    // ========================================================
+
     [
-        [8.6988565, 77.739888],
-        [8.6988479, 77.7399128],
-        [8.6988585, 77.7400764],
-        [8.6990176, 77.7403795],
-        [8.6990176, 77.7405807]
+        [8.6988523, 77.7399115],
+        [8.6988630, 77.7400725],
+        [8.6989796, 77.7402602],
+        [8.6990247, 77.7404480],
+        [8.6989929, 77.7405687],
+        [8.6988470, 77.7406733],
+        [8.6986800, 77.7406894],
+        [8.6985554, 77.7406304],
+        [8.6984652, 77.7405177],
+        [8.6984334, 77.7404158],
+        [8.6984626, 77.7402683],
+        [8.6985421, 77.7401449],
+        [8.6985183, 77.7401958]
     ],
 
-    // MAIN BLOCK CONNECTION
+
+    // ========================================================
+    // LINE 46
+    // ROUND ROAD → LIBRARY SIDE
+    // ========================================================
+
     [
-        [8.6990176, 77.7405807],
-        [8.6990121, 77.7405504],
-        [8.6988371, 77.7406737],
-        [8.6988451, 77.7407140]
+        [8.6984865, 77.7402119],
+        [8.6983413, 77.7402146]
     ],
 
-    // RIGHT SIDE ROAD
+
+    // ========================================================
+    // LINE 48
+    // LOWER ROAD
+    // ========================================================
+
     [
-        [8.6990176, 77.7405807],
-        [8.6993029, 77.7411164],
-        [8.6993093, 77.7412170],
-        [8.6997017, 77.7411231]
+        [8.6984950, 77.7405567],
+        [8.6980993, 77.7405909],
+        [8.6980999, 77.7404461],
+        [8.6980982, 77.7404069]
     ],
 
-    // UPPER RIGHT
+
+    // ========================================================
+    // LINE 50
+    // LOWER ROAD CONNECTION
+    // ========================================================
+
     [
-        [8.6993029, 77.7411164],
-        [8.6992819, 77.7410775],
-        [8.6994118, 77.7409944]
+        [8.6980993, 77.7405909],
+        [8.6980990, 77.7406429]
     ],
 
-    // TOP ROAD
+
+    // ========================================================
+    // LINE 52
+    // CENTRAL → CANTEEN SIDE
+    // ========================================================
+
     [
-        [8.6997017, 77.7411231],
-        [8.6996566, 77.7411312],
-        [8.6996301, 77.7410064],
-        [8.6995903, 77.7408817],
-        [8.6996566, 77.7408656]
+        [8.6984143, 77.7405872],
+        [8.6981571, 77.7411800],
+        [8.6981996, 77.7419417],
+        [8.6979556, 77.7419511],
+        [8.6977144, 77.7420973],
+        [8.6977276, 77.7421080]
     ],
 
-    // TOP LEFT
-    [
-        [8.6996566, 77.7408656],
-        [8.6996076, 77.7407458],
-        [8.6996486, 77.7407257]
-    ],
 
-    // CENTRAL ROAD
-    [
-        [8.6981822, 77.7413523],
-        [8.6984474, 77.7413336],
-        [8.6984500, 77.7412518],
-        [8.6984527, 77.7411539],
-        [8.6986489, 77.7411431],
-        [8.6986515, 77.7412424]
-    ],
-
-    // CENTRAL TURN
-    [
-        [8.6984527, 77.7411539],
-        [8.6985030, 77.7410439],
-        [8.6984580, 77.7410251]
-    ],
-
-    // MANAGEMENT ROAD
-    [
-        [8.6985959, 77.7411485],
-        [8.6990387, 77.7411699],
-        [8.6990890, 77.7410841]
-    ],
-
-    // CANTEEN SIDE ROAD
-    [
-        [8.6984474, 77.7413336],
-        [8.6981808, 77.7419523],
-        [8.6978892, 77.7419738]
-    ],
-
-    // DOWN ROAD
-    [
-        [8.6978892, 77.7419738],
-        [8.6979581, 77.7416304],
-        [8.6978812, 77.7416331],
-        [8.6978865, 77.7421132],
-        [8.6977168, 77.7421159]
-    ],
-
+    // ========================================================
+    // LINE 55
     // CANTEEN CONNECTION
+    // ========================================================
+
     [
-        [8.6980138, 77.7419684],
-        [8.6980164, 77.7420757]
+        [8.6980260, 77.7419489],
+        [8.6980260, 77.7420709],
+        [8.6980267, 77.7420800]
     ],
 
-    // LIBRARY ROAD
+
+    // ========================================================
+    // LINE 56
+    // CANTEEN SIDE
+    // ========================================================
+
     [
-        [8.6985667, 77.7400830],
-        [8.6985004, 77.7401957],
-        [8.6983573, 77.7401796],
-        [8.6983229, 77.7401688]
+        [8.6981996, 77.7419417],
+        [8.6982033, 77.7420787]
     ],
 
-    // LIBRARY SIDE
+
+    // ========================================================
+    // LINE 61
+    // CENTRAL ROAD
+    // ========================================================
+
     [
-        [8.6985667, 77.7400830],
-        [8.6984315, 77.7400991],
-        [8.6984288, 77.7400723]
+        [8.6981794, 77.7414377],
+        [8.6984207, 77.7414189]
     ],
 
-    // LOWER LEFT
+
+    // ========================================================
+    // LINE 62
+    // CENTRAL TURN
+    // ========================================================
+
     [
-        [8.6984315, 77.7405658],
-        [8.6980842, 77.7405819],
-        [8.6980709, 77.7404075]
+        [8.6984207, 77.7414189],
+        [8.6984923, 77.7410970],
+        [8.6984339, 77.7410541]
     ],
 
+
+    // ========================================================
+    // LINE 63
+    // CENTRAL SIDE
+    // ========================================================
+
+    [
+        [8.6984830, 77.7411529],
+        [8.6987058, 77.7411542],
+        [8.6987097, 77.7412441]
+    ],
+
+
+    // ========================================================
+    // LINE 65
+    // UPPER CENTRAL ROAD
+    // ========================================================
+
+    [
+        [8.6987058, 77.7411542],
+        [8.6990431, 77.7411568],
+        [8.6989887, 77.7410536],
+        [8.6990616, 77.7410160],
+        [8.6990497, 77.7410173]
+    ],
+
+
+    // ========================================================
+    // LINE 66
+    // MAIN GATE LOWER CONNECTION
+    // ========================================================
+
+    [
+        [8.6985592, 77.7399331],
+        [8.6985910, 77.7401047]
+    ],
+
+
+    // ========================================================
+    // LINE 67
+    // UPPER CAMPUS ROAD
+    // ========================================================
+
+    [
+        [8.6989929, 77.7405687],
+        [8.6992734, 77.7410220],
+        [8.6993106, 77.7412044],
+        [8.6996022, 77.7411883],
+        [8.6995996, 77.7411050],
+        [8.6997136, 77.7410969]
+    ],
+
+
+    // ========================================================
+    // LINE 68
+    // TOP CONNECTION
+    // ========================================================
+
+    [
+        [8.6995996, 77.7411050],
+        [8.6995837, 77.7409360],
+        [8.6996831, 77.7409213]
+    ],
+
+
+    // ========================================================
+    // LINE 69
+    // UPPER LEFT
+    // ========================================================
+
+    [
+        [8.6991860, 77.7408739],
+        [8.6993450, 77.7407773]
+    ],
+
+
+    // ========================================================
+    // LINE 70
+    // UPPER CONNECTION
+    // ========================================================
+
+    [
+        [8.6992854, 77.7410603],
+        [8.6994100, 77.7409798]
+    ],
+
+
+    // ========================================================
+    // LINE 71
+    // TOP ROAD
+    // ========================================================
+
+    [
+        [8.6990018, 77.7405711],
+        [8.6990919, 77.7405174],
+        [8.6991900, 77.7404906],
+        [8.6993438, 77.7403552],
+        [8.6994287, 77.7402988]
+    ],
+
+
+    // ========================================================
+    // LINE 73
+    // TOP ROAD CONNECTION
+    // ========================================================
+
+    [
+        [8.6994287, 77.7402988],
+        [8.6995162, 77.7402452],
+        [8.6996249, 77.7404531]
+    ],
+
+
+    // ========================================================
+    // LINE 74
+    // TOP SIDE
+    // ========================================================
+
+    [
+        [8.6995837, 77.7409360],
+        [8.6995451, 77.7407950],
+        [8.6996617, 77.7407387]
+    ],
+
+
+    // ========================================================
+    // LINE 75
+    // UPPER RIGHT
+    // ========================================================
+
+    [
+        [8.6995066, 77.7411985],
+        [8.6995186, 77.7418583]
+    ],
+
+
+    // ========================================================
+    // LINE 76
     // HOSTEL ROAD
+    // ========================================================
+
     [
-        [8.6987709, 77.7425364],
-        [8.6987656, 77.7426759]
+        [8.6993233, 77.7412721],
+        [8.6993286, 77.7426990],
+        [8.6987400, 77.7425381],
+        [8.6987209, 77.7427011]
     ]
 ];
 
 
 // ============================================================
-// 8. DRAW ROADS
+// 8. DRAW PROFESSIONAL WHITE ROADS
 // ============================================================
 
-roads.forEach(function (road) {
+roads.forEach(function(road) {
 
-    // GREY ROAD EDGE
+    // Soft road edge
     L.polyline(road, {
-        color: "#cfcfcf",
-        weight: 18,
+        color: "#d6d6d6",
+        weight: 19,
         opacity: 1,
         lineCap: "round",
         lineJoin: "round",
@@ -245,10 +417,10 @@ roads.forEach(function (road) {
     }).addTo(map);
 
 
-    // WHITE ROAD
+    // White road
     L.polyline(road, {
         color: "#ffffff",
-        weight: 13,
+        weight: 14,
         opacity: 1,
         lineCap: "round",
         lineJoin: "round",
@@ -272,9 +444,11 @@ let navigationLayers = [];
 
 function clearNavigation() {
 
-    navigationLayers.forEach(function (layer) {
+    navigationLayers.forEach(function(layer) {
 
-        map.removeLayer(layer);
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+        }
 
     });
 
@@ -283,117 +457,103 @@ function clearNavigation() {
 
 
 // ============================================================
-// COMPUTER SCIENCE NAVIGATION ROUTE
-// MAIN GATE → STRAIGHT → RIGHT → LEFT → CANTEEN → DOWN → CS
-// ============================================================
-
-const computerScienceRoute = [
-
-    // START - MAIN GATE
-    [8.6988565, 77.739888],
-
-    // 1. MAIN GATE-லிருந்து STRAIGHT
-    [8.6988479, 77.7399128],
-    [8.6988585, 77.7400764],
-    [8.6990176, 77.7403795],
-    [8.6990176, 77.7405807],
-
-    // 2. RIGHT TURN
-    [8.6993029, 77.7411164],
-    [8.6993093, 77.7412170],
-
-    // 3. LEFT TURN
-    [8.6990387, 77.7411699],
-    [8.6985959, 77.7411485],
-
-    // 4. MANAGEMENT OFFICE / MAIN BLOCK SIDE
-    [8.6985030, 77.7410439],
-    [8.6984580, 77.7410251],
-
-    // 5. TURN INTO CENTRAL ROAD
-    [8.6984527, 77.7411539],
-    [8.6984500, 77.7412518],
-    [8.6984474, 77.7413336],
-
-    // 6. CANTEEN SIDE
-    [8.6981808, 77.7419523],
-    [8.6978892, 77.7419738],
-
-    // 7. GO DOWN
-    [8.6979581, 77.7416304],
-    [8.6978812, 77.7416331],
-
-    // 8. CONTINUE DOWN
-    [8.6978865, 77.7421132],
-    [8.6977168, 77.7421159],
-
-    // 9. FINAL APPROACH TO COMPUTER SCIENCE
-    [8.6975920, 77.7420998]
-];
-
-// ============================================================
-// LIBRARY NAVIGATION ROUTE
-// DO NOT CHANGE ANY LOCATION COORDINATES
+// 11. LIBRARY ROUTE
 //
-// Main Gate
+// MAIN GATE
 //     ↓
-// Main Road
+// MAIN ROAD
 //     ↓
-// Management Office Road
+// ROUND ROAD
 //     ↓
-// RIGHT TURN
+// FOLLOW ROUND
 //     ↓
-// STRAIGHT
+// EXIT
 //     ↓
-// LEFT TURN
-//     ↓
-// Library
+// LIBRARY
 // ============================================================
 
 const libraryRoute = [
 
-    // 1. MAIN GATE
-    [8.6988565, 77.739888],
+    // Main Gate
+    [8.6988565, 77.7398880],
 
-    // 2. COME STRAIGHT FROM MAIN GATE
-    [8.6988479, 77.7399128],
-    [8.6988585, 77.7400764],
-    [8.6990176, 77.7403795],
-    [8.6990176, 77.7405807],
+    // Enter actual Line 45
+    [8.6988523, 77.7399115],
+    [8.6988630, 77.7400725],
+    [8.6989796, 77.7402602],
+    [8.6990247, 77.7404480],
 
-    // 3. COME TO MANAGEMENT OFFICE ROAD
-    [8.6990121, 77.7405504],
-    [8.6988371, 77.7406737],
-    [8.6988451, 77.7407140],
+    // ROUND ROAD
+    [8.6989929, 77.7405687],
+    [8.6988470, 77.7406733],
+    [8.6986800, 77.7406894],
+    [8.6985554, 77.7406304],
+    [8.6984652, 77.7405177],
+    [8.6984334, 77.7404158],
+    [8.6984626, 77.7402683],
+    [8.6985421, 77.7401449],
 
-    // 4. RIGHT TURN
-    [8.6985889, 77.7408047],
-    [8.6985959, 77.7411485],
+    // Exit towards Library
+    [8.6985183, 77.7401958],
+    [8.6984865, 77.7402119],
+    [8.6983413, 77.7402146],
 
-    // 5. STRAIGHT ON THE ROAD
-    [8.6985030, 77.7410439],
-    [8.6984580, 77.7410251],
-
-    // 6. LEFT TURN TOWARDS LIBRARY SIDE
-    [8.6984527, 77.7411539],
-    [8.6984500, 77.7412518],
-    [8.6984474, 77.7413336],
-
-    // 7. COME BACK TOWARDS LIBRARY ROAD
-    [8.6984315, 77.7405658],
-    [8.6980842, 77.7405819],
-    [8.6980709, 77.7404075],
-
-    // 8. LIBRARY CONNECTION
-    [8.6985667, 77.7400830],
-    [8.6985004, 77.7401957],
-    [8.6983573, 77.7401796],
-
-    // 9. LIBRARY DESTINATION
-    [8.6983229, 77.7401688]
+    // Library
+    [8.6983083, 77.7402171]
 ];
+
+
 // ============================================================
-// 13. ARROW
+// 12. COMPUTER SCIENCE ROUTE
+//
+// MAIN GATE
+//     ↓
+// MAIN ROAD
+//     ↓
+// ROUND / CENTRAL CONNECTION
+//     ↓
+// CENTRAL ROAD
+//     ↓
+// CANTEEN SIDE
+//     ↓
+// COMPUTER SCIENCE
+// ============================================================
+
+const computerScienceRoute = [
+
+    // Main Gate
+    [8.6988565, 77.7398880],
+
+    // Main road
+    [8.6988523, 77.7399115],
+    [8.6988630, 77.7400725],
+    [8.6989796, 77.7402602],
+    [8.6990247, 77.7404480],
+
+    // Follow actual road
+    [8.6989929, 77.7405687],
+    [8.6988470, 77.7406733],
+    [8.6986800, 77.7406894],
+    [8.6985554, 77.7406304],
+    [8.6984652, 77.7405177],
+
+    // Central connection
+    [8.6984143, 77.7405872],
+    [8.6981571, 77.7411800],
+    [8.6981996, 77.7419417],
+
+    // Canteen-side road
+    [8.6979556, 77.7419511],
+    [8.6977144, 77.7420973],
+
+    // Final approach
+    [8.6977276, 77.7421080],
+    [8.6975920, 77.7420998]
+];
+
+
+// ============================================================
+// 13. ARROW ICON
 // ============================================================
 
 function createArrowIcon(angle) {
@@ -406,29 +566,28 @@ function createArrowIcon(angle) {
             '<div style="' +
             'width:0;' +
             'height:0;' +
-            'border-left:9px solid transparent;' +
-            'border-right:9px solid transparent;' +
-            'border-bottom:20px solid #1677ff;' +
+            'border-left:8px solid transparent;' +
+            'border-right:8px solid transparent;' +
+            'border-bottom:18px solid #1677ff;' +
             'filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));' +
             'transform:rotate(' + angle + 'deg);' +
             '"></div>',
 
-        iconSize: [24, 24],
+        iconSize: [22, 22],
 
-        iconAnchor: [12, 12]
+        iconAnchor: [11, 11]
 
     });
 }
 
 
 // ============================================================
-// 14. ARROW ANGLE
+// 14. ANGLE
 // ============================================================
 
 function getAngle(a, b) {
 
     const dx = b[1] - a[1];
-
     const dy = b[0] - a[0];
 
     return Math.atan2(dx, dy) * 180 / Math.PI;
@@ -444,82 +603,78 @@ function drawNavigation(route, destinationName) {
     clearNavigation();
 
 
-    // WHITE OUTLINE
-    const routeOutline = L.polyline(route, {
+    // White outline
+    const outline = L.polyline(route, {
 
         color: "#ffffff",
-
-        weight: 12,
-
+        weight: 13,
         opacity: 1,
 
         lineCap: "round",
-
         lineJoin: "round",
 
-        smoothFactor: 1,
+        smoothFactor: 0,
 
         interactive: false
 
     }).addTo(map);
 
 
-    // BLUE ROUTE
+    // Blue route
     const blueRoute = L.polyline(route, {
 
         color: "#1677ff",
-
         weight: 6,
-
         opacity: 1,
 
         lineCap: "round",
-
         lineJoin: "round",
 
-        smoothFactor: 1,
+        smoothFactor: 0,
 
         interactive: false
 
     }).addTo(map);
 
 
-    navigationLayers.push(routeOutline);
-
+    navigationLayers.push(outline);
     navigationLayers.push(blueRoute);
 
 
-    // BLUE ARROWS
+    // ========================================================
+    // ARROWS
+    // ========================================================
+
     for (
         let i = 1;
         i < route.length;
         i += 2
     ) {
 
-        const angle =
-            getAngle(
-                route[i - 1],
-                route[i]
-            );
+        const angle = getAngle(
+            route[i - 1],
+            route[i]
+        );
 
 
-        const arrow =
-            L.marker(
-                route[i],
-                {
-                    icon: createArrowIcon(angle),
-                    interactive: false,
-                    zIndexOffset: 2000
-                }
-            ).addTo(map);
+        const arrow = L.marker(
+            route[i],
+            {
+                icon: createArrowIcon(angle),
+                interactive: false,
+                zIndexOffset: 2000
+            }
+        ).addTo(map);
 
 
         navigationLayers.push(arrow);
-
     }
 
 
-    // START DOT
+    // ========================================================
+    // START MARKER
+    // ========================================================
+
     const startMarker =
         L.circleMarker(
             route[0],
@@ -536,9 +691,12 @@ function drawNavigation(route, destinationName) {
     navigationLayers.push(startMarker);
 
 
-    // DESTINATION MARKER
+    // ========================================================
+    // DESTINATION
+    // ========================================================
+
     const destination =
-        places.find(function (place) {
+        places.find(function(place) {
 
             return place[0] === destinationName;
 
@@ -560,24 +718,30 @@ function drawNavigation(route, destinationName) {
             );
 
 
+        destinationMarker.openPopup();
+
         navigationLayers.push(
             destinationMarker
         );
-
-        destinationMarker.openPopup();
     }
 
 
+    // ========================================================
     // FIT ROUTE
+    // ========================================================
+
     map.fitBounds(
         blueRoute.getBounds(),
         {
-            padding: [50, 50]
+            padding: [60, 60]
         }
     );
 
 
-    // ROUTE INFORMATION
+    // ========================================================
+    // ROUTE INFO
+    // ========================================================
+
     const info =
         document.getElementById("routeInfo");
 
@@ -586,27 +750,21 @@ function drawNavigation(route, destinationName) {
 
         info.style.display = "block";
 
+
         info.innerHTML =
             "<b>🔵 Navigation Started</b>" +
             "<br><br>" +
             "🚪 Main Gate" +
             "<br>↓" +
-            "➡️ Go straight" +
+            "🛣️ Follow the road" +
             "<br>↓" +
-            "↪️ Turn right" +
+            "🔄 Follow the round road" +
             "<br>↓" +
-            "↩️ Turn left" +
-            "<br>↓" +
-            "🏫 Main Block / Management side" +
-            "<br>↓" +
-            "🍽️ Canteen side" +
-            "<br>↓" +
-            "⬇️ Go down" +
+            "➡️ Continue on the road" +
             "<br>↓" +
             "📍 <b>" +
             destinationName +
             "</b>";
-
     }
 }
 
@@ -628,7 +786,7 @@ if (destinationInput && resultsBox) {
 
     destinationInput.addEventListener(
         "input",
-        function () {
+        function() {
 
             const text =
                 destinationInput.value
@@ -646,91 +804,83 @@ if (destinationInput && resultsBox) {
             }
 
 
-            places.forEach(
-                function (place) {
+            places.forEach(function(place) {
 
-                    const name =
-                        place[0]
-                        .toLowerCase();
+                const name =
+                    place[0].toLowerCase();
 
 
-                    const match =
-                        name.includes(text) ||
+                const match =
+                    name.includes(text) ||
 
-                        (
-                            text === "cs" &&
-                            name.includes(
-                                "computer science"
-                            )
+                    (
+                        text === "cs" &&
+                        name.includes(
+                            "computer science"
+                        )
+                    );
+
+
+                if (match) {
+
+                    const result =
+                        document.createElement(
+                            "div"
                         );
 
 
-                    if (match) {
-
-                        const result =
-                            document.createElement(
-                                "div"
-                            );
+                    result.className =
+                        "result";
 
 
-                        result.className =
-                            "result";
+                    result.textContent =
+                        "📍 " + place[0];
 
 
-                        result.textContent =
-                            "📍 " +
-                            place[0];
+                    result.addEventListener(
+                        "click",
+                        function() {
+
+                            selectedPlace =
+                                place;
 
 
-                        result.addEventListener(
-                            "click",
-                            function () {
-
-                                selectedPlace =
-                                    place;
+                            destinationInput.value =
+                                place[0];
 
 
-                                destinationInput.value =
-                                    place[0];
+                            resultsBox.innerHTML =
+                                "";
+
+                        }
+                    );
 
 
-                                resultsBox.innerHTML =
-                                    "";
-
-                            }
-                        );
-
-
-                        resultsBox.appendChild(
-                            result
-                        );
-
-                    }
-
+                    resultsBox.appendChild(
+                        result
+                    );
                 }
-            );
+
+            });
 
         }
     );
-
 }
 
 
 // ============================================================
-// 17. NAVIGATE BUTTON
+// 17. NAVIGATION BUTTON
 // ============================================================
 
 const navigateBtn =
-    document.getElementById(
-        "navigateBtn"
-    );
+    document.getElementById("navigateBtn");
 
 
 if (navigateBtn) {
 
     navigateBtn.addEventListener(
         "click",
-        function () {
+        function() {
 
             if (!destinationInput) {
                 return;
@@ -741,7 +891,7 @@ if (navigateBtn) {
                 selectedPlace;
 
 
-            // FIND BY TEXT
+            // Search destination
             if (!destination) {
 
                 const text =
@@ -752,7 +902,7 @@ if (navigateBtn) {
 
                 destination =
                     places.find(
-                        function (place) {
+                        function(place) {
 
                             const name =
                                 place[0]
@@ -761,7 +911,6 @@ if (navigateBtn) {
 
                             return (
                                 name.includes(text) ||
-
                                 (
                                     text === "cs" &&
                                     name.includes(
@@ -772,11 +921,10 @@ if (navigateBtn) {
 
                         }
                     );
-
             }
 
 
-            // NO DESTINATION
+            // No destination
             if (!destination) {
 
                 alert(
@@ -784,7 +932,6 @@ if (navigateBtn) {
                 );
 
                 return;
-
             }
 
 
@@ -792,24 +939,10 @@ if (navigateBtn) {
                 destination[0];
 
 
-            // COMPUTER SCIENCE
-            if (
-                destinationName
-                .toLowerCase()
-                .includes("computer science")
-            ) {
-
-                drawNavigation(
-                    computerScienceRoute,
-                    destinationName
-                );
-
-                return;
-
-            }
-
-
+            // =================================================
             // LIBRARY
+            // =================================================
+
             if (
                 destinationName
                 .toLowerCase()
@@ -822,11 +955,32 @@ if (navigateBtn) {
                 );
 
                 return;
-
             }
 
 
-            // OTHER LOCATION
+            // =================================================
+            // COMPUTER SCIENCE
+            // =================================================
+
+            if (
+                destinationName
+                .toLowerCase()
+                .includes("computer science")
+            ) {
+
+                drawNavigation(
+                    computerScienceRoute,
+                    destinationName
+                );
+
+                return;
+            }
+
+
+            // =================================================
+            // OTHER LOCATIONS
+            // =================================================
+
             clearNavigation();
 
 
@@ -840,7 +994,6 @@ if (navigateBtn) {
 
         }
     );
-
 }
 
 
@@ -859,11 +1012,11 @@ function goToCollege() {
 
 
 // ============================================================
-// 19. FINAL MAP FIX
+// 19. FINAL MAP SIZE FIX
 // ============================================================
 
 setTimeout(
-    function () {
+    function() {
 
         map.invalidateSize();
 
