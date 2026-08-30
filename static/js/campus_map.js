@@ -352,102 +352,337 @@ const roads = [
 
 
 // ============================================================
-// 8. DRAW PROFESSIONAL CAMPUS ROADS
+// 8. PROFESSIONAL CONNECTED CAMPUS ROADS
 // ============================================================
 
 const campusRoadLayer = L.layerGroup().addTo(map);
 
 
-// ------------------------------------------------------------
-// ROAD BORDER
-// ------------------------------------------------------------
+// ============================================================
+// ROAD SETTINGS
+// ============================================================
+
+const ROAD_BORDER_WIDTH = 19;
+const ROAD_WIDTH = 14;
+
+
+// ============================================================
+// DRAW ORIGINAL ROADS
+// ============================================================
 
 roads.forEach(function(coords) {
 
-    L.polyline(coords, {
-        color: "#c9c9c9",
-        weight: 20,
-        opacity: 1,
-
-        lineCap: "round",
-        lineJoin: "round",
-
-        smoothFactor: 1,
-
-        interactive: false
-    }).addTo(campusRoadLayer);
-
-});
-
-
-// ------------------------------------------------------------
-// WHITE ROAD SURFACE
-// ------------------------------------------------------------
-
-roads.forEach(function(coords) {
-
-    L.polyline(coords, {
-        color: "#ffffff",
-        weight: 15,
-        opacity: 1,
-
-        lineCap: "round",
-        lineJoin: "round",
-
-        smoothFactor: 1,
-
-        interactive: false
-    }).addTo(campusRoadLayer);
-
-});
-
-
-// ------------------------------------------------------------
-// SMOOTH ROAD JUNCTIONS
-// ------------------------------------------------------------
-// This makes touching road ends look continuous.
-// It does NOT change any location.
-// ------------------------------------------------------------
-
-roads.forEach(function(coords) {
-
-    if (coords.length < 2) {
+    if (!coords || coords.length < 2) {
         return;
     }
 
-    const start = coords[0];
-    const end = coords[coords.length - 1];
 
+    // --------------------------------------------------------
+    // GREY ROAD BORDER
+    // --------------------------------------------------------
 
-    // Start junction
+    L.polyline(coords, {
 
-    L.circleMarker(start, {
-        radius: 7.5,
+        color: "#c8c8c8",
 
-        stroke: false,
+        weight: ROAD_BORDER_WIDTH,
 
-        fillColor: "#ffffff",
-        fillOpacity: 1,
+        opacity: 1,
+
+        lineCap: "round",
+
+        lineJoin: "round",
+
+        smoothFactor: 1,
 
         interactive: false
+
     }).addTo(campusRoadLayer);
 
 
-    // End junction
+    // --------------------------------------------------------
+    // WHITE ROAD
+    // --------------------------------------------------------
 
-    L.circleMarker(end, {
-        radius: 7.5,
+    L.polyline(coords, {
 
-        stroke: false,
+        color: "#ffffff",
 
-        fillColor: "#ffffff",
-        fillOpacity: 1,
+        weight: ROAD_WIDTH,
+
+        opacity: 1,
+
+        lineCap: "round",
+
+        lineJoin: "round",
+
+        smoothFactor: 1,
 
         interactive: false
+
     }).addTo(campusRoadLayer);
 
 });
 
+
+// ============================================================
+// CONNECT ROAD ENDPOINTS
+// ============================================================
+//
+// This connects nearby road pieces so they don't look like
+// separate hanging lines.
+//
+// IMPORTANT:
+// places[] is NOT changed.
+// Location coordinates are NOT changed.
+// roads[] is NOT changed.
+// ============================================================
+
+const CONNECT_LIMIT = 22;
+
+
+// ------------------------------------------------------------
+// DISTANCE FUNCTION
+// ------------------------------------------------------------
+
+function getRoadDistance(a, b) {
+
+    const lat =
+        (b[0] - a[0]) * 111000;
+
+    const lng =
+        (b[1] - a[1]) *
+        111000 *
+        Math.cos(
+            a[0] * Math.PI / 180
+        );
+
+    return Math.sqrt(
+        lat * lat +
+        lng * lng
+    );
+}
+
+
+// ============================================================
+// COLLECT ROAD ENDPOINTS
+// ============================================================
+
+const roadEnds = [];
+
+roads.forEach(function(coords, roadIndex) {
+
+    if (!coords || coords.length < 2) {
+        return;
+    }
+
+
+    roadEnds.push({
+
+        roadIndex: roadIndex,
+
+        point: coords[0],
+
+        type: "start"
+
+    });
+
+
+    roadEnds.push({
+
+        roadIndex: roadIndex,
+
+        point: coords[coords.length - 1],
+
+        type: "end"
+
+    });
+
+});
+
+
+// ============================================================
+// CONNECT ONLY NEARBY ROAD ENDS
+// ============================================================
+
+const alreadyConnected = new Set();
+
+
+roadEnds.forEach(function(current, index) {
+
+    let closest = null;
+
+    let closestDistance = Infinity;
+
+
+    roadEnds.forEach(function(other, otherIndex) {
+
+        if (index === otherIndex) {
+            return;
+        }
+
+
+        // Same road → don't connect
+        if (
+            current.roadIndex ===
+            other.roadIndex
+        ) {
+            return;
+        }
+
+
+        const distance =
+            getRoadDistance(
+                current.point,
+                other.point
+            );
+
+
+        if (
+            distance <= CONNECT_LIMIT &&
+            distance < closestDistance
+        ) {
+
+            closestDistance = distance;
+
+            closest = other;
+
+        }
+
+    });
+
+
+    if (!closest) {
+        return;
+    }
+
+
+    const keyParts = [
+
+        current.roadIndex,
+
+        current.type,
+
+        closest.roadIndex,
+
+        closest.type
+
+    ].sort();
+
+
+    const connectionKey =
+        keyParts.join("-");
+
+
+    if (
+        alreadyConnected.has(
+            connectionKey
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    alreadyConnected.add(
+        connectionKey
+    );
+
+
+    // ========================================================
+    // GREY CONNECTOR
+    // ========================================================
+
+    L.polyline(
+
+        [
+            current.point,
+            closest.point
+        ],
+
+        {
+
+            color: "#c8c8c8",
+
+            weight: ROAD_BORDER_WIDTH,
+
+            opacity: 1,
+
+            lineCap: "round",
+
+            lineJoin: "round",
+
+            interactive: false
+
+        }
+
+    ).addTo(campusRoadLayer);
+
+
+    // ========================================================
+    // WHITE CONNECTOR
+    // ========================================================
+
+    L.polyline(
+
+        [
+            current.point,
+            closest.point
+        ],
+
+        {
+
+            color: "#ffffff",
+
+            weight: ROAD_WIDTH,
+
+            opacity: 1,
+
+            lineCap: "round",
+
+            lineJoin: "round",
+
+            interactive: false
+
+        }
+
+    ).addTo(campusRoadLayer);
+
+});
+
+
+// ============================================================
+// ROAD JUNCTION SMOOTHING
+// ============================================================
+//
+// No visible circles.
+// This prevents the "dot / hanging line" appearance.
+// ============================================================
+
+roadEnds.forEach(function(item) {
+
+    L.circleMarker(
+
+        item.point,
+
+        {
+
+            radius: ROAD_WIDTH / 2,
+
+            stroke: false,
+
+            fillColor: "#ffffff",
+
+            fillOpacity: 1,
+
+            interactive: false
+
+        }
+
+    ).addTo(campusRoadLayer);
+
+});
 
 // ============================================================
 // 9. NAVIGATION LAYER
