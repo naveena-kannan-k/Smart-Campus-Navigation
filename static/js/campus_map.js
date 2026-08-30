@@ -877,7 +877,60 @@ if (
     );
     return;
 }
+// MATHS
+if (
+    destinationName
+        .toLowerCase()
+        .includes("maths")
+) {
+    drawNavigation(
+        mathsRoute,
+        destinationName
+    );
+    return;
+}
 
+
+// NEW AUDITORIUM
+if (
+    destinationName
+        .toLowerCase()
+        .includes("new auditorium")
+) {
+    drawNavigation(
+        newAuditoriumRoute,
+        destinationName
+    );
+    return;
+}
+
+
+// NANO SCIENCE
+if (
+    destinationName
+        .toLowerCase()
+        .includes("nano science")
+) {
+    drawNavigation(
+        nanoScienceRoute,
+        destinationName
+    );
+    return;
+}
+
+
+// HISTORY
+if (
+    destinationName
+        .toLowerCase()
+        .includes("history (tamil & english)")
+) {
+    drawNavigation(
+        historyTamilEnglishRoute,
+        destinationName
+    );
+    return;
+}
 
             // =================================================
             // COMPUTER SCIENCE
