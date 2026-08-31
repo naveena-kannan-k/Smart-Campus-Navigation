@@ -1780,4 +1780,104 @@ footer {
         font-size: 14px;
     }
 }
+/* ==========================================
+   FINAL DASHBOARD HEADER FIX
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        width: 100%;
+        padding: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        overflow: visible;
+    }
+
+    .logo-section {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .nav-right {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .weather-box {
+        padding: 9px 10px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .logout-btn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+
+        padding: 9px 12px !important;
+        min-width: 90px;
+
+        font-size: 11px !important;
+        white-space: nowrap;
+
+        flex-shrink: 0;
+        box-sizing: border-box;
+    }
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+   ========================================== */
+
+@media (max-width: 480px) {
+
+    .navbar {
+        padding: 10px 8px;
+        gap: 6px;
+    }
+
+    .logo-section {
+        flex: 1 1 55%;
+        min-width: 0;
+    }
+
+    .nav-right {
+        flex: 0 0 auto;
+        gap: 5px;
+    }
+
+    .weather-box {
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .logout-btn {
+        min-width: 78px;
+        padding: 8px 9px !important;
+        font-size: 10px !important;
+    }
+
+    .logout-btn i {
+        font-size: 10px;
+    }
+}
+
+
+/* ==========================================
+   COLLEGE INFORMATION
+   ========================================== */
+
+.logo-section h2,
+.logo-section p,
+.college-info h2,
+.college-info h3,
+.college-info p {
+    color: white !important;
+}
 ```
