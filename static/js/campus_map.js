@@ -43,7 +43,6 @@ map.setView(COLLEGE_CENTER, 18);
 
 // ============================================================
 // 5. CAMPUS LOCATIONS
-// DO NOT CHANGE
 // ============================================================
 
 const places = [
@@ -151,7 +150,6 @@ function clearNavigation() {
     });
 
     navigationLayers = [];
-
 }
 
 
@@ -197,104 +195,113 @@ function findPlace(searchText) {
 
 }
 
+
+// ============================================================
+// 10. COMPUTER SCIENCE ROUTE
+// ============================================================
+
 const computerScienceRoute = [
-    [8.6988326, 77.7399079],  // Main Gate
+
+    [8.6988326, 77.7399079],
+
     [8.6988645, 77.7400903],
+
     [8.6990156, 77.7403773],
+
     [8.6989944, 77.7405275],
 
-    // FRONT ROUND - follow this exact road
     [8.6988698, 77.7406857],
+
     [8.6986205, 77.7406777],
+
     [8.6984535, 77.7405516],
 
-    // LEFT / continue on the road
     [8.6984111, 77.7406079],
+
     [8.6981565, 77.7411631],
 
-    // STRAIGHT TOWARDS CANTEEN
     [8.6981996, 77.7419417],
 
-    // DOWN
     [8.6979556, 77.7419511],
+
     [8.6976979, 77.7421073],
 
-    // COMPUTER SCIENCE
     [8.6975920, 77.7420998]
 ];
+
+
 // ============================================================
-// LIBRARY ROUTE
-// BASED ON YOUR ACTUAL KMZ ROAD NETWORK
+// 11. LIBRARY ROUTE
 // ============================================================
 
 const libraryRoute = [
 
-    // MAIN GATE
     [8.6988565, 77.739888],
 
-    // MAIN GATE → STRAIGHT
     [8.6988523, 77.7399115],
+
     [8.6988630, 77.7400725],
+
     [8.6989796, 77.7402602],
+
     [8.6990247, 77.7404480],
 
-    // ========================================================
-    // FRONT ROUND ROAD
-    // FOLLOW THE ROUND
-    // ========================================================
-
     [8.6989929, 77.7405687],
+
     [8.6988470, 77.7406733],
+
     [8.6986800, 77.7406894],
+
     [8.6985554, 77.7406304],
+
     [8.6984652, 77.7405177],
+
     [8.6984334, 77.7404158],
+
     [8.6984626, 77.7402683],
+
     [8.6985421, 77.7401449],
 
-    // ========================================================
-    // LIBRARY SIDE ROAD
-    // ========================================================
-
     [8.6985183, 77.7401958],
+
     [8.6984865, 77.7402119],
 
-    // STRAIGHT TO LIBRARY
     [8.6983413, 77.7402146],
-
-    // ========================================================
-    // LIBRARY
-    // ========================================================
 
     [8.6983083, 77.7402171]
 ];
 
+
 // ============================================================
-// MAIN BLOCK - COMMON ROUTE
+// 12. MAIN BLOCK COMMON ROUTE
 // ============================================================
 
 const officeBuildingRoute = [
 
-    [8.6988565, 77.739888],   // Main Gate
+    [8.6988565, 77.739888],
 
     [8.6988479, 77.7399128],
+
     [8.6988585, 77.7400764],
+
     [8.6990176, 77.7403795],
+
     [8.6990176, 77.7405807],
 
-    // Front Round → Main Block
     [8.6990121, 77.7405504],
+
     [8.6988371, 77.7406737],
+
     [8.6988451, 77.7407140]
 ];
 
 
 // ============================================================
-// MANAGEMENT OFFICE
-// RIGHT SIDE - GROUND FLOOR
+// 13. MANAGEMENT OFFICE
 // ============================================================
 
 const managementOfficeRoute = [
+
     ...officeBuildingRoute,
 
     [8.6985889, 77.7408047]
@@ -302,11 +309,11 @@ const managementOfficeRoute = [
 
 
 // ============================================================
-// PRINCIPAL OFFICE
-// LEFT SIDE - GROUND FLOOR
+// 14. PRINCIPAL OFFICE
 // ============================================================
 
 const principalOfficeRoute = [
+
     ...officeBuildingRoute,
 
     [8.6988395, 77.7408101]
@@ -314,155 +321,239 @@ const principalOfficeRoute = [
 
 
 // ============================================================
-// PHYSICS (REGULAR)
-// FIRST FLOOR - MAIN BLOCK
+// 15. PHYSICS REGULAR
 // ============================================================
 
 const physicsRegularRoute = [
+
     ...officeBuildingRoute,
 
     [8.6989193, 77.7407981]
 ];
+
+
 // ============================================================
-// OLD AUDITORIUM ROUTE
-// MAIN GATE → FRONT ROUND → OLD AUDITORIUM
+// 16. OLD AUDITORIUM
 // ============================================================
 
 const oldAuditoriumRoute = [
 
-    // Main Gate
     [8.6988565, 77.739888],
 
-    // Straight inside
     [8.6988479, 77.7399128],
+
     [8.6988585, 77.7400764],
+
     [8.6990176, 77.7403795],
+
     [8.6990176, 77.7405807],
 
-    // Front round
     [8.6990121, 77.7405504],
+
     [8.6988371, 77.7406737],
+
     [8.6986800, 77.7406894],
+
     [8.6985554, 77.7406304],
+
     [8.6984652, 77.7405177],
 
-    // Old Auditorium side
     [8.6983000, 77.7406500],
+
     [8.6980713, 77.7407428]
 ];
 
 
 // ============================================================
-// TAMIL + ENGLISH (REGULAR) + ECONOMICS
-// OPPOSITE SIDE OF OLD AUDITORIUM
+// 17. TAMIL + ENGLISH + ECONOMICS
 // ============================================================
 
 const tamilEnglishEconomicsRoute = [
 
-    // Main Gate
     [8.6988565, 77.739888],
 
-    // Straight inside
     [8.6988479, 77.7399128],
+
     [8.6988585, 77.7400764],
+
     [8.6990176, 77.7403795],
+
     [8.6990176, 77.7405807],
 
-    // Front round
     [8.6990121, 77.7405504],
+
     [8.6988371, 77.7406737],
+
     [8.6986800, 77.7406894],
+
     [8.6985554, 77.7406304],
+
     [8.6984652, 77.7405177],
 
-    // Opposite side
     [8.6983000, 77.7404500],
+
     [8.6980622, 77.7403781]
 ];
+
+
 // ============================================================
-// NEW AUDITORIUM SIDE - ACTUAL KMZ ROAD
-// MAIN GATE → FRONT ROUND → NEW AUDITORIUM SIDE
+// 18. NEW AUDITORIUM COMMON ROAD
+//
+// IMPORTANT:
+//
+// Main Gate
+//     ↓
+// Straight
+//     ↓
+// Management Office SIDE
+//     ↓
+// Continue Straight
+//     ↓
+// Turning Point
+//     ↓
+// LEFT CUT
+//     ↓
+// Maths
+//     ↓
+// New Auditorium
+//
+// MANAGEMENT OFFICE IS ONLY A LANDMARK.
+// ROUTE DOES NOT ENTER MANAGEMENT OFFICE.
 // ============================================================
 
-// Common route to New Auditorium side
 const newAuditoriumCommonRoute = [
 
-    // MAIN GATE → STRAIGHT
+    // --------------------------------------------------------
+    // MAIN GATE
+    // --------------------------------------------------------
+
     [8.6988565, 77.739888],
+
+
+    // --------------------------------------------------------
+    // MAIN GATE → STRAIGHT
+    // --------------------------------------------------------
+
     [8.6988523, 77.7399115],
+
     [8.6988630, 77.7400725],
+
     [8.6989796, 77.7402602],
+
     [8.6990247, 77.7404480],
 
-    // FRONT ROUND
-    [8.6989929, 77.7405687],
-    [8.6988470, 77.7406733],
-    [8.6986800, 77.7406894],
-    [8.6985554, 77.7406304],
-    [8.6984652, 77.7405177],
 
-    // FROM ROUND → NEW AUDITORIUM SIDE
-    [8.6990018, 77.7405711],
-    [8.6990919, 77.7405174],
-    [8.6991900, 77.7404906],
-    [8.6993438, 77.7403552],
-    [8.6994287, 77.7402988],
-    [8.6995162, 77.7402452],
-    [8.6996249, 77.7404531]
+    // --------------------------------------------------------
+    // CONTINUE STRAIGHT
+    // MANAGEMENT OFFICE IS ON THE SIDE
+    // DO NOT ENTER MANAGEMENT OFFICE
+    // --------------------------------------------------------
+
+    [8.6990176, 77.7405200],
+
+    [8.6990300, 77.7405900],
+
+    [8.6990600, 77.7406500],
+
+
+    // --------------------------------------------------------
+    // LITTLE MORE STRAIGHT
+    // --------------------------------------------------------
+
+    [8.6991200, 77.7406700],
+
+    [8.6992000, 77.7406750],
+
+    [8.6992800, 77.7406800],
+
+    [8.6993600, 77.7406800],
+
+
+    // --------------------------------------------------------
+    // LEFT CUT
+    // --------------------------------------------------------
+
+    [8.6994100, 77.7406750],
+
+    [8.6994400, 77.7406680]
 ];
 
 
 // ============================================================
-// MATHS
+// 19. MATHS
 // GROUND FLOOR - FRONT
 // ============================================================
 
 const mathsRoute = [
+
     ...newAuditoriumCommonRoute,
+
+    // Maths FRONT
     [8.6994790, 77.7406680]
 ];
 
 
 // ============================================================
-// NEW AUDITORIUM
-// FIRST FLOOR - FRONT
+// 20. NEW AUDITORIUM
+// FIRST FLOOR
 // ============================================================
 
 const newAuditoriumRoute = [
+
     ...newAuditoriumCommonRoute,
+
+    // Maths front → New Auditorium
+    [8.6995000, 77.7406600],
+
+    [8.6995400, 77.7406500],
+
+    [8.6995800, 77.7406350],
+
+    [8.6996200, 77.7406250],
+
     [8.6996460, 77.7406171]
 ];
 
 
 // ============================================================
-// NANO SCIENCE
-// GROUND FLOOR - LEFT
+// 21. HISTORY
+// NEW AUDITORIUM → LEFT SIDE
+// ============================================================
+
+const historyTamilEnglishRoute = [
+
+    ...newAuditoriumRoute,
+
+    // LEFT SIDE
+    [8.6996700, 77.7406500],
+
+    [8.6996900, 77.7406800],
+
+    [8.6996990, 77.7407055]
+];
+
+
+// ============================================================
+// 22. NANO SCIENCE
+// NEW AUDITORIUM → RIGHT SIDE
 // ============================================================
 
 const nanoScienceRoute = [
-    ...newAuditoriumCommonRoute,
+
+    ...newAuditoriumRoute,
+
+    // RIGHT SIDE
+    [8.6996400, 77.7405800],
+
     [8.6996354, 77.7404803]
 ];
 
 
 // ============================================================
-// HISTORY (TAMIL & ENGLISH)
-// GROUND FLOOR - RIGHT
+// 23. DRAW NAVIGATION
 // ============================================================
 
-const historyTamilEnglishRoute = [
-    ...newAuditoriumCommonRoute,
-    [8.6996990, 77.7407055]
-];
-
-// ============================================================
-// 12. DRAW NAVIGATION
-// ============================================================
-
-function drawNavigation(
-    route,
-    destinationName
-) {
+function drawNavigation(route, destinationName) {
 
     clearNavigation();
 
@@ -471,93 +562,74 @@ function drawNavigation(
     // WHITE OUTLINE
     // ========================================================
 
-    const whiteLine =
-        L.polyline(
-            route,
-            {
-                color: "#ffffff",
-                weight: 12,
-                opacity: 1,
-                lineCap: "round",
-                lineJoin: "round",
-                interactive: false
-            }
-        ).addTo(map);
+    const whiteLine = L.polyline(
+        route,
+        {
+            color: "#ffffff",
+            weight: 12,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round",
+            interactive: false
+        }
+    ).addTo(map);
 
-
-    navigationLayers.push(
-        whiteLine
-    );
+    navigationLayers.push(whiteLine);
 
 
     // ========================================================
     // BLUE ROUTE
     // ========================================================
 
-    const blueLine =
-        L.polyline(
-            route,
-            {
-                color: "#1677ff",
-                weight: 6,
-                opacity: 1,
-                lineCap: "round",
-                lineJoin: "round",
-                interactive: false
-            }
-        ).addTo(map);
+    const blueLine = L.polyline(
+        route,
+        {
+            color: "#1677ff",
+            weight: 6,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round",
+            interactive: false
+        }
+    ).addTo(map);
 
-
-    navigationLayers.push(
-        blueLine
-    );
+    navigationLayers.push(blueLine);
 
 
     // ========================================================
     // START
     // ========================================================
 
-    const start =
-        L.circleMarker(
-            route[0],
-            {
-                radius: 8,
-                color: "#ffffff",
-                weight: 3,
-                fillColor: "#1677ff",
-                fillOpacity: 1
-            }
-        ).addTo(map);
-
+    const start = L.circleMarker(
+        route[0],
+        {
+            radius: 8,
+            color: "#ffffff",
+            weight: 3,
+            fillColor: "#1677ff",
+            fillOpacity: 1
+        }
+    ).addTo(map);
 
     start.bindPopup(
         "<b>🚪 Main Gate</b>"
     );
 
-
-    navigationLayers.push(
-        start
-    );
+    navigationLayers.push(start);
 
 
     // ========================================================
     // DESTINATION
     // ========================================================
 
-    const destination =
-        findPlace(destinationName);
-
+    const destination = findPlace(destinationName);
 
     if (destination) {
 
-        const end =
-            L.marker(
-                [
-                    destination[1],
-                    destination[2]
-                ]
-            ).addTo(map);
-
+        const end = L.marker([
+            destination[1],
+            destination[2]
+        ]).addTo(map);
 
         end.bindPopup(
             "<b>📍 " +
@@ -565,14 +637,9 @@ function drawNavigation(
             "</b>"
         );
 
-
         end.openPopup();
 
-
-        navigationLayers.push(
-            end
-        );
-
+        navigationLayers.push(end);
     }
 
 
@@ -586,17 +653,14 @@ function drawNavigation(
         i += 3
     ) {
 
-        const current =
-            route[i];
+        const current = route[i];
 
-        const next =
-            route[
-                Math.min(
-                    i + 1,
-                    route.length - 1
-                )
-            ];
-
+        const next = route[
+            Math.min(
+                i + 1,
+                route.length - 1
+            )
+        ];
 
         const angle =
             Math.atan2(
@@ -605,47 +669,39 @@ function drawNavigation(
             ) * 180 / Math.PI;
 
 
-        const arrow =
-            L.marker(
-                current,
-                {
-                    icon:
-                        L.divIcon({
+        const arrow = L.marker(
+            current,
+            {
+                icon: L.divIcon({
 
-                            className:
-                                "campus-route-arrow",
+                    className:
+                        "campus-route-arrow",
 
-                            html:
-                                '<div style="' +
-                                'font-size:24px;' +
-                                'font-weight:bold;' +
-                                'color:#1677ff;' +
-                                'text-shadow:0 0 3px white;' +
-                                'transform:rotate(' +
-                                angle +
-                                'deg);">' +
-                                '➤' +
-                                '</div>',
+                    html:
+                        '<div style="' +
+                        'font-size:24px;' +
+                        'font-weight:bold;' +
+                        'color:#1677ff;' +
+                        'text-shadow:0 0 3px white;' +
+                        'transform:rotate(' +
+                        angle +
+                        'deg);">' +
+                        '➤' +
+                        '</div>',
 
-                            iconSize:
-                                [28, 28],
+                    iconSize: [28, 28],
 
-                            iconAnchor:
-                                [14, 14]
+                    iconAnchor: [14, 14]
+                }),
 
-                        }),
+                interactive: false,
 
-                    interactive: false,
-
-                    zIndexOffset: 1000
-                }
-            ).addTo(map);
+                zIndexOffset: 1000
+            }
+        ).addTo(map);
 
 
-        navigationLayers.push(
-            arrow
-        );
-
+        navigationLayers.push(arrow);
     }
 
 
@@ -656,10 +712,7 @@ function drawNavigation(
     map.fitBounds(
         blueLine.getBounds(),
         {
-            padding: [
-                50,
-                50
-            ]
+            padding: [50, 50]
         }
     );
 
@@ -669,86 +722,120 @@ function drawNavigation(
     // ========================================================
 
     const info =
-        document.getElementById(
-            "routeInfo"
-        );
+        document.getElementById("routeInfo");
 
 
     if (info) {
 
-        info.style.display =
-            "block";
+        info.style.display = "block";
 
 
-        info.innerHTML =
+        // SPECIAL INSTRUCTIONS FOR NEW AUDITORIUM AREA
+        const lowerDestination =
+            destinationName.toLowerCase();
 
-            "<b>🔵 Navigation Started</b>" +
 
-            "<br><br>" +
+        if (
+            lowerDestination.includes("new auditorium") ||
+            lowerDestination.includes("maths") ||
+            lowerDestination.includes("history") ||
+            lowerDestination.includes("nano science")
+        ) {
 
-            "🚪 Main Gate" +
+            info.innerHTML =
 
-            "<br>↓" +
+                "<b>🔵 Navigation Started</b>" +
 
-            "🔄 Follow round road" +
+                "<br><br>" +
 
-            "<br>↓" +
+                "🚪 Main Gate" +
 
-            "➡️ Continue inside campus" +
+                "<br>↓" +
 
-            "<br>↓" +
+                "➡️ Go straight" +
 
-            "↩️ Take left turn" +
+                "<br>↓" +
 
-            "<br>↓" +
+                "🏢 Management Office side" +
 
-            "➡️ Go straight" +
+                "<br>↓" +
 
-            "<br>↓" +
+                "➡️ Continue straight" +
 
-            "🍽️ Canteen side" +
+                "<br>↓" +
 
-            "<br>↓" +
+                "🔄 Reach turning point" +
 
-            "⬇️ Go down" +
+                "<br>↓" +
 
-            "<br>↓" +
+                "↩️ Take left turn" +
 
-            "📍 <b>" +
+                "<br>↓" +
 
-            destinationName +
+                "➗ Maths – Ground Floor (Front)" +
 
-            "</b>";
+                "<br>↓" +
 
+                "🏛️ New Auditorium – First Floor" +
+
+                "<br>↓" +
+
+                "📍 <b>" +
+
+                destinationName +
+
+                "</b>";
+
+        } else {
+
+            info.innerHTML =
+
+                "<b>🔵 Navigation Started</b>" +
+
+                "<br><br>" +
+
+                "🚪 Main Gate" +
+
+                "<br>↓" +
+
+                "🔄 Follow road" +
+
+                "<br>↓" +
+
+                "➡️ Continue straight" +
+
+                "<br>↓" +
+
+                "↩️ Take left turn" +
+
+                "<br>↓" +
+
+                "📍 <b>" +
+
+                destinationName +
+
+                "</b>";
+        }
     }
-
 }
 
 
 // ============================================================
-// 13. FROM / TO
+// 24. FROM / TO
 // ============================================================
 
 const fromInput =
-    document.getElementById(
-        "from"
-    );
-
+    document.getElementById("from");
 
 const destinationInput =
-    document.getElementById(
-        "destination"
-    );
-
+    document.getElementById("destination");
 
 const navigateBtn =
-    document.getElementById(
-        "navigateBtn"
-    );
+    document.getElementById("navigateBtn");
 
 
 // ============================================================
-// 14. NAVIGATE
+// 25. NAVIGATE
 // ============================================================
 
 if (navigateBtn) {
@@ -776,7 +863,6 @@ if (navigateBtn) {
                 );
 
                 return;
-
             }
 
 
@@ -791,170 +877,186 @@ if (navigateBtn) {
                 );
 
                 return;
-
             }
 
 
             const destinationName =
                 destination[0];
+
+
             // =================================================
-// MANAGEMENT OFFICE
-// =================================================
+            // MANAGEMENT OFFICE
+            // =================================================
 
-if (
-    destinationName
-        .toLowerCase()
-        .includes("management office")
-) {
-    drawNavigation(
-        managementOfficeRoute,
-        destinationName
-    );
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("management office")
+            ) {
 
-    return;
-}
+                drawNavigation(
+                    managementOfficeRoute,
+                    destinationName
+                );
 
-
-// =================================================
-// PRINCIPAL OFFICE
-// =================================================
-
-if (
-    destinationName
-        .toLowerCase()
-        .includes("principal office")
-) {
-    drawNavigation(
-        principalOfficeRoute,
-        destinationName
-    );
-
-    return;
-}
+                return;
+            }
 
 
-// =================================================
-// PHYSICS (REGULAR)
-// =================================================
+            // =================================================
+            // PRINCIPAL OFFICE
+            // =================================================
 
-if (
-    destinationName
-        .toLowerCase()
-        .includes("physics (regular)")
-) {
-    drawNavigation(
-        physicsRegularRoute,
-        destinationName
-    );
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("principal office")
+            ) {
 
-    return;
-}
+                drawNavigation(
+                    principalOfficeRoute,
+                    destinationName
+                );
+
+                return;
+            }
+
+
+            // =================================================
+            // PHYSICS REGULAR
+            // =================================================
+
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("physics (regular)")
+            ) {
+
+                drawNavigation(
+                    physicsRegularRoute,
+                    destinationName
+                );
+
+                return;
+            }
+
+
+            // =================================================
             // OLD AUDITORIUM
-if (
-    destinationName
-        .toLowerCase()
-        .includes("old auditorium")
-) {
-    drawNavigation(
-        oldAuditoriumRoute,
-        destinationName
-    );
-    return;
-}
+            // =================================================
+
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("old auditorium")
+            ) {
+
+                drawNavigation(
+                    oldAuditoriumRoute,
+                    destinationName
+                );
+
+                return;
+            }
 
 
-// TAMIL / ENGLISH / ECONOMICS
-if (
-    destinationName
-        .toLowerCase()
-        .includes("tamil, english (regular), economics")
-) {
-    drawNavigation(
-        tamilEnglishEconomicsRoute,
-        destinationName
-    );
-    return;
-}
-// MATHS
-if (
-    destinationName
-        .toLowerCase()
-        .includes("maths")
-) {
-    drawNavigation(
-        mathsRoute,
-        destinationName
-    );
-    return;
-}
+            // =================================================
+            // TAMIL / ENGLISH / ECONOMICS
+            // =================================================
+
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes(
+                        "tamil, english (regular), economics"
+                    )
+            ) {
+
+                drawNavigation(
+                    tamilEnglishEconomicsRoute,
+                    destinationName
+                );
+
+                return;
+            }
 
 
-// ============================================================
-// MATHS
-// ============================================================
+            // =================================================
+            // MATHS
+            // =================================================
 
-if (
-    destinationName
-        .toLowerCase()
-        .includes("maths")
-) {
-    drawNavigation(
-        mathsRoute,
-        destinationName
-    );
-    return;
-}
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("maths")
+            ) {
 
+                drawNavigation(
+                    mathsRoute,
+                    destinationName
+                );
 
-// ============================================================
-// NEW AUDITORIUM
-// ============================================================
-
-if (
-    destinationName
-        .toLowerCase()
-        .includes("new auditorium")
-) {
-    drawNavigation(
-        newAuditoriumRoute,
-        destinationName
-    );
-    return;
-}
+                return;
+            }
 
 
-// ============================================================
-// NANO SCIENCE
-// ============================================================
+            // =================================================
+            // NEW AUDITORIUM
+            // =================================================
 
-if (
-    destinationName
-        .toLowerCase()
-        .includes("nano science")
-) {
-    drawNavigation(
-        nanoScienceRoute,
-        destinationName
-    );
-    return;
-}
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("new auditorium")
+            ) {
+
+                drawNavigation(
+                    newAuditoriumRoute,
+                    destinationName
+                );
+
+                return;
+            }
 
 
-// ============================================================
-// HISTORY (TAMIL & ENGLISH)
-// ============================================================
+            // =================================================
+            // NANO SCIENCE
+            // =================================================
 
-if (
-    destinationName
-        .toLowerCase()
-        .includes("history")
-) {
-    drawNavigation(
-        historyTamilEnglishRoute,
-        destinationName
-    );
-    return;
-}
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("nano science")
+            ) {
+
+                drawNavigation(
+                    nanoScienceRoute,
+                    destinationName
+                );
+
+                return;
+            }
+
+
+            // =================================================
+            // HISTORY
+            // =================================================
+
+            if (
+                destinationName
+                    .toLowerCase()
+                    .includes("history")
+            ) {
+
+                drawNavigation(
+                    historyTamilEnglishRoute,
+                    destinationName
+                );
+
+                return;
+            }
+
+
             // =================================================
             // COMPUTER SCIENCE
             // =================================================
@@ -962,9 +1064,7 @@ if (
             if (
                 destinationName
                     .toLowerCase()
-                    .includes(
-                        "computer science"
-                    )
+                    .includes("computer science")
             ) {
 
                 drawNavigation(
@@ -973,7 +1073,6 @@ if (
                 );
 
                 return;
-
             }
 
 
@@ -984,9 +1083,7 @@ if (
             if (
                 destinationName
                     .toLowerCase()
-                    .includes(
-                        "library"
-                    )
+                    .includes("library")
             ) {
 
                 drawNavigation(
@@ -995,7 +1092,6 @@ if (
                 );
 
                 return;
-
             }
 
 
@@ -1015,13 +1111,11 @@ if (
             );
 
 
-            destinationMarker =
-                L.marker(
-                    [
-                        destination[1],
-                        destination[2]
-                    ]
-                ).addTo(map);
+            const destinationMarker =
+                L.marker([
+                    destination[1],
+                    destination[2]
+                ]).addTo(map);
 
 
             destinationMarker
@@ -1039,132 +1133,117 @@ if (
 
         }
     );
-
 }
 
 
 // ============================================================
-// 15. SEARCH SUGGESTIONS
+// 26. SEARCH SUGGESTIONS
 // ============================================================
 
-if (
-    destinationInput
-) {
+if (destinationInput) {
 
     const resultsBox =
-        document.getElementById(
-            "results"
-        );
+        document.getElementById("results");
 
 
     if (resultsBox) {
 
-        destinationInput
-            .addEventListener(
-                "input",
-                function () {
+        destinationInput.addEventListener(
+            "input",
+            function () {
 
-                    const text =
-                        destinationInput.value
-                            .toLowerCase()
-                            .trim();
-
-
-                    resultsBox.innerHTML =
-                        "";
+                const text =
+                    destinationInput.value
+                        .toLowerCase()
+                        .trim();
 
 
-                    if (!text) {
-                        return;
-                    }
+                resultsBox.innerHTML = "";
 
 
-                    places.forEach(
-                        function(place) {
-
-                            const name =
-                                place[0]
-                                    .toLowerCase();
-
-
-                            if (
-                                name.includes(
-                                    text
-                                ) ||
-                                (
-                                    text === "cs" &&
-                                    name.includes(
-                                        "computer science"
-                                    )
-                                )
-                            ) {
-
-                                const item =
-                                    document.createElement(
-                                        "div"
-                                    );
-
-
-                                item.className =
-                                    "result";
-
-
-                                item.textContent =
-                                    "📍 " +
-                                    place[0];
-
-
-                                item.addEventListener(
-                                    "click",
-                                    function() {
-
-                                        destinationInput.value =
-                                            place[0];
-
-
-                                        resultsBox.innerHTML =
-                                            "";
-
-                                    }
-                                );
-
-
-                                resultsBox.appendChild(
-                                    item
-                                );
-
-                            }
-
-                        }
-                    );
-
+                if (!text) {
+                    return;
                 }
-            );
 
+
+                places.forEach(
+                    function(place) {
+
+                        const name =
+                            place[0]
+                                .toLowerCase();
+
+
+                        if (
+                            name.includes(text) ||
+                            (
+                                text === "cs" &&
+                                name.includes(
+                                    "computer science"
+                                )
+                            )
+                        ) {
+
+                            const item =
+                                document.createElement(
+                                    "div"
+                                );
+
+
+                            item.className =
+                                "result";
+
+
+                            item.textContent =
+                                "📍 " +
+                                place[0];
+
+
+                            item.addEventListener(
+                                "click",
+                                function() {
+
+                                    destinationInput.value =
+                                        place[0];
+
+                                    resultsBox.innerHTML =
+                                        "";
+
+                                }
+                            );
+
+
+                            resultsBox.appendChild(
+                                item
+                            );
+                        }
+
+                    }
+                );
+
+            }
+        );
     }
-
 }
 
 
 // ============================================================
-// 16. GO TO COLLEGE
+// 27. GO TO COLLEGE
 // ============================================================
 
 function goToCollege() {
 
     clearNavigation();
 
-
     map.setView(
         COLLEGE_CENTER,
         18
     );
-
 }
 
 
 // ============================================================
-// 17. MAP SIZE FIX
+// 28. MAP SIZE FIX
 // ============================================================
 
 setTimeout(
