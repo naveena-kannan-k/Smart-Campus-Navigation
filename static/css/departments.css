@@ -222,78 +222,69 @@ body {
 /* ================= DEPARTMENT LOGO ================= */
 
 .department-logo{
-
     width:100%;
+    height:140px;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
-    margin-bottom:18px;
+    margin-bottom:15px;
+
+    overflow:hidden;
 }
 
 
+/* Logo Image */
+
 .department-logo img{
-
-    width:110px;
-
-    height:110px;
+    width:140px;
+    height:140px;
 
     object-fit:contain;
 
-    background:white;
+    /* White background blend */
+    mix-blend-mode:multiply;
 
-    padding:8px;
+    animation:logoAppear .8s ease;
 
-    border-radius:50%;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.18);
-
-    animation:logoPop .8s ease;
-
-    transition:.3s;
+    transition:transform .3s ease;
 }
 
+
+/* Small Hover Effect */
 
 .department-logo img:hover{
-
-    transform:scale(1.08);
-
-    box-shadow:0 8px 20px rgba(128,0,64,.25);
+    transform:scale(1.06);
 }
 
 
-/* Department Heading */
+/* Department Name */
 
 .route h2{
-
     text-align:center;
 
     color:#800040;
 
+    font-family:"Times New Roman", Times, serif;
+
     font-size:28px;
 
-    margin-bottom:22px;
+    margin-bottom:25px;
 }
 
 
 /* Logo Animation */
 
-@keyframes logoPop{
+@keyframes logoAppear{
 
     from{
-
         opacity:0;
-
-        transform:scale(.6);
+        transform:scale(.7);
     }
 
     to{
-
         opacity:1;
-
         transform:scale(1);
     }
 }
@@ -303,18 +294,16 @@ body {
 
 @media(max-width:600px){
 
+    .department-logo{
+        height:110px;
+    }
+
     .department-logo img{
-
-        width:85px;
-
-        height:85px;
-
+        width:105px;
+        height:105px;
     }
 
     .route h2{
-
         font-size:23px;
-
     }
-
 }
