@@ -293,3 +293,23 @@ body::before{
         padding:13px 20px;
     }
 }
+.tamil-route{
+    margin-top:25px;
+    padding:25px;
+    background:#FDEEF4;
+    border-radius:15px;
+    text-align:left;
+}
+
+.tamil-route h2{
+    color:#800040;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.tamil-route p{
+    font-size:20px;
+    margin:18px 0;
+    color:#333;
+    line-height:1.6;
+}
