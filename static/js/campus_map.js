@@ -547,6 +547,35 @@ const nanoScienceRoute = [
 
     [8.6996354, 77.7404803]
 ];
+// ============================================================
+// 23. PHYSICS (SF)
+// MAIN GATE → NEW AUDITORIUM SIDE → PHYSICS SF
+// KMZ ROAD BASED ROUTE
+// ============================================================
+
+const physicsSFRoute = [
+
+    // MAIN GATE
+    [8.6988565, 77.739888],
+
+    // MAIN GATE → STRAIGHT
+    [8.6988565, 77.739888],
+    [8.6988630, 77.7400725],
+    [8.6989998, 77.7403826],
+
+    // ROAD TURNING POINT
+    [8.6989929, 77.7405687],
+
+    // CONTINUE TOWARDS NEW AUDITORIUM SIDE
+    [8.6992040, 77.7408627],
+    [8.6993047, 77.7410532],
+
+    // PHYSICS SF SIDE ROAD
+    [8.6994100, 77.7409798],
+
+    // PHYSICS SF
+    [8.6994551, 77.7409470]
+];
 
 
 // ============================================================
@@ -1074,6 +1103,23 @@ if (navigateBtn) {
 
                 return;
             }
+            // =================================================
+// PHYSICS SF
+// =================================================
+
+if (
+    destinationName
+        .toLowerCase()
+        .includes("physics (sf)")
+) {
+
+    drawNavigation(
+        physicsSFRoute,
+        destinationName
+    );
+
+    return;
+}
 
 
             // =================================================
