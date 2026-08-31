@@ -2,7 +2,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family:"Times New Roman", Times, serif;
 }
 
 body{
@@ -10,27 +10,39 @@ body{
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
+
     min-height:100vh;
 
     display:flex;
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
+
+    padding:40px 20px;
+
+    position:relative;
 }
 
 /* Dark Overlay */
+
 body::before{
     content:"";
     position:fixed;
     inset:0;
+
     background:rgba(0,0,0,0.45);
+
     z-index:-1;
 }
 
-/* Main Card */
+
+/* ================= MAIN CARD ================= */
+
 .dashboard-box{
 
-    width:700px;
-    background:rgba(255,255,255,0.90);
+    width:100%;
+    max-width:850px;
+
+    background:rgba(255,255,255,0.94);
 
     padding:40px;
 
@@ -43,40 +55,150 @@ body::before{
     animation:slideUp 1s ease;
 }
 
-/* Heading */
 
-.dashboard-box h1{
+/* ================= MAIN HEADING ================= */
+
+.dashboard-box > h1{
 
     color:#800040;
 
-    margin-bottom:10px;
+    font-size:36px;
+
+    margin-bottom:30px;
+
+    text-align:center;
 }
 
-.dashboard-box h2{
 
-    color:#444;
+/* ================= ENGLISH ROUTE ================= */
+
+.route{
+
+    width:100%;
+
+    background:#FDEEF4;
+
+    padding:25px;
 
     margin-bottom:25px;
+
+    border-radius:15px;
+
+    border-left:6px solid #800040;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
+
+    text-align:left;
+
+    animation:routeSlide 0.8s ease;
+
+    transition:.3s;
 }
 
-/* Route */
+.route:hover{
 
-.dashboard-box p{
+    transform:translateY(-3px);
 
-    font-size:20px;
+    box-shadow:0 10px 25px rgba(128,0,64,.18);
+}
 
-    line-height:45px;
+
+.route h2{
+
+    color:#800040;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-size:25px;
+}
+
+
+.route p{
+
+    font-size:18px;
+
+    margin:15px 0;
 
     color:#333;
+
+    line-height:1.6;
+
+    text-align:left;
 }
 
-/* Back Button */
+
+/* ================= TAMIL ROUTE ================= */
+
+.tamil-route{
+
+    width:100%;
+
+    margin-top:0;
+
+    margin-bottom:25px;
+
+    padding:25px;
+
+    background:#FDEEF4;
+
+    border-radius:15px;
+
+    border-left:6px solid #800040;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.10);
+
+    text-align:left;
+
+    animation:slideTamil 0.8s ease;
+
+    transition:.3s;
+}
+
+.tamil-route:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(128,0,64,.18);
+}
+
+
+.tamil-route h2{
+
+    color:#800040;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+    font-size:25px;
+}
+
+
+.tamil-route p{
+
+    font-size:18px;
+
+    margin:15px 0;
+
+    color:#333;
+
+    line-height:1.6;
+
+    text-align:left;
+}
+
+
+/* ================= BACK BUTTON ================= */
 
 .back-btn{
 
-    display:inline-block;
+    display:block;
 
-    margin-top:30px;
+    width:fit-content;
+
+    margin:10px auto 0;
 
     padding:12px 30px;
 
@@ -89,6 +211,8 @@ body::before{
     border-radius:10px;
 
     transition:.3s;
+
+    font-size:17px;
 }
 
 .back-btn:hover{
@@ -96,9 +220,12 @@ body::before{
     background:#A00050;
 
     transform:scale(1.05);
+
+    box-shadow:0 8px 18px rgba(128,0,64,.25);
 }
 
-/* Animation */
+
+/* ================= ANIMATION ================= */
 
 @keyframes slideUp{
 
@@ -115,83 +242,107 @@ body::before{
 
         transform:translateY(0);
     }
-
-}
-.tamil-route {
-
-    margin-top: 25px;
-
-    padding: 25px;
-
-    background: #FDEEF4;
-
-    border-radius: 15px;
-
-    text-align: left;
-
-    animation: slideTamil 0.8s ease;
-}
-
-.tamil-route h2 {
-
-    color: #800040;
-
-    text-align: center;
-
-    margin-bottom: 20px;
-
-}
-
-.tamil-route p {
-
-    font-size: 18px;
-
-    margin: 15px 0;
-
-    color: #333;
-
-    line-height: 1.6;
-
 }
 
 
-/* Tamil Animation */
+@keyframes routeSlide{
 
-@keyframes slideTamil {
+    from{
 
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+        opacity:0;
+
+        transform:translateX(-25px);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to{
 
+        opacity:1;
+
+        transform:translateX(0);
+    }
 }
 
 
-/* Mobile */
+@keyframes slideTamil{
 
-@media (max-width: 600px) {
+    from{
 
-    .tamil-route {
+        opacity:0;
 
-        padding: 18px;
-
+        transform:translateX(25px);
     }
 
-    .tamil-route p {
+    to{
 
-        font-size: 16px;
+        opacity:1;
 
+        transform:translateX(0);
+    }
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width:600px){
+
+    body{
+
+        padding:20px 10px;
+
+        align-items:flex-start;
     }
 
-    .tamil-route h2 {
+    .dashboard-box{
 
-        font-size: 21px;
+        width:100%;
 
+        padding:20px 15px;
+
+        border-radius:18px;
+    }
+
+    .dashboard-box > h1{
+
+        font-size:29px;
+
+        margin-bottom:22px;
+    }
+
+    .route,
+    .tamil-route{
+
+        padding:18px 15px;
+
+        border-left-width:5px;
+
+        border-radius:13px;
+    }
+
+    .route h2,
+    .tamil-route h2{
+
+        font-size:21px;
+
+        margin-bottom:18px;
+    }
+
+    .route p,
+    .tamil-route p{
+
+        font-size:16px;
+
+        line-height:1.6;
+
+        margin:12px 0;
+    }
+
+    .back-btn{
+
+        width:100%;
+
+        text-align:center;
+
+        font-size:16px;
     }
 
 }
