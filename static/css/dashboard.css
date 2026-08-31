@@ -114,30 +114,43 @@ body {
     font-weight: 600;
 }
 
+/* ================================
+   LOGOUT BUTTON
+   ================================ */
+
 .logout-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 7px;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 12px 20px;
+    min-width: 105px;
 
     background: white;
-    color: #800040;
+    color: #8b0045;
+
+    border: none;
+    border-radius: 12px;
 
     text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
 
-    padding: 11px 17px;
+    white-space: nowrap;
+    box-sizing: border-box;
 
-    border-radius: 10px;
+    transition: all 0.3s ease;
+}
 
-    font-weight: 600;
-
-    transition: 0.3s;
+.logout-btn i {
+    font-size: 15px;
 }
 
 .logout-btn:hover {
-    background: #ffe0ec;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
 }
-
-
 /* =====================================================
    MOTTO
 ===================================================== */
