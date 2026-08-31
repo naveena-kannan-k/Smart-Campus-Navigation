@@ -117,3 +117,22 @@ body::before{
     }
 
 }
+/* Tamil Route Section */
+
+.tamil-route {
+    margin-top: 20px;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background: rgba(128, 0, 64, 0.06);
+}
+
+.tamil-route h3 {
+    color: #800040;
+    margin-bottom: 10px;
+}
+
+.route-card hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px solid rgba(128, 0, 64, 0.2);
+}
