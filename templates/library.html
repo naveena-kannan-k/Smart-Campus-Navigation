@@ -1,41 +1,76 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>library route</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/library.css') }}">
-        <style>
-    .dashboard-box {
-        text-align: left;
-    }
+<html lang="en">
 
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
+<head>
 
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    </head>
-    <body>
-        <div class="dashboard-box">
-            
-            <h1>Library Navigation</h1>
-            <p><b>📍 Route to Library</b> </p>
+    <title>Library Route</title>
 
-<p>Starting Point: Main Gate</p>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/library.css') }}">
 
-<p>1. Walk straight for 50 metres </p>
-<p>2. Take a right turn and walk straight for 50 metres</p>
-<p>3. Take another right turn and walk straight</p>
-<p>4. Take a left turn and continue walking </p>
-<p>5. You will find the Library on the left side</p>
-            <a href="/dashboard" class="back-btn">
-                ← Back to Dashboard
-            </a>
-        </div>
+</head>
 
-    </body>
+<body>
+
+<div class="dashboard-box">
+
+    <h1>📚 Library Navigation</h1>
+
+
+    <!-- English Route -->
+
+    <div class="route">
+
+        <p><b>📍 Route to Library</b></p>
+
+        <p><b>Starting Point:</b> Main Gate</p>
+
+        <p>1. Walk straight for 50 metres</p>
+
+        <p>2. Take a right turn and walk straight for 50 metres</p>
+
+        <p>3. Take another right turn and walk straight</p>
+
+        <p>4. Take a left turn and continue walking</p>
+
+        <p>5. You will find the Library on the left side</p>
+
+    </div>
+
+
+    <!-- Tamil Route -->
+
+    <div class="tamil-route">
+
+
+        <p><b>📍 நூலகத்திற்கான வழி</b></p>
+
+        <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+
+        <p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+
+        <p>2. வலதுபுறம் திரும்பி 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+
+        <p>3. மீண்டும் வலதுபுறம் திரும்பி நேராக நடந்து செல்லவும்</p>
+
+        <p>4. இடதுபுறம் திரும்பி தொடர்ந்து நடந்து செல்லவும்</p>
+
+        <p>5. நூலகம் இடதுபுறத்தில் அமைந்துள்ளது</p>
+
+    </div>
+
+
+    <!-- Back Button -->
+
+    <a href="/dashboard" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+
 </html>
