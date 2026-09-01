@@ -1,3 +1,7 @@
+/* =========================================================
+   DEPARTMENT PAGES
+   ========================================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,259 +9,112 @@
     font-family: 'Poppins', sans-serif;
 }
 
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
 body {
     min-height: 100vh;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     padding: 25px;
 
-    background: linear-gradient(
-        135deg,
-        #fdf3f8,
-        #f5e6ef
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #fdf3f8,
+            #f5e6ef
+        );
+
+    color: #333;
 }
 
-/* Main Card */
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
 
 .department-box {
     width: 100%;
-    max-width: 850px;
+    max-width: 720px;
 
-    background: white;
+    background: #ffffff;
 
-    padding: 55px 45px;
+    padding: 38px 42px;
 
     border-radius: 25px;
 
     text-align: center;
 
-    box-shadow: 0 15px 40px rgba(128, 0, 64, 0.15);
+    box-shadow:
+        0 15px 40px rgba(128, 0, 64, 0.14);
 
-    border: 1px solid rgba(128, 0, 64, 0.08);
-}
-
-/* College Name */
-
-.department-box h1 {
-    color: #800040;
-    font-size: 30px;
-    margin-bottom: 12px;
-}
-
-/* Departments */
-
-.department-box h2 {
-    color: #333;
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-/* Description */
-
-.department-box > p {
-    color: #777;
-    font-size: 17px;
-    margin-bottom: 35px;
-}
-
-/* Button Container */
-
-.button-group {
-    width: 100%;
-
-    display: grid;
-
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    gap: 25px;
-
-    margin-bottom: 35px;
-}
-
-/* Department Cards */
-
-.button-group .btn {
-    width: 100%;
-    min-height: 150px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 25px;
-
-    background: #800040;
-
-    color: white;
-
-    text-decoration: none;
-
-    border-radius: 18px;
-
-    font-size: 20px;
-    font-weight: 600;
-
-    box-shadow: 0 10px 25px rgba(128, 0, 64, 0.18);
-
-    transition: all 0.3s ease;
-}
-
-/* Hover */
-
-.button-group .btn:hover {
-    background: #a00050;
-
-    transform: translateY(-7px);
-
-    box-shadow: 0 15px 30px rgba(128, 0, 64, 0.25);
-}
-
-/* Back Button */
-
-.back-btn {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 13px 28px;
-
-    background: #f3e3eb;
-
-    color: #800040;
-
-    text-decoration: none;
-
-    border-radius: 12px;
-
-    font-weight: 600;
-
-    transition: 0.3s;
-}
-
-.back-btn:hover {
-    background: #800040;
-    color: white;
+    border: 1px solid rgba(128, 0, 64, 0.07);
 }
 
 
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width: 600px) {
-
-    body {
-        padding: 15px;
-    }
-
-    .department-box {
-        padding: 35px 20px;
-
-        border-radius: 20px;
-    }
-
-    .department-box h1 {
-        font-size: 22px;
-    }
-
-    .department-box h2 {
-        font-size: 30px;
-    }
-
-    .department-box > p {
-        font-size: 15px;
-        margin-bottom: 25px;
-    }
-
-    /* One card per row on mobile */
-
-    .button-group {
-        grid-template-columns: 1fr;
-
-        gap: 15px;
-    }
-
-    .button-group .btn {
-        min-height: 110px;
-
-        padding: 20px;
-
-        font-size: 17px;
-    }
-
-    .back-btn {
-        width: 100%;
-
-        padding: 13px 15px;
-    }
-}
-
-
-/* ==========================================
-   VERY SMALL MOBILE
-========================================== */
-
-@media (max-width: 380px) {
-
-    .department-box {
-        padding: 30px 15px;
-    }
-
-    .department-box h1 {
-        font-size: 20px;
-    }
-
-    .department-box h2 {
-        font-size: 27px;
-    }
-
-    .button-group .btn {
-        min-height: 100px;
-        font-size: 16px;
-    }
-}
-/* ================= DEPARTMENT LOGO ================= */
+/* =========================================================
+   SMALL DEPARTMENT LOGO
+   ========================================================= */
 
 .department-logo {
     width: 100%;
-    height: 160px;
+
+    height: 105px;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 
-    margin: 10px 0 20px;
+    margin: 0 auto 12px;
 
-    overflow: hidden;
+    background: transparent;
+
+    overflow: visible;
 }
 
-/* Logo */
 
 .department-logo img {
-    width: 150px;
-    height: 150px;
+    width: 95px;
+    height: 95px;
 
     object-fit: contain;
 
     display: block;
 
-    animation: logoAppear 0.8s ease;
+    margin: 0 auto;
+
+    /*
+       White background of the logo
+       blends with the white card.
+    */
+    mix-blend-mode: multiply;
+
+    animation: logoAppear 0.7s ease;
+
     transition: transform 0.3s ease;
 }
 
+
 .department-logo img:hover {
-    transform: scale(1.06);
+    transform: scale(1.05);
 }
 
-/* Logo Animation */
+
+/* =========================================================
+   LOGO ANIMATION
+   ========================================================= */
 
 @keyframes logoAppear {
+
     from {
         opacity: 0;
-        transform: scale(0.7);
+        transform: scale(0.75);
     }
 
     to {
@@ -266,35 +123,356 @@ body {
     }
 }
 
-/* Mobile */
+
+/* =========================================================
+   DEPARTMENT NAME
+   ========================================================= */
+
+.department-box h1 {
+    color: #800040;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   COLLEGE NAME
+   ========================================================= */
+
+.college-name {
+    color: #777;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   ROUTE CARD
+   ========================================================= */
+
+.route {
+    width: 100%;
+
+    background: #fff5f9;
+
+    border: 1px solid #f1d7e4;
+
+    border-radius: 18px;
+
+    padding: 22px 24px;
+
+    text-align: left;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 6px 18px rgba(128, 0, 64, 0.06);
+}
+
+
+/* =========================================================
+   ROUTE TITLE
+   ========================================================= */
+
+.route h2 {
+    color: #800040;
+
+    font-size: 21px;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LANGUAGE SECTION
+   ========================================================= */
+
+.route-language {
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    padding: 15px 18px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #efdce6;
+}
+
+
+.route-language:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Language title */
+
+.route-language h3 {
+    color: #800040;
+
+    font-size: 17px;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ROUTE STEP
+   ========================================================= */
+
+.route-step {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #f1e5eb;
+}
+
+
+.route-step:last-child {
+    border-bottom: none;
+}
+
+
+.route-step span {
+    min-width: 27px;
+
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    background: #800040;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.route-step p {
+    color: #444;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TAMIL
+   ========================================================= */
+
+.tamil-route {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+}
+
+
+.tamil-route h3,
+.tamil-route p {
+    font-family:
+        'Noto Sans Tamil',
+        'Latha',
+        sans-serif;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.back-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 25px;
+
+    background: #f3e3eb;
+
+    color: #800040;
+
+    text-decoration: none;
+
+    border-radius: 11px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+
+.back-btn:hover {
+    background: #800040;
+
+    color: white;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
 
-    .department-logo {
-        height: 125px;
-        margin: 5px 0 15px;
+    body {
+        padding: 15px 10px;
+
+        align-items: flex-start;
     }
 
+
+    .department-box {
+        margin-top: 10px;
+
+        padding: 30px 17px;
+
+        border-radius: 21px;
+    }
+
+
+    .department-logo {
+        height: 90px;
+
+        margin-bottom: 8px;
+    }
+
+
     .department-logo img {
-        width: 115px;
-        height: 115px;
+        width: 82px;
+
+        height: 82px;
+    }
+
+
+    .department-box h1 {
+        font-size: 24px;
+    }
+
+
+    .college-name {
+        font-size: 13px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .route {
+        padding: 17px 13px;
+
+        border-radius: 16px;
+    }
+
+
+    .route h2 {
+        font-size: 18px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .route-language {
+        padding: 13px 14px;
+    }
+
+
+    .route-language h3 {
+        font-size: 16px;
+    }
+
+
+    .route-step {
+        gap: 10px;
+
+        padding: 9px 0;
+    }
+
+
+    .route-step span {
+        min-width: 25px;
+
+        width: 25px;
+        height: 25px;
+
+        font-size: 12px;
+    }
+
+
+    .route-step p {
+        font-size: 13px;
+    }
+
+
+    .back-btn {
+        width: 100%;
+
+        padding: 12px;
     }
 }
 
-/* ================= MOBILE ================= */
 
-@media(max-width:600px){
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
 
-    .department-logo{
-        height:110px;
+@media (max-width: 380px) {
+
+    .department-box {
+        padding: 25px 13px;
     }
 
-    .department-logo img{
-        width:105px;
-        height:105px;
+
+    .department-logo {
+        height: 80px;
     }
 
-    .route h2{
-        font-size:23px;
+
+    .department-logo img {
+        width: 72px;
+
+        height: 72px;
+    }
+
+
+    .department-box h1 {
+        font-size: 22px;
+    }
+
+
+    .route h2 {
+        font-size: 17px;
+    }
+
+
+    .route-step p {
+        font-size: 12px;
     }
 }
