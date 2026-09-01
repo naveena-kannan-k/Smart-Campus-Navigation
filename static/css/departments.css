@@ -221,74 +221,65 @@ body {
 }
 /* ================= DEPARTMENT LOGO ================= */
 
-.department-logo{
-    width:100%;
-    height:140px;
+.department-logo {
+    width: 100%;
+    height: 160px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    margin-bottom:15px;
+    margin: 10px 0 20px;
 
-    overflow:hidden;
+    overflow: hidden;
 }
 
+/* Logo */
 
-/* Logo Image */
+.department-logo img {
+    width: 150px;
+    height: 150px;
 
-.department-logo img{
-    width:140px;
-    height:140px;
+    object-fit: contain;
 
-    object-fit:contain;
+    display: block;
 
-    /* White background blend */
-    mix-blend-mode:multiply;
-
-    animation:logoAppear .8s ease;
-
-    transition:transform .3s ease;
+    animation: logoAppear 0.8s ease;
+    transition: transform 0.3s ease;
 }
 
-
-/* Small Hover Effect */
-
-.department-logo img:hover{
-    transform:scale(1.06);
+.department-logo img:hover {
+    transform: scale(1.06);
 }
-
-
-/* Department Name */
-
-.route h2{
-    text-align:center;
-
-    color:#800040;
-
-    font-family:"Times New Roman", Times, serif;
-
-    font-size:28px;
-
-    margin-bottom:25px;
-}
-
 
 /* Logo Animation */
 
-@keyframes logoAppear{
-
-    from{
-        opacity:0;
-        transform:scale(.7);
+@keyframes logoAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
     }
 
-    to{
-        opacity:1;
-        transform:scale(1);
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .department-logo {
+        height: 125px;
+        margin: 5px 0 15px;
+    }
+
+    .department-logo img {
+        width: 115px;
+        height: 115px;
+    }
+}
 
 /* ================= MOBILE ================= */
 
