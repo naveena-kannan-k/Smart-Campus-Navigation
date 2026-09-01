@@ -97,7 +97,7 @@ def chat_reply():
             "the John tucker block. The englich unaided  Department "
             "is located on the second floor."
         )
-         elif any(word in question for word in [
+   elif any(word in question for word in [
         "b.com self ",
         "commerce sf",
         "b.com sf department enga iruku",
