@@ -1,65 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>physics unaided Department Route</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Physics Unaided Department Route</title>
+
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         PHYSICS DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/physics.jpeg') }}"
+             alt="Physics Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Physics Unaided Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p> 📍 Route to Physics Self Department</p>
+        <h2>
+            📍 Route to Physics Self Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
+        <div class="route-language">
 
-<p>1. Walk straight for 70 metres</p>
-<p>2. You will find the New Auditorium</p>
-<p>3. The Physics Self Department is located on the left side of the New Auditorium</p>
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 70 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    You will find the New Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    The Physics Self Department is located
+                    on the left side of the New Auditorium
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="tamil-route">
 
-    <p>📍 <b>இயற்பியல் (Physics Self) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 70 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>2. நீங்கள் New Auditorium-ஐ காணலாம்</p>
+        <div class="route-language">
 
-    <p>3. New Auditorium-ன் இடதுபுறத்தில் இயற்பியல் (Physics Self) துறை அமைந்துள்ளது</p>
 
-</div>
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    70 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    நீங்கள் New Auditorium-ஐ காணலாம்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    New Auditorium-ன் இடதுபுறத்தில்
+                    இயற்பியல் (Physics Self) துறை
+                    அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/unaided" class="back-btn">
-        ⬅ Back to Aided Departments
+        ⬅ Back to Unaided Departments
     </a>
+
 
 </div>
 
