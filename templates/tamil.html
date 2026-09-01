@@ -1,72 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Tamil Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
 <body>
 
-<div class="route-box">
+<div class="department-box">
 
-    <h1> Tamil Department</h1>
+
+    <!-- =========================================
+         TAMIL DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/tamil.jpeg') }}"
+             alt="Tamil Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
+
+    <h1>Tamil Department</h1>
+
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
 
     <div class="route">
 
-        <p> 📍 Route to Tamil Department</p>
+        <h2>
+            📍 Route to Tamil Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
+        <div class="route-language">
 
-<p>1. Go straight for 50 metres</p>
-<p>2. Turn right and continue for 50 metres</p>
-<p>3. Continue straight along the road</p>
-<p>4. Continue until you reach the Old Auditorium</p>
-<p>5. The Tamil Department is located opposite the Old Auditorium</p>
-<p>6. The department is on the Ground Floor</p>
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Go straight for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ Turn right and continue for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    Continue straight along the road
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    Continue until you reach the
+                    Old Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    The Tamil Department is located
+                    opposite the Old Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>6</span>
+
+                <p>
+                    The department is on the Ground Floor
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-<div class="tamil-route">
 
-    <p>📍 <b>தமிழ் துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>2. வலதுபுறம் திரும்பி 50 மீட்டர் தொடர்ந்து நடந்து செல்லவும்</p>
+        <div class="route-language">
 
-    <p>3. சாலையில் தொடர்ந்து நேராக செல்லவும்</p>
+            <div class="route-step">
 
-    <p>4. Old Auditorium-ஐ அடையும் வரை தொடர்ந்து செல்லவும்</p>
+                <span>1</span>
 
-    <p>5. Old Auditorium-க்கு எதிரே தமிழ் துறை அமைந்துள்ளது</p>
+                <p>
+                    50 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
 
-    <p>6. தமிழ் துறை தரைத்தளத்தில் அமைந்துள்ளது</p>
+            </div>
 
-</div>
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ வலதுபுறம் திரும்பி 50 மீட்டர்
+                    தொடர்ந்து நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    சாலையில் தொடர்ந்து நேராக செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    Old Auditorium-ஐ அடையும் வரை
+                    தொடர்ந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    Old Auditorium-க்கு எதிரே
+                    தமிழ் துறை அமைந்துள்ளது
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>6</span>
+
+                <p>
+                    தமிழ் துறை தரைத்தளத்தில் அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
+
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
+
 
 </div>
 
