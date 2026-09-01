@@ -1,65 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Computer application Department Route</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Computer Application Department Route</title>
+
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         BCA DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/computer_application.jpeg') }}"
+             alt="Computer Application Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Computer Application Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p> 📍 Route to Bachelor of Computer Applications Department</p>
+        <h2>
+            📍 Route to Bachelor of Computer Applications Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 70 metres</p>
-<p>2. You will find the New Auditorium</p>
-<p>3. Next to the New Auditorium, you will find the Physics SF Block</p>
-<p>4. Behind the Physics SF Block, you will find the Bachelor of Computer Applications Department</p>
+        <div class="route-language">
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 70 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    You will find the New Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    Next to the New Auditorium, you will find
+                    the Physics SF Block
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    Behind the Physics SF Block, you will find
+                    the Bachelor of Computer Applications Department
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="tamil-route">
 
-    <h2>🇮🇳 தமிழ் வழி</h2>
 
-    <p>📍 <b>இளங்கலை கணினி பயன்பாடுகள் (BCA) துறைக்கான வழி</b></p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <div class="route tamil-route">
 
-    <p>1. 70 மீட்டர் நேராக நடந்து செல்லவும்</p>
+       
+        <div class="route-language">
 
-    <p>2. நீங்கள் New Auditorium-ஐ காணலாம்</p>
 
-    <p>3. New Auditorium-க்கு அருகில் Physics SF Block அமைந்துள்ளது</p>
+            <div class="route-step">
 
-    <p>4. Physics SF Block-க்கு பின்னால் இளங்கலை கணினி பயன்பாடுகள் (BCA) துறை அமைந்துள்ளது</p>
+                <span>1</span>
 
-</div>
+                <p>
+                    70 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    நீங்கள் New Auditorium-ஐ காணலாம்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    New Auditorium-க்கு அருகில்
+                    Physics SF Block அமைந்துள்ளது
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    Physics SF Block-க்கு பின்னால்
+                    இளங்கலை கணினி பயன்பாடுகள் (BCA)
+                    துறை அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
     <a href="/unaided" class="back-btn">
         ⬅ Back to Aided Departments
