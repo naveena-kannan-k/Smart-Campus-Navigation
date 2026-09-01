@@ -1,80 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Botony Department Route</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Botany Department Route</title>
+
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
 
-    <h1>Botony Department</h1>
 
-    <div class="route">
-          <!-- Department Logo -->
+    <!-- =========================================
+         BOTANY DEPARTMENT LOGO
+         ========================================= -->
 
     <div class="department-logo">
 
         <img src="{{ url_for('static', filename='images/botony.jpeg') }}"
-             alt="botony Department">
+             alt="Botany Department Logo">
 
     </div>
 
-        <p>📍 Route to Botany Aided Department</p>
 
-<p>Starting Point: Main Gate</p>
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
-<p>1. Walk straight for 50 metres</p>
-<p>2. Take a right turn</p>
-<p>3. Then take a left turn</p>
-<p>4. You will reach the Main Block</p>
-<p>5. In the Main Block, the Botany Aided Department is located on the right side of the First Floor</p>
-        
+    <h1>Botany Department</h1>
+
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
+    <div class="route">
+
+        <h2>
+            📍 Route to Botany Aided Department
+        </h2>
+
+
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ Take a right turn
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    ⬅️ Then take a left turn
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    You will reach the Main Block
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    In the Main Block, the Botany Aided
+                    Department is located on the right side
+                    of the First Floor
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="tamil-route">
-        <p>📍 தாவரவியல் (Botany) Aided துறைக்கான வழி</p>
 
-<p>தொடங்கும் இடம்: பிரதான நுழைவாயில்</p>
 
-<p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-<p>2. வலதுபுறம் திரும்பவும்</p>
+    <div class="route tamil-route">
 
-<p>3. பின்னர் இடதுபுறம் திரும்பவும்</p>
+        <h2>
+            📍 தாவரவியல் Aided துறைக்கான வழி
+        </h2>
 
-<p>4. நீங்கள் Main Block-ஐ அடைவீர்கள்</p>
 
-<p>5. Main Block-இன் முதல் தளத்தில், தாவரவியல் (Botany) Aided துறை வலதுபுறத்தில் அமைந்துள்ளது</p>
-        </div>   
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    50 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ வலதுபுறம் திரும்பவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    ⬅️ பின்னர் இடதுபுறம் திரும்பவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    நீங்கள் Main Block-ஐ அடைவீர்கள்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    Main Block-இன் முதல் தளத்தில்,
+                    தாவரவியல் (Botany) Aided துறை
+                    வலதுபுறத்தில் அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
 
+
 </div>
+
 
 </body>
 </html>
