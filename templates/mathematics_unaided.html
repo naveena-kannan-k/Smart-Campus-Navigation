@@ -1,66 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>mathematics unaided Department Route</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Mathematics Unaided Department Route</title>
+
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         MATHEMATICS DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/mathematics.jpeg') }}"
+             alt="Mathematics Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Mathematics Unaided Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p>📍 Route to Maths Self Department</p>
+        <h2>
+            📍 Route to Maths Self Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 100 metres</p>
-<p>2. Turn left and continue straight inside</p>
-<p>3. Continue walking straight to reach the Maths Self Department</p>
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 100 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ⬅️ Turn left and continue straight inside
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    Continue walking straight to reach the
+                    Maths Self Department
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="tamil-route">
 
-    <p>📍 <b>கணிதம் (Maths Self) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 100 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>2. இடதுபுறம் திரும்பி தொடர்ந்து நேராக உள்ளே செல்லவும்</p>
 
-    <p>3. தொடர்ந்து நேராக நடந்து சென்றால் Maths Self துறையை அடையலாம்</p>
+        <div class="route-language">
 
-</div>
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    100 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ⬅️ இடதுபுறம் திரும்பி தொடர்ந்து
+                    நேராக உள்ளே செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    தொடர்ந்து நேராக நடந்து சென்றால்
+                    Maths Self துறையை அடையலாம்
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/unaided" class="back-btn">
-        ⬅ Back to Aided Departments
+        ⬅ Back to Unaided Departments
     </a>
 
+
 </div>
+
 
 </body>
 </html>
