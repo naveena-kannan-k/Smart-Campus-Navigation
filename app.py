@@ -60,6 +60,81 @@ def chat_reply():
             "the Canteen. The Computer Science Department "
             "is nearby."
         )
+    # ==========================================
+    # FOOD SCIENCE
+    # ==========================================
+
+    elif any(word in question for word in [
+        "food science",
+        "food department",
+        "food science department",
+        "food science department enga iruku",
+        "food science department enga iruku"
+    ]):
+        answer = (
+            "💻 The food Science Department is located "
+            "near the Canteen. From the Main Gate, walk "
+            "straight and  take left follow the campus pathway towards "
+            "the Canteen. The food Science Department "
+            "is located on tha ground floor."
+        )
+    # ==========================================
+    # english(sf),b.com(sf) 
+    # ==========================================
+
+    elif any(word in question for word in [
+        "english self ",
+        "english sf",
+        "english sf department enga iruku",
+        "english sf department",
+        "english self department",
+        "english unaided"
+    ]):
+        answer = (
+            "💻 The english unaided Department is located "
+            "on the John tucker block. From the Main Gate, walk "
+            "straight and follow the campus pathway towards "
+            "the John tucker block. The englich unaided  Department "
+            "is located on the second floor."
+        )
+         elif any(word in question for word in [
+        "b.com self ",
+        "commerce sf",
+        "b.com sf department enga iruku",
+        "commerce sf department",
+        "b.com self department",
+        "b.com unaided"
+    ]):
+        answer = (
+            "💻 The B.Com unaided Department is located "
+            "on the John tucker block. From the Main Gate, walk "
+            "straight and follow the campus pathway towards "
+            "the John tucker block. The B.Com unaided  Department "
+            "is located on the first floor."
+        )
+    # ==========================================
+    # tamil,english(aided),economics SCIENCE
+    # ==========================================
+
+    elif any(word in question for word in [
+        "tamil",
+        "english aided",
+        "economics",
+        "english aided",
+        "economics department",
+        "tamil department enga iruku",
+        "english aided department enga iruku",
+        "economics department enga iruku"
+    ]):
+        answer = (
+            "💻 The tamil,english(aided),economics Department is located "
+            "opposite the old auditorium. From the Main Gate, walk "
+            "straight and  take right follow the campus pathway towards "
+            "the old auditorium. The tamil,english(aided),economics Department "
+            "is located on tha ground floor."
+        )
+
+
 
     # ==========================================
     # LIBRARY
