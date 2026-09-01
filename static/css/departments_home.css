@@ -1,1 +1,289 @@
+/* ==========================================
+   DEPARTMENTS HOME PAGE
+========================================== */
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* ==========================================
+   BODY
+========================================== */
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #fff7fb,
+        #f8e8f1
+    );
+}
+
+
+/* ==========================================
+   MAIN BOX
+========================================== */
+
+.department-box {
+    width: 100%;
+    max-width: 760px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    padding: 45px 50px;
+
+    border-radius: 28px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 50px rgba(128, 0, 64, 0.15);
+
+    border: 1px solid rgba(128, 0, 64, 0.08);
+}
+
+
+/* ==========================================
+   HEADING
+========================================== */
+
+.department-box h2 {
+    color: #800040;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    margin-bottom: 35px;
+}
+
+
+/* ==========================================
+   BUTTON GROUP
+========================================== */
+
+.button-group {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+}
+
+
+/* ==========================================
+   DEPARTMENT CARDS
+========================================== */
+
+.button-group .btn {
+    min-height: 170px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background: linear-gradient(
+        145deg,
+        #800040,
+        #9b0050
+    );
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 22px;
+
+    font-size: 20px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.2px;
+
+    box-shadow:
+        0 12px 28px rgba(128, 0, 64, 0.20);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+
+/* ==========================================
+   HOVER
+========================================== */
+
+.button-group .btn:hover {
+
+    transform: translateY(-8px);
+
+    background: linear-gradient(
+        145deg,
+        #99004d,
+        #b0005d
+    );
+
+    box-shadow:
+        0 18px 35px rgba(128, 0, 64, 0.28);
+}
+
+
+/* ==========================================
+   CLICK EFFECT
+========================================== */
+
+.button-group .btn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.back-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 28px;
+
+    background: #f4e3ec;
+
+    color: #800040;
+
+    text-decoration: none;
+
+    border-radius: 13px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Back Hover */
+
+.back-btn:hover {
+
+    background: #800040;
+
+    color: white;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(128, 0, 64, 0.18);
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 18px;
+    }
+
+
+    .department-box {
+
+        padding: 35px 20px;
+
+        border-radius: 22px;
+    }
+
+
+    .department-box h2 {
+
+        font-size: 28px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .button-group {
+
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .button-group .btn {
+
+        min-height: 125px;
+
+        padding: 25px;
+
+        font-size: 18px;
+
+        border-radius: 18px;
+    }
+
+
+    .back-btn {
+
+        width: 100%;
+
+        padding: 13px 20px;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 380px) {
+
+    .department-box {
+
+        padding: 30px 15px;
+    }
+
+
+    .department-box h2 {
+
+        font-size: 25px;
+    }
+
+
+    .button-group .btn {
+
+        min-height: 110px;
+
+        font-size: 17px;
+    }
+
+}
