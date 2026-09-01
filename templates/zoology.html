@@ -1,71 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Zoology Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         ZOOLOGY DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/zoology.jpeg') }}"
+             alt="Zoology Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Zoology Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p> 📍 Route to Zoology Aided Department</p>
+        <h2>
+            📍 Route to Zoology Aided Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
+        <div class="route-language">
 
-<p>1. Walk straight for 50 metres</p>
-<p>2. Take a right turn and walk straight for 40 metres</p>
-<p>3. Take a left turn and walk straight for 40 metres</p>
-<p>4. Take a left turn</p>
-<p>5. The Zoology Aided Department is located behind the Management Office</p>
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ Take a right turn and walk straight
+                    for 40 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    ⬅️ Take a left turn and walk straight
+                    for 40 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    ⬅️ Take a left turn
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    The Zoology Aided Department is located
+                    behind the Management Office
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="tamil-route">
-        
-    <p>📍 <b>விலங்கியல் (Zoology Aided) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
 
-    <p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>2. வலதுபுறம் திரும்பி 40 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>3. இடதுபுறம் திரும்பி 40 மீட்டர் நேராக நடந்து செல்லவும்</p>
+        <div class="route-language">
 
-    <p>4. இடதுபுறம் திரும்பவும்</p>
 
-    <p>5. Management Office-க்கு பின்னால் விலங்கியல் (Zoology Aided) துறை அமைந்துள்ளது</p>
+            <div class="route-step">
 
-</div>
+                <span>1</span>
+
+                <p>
+                    50 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ வலதுபுறம் திரும்பி 40 மீட்டர்
+                    நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    ⬅️ இடதுபுறம் திரும்பி 40 மீட்டர்
+                    நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    ⬅️ இடதுபுறம் திரும்பவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    Management Office-க்கு பின்னால்
+                    விலங்கியல் (Zoology Aided) துறை
+                    அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
+
 
 </div>
 
