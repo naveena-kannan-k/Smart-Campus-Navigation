@@ -1,69 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>History Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
 
-    <h1> History Department</h1>
 
+    <!-- =========================================
+         HISTORY DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/history.jpeg') }}"
+             alt="History Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
+
+    <h1>History Department</h1>
+
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
 
     <div class="route">
 
-        <p> 📍 Route to History(Tamil & English )Departments</p>
+        <h2>
+            📍 Route to History, Tamil & English Departments
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 60 metres</p>
-<p>2. You will find the New Auditorium</p>
-<p>3. The History, Tamil, and English Departments are located underground, below the New Auditorium</p>
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 60 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    You will find the New Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    The History, Tamil, and English Departments
+                    are located underground, below the
+                    New Auditorium
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="tamil-route">
 
-    <p>📍 <b>வரலாறு, தமிழ் மற்றும் ஆங்கிலத் துறைகளுக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 60 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>2. நீங்கள் New Auditorium-ஐ காணலாம்</p>
+        <div class="route-language">
 
-    <p>3. New Auditorium-க்கு கீழே உள்ள அடித்தளத் தளத்தில்
-    வரலாறு, தமிழ் மற்றும் ஆங்கிலத் துறைகள் அமைந்துள்ளன</p>
 
-</div>
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    60 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    நீங்கள் New Auditorium-ஐ காணலாம்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    New Auditorium-க்கு கீழே உள்ள
+                    அடித்தளத் தளத்தில் வரலாறு, தமிழ் மற்றும்
+                    ஆங்கிலத் துறைகள் அமைந்துள்ளன
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
 
+
 </div>
+
 
 </body>
 </html>
