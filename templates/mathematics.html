@@ -1,65 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Mathematics Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         MATHEMATICS DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/mathematics.jpeg') }}"
+             alt="Mathematics Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Mathematics Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p>📍 Route to Maths Regular Department</p>
+        <h2>
+            📍 Route to Maths Regular Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 60 metres</p>
-<p>2. Turn left and you will find the New Auditorium on the left side</p>
-<p>3. The Maths Regular Department is located below the New Auditorium on the Ground Floor</p>
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 60 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ⬅️ Turn left and you will find the
+                    New Auditorium on the left side
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    The Maths Regular Department is located
+                    below the New Auditorium on the Ground Floor
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-<div class="tamil-route">
 
-    <p>📍 <b>கணிதம் (Maths Regular) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 60 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
+        
+        <div class="route-language">
 
-    <p>2. இடதுபுறம் திரும்பவும். இடதுபுறத்தில் New Auditorium-ஐ காணலாம்</p>
 
-    <p>3. New Auditorium-க்கு கீழே உள்ள தரைத்தளத்தில் Maths Regular துறை அமைந்துள்ளது</p>
+            <div class="route-step">
 
-</div>
+                <span>1</span>
+
+                <p>
+                    60 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ⬅️ இடதுபுறம் திரும்பவும்.
+                    இடதுபுறத்தில் New Auditorium-ஐ காணலாம்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    New Auditorium-க்கு கீழே உள்ள
+                    தரைத்தளத்தில் Maths Regular துறை
+                    அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
+
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
 
+
 </div>
+
 
 </body>
 </html>
