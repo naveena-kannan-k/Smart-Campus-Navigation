@@ -1,73 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>English Unaided Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         ENGLISH UNAIDED DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/english.jpeg') }}"
+             alt="English Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>English Unaided Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p>📍 Route to English Self Department</p>
+        <h2>
+            📍 Route to English Self Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 50 metres</p>
-<p>2. Turn right and walk for 40 metres</p>
-<p>3. Continue straight for 60 metres</p>
-<p>4. Turn right to reach the John Tucker Block</p>
-<p>5. The Canteen is located next to the John Tucker Block</p>
-<p>6. Enter the John Tucker Block and go to the Second Floor</p>
-<p>7. The English Self Department is located on the Second Floor</p>
+        <div class="route-language">
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ Turn right and walk for 40 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    Continue straight for 60 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    ➡️ Turn right to reach the
+                    John Tucker Block
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    The Canteen is located next to the
+                    John Tucker Block
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>6</span>
+
+                <p>
+                    Enter the John Tucker Block and go to
+                    the Second Floor
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>7</span>
+
+                <p>
+                    The English Self Department is located
+                    on the Second Floor
+                </p>
+
+            </div>
+
+        </div>
+
     </div>
-    <div class="tamil-route">
 
-    <p>📍 <b>ஆங்கிலம் (Self) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <div class="route tamil-route">
 
-    <p>2. வலதுபுறம் திரும்பி 40 மீட்டர் நடந்து செல்லவும்</p>
 
-    <p>3. தொடர்ந்து 60 மீட்டர் நேராக நடந்து செல்லவும்</p>
+        <div class="route-language">
 
-    <p>4. வலதுபுறம் திரும்பி John Tucker Block-ஐ அடையவும்</p>
 
-    <p>5. John Tucker Block-க்கு அருகில் Canteen அமைந்துள்ளது</p>
+            <div class="route-step">
 
-    <p>6. John Tucker Block-க்குள் சென்று இரண்டாவது தளத்திற்குச் செல்லவும்</p>
+                <span>1</span>
 
-    <p>7. இரண்டாவது தளத்தில் English Self துறை அமைந்துள்ளது</p>
+                <p>
+                    50 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
 
-</div>
+            </div>
 
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ வலதுபுறம் திரும்பி 40 மீட்டர்
+                    நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    தொடர்ந்து 60 மீட்டர் நேராக
+                    நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    ➡️ வலதுபுறம் திரும்பி
+                    John Tucker Block-ஐ அடையவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    John Tucker Block-க்கு அருகில்
+                    Canteen அமைந்துள்ளது
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>6</span>
+
+                <p>
+                    John Tucker Block-க்குள் சென்று
+                    இரண்டாவது தளத்திற்குச் செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>7</span>
+
+                <p>
+                    இரண்டாவது தளத்தில்
+                    English Self துறை அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+   
     <a href="/unaided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
