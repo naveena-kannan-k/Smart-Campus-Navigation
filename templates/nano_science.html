@@ -1,67 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Nano Science Department Route</title>
 
+    <!-- Common Department CSS -->
     <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
+          href="{{ url_for('static', filename='css/departments.css') }}">
 
 </head>
 
+
 <body>
 
-<div class="route-box">
+<div class="department-box">
+
+
+    <!-- =========================================
+         NANO SCIENCE DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/nano_science.jpeg') }}"
+             alt="Nano Science Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
 
     <h1>Nano Science Department</h1>
 
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
     <div class="route">
 
-        <p>📍 Route to Nano Science Department</p>
+        <h2>
+            📍 Route to Nano Science Department
+        </h2>
 
-<p>Starting Point: Main Gate</p>
 
-<p>1. Walk straight for 60 metres</p>
-<p>2. You will find the New Auditorium</p>
-<p>3. The Nano Science Department is located underground, below the New Auditorium</p>
+        <div class="route-language">
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 60 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    You will find the New Auditorium
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    The Nano Science Department is located
+                    underground, below the New Auditorium
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
-    <div class="tamil-route">
-        
-    <p>📍 <b>நானோ அறிவியல் (Nano Science) துறைக்கான வழி</b></p>
 
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
 
-    <p>1. 60 மீட்டர் நேராக நடந்து செல்லவும்</p>
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
 
-    <p>2. நீங்கள் New Auditorium-ஐ காணலாம்</p>
+    <div class="route tamil-route">
 
-    <p>3. New Auditorium-க்கு கீழே உள்ள அடித்தளத்தில் நானோ அறிவியல் (Nano Science) துறை அமைந்துள்ளது</p>
+        <div class="route-language">
 
-</div>
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    60 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    நீங்கள் New Auditorium-ஐ காணலாம்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    New Auditorium-க்கு கீழே உள்ள
+                    அடித்தளத்தில் நானோ அறிவியல்
+                    (Nano Science) துறை அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
 
     <a href="/unaided" class="back-btn">
-        ⬅ Back to Aided Departments
+        ⬅ Back to Unaided Departments
     </a>
 
+
 </div>
+
 
 </body>
 </html>
