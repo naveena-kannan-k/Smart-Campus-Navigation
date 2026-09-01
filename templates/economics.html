@@ -1,73 +1,219 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Economics Department Route</title>
-
-    <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/route.css') }}">
-    <style>
-    .dashboard-box {
-        text-align: left;
-    }
-
-    .dashboard-box p {
-        text-align: left;
-        line-height: 1.6;
-    }
-
-    .dashboard-box h1 {
-        text-align: center;
-    }
-</style>
-
-</head>
-
-<body>
-
-<div class="route-box">
-
-    <h1>Economics Department</h1>
-
-    <div class="route">
-
-        <p>📍 Route to Economics Department</p>
-
-<p>Starting Point: Main Gate</p>
-
-<p>1. Walk straight for 50 metres</p>
-<p>2. Take a right turn ➡️ and walk straight for 40 metres</p>
-<p>3. Continue walking straight. You will find the **Old Auditorium**</p>
-<p>4. Opposite the **Old Auditorium**, you will find a **Block**</p>
-<p>5. The **Economics Department** is located on the **Second Floor** of the Block</p>
-
-    </div>
-    <div class="tamil-route">
-
-    <p>📍 <b>பொருளாதாரத் துறைக்கான வழி</b></p>
-
-    <p><b>தொடங்கும் இடம்:</b> பிரதான நுழைவாயில்</p>
-
-    <p>1. 50 மீட்டர் நேராக நடந்து செல்லவும்</p>
-
-    <p>2. வலதுபுறம் ➡️ திரும்பி 40 மீட்டர் நேராக நடந்து செல்லவும்</p>
-
-    <p>3. தொடர்ந்து நேராக நடந்து செல்லவும். நீங்கள் <b>Old Auditorium</b>-ஐ காண்பீர்கள்</p>
-
-    <p>4. <b>Old Auditorium</b>-க்கு எதிரே ஒரு <b>Block</b> அமைந்துள்ளது</p>
-
-    <p>5. அந்த <b>Block</b>-இன் இரண்டாவது தளத்தில் <b>பொருளாதாரத் துறை</b> அமைந்துள்ளது</p>
-
-</div>
 
     <a href="/aided" class="back-btn">
         ⬅ Back to Aided Departments
     </a>
 
 </div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Economics Department Route</title>
+
+    <!-- Common Department CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/departments.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="department-box">
+
+
+    <!-- =========================================
+         ECONOMICS DEPARTMENT LOGO
+         ========================================= -->
+
+    <div class="department-logo">
+
+        <img src="{{ url_for('static', filename='images/economics.jpeg') }}"
+             alt="Economics Department Logo">
+
+    </div>
+
+
+    <!-- =========================================
+         DEPARTMENT NAME
+         ========================================= -->
+
+    <h1>Economics Department</h1>
+
+    <p class="college-name">
+        Sarah Tucker College (Autonomous)
+    </p>
+
+
+    <!-- =========================================
+         ENGLISH ROUTE
+         ========================================= -->
+
+    <div class="route">
+
+        <h2>
+            📍 Route to Economics Department
+        </h2>
+
+
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    Walk straight for 50 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    ➡️ Take a right turn and walk straight
+                    for 40 metres
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    Continue walking straight. You will find
+                    the <b>Old Auditorium</b>
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    Opposite the <b>Old Auditorium</b>,
+                    you will find a <b>Block</b>
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    The <b>Economics Department</b> is located
+                    on the <b>Second Floor</b> of the Block
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         TAMIL ROUTE
+         ========================================= -->
+
+    <div class="route tamil-route">
+
+        <div class="route-language">
+
+
+            <div class="route-step">
+
+                <span>1</span>
+
+                <p>
+                    50 மீட்டர் நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>2</span>
+
+                <p>
+                    வலதுபுறம் ➡️ திரும்பி 40 மீட்டர்
+                    நேராக நடந்து செல்லவும்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>3</span>
+
+                <p>
+                    தொடர்ந்து நேராக நடந்து செல்லவும்.
+                    நீங்கள் <b>Old Auditorium</b>-ஐ காண்பீர்கள்
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>4</span>
+
+                <p>
+                    <b>Old Auditorium</b>-க்கு எதிரே ஒரு
+                    <b>Block</b> அமைந்துள்ளது
+                </p>
+
+            </div>
+
+
+            <div class="route-step">
+
+                <span>5</span>
+
+                <p>
+                    அந்த <b>Block</b>-இன் இரண்டாவது தளத்தில்
+                    <b>பொருளாதாரத் துறை</b> அமைந்துள்ளது
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         BACK BUTTON
+         ========================================= -->
+
+    <a href="/aided" class="back-btn">
+        ⬅ Back to Aided Departments
+    </a>
+
+
+</div>
+
 
 </body>
 </html>
