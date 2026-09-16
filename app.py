@@ -1,5 +1,17 @@
 from flask import Flask, render_template,request,redirect,jsonify
+import os
+import pymysql
 app=Flask(__name__)
+def get_db_connection():
+    return pymysql.connect(
+        host=os.environ.get("DB_HOST"),
+        port=int(os.environ.get("DB_PORT", 20191)),
+        user=os.environ.get("DB_USER"),
+        password=os.environ.get("DB_PASSWORD"),
+        database=os.environ.get("DB_NAME"),
+        ssl={"ca": "/etc/secrets/ca.pem"},
+        cursorclass=pymysql.cursors.DictCursor
+    )
 @app.route("/")
 def home():
     return render_template("index.html")
