@@ -10,193 +10,132 @@
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
     <style>
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #fff5fa, #f7f9ff);
-            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #333;
         }
 
         .container {
-            max-width: 950px;
-            margin: auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            color: #800040;
-            font-size: 28px;
-            margin-bottom: 6px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
+            width: 95%;
+            max-width: 1100px;
+            margin: 25px auto;
         }
 
         .card {
             background: white;
-            border-radius: 18px;
             padding: 25px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.10);
         }
 
-        .form-group {
-            margin-bottom: 18px;
+        h2 {
+            text-align: center;
+            color: #800040;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-weight: bold;
+            margin: 12px 0 6px;
         }
 
         select {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            outline: none;
-            font-size: 14px;
-            background: white;
-        }
-
-        select:focus {
-            border-color: #800040;
-        }
-
-        .map-title {
-            margin: 20px 0 10px;
-            color: #800040;
-            font-weight: 600;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
         }
 
         #updateMap {
             width: 100%;
-            height: 450px;
-            border-radius: 14px;
+            height: 500px;
+            margin-top: 18px;
+            border-radius: 15px;
             overflow: hidden;
-            border: 1px solid #ddd;
+            border: 2px solid #ddd;
         }
 
-        .coordinates {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .coordinate-box {
-            flex: 1;
-            background: #fff5fa;
+        .info {
+            margin-top: 12px;
             padding: 12px;
+            background: #f8eaf1;
             border-radius: 10px;
-        }
-
-        .coordinate-box span {
-            display: block;
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 4px;
-        }
-
-        .coordinate-box strong {
-            color: #800040;
             font-size: 14px;
         }
 
         .buttons {
             display: flex;
-            justify-content: space-between;
-            margin-top: 22px;
-            gap: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
         }
 
-        button,
-        .back-btn {
+        button {
             border: none;
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 9px;
             cursor: pointer;
-            text-decoration: none;
-            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #drawRouteBtn {
+            background: #1565c0;
+            color: white;
+        }
+
+        #finishRouteBtn {
+            background: #2e7d32;
+            color: white;
+        }
+
+        #clearRouteBtn {
+            background: #d32f2f;
+            color: white;
         }
 
         .update-btn {
+            width: 100%;
+            margin-top: 18px;
             background: #800040;
             color: white;
-            flex: 1;
+            font-size: 16px;
         }
 
-        .update-btn:hover {
-            background: #660033;
-        }
-
-        .back-btn {
-            background: #eee;
-            color: #333;
-        }
-
-        .back-btn:hover {
-            background: #ddd;
-        }
-
-        .instruction {
+        .status {
             margin-top: 12px;
-            padding: 12px;
-            background: #f5f8ff;
-            border-left: 4px solid #800040;
-            border-radius: 8px;
-            font-size: 13px;
+            font-weight: bold;
             color: #555;
         }
 
         @media (max-width: 600px) {
 
-            body {
-                padding: 15px;
+            .container {
+                width: 94%;
+                margin: 15px auto;
             }
 
             .card {
-                padding: 18px;
-            }
-
-            .header h1 {
-                font-size: 23px;
+                padding: 16px;
             }
 
             #updateMap {
-                height: 380px;
+                height: 400px;
             }
 
-            .coordinates {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .buttons {
-                flex-direction: column-reverse;
-            }
-
-            .back-btn,
-            .update-btn {
+            button {
                 width: 100%;
             }
         }
-
     </style>
 </head>
 
@@ -204,72 +143,50 @@
 
 <div class="container">
 
-    <div class="header">
-        <h1>📍 Update Campus Location</h1>
-        <p>Select a building and click its exact location on the map</p>
-    </div>
-
     <div class="card">
 
-        <form method="POST" id="locationForm">
+        <h2>📍 Update Campus Location & Route</h2>
 
-            <div class="form-group">
+        <form method="POST"
+              action="/admin/update"
+              id="updateForm">
 
-                <label for="building">
-                    Select Building
-                </label>
+            <label>Select Building</label>
 
-                <select name="building_id"
-                        id="building"
-                        required>
+            <select name="building_id"
+                    id="building"
+                    required>
 
-                    <option value="">
-                        -- Select Building --
-                    </option>
+                <option value="">-- Select Building --</option>
 
-                    {% for building in buildings %}
+                {% for building in buildings %}
 
-                    <option value="{{ building.id }}"
-                            data-lat="{{ building.latitude or '' }}"
-                            data-lng="{{ building.longitude or '' }}">
+                <option value="{{ building.id }}"
+                        data-lat="{{ building.latitude or '' }}"
+                        data-lng="{{ building.longitude or '' }}">
 
-                        {{ building.name }}
+                    {{ building.name }}
 
-                    </option>
+                </option>
 
-                    {% endfor %}
+                {% endfor %}
 
-                </select>
+            </select>
 
-            </div>
-
-
-            <div class="map-title">
-                Select Exact Location
-            </div>
 
             <div id="updateMap"></div>
 
-            <div class="instruction">
-                💡 Select a building above, then click on the map
-                to set its exact location.
-            </div>
 
+            <div class="info">
 
-            <div class="coordinates">
-
-                <div class="coordinate-box">
-                    <span>Latitude</span>
-                    <strong id="latitudeText">
-                        Not selected
-                    </strong>
+                <div>
+                    <b>Latitude:</b>
+                    <span id="latText">Not selected</span>
                 </div>
 
-                <div class="coordinate-box">
-                    <span>Longitude</span>
-                    <strong id="longitudeText">
-                        Not selected
-                    </strong>
+                <div>
+                    <b>Longitude:</b>
+                    <span id="lngText">Not selected</span>
                 </div>
 
             </div>
@@ -283,23 +200,51 @@
                    name="longitude"
                    id="longitude">
 
+            <input type="hidden"
+                   name="route_points"
+                   id="route_points">
+
 
             <div class="buttons">
 
-                <a href="/dashboard"
-                   class="back-btn">
-                    ← Back
-                </a>
+                <button type="button"
+                        id="drawRouteBtn">
 
-                <button type="submit"
-                        class="update-btn"
-                        id="updateButton">
+                    🛣️ Draw Route
 
-                    📍 Update Location
+                </button>
+
+                <button type="button"
+                        id="finishRouteBtn">
+
+                    ✅ Finish Route
+
+                </button>
+
+                <button type="button"
+                        id="clearRouteBtn">
+
+                    🗑️ Clear Route
 
                 </button>
 
             </div>
+
+
+            <div class="status"
+                 id="routeStatus">
+
+                Select a building and click its exact location on the map.
+
+            </div>
+
+
+            <button type="submit"
+                    class="update-btn">
+
+                📍 Update Location & Route
+
+            </button>
 
         </form>
 
@@ -312,173 +257,418 @@
 
 <script>
 
-    // Sarah Tucker College Main Gate
-    const COLLEGE_CENTER = [8.6988565, 77.739888];
+const COLLEGE_CENTER = [8.6988565, 77.739888];
 
-    const map = L.map("updateMap").setView(
-        COLLEGE_CENTER,
-        18
-    );
+const map = L.map("updateMap")
+    .setView(COLLEGE_CENTER, 18);
 
 
-    // OpenStreetMap
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 22,
-            attribution: "&copy; OpenStreetMap"
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom: 22,
+        attribution: "&copy; OpenStreetMap"
+    }
+).addTo(map);
+
+
+let marker = null;
+
+let routeLine = null;
+
+let routePoints = [];
+
+let drawingRoute = false;
+
+
+// --------------------------------------------------
+// BUILDING SELECTION
+// --------------------------------------------------
+
+document
+    .getElementById("building")
+    .addEventListener("change", function () {
+
+        const option =
+            this.options[this.selectedIndex];
+
+        const lat =
+            option.dataset.lat;
+
+        const lng =
+            option.dataset.lng;
+
+
+        // Remove old marker
+        if (marker) {
+
+            map.removeLayer(marker);
+
+            marker = null;
         }
-    ).addTo(map);
 
 
-    let marker = null;
+        // Remove old route
+        clearRoute();
 
 
-    // Building selection
-    document.getElementById("building").addEventListener(
-        "change",
-        function () {
+        if (lat && lng) {
 
-            const option =
-                this.options[this.selectedIndex];
+            const position = [
+                parseFloat(lat),
+                parseFloat(lng)
+            ];
 
-            const lat = option.dataset.lat;
-            const lng = option.dataset.lng;
+            marker = L.marker(position)
+                .addTo(map);
+
+            marker.bindPopup(
+                "<b>" +
+                option.text.trim() +
+                "</b>"
+            ).openPopup();
 
 
-            if (lat && lng) {
+            map.setView(position, 19);
 
-                const position = [
-                    parseFloat(lat),
-                    parseFloat(lng)
-                ];
 
-                map.setView(position, 19);
+            document.getElementById("latitude").value =
+                lat;
 
-                if (marker) {
-                    map.removeLayer(marker);
-                }
+            document.getElementById("longitude").value =
+                lng;
 
-                marker = L.marker(position)
-                    .addTo(map);
+            document.getElementById("latText").textContent =
+                lat;
 
-                document.getElementById("latitude").value = lat;
-                document.getElementById("longitude").value = lng;
+            document.getElementById("lngText").textContent =
+                lng;
 
-                document.getElementById("latitudeText").textContent = lat;
-                document.getElementById("longitudeText").textContent = lng;
+            document.getElementById("routeStatus").textContent =
+                "Existing location loaded. You can draw or update the route.";
 
-            } else {
+        } else {
 
-                if (marker) {
-                    map.removeLayer(marker);
-                    marker = null;
-                }
+            document.getElementById("latitude").value = "";
 
-                map.setView(
-                    COLLEGE_CENTER,
-                    18
-                );
+            document.getElementById("longitude").value = "";
 
-                document.getElementById("latitude").value = "";
-                document.getElementById("longitude").value = "";
+            document.getElementById("latText").textContent =
+                "Not selected";
 
-                document.getElementById("latitudeText").textContent =
-                    "Not selected";
+            document.getElementById("lngText").textContent =
+                "Not selected";
 
-                document.getElementById("longitudeText").textContent =
-                    "Not selected";
-            }
+            map.setView(
+                COLLEGE_CENTER,
+                18
+            );
+
+            document.getElementById("routeStatus").textContent =
+                "Click the exact building location on the map.";
 
         }
-    );
+
+    });
 
 
-    // Click map to select location
-    map.on("click", function (e) {
+// --------------------------------------------------
+// MAP CLICK = BUILDING LOCATION
+// --------------------------------------------------
+
+map.on("click", function (e) {
+
+    // If drawing route, add route point
+    if (drawingRoute) {
+
+        routePoints.push([
+            Number(e.latlng.lat.toFixed(7)),
+            Number(e.latlng.lng.toFixed(7))
+        ]);
+
+        redrawRoute();
+
+        return;
+    }
+
+
+    const building =
+        document.getElementById("building").value;
+
+
+    if (!building) {
+
+        alert("Please select a building first.");
+
+        return;
+    }
+
+
+    const lat =
+        e.latlng.lat.toFixed(7);
+
+    const lng =
+        e.latlng.lng.toFixed(7);
+
+
+    document.getElementById("latitude").value =
+        lat;
+
+    document.getElementById("longitude").value =
+        lng;
+
+
+    document.getElementById("latText").textContent =
+        lat;
+
+    document.getElementById("lngText").textContent =
+        lng;
+
+
+    if (marker) {
+
+        map.removeLayer(marker);
+    }
+
+
+    marker = L.marker([
+        parseFloat(lat),
+        parseFloat(lng)
+    ])
+    .addTo(map);
+
+
+    marker.bindPopup(
+        "📍 Building Location"
+    ).openPopup();
+
+
+    document.getElementById("routeStatus").textContent =
+        "Location selected. Now click Draw Route.";
+
+});
+
+
+// --------------------------------------------------
+// DRAW ROUTE
+// --------------------------------------------------
+
+document
+    .getElementById("drawRouteBtn")
+    .addEventListener("click", function () {
 
         const building =
             document.getElementById("building").value;
 
+
+        const lat =
+            document.getElementById("latitude").value;
+
+        const lng =
+            document.getElementById("longitude").value;
+
+
         if (!building) {
 
-            alert("Please select a building first.");
+            alert("Please select a building.");
 
             return;
         }
 
 
-        const latitude =
-            e.latlng.lat.toFixed(7);
+        if (!lat || !lng) {
 
-        const longitude =
-            e.latlng.lng.toFixed(7);
+            alert("Please click the building location on the map first.");
 
-
-        if (marker) {
-            map.removeLayer(marker);
+            return;
         }
 
 
-        marker = L.marker([
-            latitude,
-            longitude
-        ])
-        .addTo(map);
+        drawingRoute = true;
+
+        routePoints = [
+
+            [
+                COLLEGE_CENTER[0],
+                COLLEGE_CENTER[1]
+            ]
+
+        ];
 
 
-        document.getElementById("latitude").value =
-            latitude;
-
-        document.getElementById("longitude").value =
-            longitude;
+        redrawRoute();
 
 
-        document.getElementById("latitudeText").textContent =
-            latitude;
-
-        document.getElementById("longitudeText").textContent =
-            longitude;
+        document.getElementById("routeStatus").textContent =
+            "Route drawing ON: click the road points from Main Gate to the building.";
 
     });
 
 
-    // Prevent update without location
-    document.getElementById("locationForm").addEventListener(
-        "submit",
-        function (e) {
+// --------------------------------------------------
+// REDRAW ROUTE
+// --------------------------------------------------
 
-            const building =
-                document.getElementById("building").value;
+function redrawRoute() {
 
-            const latitude =
-                document.getElementById("latitude").value;
+    if (routeLine) {
 
-            const longitude =
-                document.getElementById("longitude").value;
+        map.removeLayer(routeLine);
+    }
 
 
-            if (!building) {
+    if (routePoints.length < 2) {
 
-                e.preventDefault();
-
-                alert("Please select a building.");
-
-                return;
-            }
+        return;
+    }
 
 
-            if (!latitude || !longitude) {
-
-                e.preventDefault();
-
-                alert("Please click the exact building location on the map.");
-
-                return;
-            }
-
+    routeLine = L.polyline(
+        routePoints,
+        {
+            color: "#1565c0",
+            weight: 6,
+            opacity: 0.9
         }
-    );
+    ).addTo(map);
+
+}
+
+
+// --------------------------------------------------
+// FINISH ROUTE
+// --------------------------------------------------
+
+document
+    .getElementById("finishRouteBtn")
+    .addEventListener("click", function () {
+
+        if (!drawingRoute) {
+
+            alert("Click Draw Route first.");
+
+            return;
+        }
+
+
+        const lat =
+            document.getElementById("latitude").value;
+
+        const lng =
+            document.getElementById("longitude").value;
+
+
+        if (!lat || !lng) {
+
+            alert("Building location is missing.");
+
+            return;
+        }
+
+
+        // Add exact building location as final point
+        routePoints.push([
+
+            Number(parseFloat(lat).toFixed(7)),
+            Number(parseFloat(lng).toFixed(7))
+
+        ]);
+
+
+        redrawRoute();
+
+
+        document.getElementById("route_points").value =
+            JSON.stringify(routePoints);
+
+
+        drawingRoute = false;
+
+
+        document.getElementById("routeStatus").textContent =
+            "✅ Route completed. Now click Update Location & Route.";
+
+    });
+
+
+// --------------------------------------------------
+// CLEAR ROUTE
+// --------------------------------------------------
+
+function clearRoute() {
+
+    drawingRoute = false;
+
+    routePoints = [];
+
+
+    if (routeLine) {
+
+        map.removeLayer(routeLine);
+
+        routeLine = null;
+    }
+
+
+    document.getElementById("route_points").value = "";
+
+}
+
+
+// --------------------------------------------------
+// CLEAR BUTTON
+// --------------------------------------------------
+
+document
+    .getElementById("clearRouteBtn")
+    .addEventListener("click", function () {
+
+        clearRoute();
+
+        document.getElementById("routeStatus").textContent =
+            "Route cleared. Click Draw Route to create a new route.";
+
+    });
+
+
+// --------------------------------------------------
+// FORM VALIDATION
+// --------------------------------------------------
+
+document
+    .getElementById("updateForm")
+    .addEventListener("submit", function (e) {
+
+        const lat =
+            document.getElementById("latitude").value;
+
+        const lng =
+            document.getElementById("longitude").value;
+
+        const route =
+            document.getElementById("route_points").value;
+
+
+        if (!lat || !lng) {
+
+            e.preventDefault();
+
+            alert("Please select the building location on the map.");
+
+            return;
+        }
+
+
+        if (!route) {
+
+            e.preventDefault();
+
+            alert("Please draw and finish the route.");
+
+            return;
+        }
+
+    });
 
 </script>
 
