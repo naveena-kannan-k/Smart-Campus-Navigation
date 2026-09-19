@@ -1,1 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Outdated Information</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 30px;
+            background: linear-gradient(
+                135deg,
+                #fff5fa,
+                #f7f9ff
+            );
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #800040;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #666;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #800040;
+        }
+
+        .warning {
+            margin-top: 18px;
+            padding: 14px;
+            background: #fff5f5;
+            border-left: 4px solid #d32f2f;
+            border-radius: 8px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        button,
+        .back-btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .delete-btn {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #b71c1c;
+        }
+
+        .back-btn {
+            background: #eee;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🗑️ Delete Outdated Information</h1>
+
+        <p>
+            Remove an outdated campus building and its route
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <form method="POST"
+              onsubmit="return confirmDelete();">
+
+            <label for="building">
+                Select Building
+            </label>
+
+            <select name="building_id"
+                    id="building"
+                    required>
+
+                <option value="">
+                    -- Select Building --
+                </option>
+
+                {% for building in buildings %}
+
+                <option value="{{ building.id }}">
+                    {{ building.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <div class="warning">
+
+                ⚠️ Deleting a building will also remove
+                its saved campus route.
+
+            </div>
+
+
+            <div class="buttons">
+
+                <a href="/dashboard"
+                   class="back-btn">
+                    ← Back
+                </a>
+
+                <button type="submit"
+                        class="delete-btn">
+                    🗑️ Delete Building
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function confirmDelete() {
+
+    const building =
+        document.getElementById("building");
+
+    const name =
+        building.options[
+            building.selectedIndex
+        ].text;
+
+    return confirm(
+        "Are you sure you want to delete " +
+        name +
+        "?"
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
