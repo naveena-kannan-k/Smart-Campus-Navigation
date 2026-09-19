@@ -431,3 +431,10 @@ document
         }
 
     });
+function toggleAdminMenu() {
+
+    const menu = document.getElementById("adminDropdown");
+
+    menu.classList.toggle("show");
+
+}
