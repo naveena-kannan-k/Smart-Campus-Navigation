@@ -108,7 +108,7 @@ const places = [
 // ============================================================
 // LOAD NEW PLACES FROM DATABASE
 // ============================================================
-
+const dynamicRoutes = {};
 fetch("/api/places")
     .then(response => response.json())
     .then(dbPlaces => {
