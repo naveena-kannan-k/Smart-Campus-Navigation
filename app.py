@@ -495,6 +495,35 @@ def admin_delete():
     return render_template(
         "admin_delete.html",
         buildings=buildings
+    )   
+@app.route("/admin/map")
+def admin_map():
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            p.id,
+            p.name,
+            p.description,
+            p.latitude,
+            p.longitude,
+            r.route_points
+        FROM campus_places p
+        LEFT JOIN campus_routes r
+            ON p.id = r.place_id
+        ORDER BY p.name
+    """)
+
+    buildings = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "admin_map.html",
+        buildings=buildings
     )    
 def tamil():
     return render_template("tamil.html")
