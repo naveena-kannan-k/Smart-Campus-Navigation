@@ -725,14 +725,24 @@ campus_places = {
 @app.route("/api/places")
 def get_places():
 
+    import json
+
     connection = get_db_connection()
     cursor = connection.cursor()
 
     cursor.execute("""
-        SELECT id, name, description, latitude, longitude
-        FROM campus_places
-        WHERE latitude IS NOT NULL
-        AND longitude IS NOT NULL
+        SELECT
+            p.id,
+            p.name,
+            p.description,
+            p.latitude,
+            p.longitude,
+            r.route_points
+        FROM campus_places p
+        LEFT JOIN campus_routes r
+            ON p.id = r.place_id
+        WHERE p.latitude IS NOT NULL
+        AND p.longitude IS NOT NULL
     """)
 
     rows = cursor.fetchall()
@@ -744,16 +754,25 @@ def get_places():
 
     for row in rows:
 
+        route = []
+
+        if row["route_points"]:
+
+            try:
+                route = json.loads(row["route_points"])
+            except:
+                route = []
+
         places.append({
             "id": row["id"],
             "name": row["name"],
             "description": row["description"],
             "latitude": float(row["latitude"]),
-            "longitude": float(row["longitude"])
+            "longitude": float(row["longitude"]),
+            "route": route
         })
 
     return jsonify(places)
-
 # =====================================================
 # API - SINGLE PLACE
 # =====================================================
