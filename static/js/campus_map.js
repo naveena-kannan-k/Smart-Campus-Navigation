@@ -101,7 +101,11 @@ const places = [
 
     ["Management Office", 8.6985889, 77.7408047]
 
-];// ============================================================
+];
+
+
+
+// ============================================================
 // LOAD NEW PLACES FROM DATABASE
 // ============================================================
 
@@ -109,22 +113,53 @@ fetch("/api/places")
     .then(response => response.json())
     .then(dbPlaces => {
 
-        Object.keys(dbPlaces).forEach(function(name) {
+        dbPlaces.forEach(function(place) {
 
-            const place = dbPlaces[name];
-
-            // Existing real-map places should not be changed
             const alreadyExists = places.some(function(existing) {
 
-                return existing[0].toLowerCase() === name.toLowerCase();
+                return existing[0].toLowerCase() ===
+                       place.name.toLowerCase();
 
             });
 
+
             if (!alreadyExists) {
 
+                // Add database building to places array
+                places.push([
+                    place.name,
+                    place.latitude,
+                    place.longitude
+                ]);
+
+
+                // Add marker to map
+                const marker = L.marker([
+                    place.latitude,
+                    place.longitude
+                ]).addTo(map);
+
+
+                marker.bindTooltip(
+                    place.name,
+                    {
+                        direction: "top",
+                        sticky: true
+                    }
+                );
+
+
+                marker.bindPopup(
+                    "<b>📍 " +
+                    place.name +
+                    "</b><br>" +
+                    (place.description || "")
+                );
+
+
                 console.log(
-                    "Database place found:",
-                    name
+                    "Database place added:",
+                    place.name
                 );
 
             }
@@ -132,7 +167,7 @@ fetch("/api/places")
         });
 
     })
-    .catch(error => {
+    .catch(function(error) {
 
         console.error(
             "Database places could not be loaded:",
@@ -140,7 +175,6 @@ fetch("/api/places")
         );
 
     });
-
 
 
 // ============================================================
