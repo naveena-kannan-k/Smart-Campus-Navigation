@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Update Campus Location</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5fa, #f7f9ff);
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #800040;
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        select:focus {
+            border-color: #800040;
+        }
+
+        .map-title {
+            margin: 20px 0 10px;
+            color: #800040;
+            font-weight: 600;
+        }
+
+        #updateMap {
+            width: 100%;
+            height: 450px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .coordinates {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .coordinate-box {
+            flex: 1;
+            background: #fff5fa;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .coordinate-box span {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .coordinate-box strong {
+            color: #800040;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 22px;
+            gap: 12px;
+        }
+
+        button,
+        .back-btn {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .update-btn {
+            background: #800040;
+            color: white;
+            flex: 1;
+        }
+
+        .update-btn:hover {
+            background: #660033;
+        }
+
+        .back-btn {
+            background: #eee;
+            color: #333;
+        }
+
+        .back-btn:hover {
+            background: #ddd;
+        }
+
+        .instruction {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f5f8ff;
+            border-left: 4px solid #800040;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            #updateMap {
+                height: 380px;
+            }
+
+            .coordinates {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .buttons {
+                flex-direction: column-reverse;
+            }
+
+            .back-btn,
+            .update-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>📍 Update Campus Location</h1>
+        <p>Select a building and click its exact location on the map</p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST" id="locationForm">
+
+            <div class="form-group">
+
+                <label for="building">
+                    Select Building
+                </label>
+
+                <select name="building_id"
+                        id="building"
+                        required>
+
+                    <option value="">
+                        -- Select Building --
+                    </option>
+
+                    {% for building in buildings %}
+
+                    <option value="{{ building.id }}"
+                            data-lat="{{ building.latitude or '' }}"
+                            data-lng="{{ building.longitude or '' }}">
+
+                        {{ building.name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="map-title">
+                Select Exact Location
+            </div>
+
+            <div id="updateMap"></div>
+
+            <div class="instruction">
+                💡 Select a building above, then click on the map
+                to set its exact location.
+            </div>
+
+
+            <div class="coordinates">
+
+                <div class="coordinate-box">
+                    <span>Latitude</span>
+                    <strong id="latitudeText">
+                        Not selected
+                    </strong>
+                </div>
+
+                <div class="coordinate-box">
+                    <span>Longitude</span>
+                    <strong id="longitudeText">
+                        Not selected
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <input type="hidden"
+                   name="latitude"
+                   id="latitude">
+
+            <input type="hidden"
+                   name="longitude"
+                   id="longitude">
+
+
+            <div class="buttons">
+
+                <a href="/dashboard"
+                   class="back-btn">
+                    ← Back
+                </a>
+
+                <button type="submit"
+                        class="update-btn"
+                        id="updateButton">
+
+                    📍 Update Location
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+    // Sarah Tucker College Main Gate
+    const COLLEGE_CENTER = [8.6988565, 77.739888];
+
+    const map = L.map("updateMap").setView(
+        COLLEGE_CENTER,
+        18
+    );
+
+
+    // OpenStreetMap
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 22,
+            attribution: "&copy; OpenStreetMap"
+        }
+    ).addTo(map);
+
+
+    let marker = null;
+
+
+    // Building selection
+    document.getElementById("building").addEventListener(
+        "change",
+        function () {
+
+            const option =
+                this.options[this.selectedIndex];
+
+            const lat = option.dataset.lat;
+            const lng = option.dataset.lng;
+
+
+            if (lat && lng) {
+
+                const position = [
+                    parseFloat(lat),
+                    parseFloat(lng)
+                ];
+
+                map.setView(position, 19);
+
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                marker = L.marker(position)
+                    .addTo(map);
+
+                document.getElementById("latitude").value = lat;
+                document.getElementById("longitude").value = lng;
+
+                document.getElementById("latitudeText").textContent = lat;
+                document.getElementById("longitudeText").textContent = lng;
+
+            } else {
+
+                if (marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+
+                map.setView(
+                    COLLEGE_CENTER,
+                    18
+                );
+
+                document.getElementById("latitude").value = "";
+                document.getElementById("longitude").value = "";
+
+                document.getElementById("latitudeText").textContent =
+                    "Not selected";
+
+                document.getElementById("longitudeText").textContent =
+                    "Not selected";
+            }
+
+        }
+    );
+
+
+    // Click map to select location
+    map.on("click", function (e) {
+
+        const building =
+            document.getElementById("building").value;
+
+        if (!building) {
+
+            alert("Please select a building first.");
+
+            return;
+        }
+
+
+        const latitude =
+            e.latlng.lat.toFixed(7);
+
+        const longitude =
+            e.latlng.lng.toFixed(7);
+
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+
+        marker = L.marker([
+            latitude,
+            longitude
+        ])
+        .addTo(map);
+
+
+        document.getElementById("latitude").value =
+            latitude;
+
+        document.getElementById("longitude").value =
+            longitude;
+
+
+        document.getElementById("latitudeText").textContent =
+            latitude;
+
+        document.getElementById("longitudeText").textContent =
+            longitude;
+
+    });
+
+
+    // Prevent update without location
+    document.getElementById("locationForm").addEventListener(
+        "submit",
+        function (e) {
+
+            const building =
+                document.getElementById("building").value;
+
+            const latitude =
+                document.getElementById("latitude").value;
+
+            const longitude =
+                document.getElementById("longitude").value;
+
+
+            if (!building) {
+
+                e.preventDefault();
+
+                alert("Please select a building.");
+
+                return;
+            }
+
+
+            if (!latitude || !longitude) {
+
+                e.preventDefault();
+
+                alert("Please click the exact building location on the map.");
+
+                return;
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
