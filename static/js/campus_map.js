@@ -1414,6 +1414,25 @@ if (
 
                 return;
             }
+            // =================================================
+// DATABASE BUILDING ROUTE
+// =================================================
+
+const dynamicRoute =
+    dynamicRoutes[destinationName.toLowerCase()];
+
+if (
+    dynamicRoute &&
+    dynamicRoute.length > 1
+) {
+
+    drawNavigation(
+        dynamicRoute,
+        destinationName
+    );
+
+    return;
+}
 
 
             // =================================================
