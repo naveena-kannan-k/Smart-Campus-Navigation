@@ -379,7 +379,9 @@ def admin_update():
         building_id = request.form["building_id"]
         latitude = request.form["latitude"]
         longitude = request.form["longitude"]
+        route_points = request.form["route_points"]
 
+        # Update building location
         cursor.execute("""
             UPDATE campus_places
             SET latitude = %s,
@@ -391,6 +393,39 @@ def admin_update():
             building_id
         ))
 
+        # Check whether route already exists
+        cursor.execute("""
+            SELECT id
+            FROM campus_routes
+            WHERE place_id = %s
+        """, (building_id,))
+
+        existing_route = cursor.fetchone()
+
+        if existing_route:
+
+            # Update existing route
+            cursor.execute("""
+                UPDATE campus_routes
+                SET route_points = %s
+                WHERE place_id = %s
+            """, (
+                route_points,
+                building_id
+            ))
+
+        else:
+
+            # Create new route
+            cursor.execute("""
+                INSERT INTO campus_routes
+                (place_id, route_points)
+                VALUES (%s, %s)
+            """, (
+                building_id,
+                route_points
+            ))
+
         connection.commit()
 
         cursor.close()
@@ -398,21 +433,35 @@ def admin_update():
 
         return redirect("/admin/update")
 
+    # Get buildings
     cursor.execute("""
-        SELECT id, name, description, latitude, longitude
+        SELECT id,
+               name,
+               description,
+               latitude,
+               longitude
         FROM campus_places
         ORDER BY name
     """)
 
     buildings = cursor.fetchall()
 
+    # Get existing routes
+    cursor.execute("""
+        SELECT place_id, route_points
+        FROM campus_routes
+    """)
+
+    routes = cursor.fetchall()
+
     cursor.close()
     connection.close()
 
     return render_template(
         "admin_update.html",
-        buildings=buildings
-    )    
+        buildings=buildings,
+        routes=routes
+    )
 def tamil():
     return render_template("tamil.html")
 
