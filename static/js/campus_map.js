@@ -115,17 +115,38 @@ fetch("/api/places")
 
         dbPlaces.forEach(function(place) {
 
+            const placeName = place.name.toLowerCase();
+
             const alreadyExists = places.some(function(existing) {
 
-                return existing[0].toLowerCase() ===
-                       place.name.toLowerCase();
+                return existing[0].toLowerCase() === placeName;
 
             });
 
 
+            // ==========================================
+            // SAVE DATABASE ROUTE
+            // ==========================================
+
+            if (place.route && place.route.length > 1) {
+
+                dynamicRoutes[placeName] = place.route;
+
+                console.log(
+                    "Database route loaded:",
+                    place.name,
+                    place.route
+                );
+
+            }
+
+
+            // ==========================================
+            // ADD DATABASE BUILDING
+            // ==========================================
+
             if (!alreadyExists) {
 
-                // Add database building to places array
                 places.push([
                     place.name,
                     place.latitude,
@@ -133,7 +154,10 @@ fetch("/api/places")
                 ]);
 
 
-                // Add marker to map
+                // ======================================
+                // ADD MARKER
+                // ======================================
+
                 const marker = L.marker([
                     place.latitude,
                     place.longitude
@@ -175,7 +199,6 @@ fetch("/api/places")
         );
 
     });
-
 
 // ============================================================
 // 6. ADD LOCATION MARKERS
