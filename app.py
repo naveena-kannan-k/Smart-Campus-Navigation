@@ -341,9 +341,6 @@ def admin_add():
         name = request.form["name"]
         description = request.form["description"]
 
-        latitude = request.form["latitude"]
-        longitude = request.form["longitude"]
-
         connection = get_db_connection()
         cursor = connection.cursor()
 
@@ -356,8 +353,8 @@ def admin_add():
             None,
             None,
             description,
-            latitude,
-            longitude
+            None,
+            None
         ))
 
         connection.commit()
