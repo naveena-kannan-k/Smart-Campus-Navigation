@@ -682,23 +682,31 @@ def get_places():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    cursor.execute("SELECT name, x, y, description FROM campus_places")
+    cursor.execute("""
+        SELECT id, name, description, latitude, longitude
+        FROM campus_places
+        WHERE latitude IS NOT NULL
+        AND longitude IS NOT NULL
+    """)
+
     rows = cursor.fetchall()
 
     cursor.close()
     connection.close()
 
-    places = {}
+    places = []
 
     for row in rows:
-        places[row["name"].lower()] = {
-            "x": row["x"],
-            "y": row["y"],
-            "description": row["description"]
-        }
+
+        places.append({
+            "id": row["id"],
+            "name": row["name"],
+            "description": row["description"],
+            "latitude": float(row["latitude"]),
+            "longitude": float(row["longitude"])
+        })
 
     return jsonify(places)
-
 
 # =====================================================
 # API - SINGLE PLACE
