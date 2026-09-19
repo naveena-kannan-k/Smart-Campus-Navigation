@@ -459,6 +459,43 @@ def admin_update():
         buildings=buildings,
         routes=routes
     )
+@app.route("/admin/delete", methods=["GET", "POST"])
+def admin_delete():
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        building_id = request.form["building_id"]
+
+        cursor.execute("""
+            DELETE FROM campus_places
+            WHERE id = %s
+        """, (building_id,))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect("/admin/delete")
+
+    cursor.execute("""
+        SELECT id, name, description, latitude, longitude
+        FROM campus_places
+        ORDER BY name
+    """)
+
+    buildings = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "admin_delete.html",
+        buildings=buildings
+    )    
 def tamil():
     return render_template("tamil.html")
 
