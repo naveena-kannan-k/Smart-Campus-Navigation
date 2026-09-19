@@ -333,6 +333,9 @@ def unaided():
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html")
+@app.route("/admin/add")
+def admin_add():
+    return render_template("admin_add.html")    
 @app.route("/tamil")
 def tamil():
     return render_template("tamil.html")
