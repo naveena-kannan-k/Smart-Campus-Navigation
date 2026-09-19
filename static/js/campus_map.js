@@ -101,7 +101,46 @@ const places = [
 
     ["Management Office", 8.6985889, 77.7408047]
 
-];
+];// ============================================================
+// LOAD NEW PLACES FROM DATABASE
+// ============================================================
+
+fetch("/api/places")
+    .then(response => response.json())
+    .then(dbPlaces => {
+
+        Object.keys(dbPlaces).forEach(function(name) {
+
+            const place = dbPlaces[name];
+
+            // Existing real-map places should not be changed
+            const alreadyExists = places.some(function(existing) {
+
+                return existing[0].toLowerCase() === name.toLowerCase();
+
+            });
+
+            if (!alreadyExists) {
+
+                console.log(
+                    "Database place found:",
+                    name
+                );
+
+            }
+
+        });
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Database places could not be loaded:",
+            error
+        );
+
+    });
+
 
 
 // ============================================================
