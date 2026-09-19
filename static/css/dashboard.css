@@ -2089,4 +2089,86 @@ footer {
         font-size: 10px;
     }
 }
+/* ================= THREE DOTS ADMIN MENU ================= */
+
+.admin-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.menu-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.3s ease;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Dropdown box */
+
+.admin-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+
+    width: 210px;
+    background: white;
+    border-radius: 12px;
+
+    padding: 8px 0;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+
+    display: none;
+    z-index: 9999;
+}
+
+/* Dropdown links */
+
+.admin-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 16px;
+
+    color: #333;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.25s ease;
+}
+
+.admin-dropdown a i {
+    width: 20px;
+    text-align: center;
+    color: #800040;
+}
+
+.admin-dropdown a:hover {
+    background: #fceaf3;
+    color: #800040;
+}
+
+/* Show menu */
+
+.admin-dropdown.show {
+    display: block;
+}
 ```
