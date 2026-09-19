@@ -368,6 +368,51 @@ def admin_add():
         return redirect("/admin/add")
 
     return render_template("admin_add.html")
+@app.route("/admin/update", methods=["GET", "POST"])
+def admin_update():
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+
+        building_id = request.form["building_id"]
+        latitude = request.form["latitude"]
+        longitude = request.form["longitude"]
+
+        cursor.execute("""
+            UPDATE campus_places
+            SET latitude = %s,
+                longitude = %s
+            WHERE id = %s
+        """, (
+            latitude,
+            longitude,
+            building_id
+        ))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect("/admin/update")
+
+    cursor.execute("""
+        SELECT id, name, description, latitude, longitude
+        FROM campus_places
+        ORDER BY name
+    """)
+
+    buildings = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "admin_update.html",
+        buildings=buildings
+    )    
 def tamil():
     return render_template("tamil.html")
 
