@@ -600,7 +600,25 @@ campus_places = {
 @app.route("/api/places")
 def get_places():
 
-    return jsonify(campus_places)
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT name, x, y, description FROM campus_places")
+    rows = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    places = {}
+
+    for row in rows:
+        places[row["name"].lower()] = {
+            "x": row["x"],
+            "y": row["y"],
+            "description": row["description"]
+        }
+
+    return jsonify(places)
 
 
 # =====================================================
