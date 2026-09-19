@@ -1,1 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Manage Campus Map</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f7fb;
+            color: #333;
+        }
+
+        .header {
+            background: #800040;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+        }
+
+        .back-btn {
+            background: white;
+            color: #800040;
+            text-decoration: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
+
+        .top-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 22px;
+        }
+
+        .top-card h2 {
+            color: #800040;
+            margin-bottom: 8px;
+        }
+
+        .top-card p {
+            color: #777;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            color: #800040;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .map-card {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 22px;
+        }
+
+        #map {
+            height: 420px;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .table-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .table-card h2 {
+            color: #800040;
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            margin-bottom: 18px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box:focus {
+            border-color: #800040;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #800040;
+            color: white;
+            padding: 13px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #faf3f7;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .available {
+            background: #e7f8ee;
+            color: #16834b;
+        }
+
+        .pending {
+            background: #fff3d6;
+            color: #a36a00;
+        }
+
+        .action-btn {
+            text-decoration: none;
+            padding: 7px 11px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+            display: inline-block;
+        }
+
+        .update-btn {
+            background: #800040;
+            color: white;
+        }
+
+        .view-btn {
+            background: #eef1f7;
+            color: #333;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .back-btn {
+                padding: 7px 10px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 18px auto;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            #map {
+                height: 350px;
+            }
+
+            .top-card h2 {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>🗺️ Manage Campus Map</h1>
+
+    <a href="/dashboard" class="back-btn">
+        ← Dashboard
+    </a>
+
+</div>
+
+
+<div class="container">
+
+    <div class="top-card">
+
+        <h2>Campus Map Management</h2>
+
+        <p>
+            View and manage all campus buildings, locations and routes
+            stored in the database.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    {% set total = buildings|length %}
+    {% set location_count = namespace(value=0) %}
+    {% set route_count = namespace(value=0) %}
+
+    {% for building in buildings %}
+
+        {% if building.latitude and building.longitude %}
+            {% set location_count.value = location_count.value + 1 %}
+        {% endif %}
+
+        {% if building.route_points %}
+            {% set route_count.value = route_count.value + 1 %}
+        {% endif %}
+
+    {% endfor %}
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>{{ total }}</h3>
+
+            <p>Total Buildings</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>{{ location_count.value }}</h3>
+
+            <p>Locations Added</p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>{{ route_count.value }}</h3>
+
+            <p>Routes Added</p>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAP -->
+
+    <div class="map-card">
+
+        <div id="map"></div>
+
+    </div>
+
+
+    <!-- BUILDING TABLE -->
+
+    <div class="table-card">
+
+        <h2>Building Information</h2>
+
+        <input
+            type="text"
+            id="searchBox"
+            class="search-box"
+            placeholder="🔍 Search building..."
+            onkeyup="searchBuilding()"
+        >
+
+
+        {% if buildings %}
+
+        <table id="buildingTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Building</th>
+
+                    <th>Location</th>
+
+                    <th>Route</th>
+
+                    <th>Coordinates</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for building in buildings %}
+
+                <tr>
+
+                    <td>
+                        <strong>{{ building.name }}</strong>
+                    </td>
+
+
+                    <td>
+
+                        {% if building.latitude and building.longitude %}
+
+                            <span class="status available">
+                                ✓ Added
+                            </span>
+
+                        {% else %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if building.route_points %}
+
+                            <span class="status available">
+                                ✓ Added
+                            </span>
+
+                        {% else %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if building.latitude and building.longitude %}
+
+                            {{ building.latitude }},
+                            {{ building.longitude }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        <a
+                            href="/admin/update"
+                            class="action-btn update-btn"
+                        >
+                            Update
+                        </a>
+
+
+                        {% if building.latitude and building.longitude %}
+
+                        <button
+                            class="action-btn view-btn"
+                            onclick="focusBuilding(
+                                {{ building.latitude }},
+                                {{ building.longitude }},
+                                '{{ building.name|replace("'", "\\'") }}'
+                            )"
+                        >
+                            View
+                        </button>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+            No buildings found in database.
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+
+    const COLLEGE_CENTER = [
+        8.6988565,
+        77.739888
+    ];
+
+
+    const map = L.map("map").setView(
+        COLLEGE_CENTER,
+        18
+    );
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 22,
+            attribution: "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
+
+
+    // Main Gate
+
+    L.marker(COLLEGE_CENTER)
+        .addTo(map)
+        .bindPopup("<b>🚪 Main Gate</b>");
+
+
+    // Database buildings
+
+    const buildings = [
+
+        {% for building in buildings %}
+
+        {% if building.latitude and building.longitude %}
+
+        {
+            name: {{ building.name|tojson }},
+            latitude: {{ building.latitude }},
+            longitude: {{ building.longitude }}
+        },
+
+        {% endif %}
+
+        {% endfor %}
+
+    ];
+
+
+    buildings.forEach(function(building) {
+
+        L.marker([
+            building.latitude,
+            building.longitude
+        ])
+        .addTo(map)
+        .bindTooltip(
+            building.name,
+            {
+                direction: "top",
+                sticky: true
+            }
+        )
+        .bindPopup(
+            "<b>📍 " +
+            building.name +
+            "</b>"
+        );
+
+    });
+
+
+    function focusBuilding(
+        latitude,
+        longitude,
+        name
+    ) {
+
+        map.setView(
+            [latitude, longitude],
+            20
+        );
+
+        L.popup()
+            .setLatLng([
+                latitude,
+                longitude
+            ])
+            .setContent(
+                "<b>📍 " +
+                name +
+                "</b><br>" +
+                latitude +
+                ", " +
+                longitude
+            )
+            .openOn(map);
+
+    }
+
+
+    function searchBuilding() {
+
+        const input =
+            document
+            .getElementById("searchBox")
+            .value
+            .toLowerCase();
+
+        const rows =
+            document
+            .querySelectorAll(
+                "#buildingTable tbody tr"
+            );
+
+        rows.forEach(function(row) {
+
+            const text =
+                row.innerText.toLowerCase();
+
+            if (text.includes(input)) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
