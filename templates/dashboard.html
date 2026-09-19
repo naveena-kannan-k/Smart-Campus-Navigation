@@ -38,56 +38,61 @@
 
     <div class="nav-right">
 
-        <div class="date-time">
-            <span id="date"></span>
-            <span id="time"></span>
-        </div>
+    <div class="date-time">
+        <span id="date"></span>
+        <span id="time"></span>
+    </div>
 
-        <div class="weather-box">
-            <i class="fa-solid fa-cloud-sun"></i>
-            <span>31°C</span>
-        </div>
+    <div class="weather-box">
+        <i class="fa-solid fa-cloud-sun"></i>
+        <span>31°C</span>
+    </div>
 
-        <a href="/login" class="logout-btn">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
-        </a>
+    <a href="/login" class="logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+
+    <div class="admin-menu">
+
+        <button class="menu-btn" onclick="toggleAdminMenu()">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
 
         <div class="admin-dropdown" id="adminDropdown">
 
-    <div class="admin-title">
-        <i class="fa-solid fa-user-shield"></i>
-        Admin Module
+            <div class="admin-title">
+                <i class="fa-solid fa-user-shield"></i>
+                Admin Module
+            </div>
+
+            <a href="/admin/add">
+                <i class="fa-solid fa-building-circle-plus"></i>
+                Add New Building
+            </a>
+
+            <a href="/admin/update">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Update Campus Location
+            </a>
+
+            <a href="/admin/delete">
+                <i class="fa-solid fa-trash-can"></i>
+                Delete Outdated Information
+            </a>
+
+            <a href="/admin/map">
+                <i class="fa-solid fa-map-location-dot"></i>
+                Manage Campus Map
+            </a>
+
+        </div>
+
     </div>
-
-    <a href="/admin/add">
-        <i class="fa-solid fa-building-circle-plus"></i>
-        Add New Building
-    </a>
-
-    <a href="/admin/update">
-        <i class="fa-solid fa-pen-to-square"></i>
-        Update Campus Location
-    </a>
-
-    <a href="/admin/delete">
-        <i class="fa-solid fa-trash-can"></i>
-        Delete Outdated Information
-    </a>
-
-    <a href="/admin/map">
-        <i class="fa-solid fa-map-location-dot"></i>
-        Manage Campus Map
-    </a>
 
 </div>
 
 
-    </div>
-
-</div>
-
-    </div>
 
 </header>
 
