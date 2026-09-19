@@ -339,17 +339,26 @@ def admin_add():
     if request.method == "POST":
 
         name = request.form["name"]
-        x = request.form["x"]
-        y = request.form["y"]
         description = request.form["description"]
+
+        latitude = request.form["latitude"]
+        longitude = request.form["longitude"]
 
         connection = get_db_connection()
         cursor = connection.cursor()
 
         cursor.execute("""
-            INSERT INTO campus_places (name, x, y, description)
-            VALUES (%s, %s, %s, %s)
-        """, (name, x, y, description))
+            INSERT INTO campus_places
+            (name, x, y, description, latitude, longitude)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+            name,
+            None,
+            None,
+            description,
+            latitude,
+            longitude
+        ))
 
         connection.commit()
 
