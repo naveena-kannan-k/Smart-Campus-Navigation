@@ -333,10 +333,32 @@ def unaided():
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html")
-@app.route("/admin/add")
+@app.route("/admin/add", methods=["GET", "POST"])
 def admin_add():
-    return render_template("admin_add.html")    
-@app.route("/tamil")
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        x = request.form["x"]
+        y = request.form["y"]
+        description = request.form["description"]
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            INSERT INTO campus_places (name, x, y, description)
+            VALUES (%s, %s, %s, %s)
+        """, (name, x, y, description))
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return redirect("/admin/add")
+
+    return render_template("admin_add.html")
 def tamil():
     return render_template("tamil.html")
 
