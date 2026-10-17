@@ -524,7 +524,8 @@ def admin_map():
     return render_template(
         "admin_map.html",
         buildings=buildings
-    )    
+    )   
+@app.route("/tamil")    
 def tamil():
     return render_template("tamil.html")
 
